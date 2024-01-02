@@ -6,6 +6,7 @@ function App() {
 		<div className="App">
 			<h1>여기는 페이지입니다!! 수정</h1>
 			<h2>Hello World!!</h2>
+			<h3>😀😀</h3>
 		</div>
 	);
 }
