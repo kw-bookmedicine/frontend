@@ -21,7 +21,7 @@ jobs:
           project: lsh3717/book_pharmacy
           stage: main
           yaml: |
-            name: frontend2
+            name: fetest2
             app: web
             options:
               nodeversion: "18"
