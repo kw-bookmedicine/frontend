@@ -21,7 +21,7 @@ const GlobalStyles = createGlobalStyle`
     body{
         line-height: 1;
         font-family: 'Pretendard';
-        /* background-color: #F6F9F0; */
+        /* background-color: #fff; */
     }
     ol, ul{
         list-style: none;
