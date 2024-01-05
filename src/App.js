@@ -7,8 +7,15 @@ import Feed from './pages/Feed';
 import Search from './pages/Search';
 import Mypage from './pages/Mypage';
 
+import Login from './pages/Login';
+import { Join2 } from './pages/Join2';
+import Registration from './pages/Registration';
+
 // COMPONENTS
 import Header from './components/Header';
+
+// STYLE
+import GlobalStyles from './styles/GlobalStyles';
 
 function App() {
 	return (
@@ -21,6 +28,10 @@ function App() {
 					<Route path="/feed" element={<Feed />} />
 					<Route path="/search" element={<Search />} />
 					<Route path="/mypage" element={<Mypage />} />
+
+					<Route path="/login" element={<Login />} />
+					<Route path="/join2" element={<Join2 />} />
+					<Route path="/test" element={<Registration />} />
 				</Routes>
 			</div>
 		</BrowserRouter>
