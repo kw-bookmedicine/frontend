@@ -14,7 +14,6 @@ const ImageContent = styled.div`
   flex: 1;
   max-width: 50%;
   box-sizing: border-box;
-  height: 100%;
   background-image: url("https://d3udu241ivsax2.cloudfront.net/v3/images/login/promotion_intro_bg.ac5237a5bed49b864cccee5224a464e4.jpg");
   background-image: url("https://www.flybook.kr/FlyBookSitePublishing/assets/img/main/top-banner.jpg");
   background-size: cover;
