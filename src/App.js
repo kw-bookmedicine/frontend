@@ -8,7 +8,8 @@ import Search from './pages/Search';
 import Mypage from './pages/Mypage';
 
 import Login from './pages/Login';
-import { Join2 } from './pages/Join2';
+import Join from './pages/Join';
+import Join2 from './pages/Join2';
 import Registration from './pages/Registration';
 
 // COMPONENTS
@@ -31,7 +32,8 @@ function App() {
 					<Route path="/mypage" element={<Mypage />} />
 
 					<Route path="/login" element={<Login />} />
-					<Route path="/join" element={<Join2 />} />
+					<Route path="/join" element={<Join />} />
+					<Route path="/join2" element={<Join2 />} />
 					<Route path="/test" element={<Registration />} />
 				</Routes>
 			</div>
