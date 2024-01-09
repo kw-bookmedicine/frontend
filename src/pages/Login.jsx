@@ -14,7 +14,6 @@ const ImageContent = styled.div`
   flex: 1;
   max-width: 50%;
   box-sizing: border-box;
-  height: 100%;
   background-image: url("https://d3udu241ivsax2.cloudfront.net/v3/images/login/promotion_intro_bg.ac5237a5bed49b864cccee5224a464e4.jpg");
   background-image: url("https://www.flybook.kr/FlyBookSitePublishing/assets/img/main/top-banner.jpg");
   background-size: cover;
@@ -53,9 +52,9 @@ const ErrorMessageWrap = styled.div`
 `;
 
 const InputDelete = styled.button`
-  position: absolute; /* X 버튼을 absolute로 설정 */
-  right: 20px; /* 오른쪽 여백 조절 */
-  top: 50%; /* 세로 중앙 정렬을 위해 50%로 설정 */
+  position: absolute; 
+  right: 20px;
+  top: 50%; 
   transform: translateY(-50%);
   background: none;
   border: none;
