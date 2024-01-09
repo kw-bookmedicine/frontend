@@ -1,0 +1,34 @@
+.home_header {
+	margin: 0;
+	height: 5vh;
+	background-color: #e2e2e2;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 30px;
+}
+
+.header_logo {
+	margin-right: 100px;
+}
+
+section {
+	height: 80vh;
+	margin: 0;
+}
+
+.home_main {
+	background-color: aliceblue;
+}
+
+.home_feature {
+	background-color: #68b4d1;
+}
+
+.home_emotion {
+	background-color: #c3dfe3;
+}
+
+.home_list {
+	background-color: #b6c5f2;
+}
