@@ -12,13 +12,22 @@
 	margin-right: 100px;
 }
 
+.content {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
 section {
+	display: flex;
+	justify-content: center;
 	height: 80vh;
 	margin: 0;
 }
 
 .home_main {
-	background-color: aliceblue;
+	background-image: url('../assets/banner.png');
+	background-repeat: no-repeat;
 }
 
 .home_feature {
