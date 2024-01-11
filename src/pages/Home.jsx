@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import Btn from '../components/Button';
 
 // STYLES
-import HomeStyle from '../styles/HomeStyles.module.css';
+import '../styles/HomeStyles.css';
 import styled from 'styled-components';
 
 // Import Swiper React components
@@ -72,26 +72,26 @@ const StyledSwiper = styled(Swiper)`
 const Home = () => {
 	return (
 		<>
-			<section className={HomeStyle.home}>
-				<section className={HomeStyle.home_header_section}>
-					<div className={HomeStyle.home_header}>
-						<div className={HomeStyle.header_logo}>
+			<section className="home">
+				<section className="home_header_section">
+					<div className="home_header">
+						<div className="header_logo">
 							책국
-							<div className={HomeStyle.header_btn}></div>
+							<div className="header_btn"></div>
 						</div>
 						<Btn text={'로그인'} type="login" id="home-header-btn" />
 					</div>
 				</section>
 				<section className="intro">
-					<section className={HomeStyle.home_main}>
-						<div className={HomeStyle.home_main_wrapper}>
-							<div className={HomeStyle.home_main_img}>
-								<div className={HomeStyle.home_main_title_wrapper}>
-									<div className={HomeStyle.big_title}>
+					<section className="home_main">
+						<div className="home_main_wrapper">
+							<div className="home_main_img">
+								<div className="home_main_title_wrapper">
+									<div className="big_title">
 										당신의 마음에
 										<br />한 발짝 가까이
 									</div>
-									<div className={HomeStyle.small_title}>
+									<div className="small_title">
 										<br />
 										당신의 오늘은 어떤가요?
 									</div>
@@ -100,19 +100,16 @@ const Home = () => {
 						</div>
 					</section>
 
-					<section className={HomeStyle.home_feature}>
-						<div className={HomeStyle.feature_wrapper}>
-							<div className={HomeStyle.feature_title}>
+					<section className="home_feature">
+						<div className="feature_wrapper">
+							<div className="feature_title">
 								책국의 기능에는 어떤 것이 있을까?
 							</div>
-							<div className={HomeStyle.feature_slide}>
+							<div className="feature_slide">
 								<Swiper
-									className={HomeStyle.feature_swiper}
+									className="feature_swiper"
 									modules={[Navigation, EffectCoverflow, Autoplay]}
-									navigation={{
-										prevEl: '.swiper-button-prev',
-										nextEl: '.swiper-button-next',
-									}}
+									navigation
 									effect={'coverflow'}
 									// grabCursor={true}
 									centeredSlides={true}
@@ -127,20 +124,18 @@ const Home = () => {
 									slidesPerView={2}
 								>
 									{featSlider.map((data) => (
-										<SwiperSlide className={HomeStyle.feature_swiper_slider}>
+										<SwiperSlide className="feature_swiper_slider">
 											<div
 												style={{ backgroundColor: `${data.color}` }}
-												className={HomeStyle.feature_card}
+												className="feature_card"
 											>
 												<img
 													src={data.icon}
 													alt="featIcon"
-													className={HomeStyle.feature_icon}
+													className="feature_icon"
 												/>
-												<h2 className={HomeStyle.feature_card_title}>
-													{data.title}
-												</h2>
-												<p className={HomeStyle.feature_card_description}>
+												<h2 className="feature_card_title">{data.title}</h2>
+												<p className="feature_card_description">
 													{data.description}
 												</p>
 											</div>
@@ -151,7 +146,7 @@ const Home = () => {
 						</div>
 					</section>
 
-					<section className={HomeStyle.home_emotion}>
+					<section className="home_emotion">
 						<div className="emotion_wrapper">
 							<div className="emotion_up">
 								<div className="emotion_title">

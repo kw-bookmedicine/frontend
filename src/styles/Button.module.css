@@ -10,7 +10,6 @@
 	margin: 0;
 	border: none;
 	cursor: pointer;
-	font-family: 'GmarketSans';
 	font-style: normal;
 	font-weight: 400;
 	line-height: normal;
@@ -22,4 +21,5 @@
 	background: #a4d6de;
 	font-size: var(--fontSize-sm);
 	border-radius: var(--border-sm);
+	font-family: 'GmarketSans';
 }
