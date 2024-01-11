@@ -5,7 +5,8 @@ import { Link } from 'react-router-dom';
 import Btn from '../components/Button';
 
 // STYLES
-import '../styles/HomeStyles.css';
+import HomeStyle from '../styles/HomeStyles.module.css';
+import styled from 'styled-components';
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -54,42 +55,59 @@ const featSlider = [
 	},
 ];
 
+const StyledSwiper = styled(Swiper)`
+	.swiper-button-next {
+		background: url(/public/icon/home-right-arrow.png) no-repeat;
+		background-size: 100% auto;
+		background-position: center;
+	}
+
+	.swiper-button-prev {
+		background: url(/public/icon/home-left-arrow.png) no-repeat;
+		background-size: 100% auto;
+		background-position: center;
+	}
+`;
+
 const Home = () => {
 	return (
 		<>
-			<div className="home">
-				<div className="home_header">
-					<div className="header-logo">
-						LOGO
-						<div className="header-btn">
-							<Btn text={'로그인'} type="login" />
+			<section className={HomeStyle.home}>
+				<section className={HomeStyle.home_header_section}>
+					<div className={HomeStyle.home_header}>
+						<div className={HomeStyle.header_logo}>
+							책국
+							<div className={HomeStyle.header_btn}></div>
 						</div>
+						<Btn text={'로그인'} type="login" id="home-header-btn" />
 					</div>
-				</div>
-				<div className="content_wrapper">
-					<section className="home_main">
-						<div className="home-main-img">
-							<div className="home-main-title-wrapper">
-								<div className="big-title">
-									당신의 마음에
-									<br />한 발짝 가까이
-								</div>
-								<div className="small-title">
-									<br />
-									당신의 오늘은 어떤가요?
+				</section>
+				<section className="intro">
+					<section className={HomeStyle.home_main}>
+						<div className={HomeStyle.home_main_wrapper}>
+							<div className={HomeStyle.home_main_img}>
+								<div className={HomeStyle.home_main_title_wrapper}>
+									<div className={HomeStyle.big_title}>
+										당신의 마음에
+										<br />한 발짝 가까이
+									</div>
+									<div className={HomeStyle.small_title}>
+										<br />
+										당신의 오늘은 어떤가요?
+									</div>
 								</div>
 							</div>
 						</div>
 					</section>
 
-					<section className="home_feature">
-						<div className="feature-wrapper">
-							<div className="feature-title">
+					<section className={HomeStyle.home_feature}>
+						<div className={HomeStyle.feature_wrapper}>
+							<div className={HomeStyle.feature_title}>
 								책국의 기능에는 어떤 것이 있을까?
 							</div>
-							<div className="feature-slide">
+							<div className={HomeStyle.feature_slide}>
 								<Swiper
-									className="feature-swiper"
+									className={HomeStyle.feature_swiper}
 									modules={[Navigation, EffectCoverflow, Autoplay]}
 									navigation={{
 										prevEl: '.swiper-button-prev',
@@ -109,133 +127,48 @@ const Home = () => {
 									slidesPerView={2}
 								>
 									{featSlider.map((data) => (
-										<SwiperSlide className="feature-swiper-slider">
+										<SwiperSlide className={HomeStyle.feature_swiper_slider}>
 											<div
 												style={{ backgroundColor: `${data.color}` }}
-												className="feature-card"
+												className={HomeStyle.feature_card}
 											>
 												<img
 													src={data.icon}
 													alt="featIcon"
-													className="feature-icon"
+													className={HomeStyle.feature_icon}
 												/>
-												<h2 className="feature-card-title">{data.title}</h2>
-												<p className="feature-card-description">
+												<h2 className={HomeStyle.feature_card_title}>
+													{data.title}
+												</h2>
+												<p className={HomeStyle.feature_card_description}>
 													{data.description}
 												</p>
 											</div>
 										</SwiperSlide>
 									))}
-									<div className="swiper-button-next"></div>
-									<div className="swiper-button-prev"></div>
 								</Swiper>
 							</div>
 						</div>
 					</section>
 
-					<section className="home_emotion">
-						<div className="emotion-wrapper">
-							<div className="emotion-up">
-								<div className="emotion-title">
+					<section className={HomeStyle.home_emotion}>
+						<div className="emotion_wrapper">
+							<div className="emotion_up">
+								<div className="emotion_title">
 									감정에 따라
 									<br />
 									책을 읽어봐요!
 								</div>
-								<div className="emotion-slide">
-									<Swiper
-										// install Swiper modules
-										modules={[Navigation, Pagination, Scrollbar, A11y]}
-										spaceBetween={50}
-										slidesPerView={3}
-										navigation
-										pagination={{ clickable: true }}
-										scrollbar={{ draggable: true }}
-										onSwiper={(swiper) => console.log(swiper)}
-										onSlideChange={() => console.log('slide change')}
-									>
-										<SwiperSlide>
-											<img src={smile} alt="smile" id="clickImg" />
-										</SwiperSlide>
-										<SwiperSlide>
-											<img src={angry} alt="smile" id="clickImg" />
-										</SwiperSlide>
-										<SwiperSlide>
-											<img src={sad} alt="smile" className="noneClickImg" />
-										</SwiperSlide>
-										<SwiperSlide>
-											<img src={stress} alt="smile" className="noneClickImg" />
-										</SwiperSlide>
-									</Swiper>
-								</div>
-								<div className="emotion-text">기쁠 때 추천하는 책이예요!</div>
+								<div className="emotion_slide"></div>
+								<div className="emotion_text">기쁠 때 추천하는 책이예요!</div>
 							</div>
-							<div className="emotion-down">
-								<div className="emotionBook-slide">
-									<div className="slide-1">
-										<Swiper
-											// install Swiper modules
-											modules={[Navigation, Pagination, Scrollbar, A11y]}
-											spaceBetween={50}
-											slidesPerView={3}
-											navigation
-											pagination={{ clickable: true }}
-											scrollbar={{ draggable: true }}
-											onSwiper={(swiper) => console.log(swiper)}
-											onSlideChange={() => console.log('slide change')}
-										>
-											<SwiperSlide>Slide 1</SwiperSlide>
-											<SwiperSlide>Slide 2</SwiperSlide>
-											<SwiperSlide>Slide 3</SwiperSlide>
-											<SwiperSlide>Slide 4</SwiperSlide>
-										</Swiper>
-									</div>
-									<div className="slide-2">
-										<Swiper
-											// install Swiper modules
-											modules={[Navigation, Pagination, Scrollbar, A11y]}
-											spaceBetween={50}
-											slidesPerView={3}
-											navigation
-											pagination={{ clickable: true }}
-											scrollbar={{ draggable: true }}
-											onSwiper={(swiper) => console.log(swiper)}
-											onSlideChange={() => console.log('slide change')}
-										>
-											<SwiperSlide>Slide 1</SwiperSlide>
-											<SwiperSlide>Slide 2</SwiperSlide>
-											<SwiperSlide>Slide 3</SwiperSlide>
-											<SwiperSlide>Slide 4</SwiperSlide>
-										</Swiper>
-									</div>
-									<div className="slide-3">
-										<Swiper
-											// install Swiper modules
-											modules={[Navigation, Pagination, Scrollbar, A11y]}
-											spaceBetween={50}
-											slidesPerView={3}
-											navigation
-											pagination={{ clickable: true }}
-											scrollbar={{ draggable: true }}
-											onSwiper={(swiper) => console.log(swiper)}
-											onSlideChange={() => console.log('slide change')}
-										>
-											<SwiperSlide>Slide 1</SwiperSlide>
-											<SwiperSlide>Slide 2</SwiperSlide>
-											<SwiperSlide>Slide 3</SwiperSlide>
-											<SwiperSlide>Slide 4</SwiperSlide>
-										</Swiper>
-									</div>
-								</div>
+							<div className="emotion_down">
+								<div className="emotionBook_slide"></div>
 							</div>
-							<h1>
-								<Link to={'/login'}>로그인 페이지 이동</Link>
-							</h1>
-							<Link to={'/join'}>회원가입 2 페이지 이동</Link>
-							<Link to={'/test'}>중복확인</Link>
 						</div>
 					</section>
-				</div>
-			</div>
+				</section>
+			</section>
 		</>
 	);
 };

@@ -1,0 +1,25 @@
+:root {
+	--fontSize-sm: 0.875rem;
+	--fontSize-md: 1.25rem;
+	--fontSize-lg: 2rem;
+
+	--border-sm: 33px;
+}
+
+* {
+	margin: 0;
+	border: none;
+	cursor: pointer;
+	font-family: 'GmarketSans';
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+	border-radius: 11px;
+	padding: 10px;
+}
+
+.Btn-login {
+	background: #a4d6de;
+	font-size: var(--fontSize-sm);
+	border-radius: var(--border-sm);
+}
