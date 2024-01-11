@@ -8,7 +8,6 @@ header {
 	display: flex;
 	align-items: center;
 	border-bottom: 1px solid #e2e2e2;
-	margin-bottom: 10px;
 }
 
 header > div {

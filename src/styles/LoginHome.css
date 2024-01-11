@@ -1,0 +1,146 @@
+* {
+	font-family: 'Pretendard';
+	box-sizing: border-box;
+}
+
+.container {
+	max-width: 1440px;
+	margin: 0 auto;
+}
+
+.banner {
+	height: 252px;
+	background-color: #d9d9d9;
+	font-size: 24px;
+	font-weight: 700;
+	display: flex;
+	align-items: center;
+}
+
+.banner-contents {
+	padding-left: 40px;
+}
+
+.main-container {
+	padding: 80px 52px;
+	/* background-color: red; */
+}
+
+.today {
+	/* background-color: orange; */
+	display: flex;
+	justify-content: space-between;
+}
+
+.today-item {
+	width: 30%;
+	height: 452px;
+	/* background-color: yellow; */
+	background-color: #d9d9d9;
+	border-radius: 15px;
+}
+
+.title {
+	font-size: 24px;
+	font-weight: 700;
+}
+
+.today-item-title {
+	padding-top: 24px;
+	text-align: center;
+}
+
+.today-reviews {
+	width: 65%;
+	height: 452px;
+	/* background-color: bisque; */
+}
+
+.today-reviews-top {
+	position: relative;
+	margin-bottom: 12px;
+}
+
+.today-reviews-top-button {
+	content: '';
+	display: block;
+	position: absolute;
+	background: url('https://d3udu241ivsax2.cloudfront.net/v3/images/home/home-arrow.1d44465b5740ec5a613dd2e125d8f602.png');
+	width: 24px;
+	height: 24px;
+	background-size: cover;
+	top: 12px;
+	right: 0;
+}
+
+.today-reviews-top-title {
+	margin-bottom: 4px;
+}
+
+.subtitle {
+	font-size: 14px;
+	font-weight: 400;
+}
+
+.today-reviews-items {
+	display: grid;
+	gap: 8px;
+	grid-template-columns: repeat(3, 1fr);
+	grid-template-rows: repeat(2, 1fr);
+	overflow: hidden;
+}
+
+.grid-item {
+	height: 190px;
+	/* border: 1px solid blue; */
+	background-color: #d9d9d9;
+	box-sizing: border-box;
+	border-radius: 10px;
+}
+
+.best,
+.newbook,
+.recommend-book {
+	height: 332px;
+	padding: 0px 22px;
+	/* background-color: #dc4a4a; */
+	margin-bottom: 50px;
+}
+
+.recommend-book {
+	margin-bottom: 128px;
+}
+
+.title-wrapper {
+	margin-left: 30px;
+	margin-bottom: 10px;
+}
+
+.swiper {
+	width: 100%;
+}
+
+/* .newbook {
+  padding: 20px;
+  background-color: violet;
+}
+
+.card {
+  width: 200px;
+  height: 240px;
+  background-color: burlywood;
+  position: relative;
+}
+
+.card::before {
+  position: absolute;
+  content: "1";
+  font-size: 5rem;
+  font-weight: 900;
+  bottom: 1px;
+  left: -20px;
+} */
+
+.swiper-slide {
+	filter: blur(0);
+}

@@ -2,7 +2,7 @@ import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import Home from './pages/Home';
-import Main from './pages/Main';
+import Main from './pages/LoginHome';
 import Feed from './pages/Feed';
 import Search from './pages/Search';
 import Mypage from './pages/Mypage';
