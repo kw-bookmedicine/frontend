@@ -1,5 +1,5 @@
+import Header from "../components/Header";
 import Slider from "../components/Slider";
-import Slider2 from "../components/Slider2";
 import "../styles/LoginHome.css";
 import { Link } from "react-router-dom";
 
@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 const LoginHome = () => {
   return (
     <div className="container">
+      <Header/>
       <div className="banner">
         <div className="banner-contents">
           오늘의 감정은

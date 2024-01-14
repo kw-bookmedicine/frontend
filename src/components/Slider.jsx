@@ -2,7 +2,6 @@ import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "../styles/Slider.css";
-// import "../styles/LoginHome.css";
 
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
 
@@ -15,7 +14,7 @@ function Slider({ title, subtitle, isBestSeller, bookTitle, bookAuthor }) {
   const numberOfSlides = 10;
 
   const slides = Array.from({ length: numberOfSlides }, (_, index) => (
-    <SwiperSlide key={index} className="test">
+    <SwiperSlide key={index}>
       <div className="item-wrapper">
         <div className="item-image"></div>
         <div className="item-detail">

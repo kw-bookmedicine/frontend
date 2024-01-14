@@ -23,11 +23,9 @@
 
 .main-container {
   padding: 80px 52px;
-  /* background-color: red; */
 }
 
 .today {
-  /* background-color: orange; */
   display: flex;
   justify-content: space-between;
 }
@@ -35,7 +33,6 @@
 .today-item {
   width: 30%;
   height: 452px;
-  /* background-color: yellow; */
   background-color: #d9d9d9;
   border-radius: 15px;
 }
@@ -53,7 +50,6 @@
 .today-reviews {
   width: 65%;
   height: 452px;
-  /* background-color: bisque; */
 }
 
 .today-reviews-top {
@@ -92,7 +88,6 @@
 
 .grid-item {
   height: 190px;
-  /* border: 1px solid blue; */
   background-color: #d9d9d9;
   box-sizing: border-box;
   border-radius: 10px;
@@ -101,7 +96,6 @@
 .best,.newbook,.recommend-book  {
   height: 332px;
   padding: 0px 22px;
-  /* background-color: #dc4a4a; */
   margin-bottom: 50px;
 }
 
@@ -117,24 +111,3 @@
 .swiper {
   width: 100%;
 }
-
-/* .newbook {
-  padding: 20px;
-  background-color: violet;
-}
-
-.card {
-  width: 200px;
-  height: 240px;
-  background-color: burlywood;
-  position: relative;
-}
-
-.card::before {
-  position: absolute;
-  content: "1";
-  font-size: 5rem;
-  font-weight: 900;
-  bottom: 1px;
-  left: -20px;
-} */

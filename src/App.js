@@ -16,6 +16,7 @@ import Header from './components/Header';
 
 // STYLE
 import GlobalStyles from './styles/GlobalStyles';
+import LoginHome from './pages/LoginHome';
 
 function App() {
 	return (
@@ -25,7 +26,7 @@ function App() {
 
 				<Routes>
 					<Route path="/" element={<Home />} />
-					<Route path="/main" element={<Main />} />
+					<Route path="/main" element={<LoginHome />} />
 					<Route path="/feed" element={<Feed />} />
 					<Route path="/search" element={<Search />} />
 					<Route path="/mypage" element={<Mypage />} />
