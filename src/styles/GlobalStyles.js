@@ -34,20 +34,24 @@ const GlobalStyles = createGlobalStyle`
         border: 0;
         cursor: pointer;
     }
-    /* Header */
-
-header {
-	padding-top: 20px;
-	padding-bottom: 20px;
-	display: flex;
+    
+    header {
+		display: flex;
+	position: relative;
+	height: 64px;
+	border-bottom: 0.5px solid #dfdfdf;
+	padding: 0 48px;
+	-ms-flex-align: center;
 	align-items: center;
-	border-bottom: 1px solid #e2e2e2;
-	margin-bottom: 10px;
-}
+	-ms-flex-pack: justify;
+	box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 
-header > div {
-	display: flex;
-	margin: 10px;
+	/* font */
+	font-family: 'GmarketSans';
+	font-size: 20px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
 }
 
 `;

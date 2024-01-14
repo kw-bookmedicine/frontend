@@ -6,7 +6,8 @@
 	--border-sm: 33px;
 }
 
-.Btn-login {
+.Btn-login,
+.Btn-logout {
 	margin: 0;
 	border: none;
 	cursor: pointer;

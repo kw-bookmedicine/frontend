@@ -9,8 +9,3 @@ header {
 	align-items: center;
 	border-bottom: 1px solid #e2e2e2;
 }
-
-header > div {
-	display: flex;
-	margin: 10px;
-}
