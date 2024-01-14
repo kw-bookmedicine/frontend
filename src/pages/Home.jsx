@@ -12,14 +12,7 @@ import styled from 'styled-components';
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
-import {
-	Navigation,
-	Pagination,
-	Scrollbar,
-	A11y,
-	EffectCoverflow,
-	Autoplay,
-} from 'swiper/modules';
+import { Navigation, EffectCoverflow, Autoplay } from 'swiper/modules';
 
 // Import Swiper styles
 // import 'swiper/css';
@@ -27,9 +20,6 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import 'swiper/css/bundle';
-
-const env = process.env;
-env.PUBLIC_URL = env.PUBLIC_URL || '';
 
 const featSlider = [
 	{
@@ -84,20 +74,6 @@ const emotionList = [
 		emotion_text: '외로울 ',
 	},
 ];
-
-const StyledSwiper = styled(Swiper)`
-	.swiper-button-next {
-		background: url(/public/icon/home-right-arrow.png) no-repeat;
-		background-size: 100% auto;
-		background-position: center;
-	}
-
-	.swiper-button-prev {
-		background: url(/public/icon/home-left-arrow.png) no-repeat;
-		background-size: 100% auto;
-		background-position: center;
-	}
-`;
 
 const Home = () => {
 	const [emotion, setEmotion] = useState(3);
