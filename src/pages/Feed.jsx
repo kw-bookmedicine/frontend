@@ -1,12 +1,25 @@
+import React from 'react';
+
+// COMPONENTS
 import Header from '../components/Header';
+import FeedGrid from '../components/FeedGrid';
+
+// STYLES
+import '../styles/Feed.css';
 
 const Feed = () => {
 	return (
-		<div>
+		<>
 			<Header />
-			<h1>Feed</h1>
-			<p>이곳은 피드 페이지입니다.</p>
-		</div>
+			<div className="feed_content">
+				<div className="feed_title_wrapper">
+					<div className="feed_title">추천 피드</div>
+				</div>
+				<div className="feed_content_wrapper">
+					<FeedGrid />
+				</div>
+			</div>
+		</>
 	);
 };
 
