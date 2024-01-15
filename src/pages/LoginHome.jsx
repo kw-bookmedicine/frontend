@@ -1,5 +1,4 @@
 import Slider from "../components/Slider";
-import Slider2 from "../components/Slider2";
 import "../styles/LoginHome.css";
 import { Link } from "react-router-dom";
 
