@@ -8,15 +8,46 @@
 
 .Btn-login,
 .Btn-logout {
+	width: 79px;
+	height: 30px;
+	flex-shrink: 0;
+	border: 0.3px solid #000;
+	background: #fff;
+	text-align: center;
+
+	/* Drop Shadow */
+	box-shadow: 2px 2px 4px 0px rgba(119, 119, 119, 0.25);
+
 	margin: 0;
-	border: none;
 	cursor: pointer;
+
+	/* Font */
 	font-style: normal;
 	font-weight: 400;
 	line-height: normal;
-	padding: 10px;
+	padding: 7px 10px;
+	font-size: var(--fontSize-sm);
+	border-radius: var(--border-sm);
+	font-family: 'GmarketSans';
+}
+
+.Btn-login:hover,
+.Btn-logout:hover {
+	margin: 0;
+	border: none;
+	cursor: pointer;
+	text-align: center;
+
+	/* Font */
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+	padding: 7px 10px;
 	background: #a4d6de;
 	font-size: var(--fontSize-sm);
 	border-radius: var(--border-sm);
 	font-family: 'GmarketSans';
+
+	/* Drop Shadow */
+	box-shadow: 2px 2px 4px 0px rgba(119, 119, 119, 0.25);
 }
