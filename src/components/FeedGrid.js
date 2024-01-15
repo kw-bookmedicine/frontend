@@ -11,7 +11,7 @@ const FeedGrid = () => {
 	return (
 		<>
 			<div className="FeedContainer">
-				<Link to={'/feed'}>
+				<Link to={'/book-detail'}>
 					<div className="FeedCard">
 						<FeedCard />
 					</div>
