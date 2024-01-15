@@ -40,7 +40,7 @@ const GlobalStyles = createGlobalStyle`
 	position: relative;
 	height: 64px;
 	border-bottom: 0.5px solid #dfdfdf;
-	padding: 0 48px;
+	padding: 0 72px;
 	-ms-flex-align: center;
 	align-items: center;
 	-ms-flex-pack: justify;

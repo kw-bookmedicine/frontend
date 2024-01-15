@@ -9,7 +9,7 @@ import '../styles/Header.css';
 
 const Header = () => {
 	return (
-		<div className="inner">
+		<div className="head">
 			<header>
 				<div className="head_logo">
 					<Link to={'/'}>LOGO</Link>
