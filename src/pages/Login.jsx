@@ -52,9 +52,9 @@ const ErrorMessageWrap = styled.div`
 `;
 
 const InputDelete = styled.button`
-  position: absolute; 
+  position: absolute;
   right: 20px;
-  top: 50%; 
+  top: 50%;
   transform: translateY(-50%);
   background: none;
   border: none;
@@ -179,18 +179,22 @@ export default function Login() {
   const [pwdValid, setPwdValid] = useState(false);
 
   const handleInputChange = (e) => {
-    if (e.target.name === "id") {
-      setId(e.target.value);
-      if (id.length > 5) {
+    const { name, value } = e.target;
+    
+    if (name === "id") {
+      setId(value);
+      if (value.length >= 4) {
         setIdValid(true);
+      } else {
+        setIdValid(false);
       }
     }
 
-    if (e.target.name === "password") {
-      setPwd(e.target.value);
+    if (name === "password") {
+      setPwd(value);
       const regex =
         /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+])(?!.*[^a-zA-z0-9$`~!@$!%*#^?&\\(\\)\-_=+]).{8,20}$/;
-      if (regex.test(e.target.value)) {
+      if (regex.test(value)) {
         setPwdValid(true);
       } else {
         setPwdValid(false);
@@ -201,8 +205,10 @@ export default function Login() {
   const handleDeleteButtonClick = (inputType) => {
     if (inputType === "Id") {
       setId("");
+      setIdValid(false);
     } else if (inputType === "password") {
       setPwd("");
+      setPwdValid(false);
     }
   };
 
@@ -269,7 +275,7 @@ export default function Login() {
         <LoginButton disabled={notAllow}>로그인</LoginButton>
         <LoginSubMenu>
           <LoginSubMenuItem>
-            <Link to={"/"}>회원가입</Link>
+            <Link to={"/join"}>회원가입</Link>
           </LoginSubMenuItem>
 
           <LoginSubMenuItem>
