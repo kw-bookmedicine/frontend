@@ -1,0 +1,11 @@
+@import url('https://webfontworld.github.io/gmarket/GmarketSans.css');
+
+/* Header */
+
+header {
+	padding-top: 20px;
+	padding-bottom: 20px;
+	display: flex;
+	align-items: center;
+	border-bottom: 1px solid #e2e2e2;
+}

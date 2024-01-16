@@ -52,9 +52,9 @@ const ErrorMessageWrap = styled.div`
 `;
 
 const InputDelete = styled.button`
-  position: absolute; /* X 버튼을 absolute로 설정 */
-  right: 20px; /* 오른쪽 여백 조절 */
-  top: 50%; /* 세로 중앙 정렬을 위해 50%로 설정 */
+  position: absolute; 
+  right: 20px;
+  top: 50%; 
   transform: translateY(-50%);
   background: none;
   border: none;
@@ -156,10 +156,17 @@ const SnsList = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 50px;
 
   button {
     padding: 0;
     margin: 0px 10px;
+    height: 100%;
+  }
+
+  img {
+    width: 50px;
+    height: 100%;
   }
 `;
 

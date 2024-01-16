@@ -1,0 +1,16 @@
+.bookContainer {
+	display: grid;
+	grid-template-columns: repeat(8, 1fr);
+	grid-template-rows: repeat(3, 1fr);
+	gap: 30px 18px;
+}
+
+.book {
+	cursor: pointer;
+	width: 148px;
+	height: 210px;
+	flex-shrink: 0;
+	border-radius: 5px;
+	background: #d4d4d4;
+	box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
