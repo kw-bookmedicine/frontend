@@ -1,0 +1,116 @@
+.FeedCardContainer {
+	box-sizing: border-box;
+	width: 311px;
+	height: 280px;
+	flex-shrink: 0;
+	border-radius: 10px;
+	background: linear-gradient(111deg, #cafadf 0%, #d5e0ff 100%);
+	box-shadow: 1px 1px 4px 0 rgba(119, 119, 119, 0.25);
+}
+
+.feed_up_wrapper {
+	display: flex;
+	width: 311px;
+	height: 240px;
+}
+
+.feed_left_wrapper {
+	padding-left: 12px;
+}
+
+.left_bookImg {
+	margin-top: 10px;
+	width: 120px;
+	height: 170px;
+	flex-shrink: 0;
+	border-radius: 5px;
+	background: #d9d9d9;
+}
+
+.left_book_wrapper {
+	display: flex;
+	flex-direction: column;
+	text-align: left;
+	margin-top: 10px;
+}
+
+.book_title {
+	color: #000;
+	font-family: Pretendard;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: normal;
+}
+
+.book_author {
+	color: #000;
+	font-family: Pretendard;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+}
+
+.feed_right_wrapper {
+	margin: 10px 0;
+	padding-right: 12px;
+	display: flex;
+	flex-direction: column;
+}
+
+.right_date_wrapper {
+	color: #757575;
+	font-family: Pretendard;
+	font-size: 10px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+	text-align: right;
+}
+
+.right_comment_wrapper {
+	color: #000;
+	font-family: Pretendard;
+	font-size: 15px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: normal;
+	padding: 24px 0;
+	margin-top: 24px;
+	margin-left: 12px;
+}
+
+.feed_bottom_wrapper {
+	display: flex;
+	width: 311px;
+	height: 40px;
+	padding: 4px 0;
+	align-items: center;
+	background: #fff;
+	border-bottom-left-radius: 10px;
+	border-bottom-right-radius: 10px;
+}
+.user_wrapper {
+	display: flex;
+	align-items: center;
+	padding: 0 14px;
+}
+
+.user_profile {
+	width: 30px;
+	height: 30px;
+	flex-shrink: 0;
+	background: #a4d6dd;
+	border-radius: 100%;
+}
+
+.user_nicknameText {
+	margin-left: 12px;
+	color: #000;
+	font-family: Pretendard;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: normal;
+}
