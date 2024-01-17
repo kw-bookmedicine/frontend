@@ -1,24 +1,40 @@
+import React from 'react';
 import { Link } from 'react-router-dom';
+
+// COMPONENTS
+import Btn from '../components/Button';
+
+// STYLES
+import '../styles/Header.css';
 
 const Header = () => {
 	return (
-		<header>
-			<div className="head_logo">
-				<Link to={'/'}>LOGO</Link>
-			</div>
-			<div className="head_btn__home">
-				<Link to={'/main'}>HOME</Link>
-			</div>
-			<div className="head_btn__feed">
-				<Link to={'/feed'}>FEED</Link>
-			</div>
-			<div className="head_btn__search">
-				<Link to={'/search'}>SEARCH</Link>
-			</div>
-			<div className="head_btn__mypage">
-				<Link to={'/mypage'}>MYPAGE</Link>
-			</div>
-		</header>
+		<div className="head">
+			<header>
+				<div className="head_logo">
+					<Link to={'/'}>LOGO</Link>
+				</div>
+				<nav className="header_list_wrapper">
+					<ul className="header_list">
+						<li>
+							<Link to={'/main'}>HOME</Link>
+						</li>
+						<li>
+							<Link to={'/feed'}>FEED</Link>
+						</li>
+						<li>
+							<Link to={'/search'}>SEARCH</Link>
+						</li>
+						<li>
+							<Link to={'/mypage'}>MYPAGE</Link>
+						</li>
+					</ul>
+				</nav>
+				<div className="head_btn__logout">
+					<Btn text={'로그아웃'} type="logout" id="home-header-btn" />
+				</div>
+			</header>
+		</div>
 	);
 };
 

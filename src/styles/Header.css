@@ -1,0 +1,40 @@
+.head {
+	position: sticky;
+	width: 100%;
+	z-index: 100;
+	background-color: hsla(0, 0%, 100%, 0.9);
+	top: 0;
+	box-sizing: border-box;
+}
+
+.head_logo {
+	width: 50px;
+	margin: 10px 25px 0 0;
+}
+
+.header_list_wrapper {
+	display: block;
+	margin-left: 40px;
+}
+
+.header_list {
+	display: flex;
+	align-items: center;
+}
+
+.header_list > li {
+	margin: 0 40px;
+	color: #000;
+	font-family: Pretendard;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+}
+
+.head_btn__logout {
+	display: flex;
+	-ms-flex-align: center;
+	align-items: center;
+	margin-left: auto;
+}

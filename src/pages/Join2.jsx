@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { styled } from "styled-components";
 import App from "./../App";
+import { useForm, rules } from "react-hook-form";
 
 const LoginContainer = styled.div`
   display: flex;
@@ -36,7 +37,7 @@ const Title = styled.h1`
 `;
 
 const InputWrap = styled.div`
-  margin-bottom: 15px;
+  margin-bottom: 20px;
   position: relative;
   p {
     font-size: 20px;
@@ -46,7 +47,8 @@ const InputWrap = styled.div`
 
 const InputWrap2 = styled.div`
   display: flex;
-  margin-bottom: 15px;
+  position: relative;
+  margin-bottom: 20px;
   p {
     font-size: 20px;
     font-weight: 300;
@@ -60,7 +62,7 @@ const ErrorMessageWrap = styled.div`
 
 const InputDelete = styled.button`
   position: absolute; /* X 버튼을 absolute로 설정 */
-  right: 20px; /* 오른쪽 여백 조절 */
+  right: 27%; /* 오른쪽 여백 조절 */
   top: 50%; /* 세로 중앙 정렬을 위해 50%로 설정 */
   transform: translateY(-50%);
   background: none;
@@ -91,7 +93,8 @@ const LoginButton = styled.button`
   border: none;
   border-radius: 4px;
   margin-top: 10px;
-  cursor: ${({ isButtonEnabled }) => isButtonEnabled ? "pointer" : "not-allowed"};
+  cursor: ${({ isButtonEnabled }) =>
+    isButtonEnabled ? "pointer" : "not-allowed"};
 `;
 
 const BirthInput = styled.div`
@@ -191,7 +194,41 @@ const JobSelect = styled.select`
   font-size: 20px;
 `;
 
-export const Join2 = () => {
+const Join2 = () => {
+  // 유저에 대한 데이터를 객체로 담기
+
+  const {
+    watch,
+    control,
+    setValue,
+    handleSubmit,
+    setError,
+    clearErrors,
+    formState: { errors },
+  } = useForm({
+    mode: "onChange",
+    defaultValues: {
+      id: "",
+      pwd: "",
+      passwordMismatch: "",
+      term: false,
+    },
+  });
+
+  useEffect(() => {
+    if (
+      watch("password") !== watch("passwordConfirm") &&
+      watch("passwordConfirm")
+    ) {
+      setError("passwordConfirm", {
+        type: "password-mismatch",
+        message: "비밀번호가 일치하지 않습니다",
+      });
+    } else {
+      clearErrors("passwordConfirm");
+    }
+  }, [watch("password"), watch("passwordConfirm"), setError, clearErrors]);
+
   // 아이디 및 아이디 중복 확인
   const [id, setId] = useState("");
   const [isIdAvailable, setIsIdAvailable] = useState(true);
@@ -199,7 +236,7 @@ export const Join2 = () => {
   // 비밀번호 및 비밀번호 확인, 일치 여부
   const [pwd, setPwd] = useState("");
   const [pwdConfirm, setPwdConfirm] = useState("");
-  const [passwordMismatch, setPasswordMismatch] = useState(false);
+  const isSame = pwd === pwdConfirm;
 
   // 이름인데 필요한가? 어디에 활용하는거지?
   const [name, setName] = useState("");
@@ -218,6 +255,7 @@ export const Join2 = () => {
   const [email, setEmail] = useState("");
   const [emailUsername, setEmailUsername] = useState("");
   const [emailDomain, setEmailDomain] = useState("");
+  const [isInputEnabled, setIsInputEnabled] = useState(false);
 
   // 모든 것을 작성해야 가입하기 버튼 클릭 활성화
   const [isButtonEnabled, setIsButtonEnabled] = useState(true);
@@ -240,19 +278,6 @@ export const Join2 = () => {
       setGender(e.target.value);
     } else if (e.target.name === "email") {
       setEmail(e.target.value);
-    }
-    // 비밀번호 일치 여부 확인
-    if (e.target.name === "password" || e.target.name === "passwordConfirm") {
-      const isMismatched = pwd !== pwdConfirm;
-      setPasswordMismatch(isMismatched);
-    }
-  };
-
-  const handleBlurPasswordConfirm = () => {
-    // 비밀번호 확인 필드에서 focus가 떠날 때 비밀번호 일치 여부 확인
-    const isMismatched = pwd !== pwdConfirm;
-    if (isMismatched) {
-      alert("비밀번호가 일치하지 않습니다.");
     }
   };
 
@@ -291,23 +316,33 @@ export const Join2 = () => {
     }
   };
 
-   const handleEmailDirectInput = (e) => {
-     const input = e.target.value;
-     setEmailUsername(input);
-   };
+  const handleEmailDirectInput = (e) => {
+    const input = e.target.value;
+    setEmailUsername(input);
+  };
 
-   const handleEmailInputChange = (e) => {
-     const selectedDomain = e.target.value;
-     setEmailDomain(selectedDomain);
+  const handleEmailDomain = (e) => {
+    const input = e.target.value;
+    setEmailDomain(input);
+  };
 
-     // 선택된 옵션이 "직접 입력"이 아닌 경우에만 사용자 이름을 업데이트
-     if (selectedDomain !== "type") {
-       setEmailDomain(e.target.value);
-     } else {
-        setEmailDomain("");
-     }
-   };
-  
+  const handleSelectedEmailDomain = (e) => {
+    const selectedDomain = e.target.value;
+    if (selectedDomain !== "type") {
+      setEmailDomain(selectedDomain);
+      setIsInputEnabled(true);
+    } else {
+      setEmailDomain("");
+      setIsInputEnabled(false);
+    }
+  };
+
+  useEffect(() => {
+    // setEmailDomain이 변경될 때마다 실행
+    setEmail(`${emailUsername}@${emailDomain}`);
+  }, [emailUsername, emailDomain]);
+  console.log(emailDomain);
+
   return (
     <LoginContainer>
       <ImageContent></ImageContent>
@@ -337,6 +372,9 @@ export const Join2 = () => {
             name="password"
             placeholder="비밀번호"
             value={pwd}
+            control={control}
+            label="비밀번호"
+            maxLength="15"
             onChange={handleInputChange}
           />
           <InputDelete
@@ -353,7 +391,6 @@ export const Join2 = () => {
             placeholder="비밀번호 확인"
             value={pwdConfirm}
             onChange={handleInputChange}
-            // onBlur={handleBlurPasswordConfirm}
           />
           <InputDelete
             showDeleteButton={pwdConfirm.length > 0}
@@ -361,13 +398,10 @@ export const Join2 = () => {
           >
             X
           </InputDelete>
-          {passwordMismatch && (
+          {pwdConfirm !== "" && !isSame && (
             <ErrorMessageWrap>비밀번호가 일치하지 않습니다.</ErrorMessageWrap>
           )}
         </InputWrap>
-        {/* <ErrorMessageWrap>
-          영문, 숫자, 특수문자 포함 8자 이상 입력해주세요.
-        </ErrorMessageWrap> */}
 
         <InputWrap>
           <Input
@@ -454,9 +488,10 @@ export const Join2 = () => {
             <input
               type="text"
               value={emailDomain}
-              // readOnly={emailDomain !== "type"}
+              onChange={handleEmailDomain}
+              disabled={isInputEnabled}
             />
-            <EmailSelect name="" id="" onChange={handleEmailInputChange}>
+            <EmailSelect name="" id="" onChange={handleSelectedEmailDomain}>
               <option value="type" selected>
                 직접 입력
               </option>
@@ -493,8 +528,12 @@ export const Join2 = () => {
           </JobSelect>
         </InputWrap>
 
-        <LoginButton isButtonEnabled={isButtonEnabled}>가입하기</LoginButton>
+        <LoginButton isButtonEnabled={isButtonEnabled}>
+          <Link to={"/main"}>가입하기</Link>
+        </LoginButton>
       </LoginContent>
     </LoginContainer>
   );
 };
+
+export default Join2;
