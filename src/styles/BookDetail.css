@@ -16,8 +16,11 @@
 	margin-top: 48px;
 	padding: 24px 48px;
 	border-radius: 20px;
-	background: #fff;
-	box-shadow: 2px 2px 10px 2px rgba(0, 0, 0, 0.25);
+	background: #f3fdff;
+
+	/* 소설소분류 */
+	box-shadow: 6px 6px 30px 0px rgba(119, 119, 119, 0.47);
+	/* box-shadow: 2px 2px 10px 2px rgba(0, 0, 0, 0.25); */
 }
 
 .summary_left_img {
@@ -44,4 +47,134 @@
 	font-style: normal;
 	font-weight: 400;
 	line-height: normal;
+}
+
+.summary_right_wrapper {
+	width: 100%;
+}
+
+.summary_right_up_wrapper {
+	display: flex;
+	justify-content: space-between;
+}
+
+.right_up_left_wrapper {
+	width: 400px;
+}
+
+.summary_left_mid_wrapper {
+	margin-top: 27px;
+}
+
+.summary_left_bottom_wrapper {
+	width: 100%;
+	margin-top: 160px;
+}
+
+.left_bottom_text_wrapper {
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+
+	width: 885px;
+	height: 64px;
+	flex-shrink: 0;
+
+	border-radius: 15px;
+	background: #d3e7f6;
+
+	/* Drop Shadow */
+	box-shadow: 2px 2px 4px 0px rgba(119, 119, 119, 0.25);
+}
+
+.bottom_text_bookInfo,
+.bottom_text_review,
+.bottom_text_bookList {
+	color: #000;
+	text-align: center;
+	font-family: Pretendard;
+	font-size: 20px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: normal;
+	cursor: pointer;
+}
+
+.bottom_text_separate {
+	margin: 0;
+	width: 0;
+	height: 40px;
+	border: 1px solid #104773;
+}
+
+.bookInfo_wrapper {
+	display: flex;
+	flex-direction: column;
+	margin-top: 100px;
+	align-items: flex-start;
+}
+
+.bookInfo_title {
+	color: #000;
+	text-align: center;
+	font-family: Pretendard;
+	font-size: 24px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: normal;
+}
+
+.bookInfo_content {
+	width: 1338px;
+	margin-top: 32px;
+}
+
+.content_bold {
+	color: #000;
+	font-family: Pretendard;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 700 !important;
+	line-height: normal;
+}
+
+.content_normal {
+	margin-top: 20px;
+	color: #000;
+	font-family: Pretendard;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
+}
+
+.bookComment_wrapper {
+	width: 1338px;
+	margin-top: 100px;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+}
+
+.bookComment_title {
+	color: #000;
+	font-family: Pretendard;
+	font-size: 24px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: normal;
+}
+
+.relationBookList_wrapper {
+	width: 1338px;
+	margin: 150px auto 0 auto;
+}
+
+.BookList_container {
+	margin-top: 32px;
+	width: 1338px;
+	padding-right: 15px;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
 }
