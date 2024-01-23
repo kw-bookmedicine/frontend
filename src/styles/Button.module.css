@@ -51,3 +51,23 @@
 	/* Drop Shadow */
 	box-shadow: 2px 2px 4px 0px rgba(119, 119, 119, 0.25);
 }
+
+/* 경험 추가하기 버튼 */
+.Btn-exp {
+	width: 140px;
+	height: 40px;
+	border-radius: 10px;
+	background: #d3e7f6;
+
+	/* Drop Shadow */
+	box-shadow: 2px 2px 4px 0px rgba(119, 119, 119, 0.25);
+
+	/* Font */
+	color: #000;
+	text-align: center;
+	font-family: Pretendard;
+	font-size: 18px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: normal;
+}
