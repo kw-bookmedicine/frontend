@@ -1,0 +1,25 @@
+.content {
+	max-width: unset;
+	padding: 0;
+}
+
+.bookList_title {
+	margin: 0 auto;
+	padding: 20px;
+	text-align: center;
+
+	/* Font */
+	color: #000;
+	font-family: Pretendard;
+	font-size: 24px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: normal;
+}
+
+.bookList_wrapper {
+	display: flex;
+	flex-direction: column;
+	width: 1338px;
+	margin: 0 auto;
+}

@@ -12,6 +12,7 @@ import Login from './pages/Login';
 import Join from './pages/Join';
 import Join2 from './pages/Join2';
 import Registration from './pages/Registration';
+import BookList from './pages/BookList';
 
 // STYLE
 import GlobalStyles from './styles/GlobalStyles';
@@ -45,6 +46,7 @@ function App() {
 					<Route path="/test" element={<Registration />} />
 
 					<Route path="/book-detail" element={<BookDetail />} />
+					<Route path="/book-list" element={<BookList />} />
 				</Routes>
 			</div>
 		</BrowserRouter>
