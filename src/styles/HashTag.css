@@ -1,0 +1,18 @@
+.hash-tag {
+	width: 100px;
+	height: 35px;
+	border-radius: 20px;
+	border: 2px solid var(--dd, #a4d6de);
+	background: #fff;
+	padding-bottom: 2px;
+
+	/* Font */
+	color: #000;
+	font-family: Pretendard;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+
+	margin-right: 15px;
+}
