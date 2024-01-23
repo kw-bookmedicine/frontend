@@ -5,25 +5,30 @@ import Header from '../components/Header';
 import Btn from '../components/Button';
 import HashTag from '../components/HashTag';
 import Review from '../components/Review';
-import Slider from '../components/Slider2';
 import Title from '../components/ArrowTitle';
 import BookCard from '../components/BookCard';
+import Footer from '../components/Footer';
 
 // STYLES
 import '../styles/BookDetail.css';
 import { Link } from 'react-router-dom';
 
 const BookDetail = () => {
-	const bookInfoRef = useRef < HTMLDivElement > null;
-	const onHomeClick = () => {
-		bookInfoRef.current?.scrollIntoView({ behavior: 'smooth' });
+	// const bookInfoRef = useRef < HTMLDivElement > null;
+	// const onHomeClick = () => {
+	// 	bookInfoRef.current?.scrollIntoView({ behavior: 'smooth' });
+	// };
+
+	const scrollRef = useRef([]);
+	const handleScroll = (ref) => {
+		ref.scrollIntoView({ behavior: 'smooth' });
 	};
 
 	return (
 		<>
 			<Header />
 			<div className="bookDetail_content">
-				<section className="bookSummary" scrollRef={bookInfoRef}>
+				<section className="bookSummary">
 					<div className="bookSummary_wrapper">
 						<div className="summary_left_wrapper">
 							<div className="summary_left_img"></div>
@@ -48,20 +53,44 @@ const BookDetail = () => {
 							</div>
 							<div className="summary_left_bottom_wrapper">
 								<nav className="left_bottom_text_wrapper">
-									<div className="bottom_text_bookInfo">책 정보</div>
+									<div
+										className="bottom_text_bookInfo"
+										onClick={() => {
+											handleScroll(scrollRef.current[0]);
+										}}
+									>
+										책 정보
+									</div>
 									<div className="bottom_text_separate" />{' '}
-									<div className="bottom_text_review" onClick={onHomeClick}>
+									<div
+										className="bottom_text_review"
+										onClick={() => {
+											handleScroll(scrollRef.current[1]);
+										}}
+									>
 										리뷰 보러가기
 									</div>
 									<div className="bottom_text_separate" />{' '}
-									<div className="bottom_text_bookList">연관 책 보러가기</div>
+									<div
+										className="bottom_text_bookList"
+										onClick={() => {
+											handleScroll(scrollRef.current[2]);
+										}}
+									>
+										연관 책 보러가기
+									</div>
 								</nav>
 							</div>
 						</div>
 					</div>
 				</section>
 				<section className="bookInfo">
-					<div className="bookInfo_wrapper">
+					<div
+						className="bookInfo_wrapper"
+						ref={(el) => {
+							scrollRef.current[0] = el;
+						}}
+					>
 						<div className="bookInfo_title">책 정보</div>
 						<div className="bookInfo_content">
 							<p className="content_bold">
@@ -120,7 +149,12 @@ const BookDetail = () => {
 					</div>
 				</section>
 				<section className="bookComment">
-					<div className="bookComment_wrapper" Ref={bookInfoRef}>
+					<div
+						className="bookComment_wrapper"
+						ref={(el) => {
+							scrollRef.current[1] = el;
+						}}
+					>
 						<Title title={'한 줄 리뷰'} />
 						<div className="bookComment_container">
 							<Review
@@ -152,7 +186,12 @@ const BookDetail = () => {
 					</div>
 				</section>
 				<section className="relationBookList">
-					<div className="relationBookList_wrapper">
+					<div
+						className="relationBookList_wrapper"
+						ref={(el) => {
+							scrollRef.current[2] = el;
+						}}
+					>
 						<Title title={'연관 책 리스트'} />
 						<div className="BookList_container">
 							<BookCard title={'책 제목 1'} author={'저자'} />
@@ -165,6 +204,9 @@ const BookDetail = () => {
 							<BookCard title={'책 제목 8'} author={'저자'} />
 						</div>
 					</div>
+				</section>
+				<section className="bookDetail_footer">
+					<Footer />
 				</section>
 			</div>
 		</>

@@ -13,7 +13,7 @@
 	width: 1338px;
 	height: 450px;
 	flex-shrink: 0;
-	margin-top: 48px;
+	margin-top: 78px;
 	padding: 24px 48px;
 	border-radius: 20px;
 	background: #f3fdff;
@@ -108,9 +108,12 @@
 }
 
 .bookInfo_wrapper {
+	width: 1338px;
+	height: 536px;
 	display: flex;
 	flex-direction: column;
 	margin-top: 100px;
+	padding-top: 70px;
 	align-items: flex-start;
 }
 
@@ -151,6 +154,7 @@
 .bookComment_wrapper {
 	width: 1338px;
 	margin-top: 100px;
+	padding-top: 70px;
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
@@ -167,7 +171,8 @@
 
 .relationBookList_wrapper {
 	width: 1338px;
-	margin: 150px auto 0 auto;
+	height: 436px;
+	margin: 140px auto 0 auto;
 }
 
 .BookList_container {
@@ -177,4 +182,8 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-around;
+}
+
+.bookDetail_footer {
+	margin-top: 100px;
 }
