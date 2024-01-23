@@ -30,8 +30,8 @@ function Slider({ title, subtitle, isBestSeller, bookTitle, bookAuthor }) {
     <div className="best">
       <div className="best-wrapper">
         <div className="title-wrapper">
-          <div className="best-title title">{title}</div>
-          <div className="best-subtitle subtitle">{subtitle}</div>
+          <div className="best-title">{title}</div>
+          <div className="best-subtitle">{subtitle}</div>
         </div>
         <Swiper
           modules={[Navigation, Pagination, Scrollbar, A11y]}
