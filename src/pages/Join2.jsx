@@ -528,7 +528,9 @@ const Join2 = () => {
           </JobSelect>
         </InputWrap>
 
-        <LoginButton isButtonEnabled={isButtonEnabled}>가입하기</LoginButton>
+        <LoginButton isButtonEnabled={isButtonEnabled}>
+          <Link to={"/main"}>가입하기</Link>
+        </LoginButton>
       </LoginContent>
     </LoginContainer>
   );
