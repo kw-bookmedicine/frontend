@@ -1,3 +1,11 @@
+@font-face {
+	font-family: 'Pretendard-Regular';
+	src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff')
+		format('woff');
+	font-weight: 400;
+	font-style: normal;
+}
+
 .FeedCardContainer {
 	box-sizing: border-box;
 	width: 311px;
@@ -36,7 +44,7 @@
 
 .book_title {
 	color: #000;
-	font-family: Pretendard;
+	font-family: 'Pretendard-Regular';
 	font-size: 16px;
 	font-style: normal;
 	font-weight: 700;
@@ -45,7 +53,7 @@
 
 .book_author {
 	color: #000;
-	font-family: Pretendard;
+	font-family: 'Pretendard-Regular';
 	font-size: 12px;
 	font-style: normal;
 	font-weight: 400;
@@ -61,7 +69,7 @@
 
 .right_date_wrapper {
 	color: #757575;
-	font-family: Pretendard;
+	font-family: 'Pretendard-Regular';
 	font-size: 10px;
 	font-style: normal;
 	font-weight: 400;
@@ -71,7 +79,7 @@
 
 .right_comment_wrapper {
 	color: #000;
-	font-family: Pretendard;
+	font-family: 'Pretendard-Regular';
 	font-size: 15px;
 	font-style: normal;
 	font-weight: 600;
@@ -108,7 +116,7 @@
 .user_nicknameText {
 	margin-left: 12px;
 	color: #000;
-	font-family: Pretendard;
+	font-family: 'Pretendard-Regular';
 	font-size: 14px;
 	font-style: normal;
 	font-weight: 600;

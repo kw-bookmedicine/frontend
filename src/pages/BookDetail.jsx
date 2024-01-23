@@ -14,11 +14,6 @@ import '../styles/BookDetail.css';
 import { Link } from 'react-router-dom';
 
 const BookDetail = () => {
-	// const bookInfoRef = useRef < HTMLDivElement > null;
-	// const onHomeClick = () => {
-	// 	bookInfoRef.current?.scrollIntoView({ behavior: 'smooth' });
-	// };
-
 	const scrollRef = useRef([]);
 	const handleScroll = (ref) => {
 		ref.scrollIntoView({ behavior: 'smooth' });

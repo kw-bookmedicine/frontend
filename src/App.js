@@ -12,22 +12,26 @@ import Login from './pages/Login';
 import Join from './pages/Join';
 import Join2 from './pages/Join2';
 import Registration from './pages/Registration';
+import BookList from './pages/BookList';
 
 // STYLE
 import GlobalStyles from './styles/GlobalStyles';
 import './App.css';
+import ScrollTop from './components/ScrollTop';
 
 function App() {
+	// 브라우저 새로고침 스크롤 이벤트
 	useEffect(() => {
 		window.onbeforeunload = function pushRefresh() {
 			window.scrollTo(0, 0);
 		};
 	}, []);
+
 	https: return (
 		<BrowserRouter>
 			<div className="App">
 				<GlobalStyles />
-
+				<ScrollTop />
 				<Routes>
 					<Route path="/" element={<Home />} />
 					<Route path="/logout" element={<Home />} />
@@ -42,6 +46,7 @@ function App() {
 					<Route path="/test" element={<Registration />} />
 
 					<Route path="/book-detail" element={<BookDetail />} />
+					<Route path="/book-list" element={<BookList />} />
 				</Routes>
 			</div>
 		</BrowserRouter>
