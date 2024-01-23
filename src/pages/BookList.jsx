@@ -13,7 +13,7 @@ import '../styles/BookList.css';
 const BookList = () => {
 	return (
 		<>
-			<section className="content">
+			<section className="bookList_content">
 				<div className="bookList_inner">
 					<Header />
 					<div className="bookList_title">소설</div>
