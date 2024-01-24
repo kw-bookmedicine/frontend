@@ -1,123 +1,304 @@
-* {
-	font-family: 'Pretendard';
-	box-sizing: border-box;
+@font-face {
+    font-family: 'KCC-eunyoung';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/KCC-eunyoung-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
 }
 
-.container {
-	max-width: 1440px;
-	margin: 0 auto;
+@font-face {
+    font-family: 'Chosunilbo_myungjo';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/Chosunilbo_myungjo.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
 }
 
-.banner {
-	height: 252px;
-	background-color: #d9d9d9;
-	font-size: 24px;
-	font-weight: 700;
-	display: flex;
-	align-items: center;
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
 }
 
-.banner-contents {
-	padding-left: 40px;
+/* 로그인 홈 페이지 크기 설정 */
+.LoginHome-container {
+  max-width: 1440px;
+  margin: 0 auto;
+  font-family: 'Pretendard-Regular';
+  box-sizing: border-box;
 }
 
-.main-container {
-	padding: 80px 52px;
-	/* background-color: red; */
+/* 배너 */
+.LoginHome-banner {
+  height: 252px;
+  /* background-color:#FFDADF; */
+  /* background: linear-gradient(92deg, #d5e0ff 0%, #ffdadf 100%); */
+  background: url("../assets/main-banner.png");
+  font-size: 24px;
+  font-weight: 700;
+  display: flex;
+  /* align-items: center; */
+  justify-content: center;
+  flex-direction: column;
 }
 
-.today {
-	/* background-color: orange; */
-	display: flex;
-	justify-content: space-between;
+/* 배너 내용 위치 */
+.LoginHome-banner-contents {
+  padding-left: 40px;
 }
 
-.today-item {
-	width: 30%;
-	height: 452px;
-	/* background-color: yellow; */
-	background-color: #d9d9d9;
-	border-radius: 15px;
+.LoginHome-banner-contents h2 {
+  color: black;
+  font-size: 36px;
+  font-weight: 700;
+  word-wrap: break-word;
+  margin-bottom: 4px;
 }
 
-.title {
-	font-size: 24px;
-	font-weight: 700;
+.LoginHome-banner-contents p {
+  color: black;
+  font-size: 13px;
+  font-weight: 500;
+  word-wrap: break-word;
 }
 
-.today-item-title {
-	padding-top: 24px;
-	text-align: center;
+/* 배너 밑의 전체 컨텐츠 */
+.LoginHome-main-container {
+  padding: 80px 42px;
+  /* background-color: red; */
 }
 
-.today-reviews {
-	width: 65%;
-	height: 452px;
-	/* background-color: bisque; */
+/* 오늘의 처방전 및 다른 사람들 후기 전체 컨텐츠 */
+.LoginHome-today {
+  /* background-color: orange; */
+  display: flex;
+  justify-content: space-between;
 }
 
-.today-reviews-top {
-	position: relative;
-	margin-bottom: 12px;
+/* 오늘의 처방전 */
+.LoginHome-today-item {
+  width: 30%;
+  height: 452px;
+  width: 330px;
+  /* background-color: yellow; */
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: 2px 2px 4px rgba(119, 119, 119, 0.25);
+  border-radius: 15px;
+  border: 5px #a4d6dd solid;
+  margin-right: 60px;
 }
 
-.today-reviews-top-button {
-	content: '';
-	display: block;
-	position: absolute;
-	background: url('https://d3udu241ivsax2.cloudfront.net/v3/images/home/home-arrow.1d44465b5740ec5a613dd2e125d8f602.png');
-	width: 24px;
-	height: 24px;
-	background-size: cover;
-	top: 12px;
-	right: 0;
+/* <div style="width: 100%; height: 100%; background: white; box-shadow: 2px 2px 4px rgba(119, 119, 119, 0.25); border-radius: 15px; border: 5px #A4D6DD solid"></div> */
+
+/* 다른 사람들은 어떨까, 베스트 셀러, 띵동, 책배달 왔씁니다. 나와 비슷한 사람들 등 타이틀 */
+.LoginHome-today-item-title,
+.LoginHome-today-reviews-top-title,
+.best-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 10px;
 }
 
-.today-reviews-top-title {
-	margin-bottom: 4px;
+.LoginHome-today-item-title {
+  padding-bottom: 13px;
+  border-bottom: 3px #a4d6dd solid;
 }
 
-.subtitle {
-	font-size: 14px;
-	font-weight: 400;
+.LoginHome-today-item-contents {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.today-reviews-items {
-	display: grid;
-	gap: 8px;
-	grid-template-columns: repeat(3, 1fr);
-	grid-template-rows: repeat(2, 1fr);
-	overflow: hidden;
+.LoginHome-today-item-contents-text {
+  display: flex;
+  line-height: 27px;
+  font-family: 'Chosunilbo_myungjo';
 }
 
-.grid-item {
-	height: 190px;
-	/* border: 1px solid blue; */
-	background-color: #d9d9d9;
-	box-sizing: border-box;
-	border-radius: 10px;
+.LoginHome-today-item-contents-text-hightlight {
+  font-size: 24px;
+  font-family: "KCC-eunyoung";
+  border-bottom: 2px solid black;
+  margin: 0 14px 24px;
+}
+
+.LoginHome-today-item-contents > img {
+  width: 148px;
+  height: 210px;
+  background: #d9d9d9;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+.LoginHome-today-item-contents-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.LoginHome-today-item-contents > h4 {
+  font-size: 12px;
+  margin-bottom: 38px;
+}
+
+.LoginHome-today-item-contents-date {
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.LoginHome-today-reviews-top-subtitle,
+.best-subtitle {
+  font-size: 14px;
+  font-weight: 400;
+  margin-bottom: 10px;
+}
+
+.LoginHome-today-item-title {
+  padding-top: 24px;
+  text-align: center;
+}
+
+
+
+/* 다른사람들의 후기 전체 크기 설정 */
+
+.LoginHome-today-reviews {
+  flex: 1;
+  height: 452px;
+  /* background-color: bisque; */
+}
+
+.LoginHome-today-reviews-top {
+  position: relative;
+  margin-bottom: 12px;
+}
+
+.LoginHome-today-reviews-top-button {
+  content: "";
+  display: block;
+  position: absolute;
+  background: url("https://d3udu241ivsax2.cloudfront.net/v3/images/home/home-arrow.1d44465b5740ec5a613dd2e125d8f602.png");
+  width: 24px;
+  height: 24px;
+  background-size: cover;
+  top: 12px;
+  right: 0;
+}
+
+.LoginHome-today-reviews-items {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  /* overflow: hidden; */
+}
+
+.LoginHome-today-reviews-items > div {
+  /* height: 190px; */
+  /* border: 1px solid blue; */
+  /* background-color: #d9d9d9; */
+  box-sizing: border-box;
+  background: linear-gradient(111deg, #cafadf 0%, #d5e0ff 100%);
+  box-shadow: 1px 1px 4px rgba(118.97, 118.97, 118.97, 0.25);
+  border-radius: 10px;
+}
+
+.LoginHome-today-reviews-items-card {
+  position: relative;
+}
+
+.LoginHome-today-reviews-items-card-body {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 9px 6px 0px 11px;
+  height: 160px;
+}
+
+.LoginHome-today-reviews-items-card-body > p {
+  display: -webkit-box;
+  -webkit-line-clamp: 4; /* 표시할 줄 수 지정 */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  width: 160px;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.LoginHome-today-reviews-items-card-book {
+  height: 100%;
+}
+
+.LoginHome-today-reviews-items-card-book > img {
+  width: 74px;
+  height: 106px;
+  background: #d9d9d9;
+  border-radius: 5px;
+  margin-bottom: 8px;
+}
+
+.LoginHome-today-reviews-items-card-book > h2 {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.LoginHome-today-reviews-items-card-book > h3 {
+  font-size: 10px;
+  /* font-weight: 400; */
+}
+
+.LoginHome-today-reviews-items-card-date {
+  position: absolute;
+  top: 9px;
+  right: 6px;
+  color: #757575;
+  font-size: 10px;
+}
+
+.LoginHome-today-reviews-items-card-footer {
+  display: flex;
+  background: #fff;
+  border-radius: 0px 0px 10px 10px;
+  padding: 8px 16px;
+}
+
+.LoginHome-today-reviews-items-card-footer > img {
+  width: 20px;
+  height: 20px;
+  background: #a4d6dd;
+  border-radius: 20px;
+  margin-right: 4px;
+}
+
+.LoginHome-today-reviews-items-card-footer > p {
+  height: 100%;
+  line-height: 1.2rem;
+  font-size: 10px;
+  font-weight: 500;
 }
 
 .best,
 .newbook,
 .recommend-book {
-	height: 332px;
-	padding: 0px 22px;
-	/* background-color: #dc4a4a; */
-	margin-bottom: 50px;
+  height: 332px;
+  padding: 0px 22px;
+  /* background-color: #dc4a4a; */
+  margin-bottom: 50px;
 }
 
 .recommend-book {
-	margin-bottom: 128px;
+  margin-bottom: 128px;
 }
 
 .title-wrapper {
-	margin-left: 30px;
-	margin-bottom: 10px;
+  margin-left: 30px;
+  margin-bottom: 10px;
 }
 
 .swiper {
-	width: 100%;
+  width: 100%;
 }
 
 /* .newbook {
@@ -142,5 +323,5 @@
 } */
 
 .swiper-slide {
-	filter: blur(0);
+  filter: blur(0);
 }

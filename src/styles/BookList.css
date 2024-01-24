@@ -6,22 +6,18 @@
 	font-style: normal;
 }
 
-.feed_content {
+.bookList_content {
+	max-width: unset;
+	font-family: 'Pretendard-Regular';
+	padding: 0;
+}
+
+.bookList_title {
 	margin: 0 auto;
-	max-width: 1440px;
-	padding: 24px;
-	height: 1000vh;
-	display: flex;
-	flex-direction: column;
-}
+	padding: 20px;
+	text-align: center;
 
-.feed_title_wrapper {
-	width: auto;
-	height: 50px;
-	padding: 10px;
-}
-
-.feed_title {
+	/* Font */
 	color: #000;
 	font-family: 'Pretendard-Regular';
 	font-size: 24px;
@@ -30,10 +26,9 @@
 	line-height: normal;
 }
 
-.feed_content_wrapper {
-	max-width: 1440px;
-	height: 500px;
-	-ms-flex-align: center;
-	align-items: center;
-	margin-left: auto;
+.bookList_wrapper {
+	display: flex;
+	flex-direction: column;
+	width: 1338px;
+	margin: 0 auto;
 }
