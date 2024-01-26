@@ -17,49 +17,79 @@ const FeedGrid = () => {
 					</div>
 				</Link>
 				<Link to={'/feed'}>
-					<div className="FeedCard"></div>
+					<div className="FeedCard">
+						<FeedCard />
+					</div>
 				</Link>
 				<Link to={'/feed'}>
-					<div className="FeedCard"></div>
+					<div className="FeedCard">
+						<FeedCard />
+					</div>
 				</Link>
 				<Link to={'/feed'}>
-					<div className="FeedCard"></div>
+					<div className="FeedCard">
+						<FeedCard />
+					</div>
 				</Link>
 				<Link to={'/feed'}>
-					<div className="FeedCard"></div>
+					<div className="FeedCard">
+						<FeedCard />
+					</div>
 				</Link>
 				<Link to={'/feed'}>
-					<div className="FeedCard"></div>
+					<div className="FeedCard">
+						<FeedCard />
+					</div>
 				</Link>
 				<Link to={'/feed'}>
-					<div className="FeedCard"></div>
+					<div className="FeedCard">
+						<FeedCard />
+					</div>
 				</Link>
 				<Link to={'/feed'}>
-					<div className="FeedCard"></div>
+					<div className="FeedCard">
+						<FeedCard />
+					</div>
 				</Link>
 				<Link to={'/feed'}>
-					<div className="FeedCard"></div>
+					<div className="FeedCard">
+						<FeedCard />
+					</div>
 				</Link>
 				<Link to={'/feed'}>
-					<div className="FeedCard"></div>
+					<div className="FeedCard">
+						<FeedCard />
+					</div>
 				</Link>
 				<Link to={'/feed'}>
-					<div className="FeedCard"></div>
+					<div className="FeedCard">
+						<FeedCard />
+					</div>
 				</Link>
 				<Link to={'/feed'}>
-					<div className="FeedCard"></div>
+					<div className="FeedCard">
+						<FeedCard />
+					</div>
 				</Link>
 				<Link to={'/feed'}>
-					<div className="FeedCard"></div>
+					<div className="FeedCard">
+						<FeedCard />
+					</div>
 				</Link>
 				<Link to={'/feed'}>
-					<div className="FeedCard"></div>
+					<div className="FeedCard">
+						<FeedCard />
+					</div>
 				</Link>
 				<Link to={'/feed'}>
-					<div className="FeedCard"></div>
+					<div className="FeedCard">
+						<FeedCard />
+					</div>
 				</Link>
 				<Link to={'/feed'}>
-					<div className="FeedCard"></div>
+					<div className="FeedCard">
+						<FeedCard />
+					</div>
 				</Link>
 			</div>
 		</>
