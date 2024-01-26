@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 // PAGES
@@ -27,6 +27,8 @@ function App() {
 		};
 	}, []);
 
+	let [category, setCategory] = useState('소설');
+
 	https: return (
 		<BrowserRouter>
 			<div className="App">
@@ -46,7 +48,7 @@ function App() {
 					<Route path="/test" element={<Registration />} />
 
 					<Route path="/book-detail" element={<BookDetail />} />
-					<Route path="/book-list" element={<BookList />} />
+					<Route path="/book/list/:title" element={<BookList />} />
 				</Routes>
 			</div>
 		</BrowserRouter>
