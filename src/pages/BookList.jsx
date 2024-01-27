@@ -19,13 +19,14 @@ const BookList = () => {
 
 	// 중분류
 	const [midCategory, setMidCategory] = useState([]);
-	// const [smallCategory, setCategory] = useState(category[title]);
+	const [nameList, setNameList] = useState([]);
+
+	let name = [];
 
 	// 초기에 랜더링될 때 한 번만 실행
 	useEffect(() => {
 		// 대분류 지정
 		setBigCategory(title);
-
 		// {
 		// 	smallCategory.map((e) => {
 		// 		console.log(e);
@@ -50,10 +51,11 @@ const BookList = () => {
 					<div className="bookList_title">{bigCategory}</div>
 					<Title title={`${bigCategory} 전체보기`} type={'shadow'} />
 					<div className="bookList_wrapper">
-						<BookListSlide title={bigCategory} />
 						{midCategory.map((e) => {
+							// console.log(name);
+							// setNameList(e.name);
 							// key 값 중분류에 맞게 변경해야됨.
-							return <BookListSlide key={e.id} title={e.id} />;
+							return <BookListSlide key={e.id} title={e.id} author={e.name} />;
 						})}
 					</div>
 				</div>
