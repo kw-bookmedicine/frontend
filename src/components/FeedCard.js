@@ -8,20 +8,19 @@ const FeedCard = ({ book_name, book_author, user_nickname }) => {
 		<>
 			<div className="FeedCardContainer">
 				<div className="feed_up_wrapper">
-					<div className="feed_left_wrapper">
-						<div className="left_img_wrapper">
-							<div className="left_bookImg"></div>
+					<div className="feed_review_wrapper">
+						<div className="feed_review_text_wrapper">
+							<p className="feed_review_text">
+								죽는 날까지 하늘을 우러러 한 점 부끄럼이 없기를
+							</p>
 						</div>
-						<div className="left_book_wrapper">
-							<div className="book_title">서시</div>
-							<div className="book_author">윤동주</div>
-						</div>
-					</div>
-					<div className="feed_right_wrapper">
-						<div className="right_date_wrapper">2024.01.13</div>
-						<div className="right_comment_wrapper">
-							죽는 날까지 하늘을 <br />
-							우러러 한 점 부끄럼이 없기를
+
+						<div className="review_book_wrapper">
+							<div className="feed_book_img"></div>
+							<div className="feed_book_text_wrapper">
+								<div className="feed_book_title">서시</div>
+								<div className="feed_book_author">윤동주</div>
+							</div>
 						</div>
 					</div>
 				</div>

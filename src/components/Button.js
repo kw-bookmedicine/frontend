@@ -3,7 +3,9 @@ import { Link } from 'react-router-dom';
 import styles from '../styles/Button.module.css';
 
 const Button = ({ text, type }) => {
-	const btnType = ['login', 'join', 'logout'].includes(type) ? type : 'default';
+	const btnType = ['login', 'join', 'logout', 'exp'].includes(type)
+		? type
+		: 'default';
 
 	return (
 		<button className={styles[`Btn-${btnType}`]}>

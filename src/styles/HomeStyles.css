@@ -1,3 +1,11 @@
+@font-face {
+	font-family: 'Pretendard-Regular';
+	src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff')
+		format('woff');
+	font-weight: 400;
+	font-style: normal;
+}
+
 .home {
 	box-sizing: border-box;
 	white-space: pre-line;
@@ -8,7 +16,7 @@
 	width: 100%;
 	z-index: 100;
 	background-color: hsla(0, 0%, 100%, 0.9);
-	top: 0;
+	/* top: 0; */
 }
 
 .home_header {
@@ -50,7 +58,7 @@
 	max-width: 1200px;
 	margin: 0 auto;
 	background: url('../assets/banner.png');
-	background-size: 1440px;
+	background-size: 1336px;
 	background-repeat: no-repeat;
 	background-position: 73% -2%;
 }
@@ -81,7 +89,7 @@
 
 .big_title {
 	color: #000;
-	font-family: Pretendard;
+	font-family: 'Pretendard-Regular';
 	/* font-family: 'GmarketSans'; */
 	font-size: 64px;
 	font-style: normal;
@@ -94,7 +102,7 @@
 
 .small_title {
 	color: #000;
-	font-family: Pretendard;
+	font-family: 'Pretendard-Regular';
 	font-size: 36px;
 	font-style: normal;
 	font-weight: 400;
@@ -125,7 +133,7 @@
 .feature_title {
 	color: #000;
 	text-align: center;
-	font-family: Pretendard;
+	font-family: 'Pretendard-Regular';
 	font-size: 48px;
 	font-style: normal;
 	font-weight: 700;
@@ -224,7 +232,7 @@
 	margin-top: 10px;
 	color: #000;
 	text-align: center;
-	font-family: Pretendard;
+	font-family: 'Pretendard-Regular';
 	font-size: 40px;
 	font-style: normal;
 	font-weight: 600;
@@ -235,7 +243,7 @@
 	margin-top: 10px;
 	color: #000;
 	text-align: center;
-	font-family: Pretendard;
+	font-family: 'Pretendard-Regular';
 	font-size: 24px;
 	font-style: normal;
 	font-weight: 400;
@@ -261,7 +269,7 @@
 .emotion_title {
 	color: #000;
 	text-align: center;
-	font-family: Pretendard;
+	font-family: 'Pretendard-Regular';
 	font-size: 48px;
 	font-style: normal;
 	font-weight: 700;
@@ -289,7 +297,7 @@
 	margin-top: 250px;
 	color: #000;
 	text-align: center;
-	font-family: Pretendard;
+	font-family: 'Pretendard-Regular';
 	font-size: 40px;
 	font-style: normal;
 	font-weight: 700;
@@ -320,7 +328,7 @@
 	height: 5vh;
 	justify-content: center;
 	color: #000;
-	font-family: Pretendard;
+	font-family: 'Pretendard-Regular';
 	font-size: 14px;
 	font-style: normal;
 	font-weight: 300;
