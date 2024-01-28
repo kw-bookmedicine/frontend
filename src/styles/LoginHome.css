@@ -33,12 +33,12 @@
   /* background-color:#FFDADF; */
   /* background: linear-gradient(92deg, #d5e0ff 0%, #ffdadf 100%); */
   background: url("../assets/main-banner.png");
-  font-size: 24px;
+  /* font-size: 24px;
   font-weight: 700;
   display: flex;
-  /* align-items: center; */
   justify-content: center;
-  flex-direction: column;
+  flex-direction: column; */
+  cursor: pointer;
 }
 
 /* 배너 내용 위치 */
@@ -116,10 +116,25 @@
 }
 
 .LoginHome-today-item-contents-text-hightlight {
+  position: relative;
   font-size: 24px;
+  line-height: 23px;
   font-family: "KCC-eunyoung";
-  border-bottom: 2px solid black;
-  margin: 0 14px 24px;
+  margin: 0 15px 24px;
+  min-width: 50px;
+  text-align: center;
+}
+
+.LoginHome-today-item-contents-text-hightlight::after {
+  position: absolute; 
+  content: "";
+  display: block;
+  width: 60px;
+  height: 1px;
+  background: black; 
+  left: 50%; 
+  bottom: 0px; 
+  transform: translateX(-50%); 
 }
 
 .LoginHome-today-item-contents > img {

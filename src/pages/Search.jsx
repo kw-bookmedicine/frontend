@@ -12,17 +12,29 @@ import harry_potter from '../assets/search-book-Harry_Potter.jpg';
 const Search = () => {
 	const [input, setInput] = useState('');
 
-	// 카테고리 아이템을 렌더링하는 함수
-	const renderCategoryItem = ({ title, subtitle }) => (
-		<Link to={`/book/list/${title}`} key={title}>
-			<div className="category-grid-item-wrapper">
-				<div className="category-grid-item">
-					<h2 className="category-grid-item-title">{title}</h2>
-					<h3 className="category-grid-item-subtitle">{subtitle}</h3>
-				</div>
-			</div>
-		</Link>
-	);
+  // 카테고리 배경 색상
+   const categoryColors = [
+     "#CBD4F0",
+     "#FFDADF",
+     "#FFFEF9",
+     "#E8E8E8",
+     "#C0E3E0",
+     "#E3D4CB",
+     "#FFE4CA",
+     "#D9D1EB",
+   ];
+
+  // 카테고리 아이템을 렌더링하는 함수
+  const renderCategoryItem = ({ title, subtitle }, index) => (
+    <Link to={`/${title}-중분류-페이지`} key={index}>
+      <div className="category-grid-item-wrapper">
+        <div className="category-grid-item" style={{ backgroundColor: categoryColors[index] }}>
+          <h2 className="category-grid-item-title">{title}</h2>
+          <h3 className="category-grid-item-subtitle">{subtitle}</h3>
+        </div>
+      </div>
+    </Link>
+  );
 
 	// 함수로 추천 키워드 리스트를 생성하는 함수
 	const renderKeywordList = (title, keywords) => (
@@ -67,26 +79,26 @@ const Search = () => {
 		// Add more keywords as needed
 	];
 
-	// 사용자 추천 키워드 리스트
-	const userRecommendedKeywords = [
-		'#감정',
-		'#해리포터',
-		'#화장품',
-		'#하늘 높이 비상',
-		'#감정',
-		'#해리포터',
-		'#화장품',
-		'#하늘 높이 비상',
-		'#감정',
-		'#해리포터',
-		'#화장품',
-		'#하늘 높이 비상',
-		'#감정',
-		'#해리포터',
-		'#화장품',
-		'#하늘 높이 비상',
-		// Add more keywords as needed
-	];
+  // 사용자 추천 키워드 리스트
+  const userRecommendedKeywords = [
+    "#감정",
+    "#해리포터",
+    "#화장품",
+    "#하늘 높이 비상",
+    "#감정",
+    "#해리포터",
+    "#화장품",
+    "#하늘 높이 비상",
+    "#감정",
+    "#해리포터",
+    "#화장품",
+    "#하늘 높이 비상",
+    "#감정",
+    "#해리포터",
+    "#화장품",
+    "#하늘 높이 비상",
+    // Add more keywords as needed
+  ];
 
 	const handleKeywordClick = (keyword) => {
 		// 키워드를 클릭하면 검색어를 업데이트
@@ -123,48 +135,48 @@ const Search = () => {
 				{/* 사용자 추천 키워드 */}
 				{renderKeywordList('사용자 추천 키워드', userRecommendedKeywords)}
 
-				{/* 카테고리 */}
-				<section className="category-wrapper">
-					<h2 className="recommend-title">카테고리</h2>
-					<div className="category-items">
-						{renderCategoryItem({
-							title: '소설',
-							subtitle: '추리·스릴러, SF, 판타지, 로맨스',
-						})}
-						{renderCategoryItem({
-							title: '외국어',
-							subtitle: '영어, 일본어, 중국어, 프랑스어, 스페인어, 독일어',
-						})}
-						{renderCategoryItem({
-							title: '에세이',
-							subtitle: '시, 일상, 위로, 힐링, 여행, 행복, 감성',
-						})}
-						{renderCategoryItem({
-							title: 'IT',
-							subtitle: '개발·프로그래밍, 그래픽, IT교양, e비즈니스',
-						})}
-						{renderCategoryItem({
-							title: '경제경영',
-							subtitle:
-								'4차 산업혁명, 마케팅, 세계 경제, 한국경제, 부자, 재태크',
-						})}
-						{renderCategoryItem({
-							title: '인문',
-							subtitle: '인문학, 문명, 문화, 심리학, 독서, 강의, 글쓰기',
-						})}
-						{renderCategoryItem({
-							title: '자기계발',
-							subtitle: '성공, 말하기, 협상, 시간 관리, 태도, 습관',
-						})}
-						{renderCategoryItem({
-							title: '철학',
-							subtitle: '동양, 서양, 예술, 경제',
-						})}
-					</div>
-				</section>
-			</section>
-		</div>
-	);
+        {/* 카테고리 */}
+        <section className="category-wrapper">
+          <h2 className="recommend-title">카테고리</h2>
+          <div className="category-items">
+            {renderCategoryItem({
+              title: "소설",
+              subtitle: "추리·스릴러, SF, 판타지, 로맨스",
+            })}
+            {renderCategoryItem({
+              title: "외국어",
+              subtitle: "영어, 일본어, 중국어, 프랑스어, 스페인어, 독일어",
+            })}
+            {renderCategoryItem({
+              title: "에세이",
+              subtitle: "시, 일상, 위로, 힐링, 여행, 행복, 감성",
+            })}
+            {renderCategoryItem({
+              title: "IT",
+              subtitle: "개발·프로그래밍, 그래픽, IT교양, e비즈니스",
+            })}
+            {renderCategoryItem({
+              title: "경제경영",
+              subtitle:
+                "4차 산업혁명, 마케팅, 세계 경제, 한국경제, 부자, 재태크",
+            })}
+            {renderCategoryItem({
+              title: "인문",
+              subtitle: "인문학, 문명, 문화, 심리학, 독서, 강의, 글쓰기",
+            })}
+            {renderCategoryItem({
+              title: "자기계발",
+              subtitle: "성공, 말하기, 협상, 시간 관리, 태도, 습관",
+            })}
+            {renderCategoryItem({
+              title: "철학",
+              subtitle: "동양, 서양, 예술, 경제",
+            })}
+          </div>
+        </section>
+      </section>
+    </div>
+  );
 };
 
 export default Search;

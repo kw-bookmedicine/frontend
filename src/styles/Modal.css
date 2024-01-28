@@ -1,0 +1,164 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(40px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+}
+
+.modal-container {
+  position: relative;
+  margin-top: 50px;
+  width: 90%;
+  height: 88%;
+  max-width: 1080px;
+  max-height: 1080px;
+  background: #fff;
+  padding: 3rem;
+  border-radius: 6px;
+  display: flex;
+  /* justify-content: center; */
+  font-family: "Pretendard-Regular";
+}
+
+.modal-close-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 1rem;
+  background: #fff;
+  margin-top: 1rem;
+  margin-right: 1rem;
+  cursor: pointer;
+}
+
+.modal-contents {
+  word-wrap: break-word;
+  width: 100%;
+  font-family: "Pretendard-Regular";
+}
+
+.modal-title-hightlight {
+  font-size: 60px;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* 기분 위에 강조 */
+.modal-title span {
+  position: relative;
+  display: inline-block;
+}
+
+.modal-title span::before {
+  content: "•";
+  position: absolute;
+  top: -30px;
+  left: 25%;
+  transform: translateX(-50%);
+  font-size: 2rem;
+}
+
+.modal-title span::after {
+  content: "•";
+  position: absolute;
+  top: -30px;
+  left: 75%;
+  transform: translateX(-50%);
+  font-size: 2rem;
+}
+
+/* 모달 타이틀 */
+
+.modal-contents div > h1 {
+  font-weight: 700;
+  font-size: 60px;
+  margin-bottom: 4%;
+  text-align: center;
+  font-family: "Pretendard-Regular";
+}
+
+.modal-contents > div > h2 {
+  font-weight: 400;
+  font-size: 45px;
+  margin-bottom: 4%;
+  font-family: "Chosunilbo_myungjo";
+}
+
+.modal-contents > div > h2 > span {
+  border-bottom: 3px solid black;
+}
+
+.modal-feeling {
+  width: 100%;
+  display: grid;
+  grid-template-rows: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
+  gap: 50px;
+}
+
+.modal-feeling > div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-feeling .feeling-img {
+  background: #525225;
+  /* border: 1px solid red; */
+  border-radius: 9999px;
+  width: 150px;
+  height: 150px;
+  transition: all 0.2s;
+}
+
+.modal-feeling .feeling-img:hover {
+    box-shadow:
+    0 0 10px 10px rgba(146, 203, 255, 0.2),
+    0 0 20px 20px rgba(146, 203, 255, 0.2),
+    0 0 30px 30px rgba(146, 203, 255, 0.2),
+    0 0 40px 40px rgba(146, 203, 255, 0.2),
+    0 0 50px 50px rgba(146, 203, 255, 0.2);
+}
+
+.modal-feeling button {
+  background-color: #fff;
+}
+
+.modal-feeling p {
+  font-size: 1.2rem;
+  font-family: "Pretendard-Regular";
+}
+
+.submit-button-container {
+  margin-top: 2%;
+  text-align: center;
+
+}
+
+.submit-button {
+  width: 90%;
+  /* padding: 0 auto; */
+  background-color: #bedcf3;
+  padding: 16px;
+  font-size: 1rem;
+  border-radius: 8px;
+  font-family: "Pretendard-Regular";
+  transition: background-color 0.2s ease;
+}
+
+.submit-button:hover {
+  background-color: #9bcef4;
+}
+
+button:disabled {
+  cursor: not-allowed; /* 마우스 커서를 '금지' 아이콘으로 변경 */
+  opacity: 0.5;        /* 버튼을 반투명하게 만들어 비활성화 상태임을 시각적으로 나타냄 */
+  /* 필요한 다른 스타일링 */
+}

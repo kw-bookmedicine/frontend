@@ -4,8 +4,33 @@ import PrescriptionReviewCard from "../components/PrescriptionReviewCard";
 import Slider from "../components/Slider";
 import "../styles/LoginHome.css";
 import { Link } from "react-router-dom";
+import Modal from "../components/Modal";
 
 const LoginHome = () => {
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [selectedEmotion, setSelectedEmotion] = useState("");
+
+  const openModal = () => {
+    setModalOpen(true);
+    setSelectedEmotion(""); // 모달을 열 때 selectedEmotion 초기화
+    document.body.style.overflow = "hidden"; // 스크롤 비활성화
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+    document.body.style.overflow = "auto"; // 스크롤 활성화
+  };
+
+  // 감정 매칭 객체
+  const emotionMappings = {
+    화남: "화가나는",
+    슬픔: "슬픈",
+    기쁨: "기쁜",
+    즐거움: "즐거운",
+    불안: "불안한",
+    외로움: "외로운",
+  };
+
   // 현재 날짜를 가져오기 위해 Date 객체를 사용
   const currentDate = new Date();
 
@@ -16,27 +41,17 @@ const LoginHome = () => {
     .toString()
     .padStart(2, "0")}.${currentDate.getDate().toString().padStart(2, "0")}`;
 
-  // 모달창에서 오늘의 감정 선택 후, 감정에 따른 todayEmotion 수정
-  const [todayEmotion, setTodayEmotion] = useState("즐거운");
-  
-  
-
   return (
     <>
       <Header />
       <div className="LoginHome-container">
-        <div className="LoginHome-banner">
-          {/* <div className="LoginHome-banner-contents">
-            <h2>
-              오늘의 감정은
-              <br />
-              알려주세요.
-            </h2>
-            <p>기쁨/ 불안/ 즐거움/ 슬픔/ 화남/ 외로움</p>
-          </div> */}
-        </div>
-
-        {/*  */}
+        <div className="LoginHome-banner" onClick={openModal}></div>
+        <Modal
+          isOpen={isModalOpen}
+          onClose={closeModal}
+          selectedEmotion={selectedEmotion}
+          setSelectedEmotion={setSelectedEmotion}
+        />
         <div className="LoginHome-main-container">
           <div className="LoginHome-today">
             <div className="LoginHome-today-item">
@@ -45,7 +60,9 @@ const LoginHome = () => {
                 <div className="LoginHome-today-item-contents-text">
                   오늘
                   <p className="LoginHome-today-item-contents-text-hightlight">
-                    {todayEmotion}
+                    {selectedEmotion === ""
+                      ? "\u00A0\u00A0\u00A0\u00A0"
+                      : emotionMappings[selectedEmotion]}
                   </p>
                   당신을 위한 책 처방
                 </div>
