@@ -22,16 +22,24 @@ const Mypage = () => {
 						<div className="user_right_wrapper">
 							<div className="right_userInfo_title_wrapper">
 								<div className="userInfo_name_text">사용자닉네임</div>
-								<div className="userInfo_rank">등급</div>
+								<Btn text={'등급'} type="rank" />
 							</div>
 							<div className="right_userInfo_comment_wrapper">
 								<div className="userInfo_comment">
 									나는 어디에서 왔을까? 내가 제일 좋아하는 색깔은 검정검정.나는
-									어디에서 왔을까?
+									어디에서 왔을까?나는 어디에서 왔을까? 내가 제일 좋아하는
+									색깔은 검정검정.나는 어디에서 왔을까? 내가 제일 좋아하는
+									색깔은 검정검정.나는 어디에서 왔을까? 내가 제일 좋아하는
+									색깔은 검정검정.나는 어디에서 왔을까? 내가 제일 좋아하는
+									색깔은 검정검정.나는 어디에서 왔을까? 내가 제일 좋아하는
+									색깔은 검정검정.나는 어디에서 왔을까? 내가 제일 좋아하는
+									색깔은 검정검정.나는 어디에서 왔을까? 내가 제일 좋아하는
+									색깔은 검정검정.나는 어디에서 왔을까? 내가 제일 좋아하는
+									색깔은 검정검정.
 								</div>
 							</div>
 							<div className="right_userInfo_btn_wrapper">
-								<Btn text={'수정'} />
+								<Btn text={'수정'} type="edit" />
 							</div>
 						</div>
 					</div>
@@ -49,11 +57,10 @@ const Mypage = () => {
 						<Btn text={'회원탈퇴'} type="exp" />
 						<Btn text={'로그아웃'} type="logout" />
 					</div>
+					<section className="myPage_footer">
+						<Footer />
+					</section>
 				</div>
-
-				<section className="myPage_footer">
-					<Footer />
-				</section>
 			</div>
 		</>
 	);

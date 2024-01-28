@@ -17,6 +17,8 @@
 }
 
 .myPage_banner {
+	position: static;
+	z-index: -1;
 	width: 100%;
 	height: 307px;
 	background: linear-gradient(93deg, #d5e0ff 0%, #d6fff7 93.25%);
@@ -25,18 +27,60 @@
 .myPage_content {
 	max-width: 1440px;
 	margin: 0 auto;
+	position: absolute;
+	z-index: 1;
+	margin-top: 214px;
 }
 
 .myPage_user_wrapper {
 	display: flex;
 	width: 1338px;
 	height: 184px;
-	flex-shrink: 0;
+}
+
+.user_left_wrapper {
+	width: 200px;
+	padding: 20px;
+	justify-content: center;
+	display: flex;
+	align-items: center;
+}
+
+.left_img_wrapper {
+	background: #ffdadf;
+	border: 3px solid #fff;
+	border-radius: 100%;
+	width: 130px;
+	height: 130px;
 }
 
 .user_right_wrapper {
 	display: flex;
 	flex-direction: column;
+	width: 1100px;
+}
+
+.right_userInfo_title_wrapper {
+	display: flex;
+	padding-top: 100px;
+
+	color: #000;
+	font-family: var(--basic-font);
+	font-weight: 700;
+	font-style: normal;
+	line-height: normal;
+}
+
+.userInfo_name_text {
+	font-weight: 700;
+	font-size: 28px;
+	margin-right: 14px;
+	margin-bottom: 14px;
+}
+
+.right_userInfo_btn_wrapper {
+	display: flex;
+	justify-content: flex-end;
 }
 
 .myPage_service_wrapper {
@@ -79,4 +123,9 @@
 	justify-content: space-around;
 	margin-top: 200px;
 	height: 142px;
+}
+
+.myPage_footer {
+	display: flex;
+	justify-content: center;
 }
