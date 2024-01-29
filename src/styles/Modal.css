@@ -101,6 +101,7 @@
   grid-template-rows: repeat(2, 1fr);
   grid-template-columns: repeat(3, 1fr);
   gap: 50px;
+  margin-bottom: 7%;
 }
 
 .modal-feeling > div {
@@ -137,7 +138,7 @@
 }
 
 .submit-button-container {
-  margin-top: 2%;
+  /* margin-top: 2%; */
   text-align: center;
 
 }
