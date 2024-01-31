@@ -97,10 +97,17 @@
 	color: #646464;
 	font-family: var(--basic-font);
 	/* font-family: 'Pretendard-Regular'; */
-	font-size: 20px;
+	font-size: 16px;
 	font-style: normal;
 	font-weight: 400;
 	line-height: normal;
+}
+
+.Btn-edit:hover {
+	background: #a4d6dd;
+
+	/* Drop Shadow */
+	box-shadow: 2px 2px 4px 0px rgba(119, 119, 119, 0.25);
 }
 
 .Btn-rank {
@@ -116,4 +123,97 @@
 	font-style: normal;
 	font-weight: 400;
 	line-height: normal;
+}
+
+/* 마이페이지 로그아웃 버튼 */
+.Btn-logout2 {
+	width: 180px;
+	height: 65px;
+	border-radius: 15px;
+	border: 3px solid #a4d6dd;
+	background: #fff;
+
+	/* Font */
+	color: #000;
+	font-family: var(--basic-font);
+	font-size: 24px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+}
+
+.Btn-logout2:hover {
+	width: 180px;
+	height: 65px;
+	border-radius: 15px;
+	background: #a4d6dd;
+
+	/* Font */
+	color: #000;
+	font-family: var(--basic-font);
+	font-size: 24px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+
+	/* Drop Shadow */
+	box-shadow: 2px 2px 4px 0px rgba(119, 119, 119, 0.25);
+}
+
+/* 마이페이지 회원탈퇴 버튼 */
+.Btn-withdraw {
+	width: 180px;
+	height: 65px;
+	border-radius: 15px;
+	border: 1px solid #000;
+	background: #fff;
+
+	/* Font */
+	color: #000;
+	font-family: var(--basic-font);
+	font-size: 24px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+}
+
+.Btn-withdraw:hover {
+	/* Drop Shadow */
+	box-shadow: 2px 2px 4px 0px rgba(119, 119, 119, 0.5);
+	/* text-shadow: 2px 2px 2px rgba(119, 119, 119, 0.5); */
+}
+
+.Btn-edit2 {
+	width: 133px;
+	height: 40px;
+	border-radius: 10px;
+	border: 1px solid #000;
+	background: #fff;
+
+	/* Font */
+	color: #000;
+	font-family: var(--basic-font);
+	font-size: 20px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+}
+
+.Btn-edit2:hover {
+	margin: 0;
+	border: none;
+	cursor: pointer;
+	text-align: center;
+
+	/* Font */
+	font-style: normal;
+	font-weight: 400;
+	font-family: var(--basic-font);
+	line-height: normal;
+	padding: 7px 10px;
+	/* background: #a4d6de; */
+	background: #d5e0ff;
+
+	/* Drop Shadow */
+	box-shadow: 2px 2px 4px 0px rgba(119, 119, 119, 0.25);
 }

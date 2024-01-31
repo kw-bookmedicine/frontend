@@ -54,8 +54,8 @@ const Mypage = () => {
 						<div className="info_alert_text">알림 설정</div>
 					</div>
 					<div className="myPage_button_wrapper">
-						<Btn text={'회원탈퇴'} type="exp" />
-						<Btn text={'로그아웃'} type="logout" />
+						<Btn text={'회원탈퇴'} type="withdraw" />
+						<Btn text={'로그아웃'} type="logout2" />
 					</div>
 					<section className="myPage_footer">
 						<Footer />

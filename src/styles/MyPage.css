@@ -9,6 +9,7 @@
 .myPage_container {
 	box-sizing: border-box;
 	max-width: 100vw;
+	height: 1500px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -111,6 +112,7 @@
 	margin-top: 20px;
 	padding-bottom: 10px;
 	border-bottom: 1px solid black;
+	cursor: pointer;
 }
 
 .myPage_info_wrapper {
@@ -120,12 +122,15 @@
 
 .myPage_button_wrapper {
 	display: flex;
-	justify-content: space-around;
 	margin-top: 200px;
 	height: 142px;
+	justify-content: space-around;
+	padding-right: 300px;
+	padding-left: 300px;
 }
 
 .myPage_footer {
 	display: flex;
 	justify-content: center;
+	margin-top: 100px;
 }
