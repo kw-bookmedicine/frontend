@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "../components/Header";
 import PrescriptionReviewCard from "../components/PrescriptionReviewCard";
 import Slider from "../components/Slider";
@@ -8,7 +8,17 @@ import Modal from "../components/Modal";
 
 const LoginHome = () => {
   const [isModalOpen, setModalOpen] = useState(false);
-  const [selectedEmotion, setSelectedEmotion] = useState("");
+  // const [selectedEmotion, setSelectedEmotion] = useState("");
+
+  // sessionStorage 임의로 사용, 다른 방법도 많은데, 새로고침만 해서 유지하는 sessionStorage를 활용함
+  const [selectedEmotion, setSelectedEmotion] = useState(() => {
+    const savedEmotion = sessionStorage.getItem("selectedEmotion");
+    return savedEmotion ? JSON.parse(savedEmotion) : "";
+  });
+
+  useEffect(() => {
+    sessionStorage.setItem("selectedEmotion", JSON.stringify(selectedEmotion));
+  }, [selectedEmotion]);
 
   const openModal = () => {
     setModalOpen(true);

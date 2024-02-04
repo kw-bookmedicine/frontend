@@ -161,6 +161,46 @@ const Search = () => {
       subtitle: "동양, 서양, 예술, 경제",
       image: bookImg8,
     },
+    {
+      title: "소설",
+      subtitle: "추리·스릴러, SF, 판타지, 로맨스",
+      image: bookImg1,
+    },
+    {
+      title: "외국어",
+      subtitle: "영어, 일본어, 중국어, 프랑스어, 스페인어, 독일어",
+      image: bookImg2,
+    },
+    {
+      title: "에세이",
+      subtitle: "시, 일상, 위로, 힐링, 여행, 행복, 감성",
+      image: bookImg3,
+    },
+    {
+      title: "IT",
+      subtitle: "개발·프로그래밍, 그래픽, IT교양, e비즈니스",
+      image: bookImg4,
+    },
+    {
+      title: "경제경영",
+      subtitle: "4차 산업혁명, 마케팅, 세계 경제, 한국경제, 부자, 재태크",
+      image: bookImg5,
+    },
+    {
+      title: "인문",
+      subtitle: "인문학, 문명, 문화, 심리학, 독서, 강의, 글쓰기",
+      image: bookImg6,
+    },
+    {
+      title: "자기계발",
+      subtitle: "성공, 말하기, 협상, 시간 관리, 태도, 습관",
+      image: bookImg7,
+    },
+    {
+      title: "철학",
+      subtitle: "동양, 서양, 예술, 경제",
+      image: bookImg8,
+    },
   ];
 
 
