@@ -10,6 +10,7 @@ const Button = ({ text, type }) => {
 		'logout2',
 		'exp',
 		'edit',
+		'editConfirm',
 		'rank',
 		'withdraw',
 	].includes(type)

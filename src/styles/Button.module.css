@@ -217,3 +217,24 @@
 	/* Drop Shadow */
 	box-shadow: 2px 2px 4px 0px rgba(119, 119, 119, 0.25);
 }
+
+/* 마이페이지 닉네임, 비밀번호, 직업 수정 버튼 */
+.Btn-editConfirm {
+	width: 1000px;
+	height: 40px;
+	border-radius: 10px;
+	background: #d3e7f6;
+
+	/* Font */
+	color: #000;
+	font-family: var(--basic-font);
+	font-size: 20px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+}
+
+.Btn-editConfirm:hover {
+	/* Drop Shadow */
+	box-shadow: 2px 2px 4px 0px rgba(119, 119, 119, 0.25);
+}
