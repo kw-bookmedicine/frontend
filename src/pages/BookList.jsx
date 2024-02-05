@@ -39,7 +39,7 @@ const BookList = () => {
 
 		axios.get('https://koreanjson.com/users').then((res) => {
 			setMidCategory(res.data);
-			console.log(res.data);
+			// console.log(res.data);
 		});
 	}, []);
 
@@ -49,13 +49,24 @@ const BookList = () => {
 				<div className="bookList_inner">
 					<Header />
 					<div className="bookList_title">{bigCategory}</div>
-					<Title title={`${bigCategory} 전체보기`} type={'shadow'} />
+					<Title
+						bigCategory={bigCategory}
+						title={`${bigCategory} 전체보기`}
+						type={'shadow'}
+					/>
 					<div className="bookList_wrapper">
 						{midCategory.map((e) => {
 							// console.log(name);
 							// setNameList(e.name);
 							// key 값 중분류에 맞게 변경해야됨.
-							return <BookListSlide key={e.id} title={e.id} author={e.name} />;
+							return (
+								<BookListSlide
+									key={e.id}
+									bigCategory={bigCategory}
+									title={e.id}
+									author={e.name}
+								/>
+							);
 						})}
 					</div>
 				</div>

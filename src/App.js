@@ -54,7 +54,7 @@ function App() {
 
 					<Route path="/book-detail" element={<BookDetail />} />
 					<Route path="/book/list/:title" element={<BookList />} />
-					<Route path="/book/category" element={<SmallCategory />} />
+					<Route path="/book/:title/:category" element={<SmallCategory />} />
 				</Routes>
 			</div>
 		</BrowserRouter>
