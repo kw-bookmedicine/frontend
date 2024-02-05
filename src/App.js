@@ -13,6 +13,8 @@ import Join from './pages/Join';
 import Join2 from './pages/Join2';
 import Registration from './pages/Registration';
 import BookList from './pages/BookList';
+import Edit from './pages/Edit';
+import UserInfo from './pages/UserInfo';
 
 // STYLE
 import GlobalStyles from './styles/GlobalStyles';
@@ -41,6 +43,8 @@ function App() {
 					<Route path="/feed" element={<Feed />} />
 					<Route path="/search" element={<Search />} />
 					<Route path="/mypage" element={<Mypage />} />
+					<Route path="/edit" element={<Edit />} />
+					<Route path="/edit/:page" element={<UserInfo />} />
 
 					<Route path="/login" element={<Login />} />
 					<Route path="/join" element={<Join />} />
