@@ -13,6 +13,7 @@ import Join from './pages/Join';
 import Join2 from './pages/Join2';
 import Registration from './pages/Registration';
 import BookList from './pages/BookList';
+import SmallCategory from './pages/SmallCategory';
 import Edit from './pages/Edit';
 import UserInfo from './pages/UserInfo';
 
@@ -53,6 +54,7 @@ function App() {
 
 					<Route path="/book-detail" element={<BookDetail />} />
 					<Route path="/book/list/:title" element={<BookList />} />
+					<Route path="/book/category" element={<SmallCategory />} />
 				</Routes>
 			</div>
 		</BrowserRouter>
