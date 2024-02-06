@@ -1,0 +1,196 @@
+.edit_container {
+	box-sizing: border-box;
+	max-width: 100vw;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	font-family: 'Pretendard-Regular';
+}
+
+.edit_title_wrapper {
+	width: -moz-available; /* WebKit-based browsers will ignore this. */
+	width: -webkit-fill-available; /* Mozilla-based browsers will ignore this. */
+	width: fill-available;
+	height: 55px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: #fff;
+	box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.edit_title_text {
+	color: #000;
+	text-align: center;
+	font-family: 'Pretendard-Regular';
+	font-size: 24px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: normal;
+}
+
+.edit_content_wrapper {
+	margin: 0 auto;
+	max-width: 1440px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.edit_profile_img_wrapper {
+	max-width: 1440px;
+	height: 230px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding-top: 80px;
+}
+
+.edit_profile_img {
+	width: 150px;
+	height: 150px;
+	border-radius: 100%;
+	border: 3px solid #fff;
+	background: #ffdadf;
+	/* background: url(<path-to-image>), lightgray 50% cover no-repeat; */
+}
+
+.edit_user_info_wrapper {
+	width: 1338px;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: center;
+	margin-top: 130px;
+	padding-left: 80px;
+}
+
+.user_nickname_wrapper,
+.user_id_wrapper,
+.user_password_wrapper,
+.user_email_wrapper,
+.user_birthday_wrapper,
+.user_job_wrapper,
+.user_gender_wrapper {
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 32px;
+}
+
+.nickname_input_wrapper,
+.password_input_wrapper {
+	display: flex;
+	align-items: center;
+}
+
+.input_title {
+	color: #000;
+	font-family: var(--basic-font);
+	font-size: 24px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: normal;
+	margin-bottom: 14px;
+}
+
+.nickname_text,
+.password_text {
+	display: flex;
+	align-items: center;
+	width: 1000px;
+	height: 40px;
+	border: 1px solid black;
+	border-radius: 10px;
+	background: #fff;
+	margin-right: 24px;
+	padding-left: 10px;
+
+	/* Font */
+	color: #000;
+	font-family: var(--basic-font);
+	font-size: 20px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+}
+
+.id_text,
+.email_text {
+	display: flex;
+	align-items: center;
+	width: 1000px;
+	height: 40px;
+	border-radius: 10px;
+	background: #d5e0ff;
+	margin-right: 24px;
+	padding-left: 10px;
+
+	/* Font */
+	color: #000;
+	font-family: var(--basic-font);
+	font-size: 20px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+}
+
+.birthday_text {
+	display: flex;
+	align-items: center;
+	width: 211px;
+	height: 40px;
+	border-radius: 10px;
+	background: #d5e0ff;
+	padding-left: 10px;
+
+	/* Font */
+	color: #000;
+	font-family: var(--basic-font);
+	font-size: 20px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+}
+
+.job_input_wrapper {
+	display: flex;
+}
+
+.job_text {
+	display: flex;
+	align-items: center;
+	width: 211px;
+	height: 40px;
+	border-radius: 10px;
+	border: 1px solid #000;
+	background: #fff;
+	padding-left: 10px;
+	margin-right: 24px;
+
+	/* Font */
+	color: #000;
+	font-family: var(--basic-font);
+	font-size: 20px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+}
+
+.gender_text {
+	display: flex;
+	align-items: center;
+	padding-left: 10px;
+	width: 69px;
+	height: 40px;
+	border-radius: 10px;
+	background: #d5e0ff;
+
+	/* Font */
+	color: #000;
+	font-family: var(--basic-font);
+	font-size: 20px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+}

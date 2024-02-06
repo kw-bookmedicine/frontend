@@ -7,15 +7,15 @@ import Header from "../components/Header";
 import SearchResultList from "../components/SearchResultList";
 
 // STYLES
-import "../styles/SearchStyles.css";
-import bookImg1 from "../assets/category-book-img1.png";
-import bookImg2 from "../assets/category-book-img2.png";
-import bookImg3 from "../assets/category-book-img3.png";
-import bookImg4 from "../assets/category-book-img4.png";
-import bookImg5 from "../assets/category-book-img5.png";
-import bookImg6 from "../assets/category-book-img6.png";
-import bookImg7 from "../assets/category-book-img7.png";
-import bookImg8 from "../assets/category-book-img8.png";
+import '../styles/SearchStyles.css';
+import bookImg1 from '../assets/category-book-img1.png';
+import bookImg2 from '../assets/category-book-img2.png';
+import bookImg3 from '../assets/category-book-img3.png';
+import bookImg4 from '../assets/category-book-img4.png';
+import bookImg5 from '../assets/category-book-img5.png';
+import bookImg6 from '../assets/category-book-img6.png';
+import bookImg7 from '../assets/category-book-img7.png';
+import bookImg8 from '../assets/category-book-img8.png';
 
 const Search = () => {
   const [input, setInput] = useState("");
