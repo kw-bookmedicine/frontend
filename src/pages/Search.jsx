@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
 // COMPONENTS
 import Header from "../components/Header";
+import SearchResultList from "../components/SearchResultList";
 
 // STYLES
 import "../styles/SearchStyles.css";
@@ -18,6 +19,7 @@ import bookImg8 from "../assets/category-book-img8.png";
 
 const Search = () => {
   const [input, setInput] = useState("");
+  const [bookData, setData] = useState([]);
 
   // 카테고리 배경 색상
   const categoryColors = [
@@ -35,10 +37,12 @@ const Search = () => {
   const renderCategoryItem = ({ title, subtitle, image }, index) => (
     <Link to={`/${title}-중분류-페이지`} key={index}>
       <div className="category-item-wrapper">
-        {/* <div className="category-grid-item" style={{ backgroundColor: categoryColors[index] }}> */}
+        {/* 1~8색상으로 반복 적용*/}
         <div
           className="category-grid-item"
-          style={{ backgroundColor: categoryColors[index] }}
+          style={{
+            backgroundColor: categoryColors[index % categoryColors.length],
+          }}
         >
           <div className="category-grid-description">
             <h2 className="category-grid-item-title">{title}</h2>
@@ -163,29 +167,113 @@ const Search = () => {
     },
   ];
 
+  const handleChange = (value) => {
+    setInput(value);
+  };
+
+  const searchBook = (evt) => {
+    // console.log(evt);
+    // console.log(evt.target);
+    // console.log(evt.target.name);
+    if (evt.key === "Enter" || evt.target.name === "search-button") {
+      console.log("hello");
+      axios
+        .get(
+          `https://www.googleapis.com/books/v1/volumes?q=${input}&key=AIzaSyDUtFpAVpNPHCEW-pxSxpTHSACNjko_MCc` +
+            "&maxResults=10"
+        )
+        .then((res) => {
+          setData(res.data.items.slice(0, 7));
+          // console.log("success");
+        })
+        .catch((err) => console.log(err));
+    }
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      // 빈 문자열일 때 API 호출 방지
+      if (input.trim() !== "") {
+        axios
+          .get(
+            `https://www.googleapis.com/books/v1/volumes?q=${input}&key=AIzaSyDUtFpAVpNPHCEW-pxSxpTHSACNjko_MCc&maxResults=10`
+          )
+          .then((res) => {
+            setData(res.data.items ? res.data.items : []);
+            console.log("success");
+            console.log(input);
+          })
+          .catch((err) => console.log(err));
+      }
+    }, 100);
+
+    // cleanup 함수를 반환하여 컴포넌트가 언마운트될 때 타이머를 해제합니다.
+    return () => clearTimeout(timer);
+  }, [input]);
+
+  const [isShow, setIsShow] = useState(false);
+
+  const handleSearchResultClose = () => {
+    setIsShow(false);
+  };
+
+  const handleSearchResultShow = () => {
+    setIsShow(true);
+  };
 
   return (
-    <div>
+    <div onClick={handleSearchResultClose}>
       <Header />
 
       {/* 검색 페이지 전체 */}
       <section className="search-container">
         {/* 검색 창 */}
-        <section className="search-wrapper">
+        <section
+          className="search-wrapper"
+          onClick={(e) => {
+            e.stopPropagation();
+            handleSearchResultShow();
+          }}
+        >
           <label>
             <div className="search-wrap-inner">
               {/* 검색창에 라벨 적용해보기 */}
               {/* 책 렌더링했던 유튜브 영상을 활용해서 검색창 누르면 밑에 책보여주는 방법으로 활용하기 */}
-              <button className="search-button"></button>
+              <button
+                className="search-button"
+                onClick={searchBook}
+                name="search-button"
+              />
               <input
                 type="text"
                 placeholder="검색어를 입력하세요"
                 className="search-input"
                 value={input}
-                onChange={(e) => setInput(e.target.value)}
-              ></input>
+                onChange={(e) => {
+                  setInput(e.target.value);
+                }}
+                onKeyPress={searchBook}
+              />
+              {input.length > 0 ? (
+                <button
+                  className="search-close-button"
+                  onClick={(e) => {
+                    setInput("");
+                  }}
+                >
+                  X
+                </button>
+              ) : null}
             </div>
           </label>
+          {input.length > 0 && isShow ? (
+            <SearchResultList
+              book={bookData}
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+            />
+          ) : null}
         </section>
 
         {/* 추천 검색어 */}
@@ -199,7 +287,6 @@ const Search = () => {
           <h2 className="recommend-title">카테고리</h2>
           <div className="category-items">
             {categories.map((category, index) => {
-              console.log(category, index);
               return renderCategoryItem(category, index);
             })}
           </div>
