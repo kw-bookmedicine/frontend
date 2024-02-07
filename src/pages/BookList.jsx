@@ -19,7 +19,6 @@ const BookList = () => {
 
 	// 중분류
 	const [midCategory, setMidCategory] = useState([]);
-	const [nameList, setNameList] = useState([]);
 
 	const categories = [
 		{
@@ -112,7 +111,8 @@ const BookList = () => {
 				'기타제어',
 			],
 			문학: [
-				'한국문학',
+				// smallCategory 페이지 api 테스트 위해서 한국문학 -> 한국소설로 바꿈
+				'한국소설',
 				'중국문학',
 				'일본문학·기타아시아문학',
 				'영미문학',
@@ -135,8 +135,6 @@ const BookList = () => {
 			],
 		},
 	];
-
-	let name = [];
 
 	// 초기에 랜더링될 때 한 번만 실행
 	useEffect(() => {
@@ -201,8 +199,7 @@ const BookList = () => {
 								<BookListSlide
 									key={e}
 									bigCategory={bigCategory}
-									title={e}
-									// author={e.name}
+									midCategoryTitle={e}
 								/>
 							);
 						})}
