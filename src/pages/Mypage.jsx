@@ -18,7 +18,7 @@ const Mypage = () => {
 				<div className="myPage_content">
 					<div className="myPage_user_wrapper">
 						<div className="user_left_wrapper">
-							<div className="left_img_wrapper"></div>
+							<div className="user_left_img_wrapper"></div>
 						</div>
 						<div className="user_right_wrapper">
 							<div className="right_userInfo_title_wrapper">
