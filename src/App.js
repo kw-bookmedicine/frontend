@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import Main from './pages/LoginHome';
 import Feed from './pages/Feed';
+import MyFeed from './pages/MyFeed';
 import Search from './pages/Search';
 import Mypage from './pages/Mypage';
 import BookDetail from './pages/BookDetail';
@@ -44,6 +45,7 @@ function App() {
 					<Route path="/feed" element={<Feed />} />
 					<Route path="/search" element={<Search />} />
 					<Route path="/mypage" element={<Mypage />} />
+					<Route path="/myfeed" element={<MyFeed />} />
 					<Route path="/edit" element={<Edit />} />
 					<Route path="/edit/:page" element={<UserInfo />} />
 

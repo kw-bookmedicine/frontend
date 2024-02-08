@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 // COMPONENTS
 import Header from '../components/Header';
@@ -46,11 +47,15 @@ const Mypage = () => {
 					<div className="myPage_service_wrapper">
 						<div className="service_title">서비스 관리</div>
 						<div className="service_userReview_text">복용내역</div>
-						<div className="service_userFeed_text">내 피드</div>
+						<Link to={'/myfeed'}>
+							<div className="service_userFeed_text">내 피드</div>
+						</Link>
 					</div>
 					<div className="myPage_info_wrapper">
 						<div className="info_title">정보 관리</div>
-						<div className="info_myInfo_text">내 정보 관리</div>
+						<Link to={'/edit'}>
+							<div className="info_myInfo_text">내 정보 관리</div>
+						</Link>
 						<div className="info_alert_text">알림 설정</div>
 					</div>
 					<div className="myPage_button_wrapper">
