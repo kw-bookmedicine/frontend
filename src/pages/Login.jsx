@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { styled } from "styled-components";
 import kakaoIcon from "../assets/kakao-icon.jpg";
 import naverIcon from "../assets/naver-icon.jpg";
+import axios from "axios";
 
 const LoginContainer = styled.div`
   display: flex;
@@ -180,7 +181,7 @@ export default function Login() {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    
+
     if (name === "id") {
       setId(value);
       if (value.length >= 4) {
@@ -219,6 +220,13 @@ export default function Login() {
     }
     setNotAllow(true);
   }, [idValid, pwdValid]);
+
+  axios
+    .get(
+      "https://port-0-backend-book-pharmacy-umnqdut2blqqhv7sd.sel5.cloudtype.app/api/keyword/client?id=1"
+    )
+    .then((res) => console.log(res))
+    .catch((err) => console.log(err));
 
   return (
     <LoginContainer>

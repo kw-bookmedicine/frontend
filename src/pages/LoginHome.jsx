@@ -1,25 +1,57 @@
+import { useState } from "react";
 import Header from "../components/Header";
 import PrescriptionReviewCard from "../components/PrescriptionReviewCard";
 import Slider from "../components/Slider";
 import "../styles/LoginHome.css";
 import { Link } from "react-router-dom";
+import Modal from "../components/Modal";
 
 const LoginHome = () => {
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [selectedEmotion, setSelectedEmotion] = useState("");
+
+  const openModal = () => {
+    setModalOpen(true);
+    setSelectedEmotion(""); // 모달을 열 때 selectedEmotion 초기화
+    document.body.style.overflow = "hidden"; // 스크롤 비활성화
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+    document.body.style.overflow = "auto"; // 스크롤 활성화
+  };
+
+  // 감정 매칭 객체
+  const emotionMappings = {
+    화남: "화가나는",
+    슬픔: "슬픈",
+    기쁨: "기쁜",
+    즐거움: "즐거운",
+    불안: "불안한",
+    외로움: "외로운",
+  };
+
+  // 현재 날짜를 가져오기 위해 Date 객체를 사용
+  const currentDate = new Date();
+
+  // 날짜를 포맷에 맞게 문자열로 만들기
+  const formattedDate = `${currentDate.getFullYear()}.${(
+    currentDate.getMonth() + 1
+  )
+    .toString()
+    .padStart(2, "0")}.${currentDate.getDate().toString().padStart(2, "0")}`;
+
   return (
     <>
       <Header />
       <div className="LoginHome-container">
-        <div className="LoginHome-banner">
-          {/* <div className="LoginHome-banner-contents">
-            <h2>
-              오늘의 감정은
-              <br />
-              알려주세요.
-            </h2>
-            <p>기쁨/ 불안/ 즐거움/ 슬픔/ 화남/ 외로움</p>
-          </div> */}
-        </div>
-
+        <div className="LoginHome-banner" onClick={openModal}></div>
+        <Modal
+          isOpen={isModalOpen}
+          onClose={closeModal}
+          selectedEmotion={selectedEmotion}
+          setSelectedEmotion={setSelectedEmotion}
+        />
         <div className="LoginHome-main-container">
           <div className="LoginHome-today">
             <div className="LoginHome-today-item">
@@ -28,7 +60,9 @@ const LoginHome = () => {
                 <div className="LoginHome-today-item-contents-text">
                   오늘
                   <p className="LoginHome-today-item-contents-text-hightlight">
-                    즐거운
+                    {selectedEmotion === ""
+                      ? "\u00A0\u00A0\u00A0\u00A0"
+                      : emotionMappings[selectedEmotion]}
                   </p>
                   당신을 위한 책 처방
                 </div>
@@ -36,7 +70,7 @@ const LoginHome = () => {
                 <h3 className="LoginHome-today-item-contents-title">책 제목</h3>
                 <h4>저자</h4>
                 <h3 className="LoginHome-today-item-contents-date">
-                  2024.01.13.
+                  {formattedDate}
                 </h3>
               </div>
             </div>
@@ -95,7 +129,9 @@ const LoginHome = () => {
                   bookImg={""}
                   bookCategory={"서시"}
                   author={"윤동주"}
-                  review={"죽는 날까지 하늘을 우러러 한 점 부끄럼이 없기를"}
+                  review={
+                    "죽는 날까지 하늘을 우러러 한 점 부끄럼이 없기를죽는 날까지 하늘을 우러러 한 점 부끄럼이 없기를죽는 날까지 하늘을 우러러 한 점 부끄럼이 없기를죽는 날까지 하늘을 우러러 한 점 부끄럼이 없기를죽는 날까지 하늘을 우러러 한 점 부끄럼이 없기를"
+                  }
                   userImg={""}
                   userNickname={"유저 닉네임"}
                 />

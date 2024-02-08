@@ -1,6 +1,6 @@
 import React from 'react'
 
-function PrescriptionReviewCard({
+const PrescriptionReviewCard = ({
   reviewDate,
   bookImg,
   bookCategory,
@@ -8,7 +8,7 @@ function PrescriptionReviewCard({
   review,
   userImg,
   userNickname,
-}) {
+}) => {
   return (
     <div className="LoginHome-today-reviews-items-card">
       <p className="LoginHome-today-reviews-items-card-date">{reviewDate}</p>

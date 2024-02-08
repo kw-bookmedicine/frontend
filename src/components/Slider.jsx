@@ -10,7 +10,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 
-function Slider({ title, subtitle, isBestSeller, bookTitle, bookAuthor }) {
+const Slider = ({ title, subtitle, isBestSeller, bookTitle, bookAuthor }) => {
   const numberOfSlides = 10;
 
   const slides = Array.from({ length: numberOfSlides }, (_, index) => (

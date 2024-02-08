@@ -14,6 +14,9 @@ import Join from './pages/Join';
 import Join2 from './pages/Join2';
 import Registration from './pages/Registration';
 import BookList from './pages/BookList';
+import SmallCategory from './pages/SmallCategory';
+import Edit from './pages/Edit';
+import UserInfo from './pages/UserInfo';
 
 // STYLE
 import GlobalStyles from './styles/GlobalStyles';
@@ -43,6 +46,8 @@ function App() {
 					<Route path="/search" element={<Search />} />
 					<Route path="/mypage" element={<Mypage />} />
 					<Route path="/myfeed" element={<MyFeed />} />
+					<Route path="/edit" element={<Edit />} />
+					<Route path="/edit/:page" element={<UserInfo />} />
 
 					<Route path="/login" element={<Login />} />
 					<Route path="/join" element={<Join />} />
@@ -51,6 +56,7 @@ function App() {
 
 					<Route path="/book-detail" element={<BookDetail />} />
 					<Route path="/book/list/:title" element={<BookList />} />
+					<Route path="/book/:title/:category" element={<SmallCategory />} />
 				</Routes>
 			</div>
 		</BrowserRouter>
