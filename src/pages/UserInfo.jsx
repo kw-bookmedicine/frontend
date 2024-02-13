@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Btn from '../components/Button';
+import DropDown from '../components/DropDown';
 
 // STYLES
 import '../styles/UserInfo.css';
@@ -14,7 +15,7 @@ const UserInfo = () => {
 	const { page } = useParams();
 	let option = '';
 	useEffect(() => {
-		setPageName({ page });
+		// setPageName({ page });
 	});
 
 	if (page === 'nickname') {
@@ -63,7 +64,8 @@ const UserInfo = () => {
 						</div>
 						<div className="userInfo_after_wrapper">
 							<div className="after_title">변경 {option}</div>
-							<div className="userInfo_job_menu">직업</div>
+							{/* <div className="userInfo_job_menu">직업</div> */}
+							<DropDown DropDownTitle={'직업'} />
 						</div>
 						<Btn text={'수정하기'} type="editConfirm" />
 					</div>
