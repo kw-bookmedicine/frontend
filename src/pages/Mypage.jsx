@@ -1,15 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 // COMPONENTS
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Btn from '../components/Button';
+import ModalPortal from '../components/Modal/Portal';
+import MyListModal from '../components/Modal/MyListModal';
 
 // STYLES
 import '../styles/MyPage.css';
 
 const Mypage = () => {
+	const [modalOn, setModalOn] = useState(false);
+
+	const handleModal = () => {
+		setModalOn(!modalOn);
+	};
+
 	return (
 		<>
 			<Header />
@@ -46,7 +54,13 @@ const Mypage = () => {
 					</div>
 					<div className="myPage_service_wrapper">
 						<div className="service_title">서비스 관리</div>
-						<div className="service_userReview_text">복용내역</div>
+						<div onClick={handleModal} className="service_userReview_text">
+							복용내역
+						</div>
+						<ModalPortal>
+							{modalOn && <MyListModal onClose={handleModal} />}
+						</ModalPortal>
+
 						<Link to={'/myfeed'}>
 							<div className="service_userFeed_text">내 피드</div>
 						</Link>
