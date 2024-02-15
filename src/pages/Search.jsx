@@ -77,7 +77,7 @@ const Search = () => {
 
   // 카테고리 아이템을 렌더링하는 함수
   const renderCategoryItem = ({ title, subtitle, image }, index) => (
-    <Link to={`/${title}-중분류-페이지`} key={index}>
+    <Link to={`/book/list/${title}`} key={index}>
       <div className="category-item-wrapper">
         {/* 1~10색상으로 반복 적용*/}
         <div
