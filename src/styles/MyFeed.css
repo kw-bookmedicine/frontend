@@ -1,0 +1,35 @@
+.myFeed_container {
+	margin: 0 auto;
+	max-width: 1440px;
+	padding: 24px;
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+}
+
+.myFeed_title_wrapper {
+	display: flex;
+	justify-content: flex-start;
+	width: auto;
+	height: 50px;
+	padding-top: 10px;
+	margin-top: 24px;
+}
+
+.myFeed_title {
+	color: #000;
+	font-family: 'Pretendard-Regular';
+	font-size: 24px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: normal;
+}
+
+.myFeed_content_wrapper {
+	max-width: 1440px;
+	height: 500px;
+	display: flex;
+	-ms-flex-align: flex-start;
+	justify-content: flex-start;
+	margin-top: 20px;
+}
