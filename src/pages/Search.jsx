@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import axios from "axios";
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 // COMPONENTS
-import Header from "../components/Header";
-import SearchResultList from "../components/SearchResultList";
+import Header from '../components/Header';
+import SearchResultList from '../components/SearchResultList';
 
 // STYLES
 import "../styles/SearchStyles.css";
@@ -90,123 +90,84 @@ const Search = () => {
             <h3 className="category-grid-item-subtitle">{subtitle}</h3>
           </div>
 
-          <img src={image} alt="" className="category-grid-item-image" />
-        </div>
-      </div>
-    </Link>
-  );
+					<img src={image} alt="" className="category-grid-item-image" />
+				</div>
+			</div>
+		</Link>
+	);
 
-  // 함수로 추천 키워드 리스트를 생성하는 함수
-  const renderKeywordList = (title, keywords) => (
-    <section className="recommend-word-wrapper">
-      <h2 className="recommend-title">{title}</h2>
-      <ul className="recommend-keyword-wrapper">
-        {keywords.map((keyword, index) => (
-          <li key={index}>
-            <Link to={`/result/${keyword}-책목록-페이지`}>{keyword}</Link>
-          </li>
-        ))}
-      </ul>
-    </section>
-  );
+	// 함수로 추천 키워드 리스트를 생성하는 함수
+	const renderKeywordList = (title, keywords) => (
+		<section className="recommend-word-wrapper">
+			<h2 className="recommend-title">{title}</h2>
+			<ul className="recommend-keyword-wrapper">
+				{keywords.map((keyword, index) => (
+					<li key={index}>
+						<Link to={`/result/${keyword}-책목록-페이지`}>{keyword}</Link>
+					</li>
+				))}
+			</ul>
+		</section>
+	);
 
-  // 추천 검색어 리스트
-  const recommendedSearchKeywords = [
-    "감정",
-    "해리포터",
-    "화장품",
-    "하늘 높이 비상",
-    "감정",
-    "해리포터",
-    "화장품",
-    "하늘 높이 비상",
-    "감정",
-    "해리포터",
-    "화장품",
-    "하늘 높이 비상",
-    "감정",
-    "해리포터",
-    "화장품",
-    "하늘 높이 비상",
-    "감정",
-    "해리포터",
-    "화장품",
-    "하늘 높이 비상",
-    "감정",
-    "해리포터",
-    "화장품",
-    "하늘 높이 비상",
-    // Add more keywords as needed
-  ];
+	// 추천 검색어 리스트
+	const recommendedSearchKeywords = [
+		'감정',
+		'해리포터',
+		'화장품',
+		'하늘 높이 비상',
+		'감정',
+		'해리포터',
+		'화장품',
+		'하늘 높이 비상',
+		'감정',
+		'해리포터',
+		'화장품',
+		'하늘 높이 비상',
+		'감정',
+		'해리포터',
+		'화장품',
+		'하늘 높이 비상',
+		'감정',
+		'해리포터',
+		'화장품',
+		'하늘 높이 비상',
+		'감정',
+		'해리포터',
+		'화장품',
+		'하늘 높이 비상',
+		// Add more keywords as needed
+	];
 
-  // 사용자 추천 키워드 리스트
-  const userRecommendedKeywords = [
-    "#감정",
-    "#해리포터",
-    "#화장품",
-    "#하늘 높이 비상",
-    "#감정",
-    "#해리포터",
-    "#화장품",
-    "#하늘 높이 비상",
-    "#감정",
-    "#해리포터",
-    "#화장품",
-    "#하늘 높이 비상",
-    "#감정",
-    "#해리포터",
-    "#화장품",
-    "#하늘 높이 비상",
-    // Add more keywords as needed
-  ];
+	// 사용자 추천 키워드 리스트
+	const userRecommendedKeywords = [
+		'#감정',
+		'#해리포터',
+		'#화장품',
+		'#하늘 높이 비상',
+		'#감정',
+		'#해리포터',
+		'#화장품',
+		'#하늘 높이 비상',
+		'#감정',
+		'#해리포터',
+		'#화장품',
+		'#하늘 높이 비상',
+		'#감정',
+		'#해리포터',
+		'#화장품',
+		'#하늘 높이 비상',
+		// Add more keywords as needed
+	];
 
   const handleKeywordClick = (keyword) => {
     // 키워드를 클릭하면 검색어를 업데이트
     setInput(keyword);
   };
-  //     subtitle: "추리·스릴러, SF, 판타지, 로맨스",
-  //     image: bookImg1,
-  //   },
-  //   {
-  //     title: "외국어",
-  //     subtitle: "영어, 일본어, 중국어, 프랑스어, 스페인어, 독일어",
-  //     image: bookImg2,
-  //   },
-  //   {
-  //     title: "에세이",
-  //     subtitle: "시, 일상, 위로, 힐링, 여행, 행복, 감성",
-  //     image: bookImg3,
-  //   },
-  //   {
-  //     title: "IT",
-  //     subtitle: "개발·프로그래밍, 그래픽, IT교양, e비즈니스",
-  //     image: bookImg4,
-  //   },
-  //   {
-  //     title: "경제경영",
-  //     subtitle: "4차 산업혁명, 마케팅, 세계 경제, 한국경제, 부자, 재태크",
-  //     image: bookImg5,
-  //   },
-  //   {
-  //     title: "인문",
-  //     subtitle: "인문학, 문명, 문화, 심리학, 독서, 강의, 글쓰기",
-  //     image: bookImg6,
-  //   },
-  //   {
-  //     title: "자기계발",
-  //     subtitle: "성공, 말하기, 협상, 시간 관리, 태도, 습관",
-  //     image: bookImg7,
-  //   },
-  //   {
-  //     title: "철학",
-  //     subtitle: "동양, 서양, 예술, 경제",
-  //     image: bookImg8,
-  //   },
-  // ];
 
-  const handleChange = (value) => {
-    setInput(value);
-  };
+	const handleChange = (value) => {
+		setInput(value);
+	};
 
   const searchBook = (evt) => {
     // console.log(evt);
@@ -244,23 +205,23 @@ const Search = () => {
       }
     }, 100);
 
-    // cleanup 함수를 반환하여 컴포넌트가 언마운트될 때 타이머를 해제합니다.
-    return () => clearTimeout(timer);
-  }, [input]);
+		// cleanup 함수를 반환하여 컴포넌트가 언마운트될 때 타이머를 해제합니다.
+		return () => clearTimeout(timer);
+	}, [input]);
 
-  const [isShow, setIsShow] = useState(false);
+	const [isShow, setIsShow] = useState(false);
 
-  const handleSearchResultClose = () => {
-    setIsShow(false);
-  };
+	const handleSearchResultClose = () => {
+		setIsShow(false);
+	};
 
-  const handleSearchResultShow = () => {
-    setIsShow(true);
-  };
+	const handleSearchResultShow = () => {
+		setIsShow(true);
+	};
 
-  return (
-    <div onClick={handleSearchResultClose}>
-      <Header />
+	return (
+		<div onClick={handleSearchResultClose}>
+			<Header />
 
       {/* 검색 페이지 전체 */}
       <section className="search-container">
@@ -313,11 +274,11 @@ const Search = () => {
           ) : null}
         </section>
 
-        {/* 추천 검색어 */}
-        {renderKeywordList("추천검색어", recommendedSearchKeywords)}
+				{/* 추천 검색어 */}
+				{renderKeywordList('추천검색어', recommendedSearchKeywords)}
 
-        {/* 사용자 추천 키워드 */}
-        {renderKeywordList("사용자 추천 키워드", userRecommendedKeywords)}
+				{/* 사용자 추천 키워드 */}
+				{renderKeywordList('사용자 추천 키워드', userRecommendedKeywords)}
 
         {/* 카테고리 */}
         <section className="category-wrapper">
