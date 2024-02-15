@@ -25,25 +25,28 @@ const Search = () => {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    axios
-      .get(
-        "https://port-0-backend-book-pharmacy-umnqdut2blqqhv7sd.sel5.cloudtype.app/api/category/big"
-      )
-      .then((response) => {
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get(
+          "https://port-0-backend-book-pharmacy-umnqdut2blqqhv7sd.sel5.cloudtype.app/api/category/big"
+        );
         const fetchedCategories = response.data;
         const transformedCategories = Object.keys(fetchedCategories).map(
           (key, index) => ({
             title: key,
             subtitle: fetchedCategories[key].join(", "),
-            image: defaultImages[index],
+            image: defaultImages[index % defaultImages.length], // 이미지 배열의 길이를 넘지 않도록 처리
           })
         );
         setCategories(transformedCategories);
-        console.log(fetchedCategories);
-        console.log(transformedCategories);
-      })
-      .catch((error) => console.error("Error fetching categories:", error));
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+
+    fetchCategories();
   }, []);
+
 
 
   // 카테고리별 대표 책 이미지
