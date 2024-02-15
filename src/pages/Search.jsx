@@ -8,21 +8,35 @@ import SearchResultList from "../components/SearchResultList";
 
 // STYLES
 import "../styles/SearchStyles.css";
-import bookImg1 from "../assets/category-book-img1.png";
-import bookImg2 from "../assets/category-book-img2.png";
-import bookImg3 from "../assets/category-book-img3.png";
-import bookImg4 from "../assets/category-book-img4.png";
-import bookImg5 from "../assets/category-book-img5.png";
-import bookImg6 from "../assets/category-book-img6.png";
-import bookImg7 from "../assets/category-book-img7.png";
-import bookImg8 from "../assets/category-book-img8.png";
-import bookImg9 from "../assets/category-book-img8.png";
-import bookImg10 from "../assets/category-book-img8.png";
+import bookImg1 from "../assets/category-book-총류.jpg";
+import bookImg2 from "../assets/category-book-철학.jpg";
+import bookImg3 from "../assets/category-book-종교.jpg";
+import bookImg4 from "../assets/category-book-사회과학.jpg";
+import bookImg5 from "../assets/category-book-자연과학.jpg";
+import bookImg6 from "../assets/category-book-기술과학.jpg";
+import bookImg7 from "../assets/category-book-예술.jpg";
+import bookImg8 from "../assets/category-book-언어.jpg";
+import bookImg9 from "../assets/category-book-문학.png";
+import bookImg10 from "../assets/category-book-역사.jpg";
 
 const Search = () => {
   const [input, setInput] = useState("");
   const [searchData, setSearchData] = useState([]);
   const [categories, setCategories] = useState([]);
+
+  // 카테고리 배경 색상(10개) && 카테고리별 대표 책 이미지
+ const categoriesInfo = [
+   { color: "#D4F4FF", image: bookImg1 },
+   { color: "#FFF2EC", image: bookImg2 },
+   { color: "#FFE3B5", image: bookImg3 },
+   { color: "#FFF4B6", image: bookImg4 },
+   { color: "#D6D6D6", image: bookImg5 },
+   { color: "#C2E2FF", image: bookImg6 },
+   { color: "#FFCACD", image: bookImg7 },
+   { color: "#DFFFF8", image: bookImg8 },
+   { color: "#CBD4F0", image: bookImg9 },
+   { color: "#D6CABC", image: bookImg10 },
+ ];
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -32,11 +46,16 @@ const Search = () => {
         );
         const fetchedCategories = response.data;
         const transformedCategories = Object.keys(fetchedCategories).map(
-          (key, index) => ({
-            title: key,
-            subtitle: fetchedCategories[key].join(", "),
-            image: defaultImages[index % defaultImages.length], // 이미지 배열의 길이를 넘지 않도록 처리
-          })
+          (key, index) => {
+            const { color, image } =
+              categoriesInfo[index % categoriesInfo.length]; // 객체에서 색상과 이미지를 가져옴
+            return {
+              title: key,
+              subtitle: fetchedCategories[key].join(", "),
+              image: image,
+              color: color,
+            };
+          }
         );
         setCategories(transformedCategories);
       } catch (error) {
@@ -47,43 +66,14 @@ const Search = () => {
     fetchCategories();
   }, []);
 
-  // 카테고리별 대표 책 이미지
-  const defaultImages = [
-    bookImg1,
-    bookImg2,
-    bookImg3,
-    bookImg4,
-    bookImg5,
-    bookImg6,
-    bookImg7,
-    bookImg8,
-    bookImg9,
-    bookImg10,
-  ];
-
-  // 카테고리 배경 색상(10개)
-  const categoryColors = [
-    "#D4F4FF",
-    "#FFF2EC",
-    "#FFE3B5",
-    "#FFF4B6",
-    "#D6D6D6",
-    "#C2E2FF",
-    "#FFCACD",
-    "#DFFFF8",
-    "#CBD4F0",
-    "#D6CABC",
-  ];
-
   // 카테고리 아이템을 렌더링하는 함수
-  const renderCategoryItem = ({ title, subtitle, image }, index) => (
+  const renderCategoryItem = ({ title, subtitle, image, color }, index) => (
     <Link to={`/book/list/${title}`} key={index}>
       <div className="category-item-wrapper">
-        {/* 1~10색상으로 반복 적용*/}
         <div
           className="category-grid-item"
           style={{
-            backgroundColor: categoryColors[index % categoryColors.length],
+            backgroundColor: color, // 여기서 색상 적용
           }}
         >
           <div className="category-grid-description">
@@ -91,7 +81,11 @@ const Search = () => {
             <h3 className="category-grid-item-subtitle">{subtitle}</h3>
           </div>
 
-          <img src={image} alt="" className="category-grid-item-image" />
+          <img
+            src={image}
+            alt="카테고리 대표 이미지"
+            className="category-grid-item-image"
+          />
         </div>
       </div>
     </Link>
@@ -169,7 +163,6 @@ const Search = () => {
   const handleChange = (value) => {
     setInput(value);
   };
-
 
   // 검색할 때, 0.1초 딜레이 걸기 -> 끊기는 느낌을 방지
   useEffect(() => {
