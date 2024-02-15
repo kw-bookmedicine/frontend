@@ -2,8 +2,6 @@ import React from 'react'
 import "../styles/SearchResultList.css";
 
 const SearchResultList = ({ book }) => {
-  console.log('book: ',book);
-    
   return (
     <>
       <div className="search-modal-container">

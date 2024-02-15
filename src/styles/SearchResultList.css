@@ -28,6 +28,10 @@
   border: 1px solid #d6d6d6;
 }
 
+.search-result-container:hover {
+  background-color: #d6d6d6;
+}
+
 .search-result-item {
   display: flex;
   flex-direction: column;

@@ -172,6 +172,8 @@ const SnsList = styled.div`
 `;
 
 export default function Login() {
+
+  
   const [id, setId] = useState("");
   const [pwd, setPwd] = useState("");
   const [notAllow, setNotAllow] = useState(true);
@@ -220,13 +222,6 @@ export default function Login() {
     }
     setNotAllow(true);
   }, [idValid, pwdValid]);
-
-  axios
-    .get(
-      "https://port-0-backend-book-pharmacy-umnqdut2blqqhv7sd.sel5.cloudtype.app/api/keyword/client?id=1"
-    )
-    .then((res) => console.log(res))
-    .catch((err) => console.log(err));
 
   return (
     <LoginContainer>
