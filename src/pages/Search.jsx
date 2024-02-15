@@ -20,11 +20,12 @@ import bookImg9 from "../assets/category-book-문학.png";
 import bookImg10 from "../assets/category-book-역사.jpg";
 
 const Search = () => {
-  const [input, setInput] = useState("");
-  const [searchData, setSearchData] = useState([]);
-  const [categories, setCategories] = useState([]);
+  const [input, setInput] = useState(""); // 검색 데이터
+  const [searchData, setSearchData] = useState([]); // 검색 결과 데이터
+  const [categories, setCategories] = useState([]); // 카테고리 데이터
+  const [isShow, setIsShow] = useState(false); // 검색창 모달창
 
-  // 카테고리 배경 색상(10개) && 카테고리별 대표 책 이미지
+  // 카테고리 배경 색상(10개) && 카테고리별 대표 책 이미지 정보
  const categoriesInfo = [
    { color: "#D4F4FF", image: bookImg1 },
    { color: "#FFF2EC", image: bookImg2 },
@@ -36,8 +37,9 @@ const Search = () => {
    { color: "#DFFFF8", image: bookImg8 },
    { color: "#CBD4F0", image: bookImg9 },
    { color: "#D6CABC", image: bookImg10 },
- ];
+  ];
 
+  // 카테고리 대분류, 중분류 GET 요청 및 요청 데이터 사용하기 쉽게 처리
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -66,7 +68,7 @@ const Search = () => {
     fetchCategories();
   }, []);
 
-  // 카테고리 아이템을 렌더링하는 함수
+  // 카테고리 아이템을 렌더링 함수
   const renderCategoryItem = ({ title, subtitle, image, color }, index) => (
     <Link to={`/book/list/${title}`} key={index}>
       <div className="category-item-wrapper">
@@ -80,7 +82,6 @@ const Search = () => {
             <h2 className="category-grid-item-title">{title}</h2>
             <h3 className="category-grid-item-subtitle">{subtitle}</h3>
           </div>
-
           <img
             src={image}
             alt="카테고리 대표 이미지"
@@ -155,15 +156,6 @@ const Search = () => {
     // Add more keywords as needed
   ];
 
-  const handleKeywordClick = (keyword) => {
-    // 키워드를 클릭하면 검색어를 업데이트
-    setInput(keyword);
-  };
-
-  const handleChange = (value) => {
-    setInput(value);
-  };
-
   // 검색할 때, 0.1초 딜레이 걸기 -> 끊기는 느낌을 방지
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -199,7 +191,6 @@ const Search = () => {
     }
   };
 
-  const [isShow, setIsShow] = useState(false);
 
   const handleSearchResultClose = () => {
     setIsShow(false);
