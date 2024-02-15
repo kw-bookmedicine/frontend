@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react';
 import '../styles/Modal.css';
 import closeIcon from '../assets/closeIcon.svg';
 
-
-
 const Modal = ({ isOpen, onClose, selectedEmotion, setSelectedEmotion }) => {
   // const emotions = ["화남", "슬픔", "기쁨", "즐거움", "불안", "외로움"];
   const emotions = {
@@ -15,11 +13,51 @@ const Modal = ({ isOpen, onClose, selectedEmotion, setSelectedEmotion }) => {
     외로움: "외로워",
   };
 
+  const emotionList = [
+    {
+      emotion_id: 1,
+      emotion_img: "/icon/angry.png",
+      emotion_text: "화남 ",
+      emotion_hightlight: "화가나",
+    },
+    {
+      emotion_id: 2,
+      emotion_img: "/icon/sad.png",
+      emotion_text: "슬픔 ",
+      emotion_hightlight: "슬퍼",
+    },
+    {
+      emotion_id: 3,
+      emotion_img: "/icon/smile.png",
+      emotion_text: "기쁨 ",
+      emotion_hightlight: "기뻐",
+    },
+    {
+      emotion_id: 4,
+      emotion_img: "/icon/happy.png",
+      emotion_text: "즐거움 ",
+      emotion_hightlight: "즐거워",
+    },
+    {
+      emotion_id: 5,
+      emotion_img: "/icon/stress.png",
+      emotion_text: "불안 ",
+      emotion_hightlight: "불안해",
+    },
+    {
+      emotion_id: 6,
+      emotion_img: "/icon/lonely.png",
+      emotion_text: "외로움 ",
+      emotion_hightlight: "외로워",
+    },
+  ];
+
   // Modal 내부 상태 추가
   const [localSelectedEmotion, setLocalSelectedEmotion] = useState("");
 
   const handleEmotionClick = (emotion) => {
     setLocalSelectedEmotion(emotion);
+    console.log(emotion);
   };
 
   const handleSubmit = () => {
@@ -63,16 +101,27 @@ const Modal = ({ isOpen, onClose, selectedEmotion, setSelectedEmotion }) => {
           </div>
           {/* 오늘의 감정 선택 */}
           <div className="modal-feeling">
-            {Object.entries(emotions).map(([emotion, description], index) => (
-              <div key={index}>
-                <button onClick={() => handleEmotionClick(emotion)}>
-                  {/* 이미지가 없어서 임시로 div로 처리함 */}
-                  {/* <img className="feeling-img" src="" alt={emotion} /> */}
-                  <div className="feeling-img"></div>
-                  <p>{emotion}</p>
-                </button>
-              </div>
-            ))}
+            {emotionList.map(
+              ({
+                emotion_id,
+                emotion_img,
+                emotion_text,
+                emotion_hightlight,
+              }) => (
+                <div key={emotion_id}>
+                  <button
+                    onClick={() => handleEmotionClick(emotion_text.trim())}
+                  >
+                    <img
+                      className="feeling-img"
+                      src={emotion_img}
+                      alt={emotion_text}
+                    />
+                    <p>{emotion_text.trim()}</p>
+                  </button>
+                </div>
+              )
+            )}
           </div>
           <div className="submit-button-container">
             <button

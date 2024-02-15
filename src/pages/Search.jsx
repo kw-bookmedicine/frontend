@@ -7,37 +7,78 @@ import Header from "../components/Header";
 import SearchResultList from "../components/SearchResultList";
 
 // STYLES
-import '../styles/SearchStyles.css';
-import bookImg1 from '../assets/category-book-img1.png';
-import bookImg2 from '../assets/category-book-img2.png';
-import bookImg3 from '../assets/category-book-img3.png';
-import bookImg4 from '../assets/category-book-img4.png';
-import bookImg5 from '../assets/category-book-img5.png';
-import bookImg6 from '../assets/category-book-img6.png';
-import bookImg7 from '../assets/category-book-img7.png';
-import bookImg8 from '../assets/category-book-img8.png';
+import "../styles/SearchStyles.css";
+import bookImg1 from "../assets/category-book-img1.png";
+import bookImg2 from "../assets/category-book-img2.png";
+import bookImg3 from "../assets/category-book-img3.png";
+import bookImg4 from "../assets/category-book-img4.png";
+import bookImg5 from "../assets/category-book-img5.png";
+import bookImg6 from "../assets/category-book-img6.png";
+import bookImg7 from "../assets/category-book-img7.png";
+import bookImg8 from "../assets/category-book-img8.png";
+import bookImg9 from "../assets/category-book-img8.png";
+import bookImg10 from "../assets/category-book-img8.png";
 
 const Search = () => {
   const [input, setInput] = useState("");
-  const [bookData, setData] = useState([]);
+  const [searchData, setSearchData] = useState([]);
+  const [categories, setCategories] = useState([]);
 
-  // 카테고리 배경 색상
+  useEffect(() => {
+    axios
+      .get(
+        "https://port-0-backend-book-pharmacy-umnqdut2blqqhv7sd.sel5.cloudtype.app/api/category/big"
+      )
+      .then((response) => {
+        const fetchedCategories = response.data;
+        const transformedCategories = Object.keys(fetchedCategories).map(
+          (key, index) => ({
+            title: key,
+            subtitle: fetchedCategories[key].join(", "),
+            image: defaultImages[index],
+          })
+        );
+        setCategories(transformedCategories);
+        console.log(fetchedCategories);
+        console.log(transformedCategories);
+      })
+      .catch((error) => console.error("Error fetching categories:", error));
+  }, []);
+
+
+  // 카테고리별 대표 책 이미지
+  const defaultImages = [
+    bookImg1,
+    bookImg2,
+    bookImg3,
+    bookImg4,
+    bookImg5,
+    bookImg6,
+    bookImg7,
+    bookImg8,
+    bookImg9,
+    bookImg10,
+  ];
+
+  // 카테고리 배경 색상(10개)
   const categoryColors = [
+    "#D4F4FF",
+    "#FFF2EC",
+    "#FFE3B5",
+    "#FFF4B6",
+    "#D6D6D6",
+    "#C2E2FF",
+    "#FFCACD",
+    "#DFFFF8",
     "#CBD4F0",
-    "#FFDADF",
-    "#FFFEF9",
-    "#E8E8E8",
-    "#C0E3E0",
-    "#E3D4CB",
-    "#FFE4CA",
-    "#D9D1EB",
+    "#D6CABC",
   ];
 
   // 카테고리 아이템을 렌더링하는 함수
   const renderCategoryItem = ({ title, subtitle, image }, index) => (
     <Link to={`/${title}-중분류-페이지`} key={index}>
       <div className="category-item-wrapper">
-        {/* 1~8색상으로 반복 적용*/}
+        {/* 1~10색상으로 반복 적용*/}
         <div
           className="category-grid-item"
           style={{
@@ -124,48 +165,48 @@ const Search = () => {
     setInput(keyword);
   };
 
-  const categories = [
-    {
-      title: "소설",
-      subtitle: "추리·스릴러, SF, 판타지, 로맨스",
-      image: bookImg1,
-    },
-    {
-      title: "외국어",
-      subtitle: "영어, 일본어, 중국어, 프랑스어, 스페인어, 독일어",
-      image: bookImg2,
-    },
-    {
-      title: "에세이",
-      subtitle: "시, 일상, 위로, 힐링, 여행, 행복, 감성",
-      image: bookImg3,
-    },
-    {
-      title: "IT",
-      subtitle: "개발·프로그래밍, 그래픽, IT교양, e비즈니스",
-      image: bookImg4,
-    },
-    {
-      title: "경제경영",
-      subtitle: "4차 산업혁명, 마케팅, 세계 경제, 한국경제, 부자, 재태크",
-      image: bookImg5,
-    },
-    {
-      title: "인문",
-      subtitle: "인문학, 문명, 문화, 심리학, 독서, 강의, 글쓰기",
-      image: bookImg6,
-    },
-    {
-      title: "자기계발",
-      subtitle: "성공, 말하기, 협상, 시간 관리, 태도, 습관",
-      image: bookImg7,
-    },
-    {
-      title: "철학",
-      subtitle: "동양, 서양, 예술, 경제",
-      image: bookImg8,
-    },
-  ];
+  // const categories = [
+  //   {
+  //     title: "소설",
+  //     subtitle: "추리·스릴러, SF, 판타지, 로맨스",
+  //     image: bookImg1,
+  //   },
+  //   {
+  //     title: "외국어",
+  //     subtitle: "영어, 일본어, 중국어, 프랑스어, 스페인어, 독일어",
+  //     image: bookImg2,
+  //   },
+  //   {
+  //     title: "에세이",
+  //     subtitle: "시, 일상, 위로, 힐링, 여행, 행복, 감성",
+  //     image: bookImg3,
+  //   },
+  //   {
+  //     title: "IT",
+  //     subtitle: "개발·프로그래밍, 그래픽, IT교양, e비즈니스",
+  //     image: bookImg4,
+  //   },
+  //   {
+  //     title: "경제경영",
+  //     subtitle: "4차 산업혁명, 마케팅, 세계 경제, 한국경제, 부자, 재태크",
+  //     image: bookImg5,
+  //   },
+  //   {
+  //     title: "인문",
+  //     subtitle: "인문학, 문명, 문화, 심리학, 독서, 강의, 글쓰기",
+  //     image: bookImg6,
+  //   },
+  //   {
+  //     title: "자기계발",
+  //     subtitle: "성공, 말하기, 협상, 시간 관리, 태도, 습관",
+  //     image: bookImg7,
+  //   },
+  //   {
+  //     title: "철학",
+  //     subtitle: "동양, 서양, 예술, 경제",
+  //     image: bookImg8,
+  //   },
+  // ];
 
   const handleChange = (value) => {
     setInput(value);
@@ -183,7 +224,7 @@ const Search = () => {
             "&maxResults=10"
         )
         .then((res) => {
-          setData(res.data.items.slice(0, 7));
+          setSearchData(res.data.items.slice(0, 7));
           // console.log("success");
         })
         .catch((err) => console.log(err));
@@ -199,7 +240,7 @@ const Search = () => {
             `https://www.googleapis.com/books/v1/volumes?q=${input}&key=AIzaSyDUtFpAVpNPHCEW-pxSxpTHSACNjko_MCc&maxResults=10`
           )
           .then((res) => {
-            setData(res.data.items ? res.data.items : []);
+            setSearchData(res.data.items ? res.data.items : []);
             console.log("success");
             console.log(input);
           })
@@ -268,7 +309,7 @@ const Search = () => {
           </label>
           {input.length > 0 && isShow ? (
             <SearchResultList
-              book={bookData}
+              book={searchData}
               onClick={(e) => {
                 e.stopPropagation();
               }}
@@ -286,9 +327,7 @@ const Search = () => {
         <section className="category-wrapper">
           <h2 className="recommend-title">카테고리</h2>
           <div className="category-items">
-            {categories.map((category, index) => {
-              return renderCategoryItem(category, index);
-            })}
+            {categories.map((category,index)=>renderCategoryItem(category,index))}
           </div>
         </section>
       </section>
