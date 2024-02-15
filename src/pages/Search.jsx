@@ -164,10 +164,6 @@ const Search = () => {
     // 키워드를 클릭하면 검색어를 업데이트
     setInput(keyword);
   };
-
-  // const categories = [
-  //   {
-  //     title: "소설",
   //     subtitle: "추리·스릴러, SF, 판타지, 로맨스",
   //     image: bookImg1,
   //   },
