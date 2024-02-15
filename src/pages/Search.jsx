@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
 
 // COMPONENTS
-import Header from '../components/Header';
-import SearchResultList from '../components/SearchResultList';
+import Header from "../components/Header";
+import SearchResultList from "../components/SearchResultList";
 
 // STYLES
 import "../styles/SearchStyles.css";
@@ -46,8 +46,6 @@ const Search = () => {
 
     fetchCategories();
   }, []);
-
-
 
   // 카테고리별 대표 책 이미지
   const defaultImages = [
@@ -93,138 +91,134 @@ const Search = () => {
             <h3 className="category-grid-item-subtitle">{subtitle}</h3>
           </div>
 
-					<img src={image} alt="" className="category-grid-item-image" />
-				</div>
-			</div>
-		</Link>
-	);
+          <img src={image} alt="" className="category-grid-item-image" />
+        </div>
+      </div>
+    </Link>
+  );
 
-	// 함수로 추천 키워드 리스트를 생성하는 함수
-	const renderKeywordList = (title, keywords) => (
-		<section className="recommend-word-wrapper">
-			<h2 className="recommend-title">{title}</h2>
-			<ul className="recommend-keyword-wrapper">
-				{keywords.map((keyword, index) => (
-					<li key={index}>
-						<Link to={`/result/${keyword}-책목록-페이지`}>{keyword}</Link>
-					</li>
-				))}
-			</ul>
-		</section>
-	);
+  // 함수로 추천 키워드 리스트를 생성하는 함수
+  const renderKeywordList = (title, keywords) => (
+    <section className="recommend-word-wrapper">
+      <h2 className="recommend-title">{title}</h2>
+      <ul className="recommend-keyword-wrapper">
+        {keywords.map((keyword, index) => (
+          <li key={index}>
+            <Link to={`/result/${keyword}-책목록-페이지`}>{keyword}</Link>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
 
-	// 추천 검색어 리스트
-	const recommendedSearchKeywords = [
-		'감정',
-		'해리포터',
-		'화장품',
-		'하늘 높이 비상',
-		'감정',
-		'해리포터',
-		'화장품',
-		'하늘 높이 비상',
-		'감정',
-		'해리포터',
-		'화장품',
-		'하늘 높이 비상',
-		'감정',
-		'해리포터',
-		'화장품',
-		'하늘 높이 비상',
-		'감정',
-		'해리포터',
-		'화장품',
-		'하늘 높이 비상',
-		'감정',
-		'해리포터',
-		'화장품',
-		'하늘 높이 비상',
-		// Add more keywords as needed
-	];
+  // 추천 검색어 리스트
+  const recommendedSearchKeywords = [
+    "감정",
+    "해리포터",
+    "화장품",
+    "하늘 높이 비상",
+    "감정",
+    "해리포터",
+    "화장품",
+    "하늘 높이 비상",
+    "감정",
+    "해리포터",
+    "화장품",
+    "하늘 높이 비상",
+    "감정",
+    "해리포터",
+    "화장품",
+    "하늘 높이 비상",
+    "감정",
+    "해리포터",
+    "화장품",
+    "하늘 높이 비상",
+    "감정",
+    "해리포터",
+    "화장품",
+    "하늘 높이 비상",
+    // Add more keywords as needed
+  ];
 
-	// 사용자 추천 키워드 리스트
-	const userRecommendedKeywords = [
-		'#감정',
-		'#해리포터',
-		'#화장품',
-		'#하늘 높이 비상',
-		'#감정',
-		'#해리포터',
-		'#화장품',
-		'#하늘 높이 비상',
-		'#감정',
-		'#해리포터',
-		'#화장품',
-		'#하늘 높이 비상',
-		'#감정',
-		'#해리포터',
-		'#화장품',
-		'#하늘 높이 비상',
-		// Add more keywords as needed
-	];
+  // 사용자 추천 키워드 리스트
+  const userRecommendedKeywords = [
+    "#감정",
+    "#해리포터",
+    "#화장품",
+    "#하늘 높이 비상",
+    "#감정",
+    "#해리포터",
+    "#화장품",
+    "#하늘 높이 비상",
+    "#감정",
+    "#해리포터",
+    "#화장품",
+    "#하늘 높이 비상",
+    "#감정",
+    "#해리포터",
+    "#화장품",
+    "#하늘 높이 비상",
+    // Add more keywords as needed
+  ];
 
   const handleKeywordClick = (keyword) => {
     // 키워드를 클릭하면 검색어를 업데이트
     setInput(keyword);
   };
 
-	const handleChange = (value) => {
-		setInput(value);
-	};
+  const handleChange = (value) => {
+    setInput(value);
+  };
 
-  const searchBook = (evt) => {
-    // console.log(evt);
-    // console.log(evt.target);
-    // console.log(evt.target.name);
-    if (evt.key === "Enter" || evt.target.name === "search-button") {
-      console.log("hello");
-      axios
-        .get(
-          `https://www.googleapis.com/books/v1/volumes?q=${input}&key=AIzaSyDUtFpAVpNPHCEW-pxSxpTHSACNjko_MCc` +
-            "&maxResults=10"
-        )
-        .then((res) => {
-          setSearchData(res.data.items.slice(0, 7));
-          // console.log("success");
-        })
-        .catch((err) => console.log(err));
+
+  // 검색할 때, 0.1초 딜레이 걸기 -> 끊기는 느낌을 방지
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      fetchBooks(input);
+    }, 100);
+
+    // cleanup 함수를 반환하여 컴포넌트가 언마운트될 때 타이머를 해제합니다.
+    return () => clearTimeout(timer);
+  }, [input]);
+
+  const fetchBooks = async (searchInput) => {
+    if (input.trim() === "") return; // 빈 문자열일 때 API 호출 방지
+
+    try {
+      const response = await axios.get(
+        `https://www.googleapis.com/books/v1/volumes?q=${searchInput}&key=AIzaSyDUtFpAVpNPHCEW-pxSxpTHSACNjko_MCc&maxResults=10`
+      );
+      const booksData = response.data.items
+        ? response.data.items.slice(0, 6)
+        : []; // 검색창에서 6개의 데이터만 보여줌
+
+      setSearchData(booksData);
+    } catch (error) {
+      console.error("Failed to fetch books:", error);
     }
   };
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      // 빈 문자열일 때 API 호출 방지
-      if (input.trim() !== "") {
-        axios
-          .get(
-            `https://www.googleapis.com/books/v1/volumes?q=${input}&key=AIzaSyDUtFpAVpNPHCEW-pxSxpTHSACNjko_MCc&maxResults=10`
-          )
-          .then((res) => {
-            setSearchData(res.data.items ? res.data.items : []);
-            console.log("success");
-            console.log(input);
-          })
-          .catch((err) => console.log(err));
-      }
-    }, 100);
+  // 검색창 엔터 및 버튼 이벤트 처리
 
-		// cleanup 함수를 반환하여 컴포넌트가 언마운트될 때 타이머를 해제합니다.
-		return () => clearTimeout(timer);
-	}, [input]);
+  const searchBook = (evt) => {
+    if (evt.key === "Enter" || evt.target.name === "search-button") {
+      fetchBooks(input);
+    }
+  };
 
-	const [isShow, setIsShow] = useState(false);
+  const [isShow, setIsShow] = useState(false);
 
-	const handleSearchResultClose = () => {
-		setIsShow(false);
-	};
+  const handleSearchResultClose = () => {
+    setIsShow(false);
+  };
 
-	const handleSearchResultShow = () => {
-		setIsShow(true);
-	};
+  const handleSearchResultShow = () => {
+    setIsShow(true);
+  };
 
-	return (
-		<div onClick={handleSearchResultClose}>
-			<Header />
+  return (
+    <div onClick={handleSearchResultClose}>
+      <Header />
 
       {/* 검색 페이지 전체 */}
       <section className="search-container">
@@ -277,17 +271,19 @@ const Search = () => {
           ) : null}
         </section>
 
-				{/* 추천 검색어 */}
-				{renderKeywordList('추천검색어', recommendedSearchKeywords)}
+        {/* 추천 검색어 */}
+        {renderKeywordList("추천검색어", recommendedSearchKeywords)}
 
-				{/* 사용자 추천 키워드 */}
-				{renderKeywordList('사용자 추천 키워드', userRecommendedKeywords)}
+        {/* 사용자 추천 키워드 */}
+        {renderKeywordList("사용자 추천 키워드", userRecommendedKeywords)}
 
         {/* 카테고리 */}
         <section className="category-wrapper">
           <h2 className="recommend-title">카테고리</h2>
           <div className="category-items">
-            {categories.map((category,index)=>renderCategoryItem(category,index))}
+            {categories.map((category, index) =>
+              renderCategoryItem(category, index)
+            )}
           </div>
         </section>
       </section>
