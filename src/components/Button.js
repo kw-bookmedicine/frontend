@@ -13,6 +13,8 @@ const Button = ({ text, type }) => {
 		'editConfirm',
 		'rank',
 		'withdraw',
+		'add',
+		'delete',
 	].includes(type)
 		? type
 		: 'default';
@@ -25,11 +27,32 @@ const Button = ({ text, type }) => {
 		btnUrl = `/${btnType}`;
 	}
 
-	return (
-		<button className={styles[`Btn-${btnType}`]}>
-			<Link to={btnUrl}>{text}</Link>
-		</button>
-	);
+	const renderButton = (url, type) => {
+		if (type === 'add' || type === 'delete') {
+			return (
+				<button className={styles[`Btn-${type}`]}>
+					{text}
+					{/* <Link to={url}>{text}</Link> */}
+				</button>
+				// <div
+				// 	className={styles[`Btn-${type}-text`]}
+				// 	onClick={() => {
+				// 		// console.log({ type });
+				// 	}}
+				// >
+				// 	{text}
+				// </div>
+			);
+		} else {
+			return (
+				<button className={styles[`Btn-${type}`]}>
+					<Link to={url}>{text}</Link>
+				</button>
+			);
+		}
+	};
+
+	return <div className="button_wrapper">{renderButton(btnUrl, type)}</div>;
 };
 
 Button.defaultProps = {
