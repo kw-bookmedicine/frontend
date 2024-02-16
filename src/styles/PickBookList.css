@@ -1,0 +1,33 @@
+.long-pickBookList_wrapper {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 520px;
+	margin: 10px;
+}
+
+.short-pickBookList_wrapper {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 320px;
+	margin: 5px;
+}
+
+.pickBook_title {
+	font-family: var(--basic-font);
+	font-style: normal;
+	font-weight: 300;
+	font-size: 12px;
+	line-height: 14px;
+	color: #000000;
+}
+
+.pickBook_author {
+	font-family: var(--basic-font);
+	font-style: normal;
+	font-weight: 300;
+	font-size: 12px;
+	line-height: 14px;
+	color: #777777;
+}

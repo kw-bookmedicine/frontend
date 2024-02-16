@@ -89,6 +89,9 @@
 }
 
 .left_inputList_box {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 	width: 100%;
 	height: 415px;
 	border-radius: 10px;
@@ -97,11 +100,12 @@
 }
 
 .myListModal_right_wrapper {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 	width: 400px;
 	height: 600px;
 	background-color: #c8edf2;
-	display: flex;
-	flex-direction: column;
 	border-top-right-radius: 15px;
 	border-bottom-right-radius: 15px;
 }
@@ -114,6 +118,17 @@
 	font-size: 40px;
 	line-height: 52px;
 	margin-top: 10px;
+}
+
+.right_selectList {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 350px;
+	height: 450px;
+	margin-top: 20px;
+	background-color: #fff;
+	border-radius: 10px;
 }
 
 .CloseButton {

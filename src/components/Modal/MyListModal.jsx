@@ -1,17 +1,19 @@
+// 로그인하고 나서 바로 보여줄 모달창
+
 import React, { useState, useEffect } from 'react';
 import image from '../../assets/naver-icon.jpg';
 import axios from 'axios';
 
-// STYLES
-import '../../styles/MyListModal.css';
-
 // COMPONENTS
 import SearchResultList from '../../components/SearchResultList';
+import PickBookList from '../../components/PickBookList.js';
+
+// STYLES
+import '../../styles/MyListModal.css';
 
 const MyListModal = ({ onClose }) => {
 	const [input, setInput] = useState('');
 	const [bookData, setData] = useState([]);
-	const [choiceBook, setChoiceBook] = useState('');
 
 	useEffect(() => {
 		const timer = setTimeout(() => {
@@ -34,8 +36,22 @@ const MyListModal = ({ onClose }) => {
 		return () => clearTimeout(timer);
 	}, [input]);
 
-	const Print = (text) => {
-		console.log(text);
+	// 모달 내에서 검색한 책 이름 받아오는 함수
+	const [pickTitle, setPickTitle] = useState('');
+
+	const choiceTitle = (bookTitle) => {
+		setPickTitle(bookTitle);
+	};
+
+	let pickBookListTitle = pickTitle;
+
+	const renderPickList = (pickTitle, pickAuthor) => {
+		if (pickBookListTitle !== '') {
+			console.log(pickBookListTitle);
+			return (
+				<PickBookList type="short" title={pickTitle} author={pickAuthor} />
+			);
+		}
 	};
 
 	// 모달 창 닫는 함수
@@ -101,7 +117,7 @@ const MyListModal = ({ onClose }) => {
 											className="search-close-button"
 											onClick={(e) => {
 												setInput('');
-												setChoiceBook(e.target.value);
+												// setChoiceBook(e.target.value);
 											}}
 										>
 											X
@@ -117,18 +133,28 @@ const MyListModal = ({ onClose }) => {
 										e.stopPropagation();
 										console.log(e);
 									}}
+									updateBook={choiceTitle}
 								/>
 							) : null}
 						</div>
 						<div className="left_inputList_wrapper">
 							<h4>50권의 책을 찾았어요!</h4>
-							<div className="left_inputList_box"></div>
+							<div className="left_inputList_box">
+								<PickBookList
+									type="long"
+									title={'해리포터와 불의 잔'}
+									author={'J.K. 롤링'}
+								/>
+							</div>
 						</div>
 					</div>
 					<div className="myListModal_right_wrapper">
 						<div onClick={handleClose} className="CloseButton" />
 						<h1>읽은 책 목록</h1>
-						<div className="right_selectList"></div>
+						<div className="right_selectList">
+							{/* <PickBookList type="short" /> */}
+							{renderPickList(pickBookListTitle)}
+						</div>
 						<button className="select_complete">선택완료</button>
 					</div>
 				</div>
