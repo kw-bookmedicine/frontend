@@ -191,7 +191,7 @@ const BookList = () => {
 						type={'shadow'}
 					/>
 					<div className="bookList_wrapper">
-						{midCategory.map((e) => {
+						{midCategory?.map((e) => {
 							console.log(e);
 							// setNameList(e.name);
 							// key 값 중분류에 맞게 변경해야됨.

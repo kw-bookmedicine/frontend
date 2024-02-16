@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "../components/Header";
 import PrescriptionReviewCard from "../components/PrescriptionReviewCard";
 import Slider from "../components/Slider";
@@ -8,7 +8,17 @@ import Modal from "../components/Modal";
 
 const LoginHome = () => {
   const [isModalOpen, setModalOpen] = useState(false);
-  const [selectedEmotion, setSelectedEmotion] = useState("");
+  // const [selectedEmotion, setSelectedEmotion] = useState("");
+
+  // 세션 스토리지에서 'selectedEmotion' 값을 읽어오고, 없다면 기본값으로 빈 문자열을 사용
+  const [selectedEmotion, setSelectedEmotion] = useState(() => {
+    return sessionStorage.getItem("selectedEmotion") || "";
+  });
+
+  useEffect(() => {
+    // 'selectedEmotion' 상태가 변경될 때마다 세션 스토리지에 저장
+    sessionStorage.setItem("selectedEmotion", selectedEmotion);
+  }, [selectedEmotion]); // 의존성 배열에 'selectedEmotion'을 추가하여 해당 값이 변경될 때만 실행
 
   const openModal = () => {
     setModalOpen(true);
