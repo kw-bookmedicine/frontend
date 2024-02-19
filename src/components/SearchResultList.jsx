@@ -1,9 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../styles/SearchResultList.css';
 
-const SearchResultList = ({ book, type }) => {
+const SearchResultList = ({ book, type, updateBook }) => {
 	let listType = ['myBook'].includes(type) ? type : 'search';
 	// console.log('book: ',book);
+
+	// const [pickTitle, setPickTitle] = useState('');
+
+	const updateBookTitle = (pickTitle) => {
+		updateBook(pickTitle);
+	};
 
 	return (
 		<>
@@ -24,10 +30,12 @@ const SearchResultList = ({ book, type }) => {
 							<ul key={item.id} className={`${listType}-result-container`}>
 								<li
 									className={`${listType}-result-list`}
-									onClick={(e) => {
+									onClick={() => {
 										// console.log(e);
 										// console.log(e.target);
-										console.log(e.target.innerText);
+										// console.log(e.target.innerText);
+										// console.log(title);
+										updateBookTitle(title);
 									}}
 								>
 									<img src={thumbnail} alt="" />
