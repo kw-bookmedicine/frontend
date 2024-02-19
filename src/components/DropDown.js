@@ -1,19 +1,19 @@
 import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/DropDown.css';
-// import classNames from 'classNames';
 import useDetectClose from '../hooks/useDetectClose';
 
 const DropDown = ({ DropDownTitle }) => {
 	const dropDownRef = useRef(null);
 	const dropDownMenuRef = useRef(null);
+
+	// 드롭다운 메뉴 리스트 상태
 	const [isOpen, setIsOpen] = useDetectClose(dropDownRef, false);
+
+	// 메뉴 리스트 아이템 상태
 	const [isSelect, setIsSelect] = useDetectClose(dropDownMenuRef, false);
 	const [selectTitle, setSelectTitle] = useState('');
 
-	console.log(dropDownRef);
-	console.log(dropDownMenuRef);
-	console.log('-------------------------');
 	return (
 		<div className="dropDown_menu">
 			<button

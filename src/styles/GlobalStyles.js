@@ -22,7 +22,7 @@ const GlobalStyles = createGlobalStyle`
 
     body{
         line-height: 1;
-        font-family: 'Pretendard';
+        font-family: var(----basic-font);
         /* background-color: #fff; */
     }
 

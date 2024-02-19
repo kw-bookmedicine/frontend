@@ -1,5 +1,10 @@
 @import url('https://webfontworld.github.io/gmarket/GmarketSans.css');
 
+@font-face {
+	font-family: 'recipekorea';
+	src: url('./font/Recipekorea\ 레코체\ FONT.ttf');
+}
+
 /* Header */
 
 header {

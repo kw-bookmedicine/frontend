@@ -1,0 +1,157 @@
+.myListModal_overlay {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background: rgba(0, 0, 0, 0.2);
+	z-index: 9999;
+}
+
+.myListModal_wrapper {
+	width: 1000px;
+	height: 600px;
+	display: flex;
+	/* height: fit-content; */
+	border-radius: 15px;
+	background-color: #fff;
+	position: absolute;
+	top: 54%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.myListModal_left_wrapper {
+	width: 600px;
+	height: 600px;
+	background-color: #fff;
+	border-radius: 15px;
+}
+
+.myList_search_wrapper {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	height: 100px;
+}
+
+.myList_search_wrap_inner {
+	display: flex;
+	align-items: center;
+	width: 550px;
+	height: 45px;
+	box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+	padding: 10px 0px 10px 12px;
+	border-radius: 0.5rem;
+	margin-top: 40px;
+}
+
+.myList_search_button {
+	width: 32px;
+	height: 32px;
+	background: url('../assets/search-icon.svg');
+	margin-top: 4px;
+}
+
+.myList_search_input {
+	width: 100%;
+	height: 30px;
+	font-size: 14px;
+	padding-left: 20px;
+	border: none;
+
+	font-family: var(--basic-font);
+}
+
+.myList_search_input:focus {
+	outline: none;
+}
+
+.left_inputList_wrapper {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	height: 500px;
+	padding: 0 24px;
+	margin-top: 20px;
+}
+
+.left_inputList_wrapper h4 {
+	font-family: var(--basic-font);
+	font-style: normal;
+	font-weight: 700;
+	font-size: 14px;
+	line-height: 17px;
+	color: #000;
+}
+
+.left_inputList_box {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	height: 415px;
+	border-radius: 10px;
+	margin-top: 10px;
+	background-color: #f5f5f5;
+}
+
+.myListModal_right_wrapper {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 400px;
+	height: 600px;
+	background-color: #c8edf2;
+	border-top-right-radius: 15px;
+	border-bottom-right-radius: 15px;
+}
+
+.myListModal_right_wrapper h1 {
+	text-align: center;
+	font-family: 'recipekorea';
+	font-style: normal;
+	font-weight: 400;
+	font-size: 40px;
+	line-height: 52px;
+	margin-top: 10px;
+}
+
+.right_selectList {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 350px;
+	height: 450px;
+	margin-top: 20px;
+	background-color: #fff;
+	border-radius: 10px;
+}
+
+.CloseButton {
+	width: 30px;
+	height: 30px;
+	cursor: pointer;
+}
+
+.CloseButton::before,
+.CloseButton::after {
+	position: absolute;
+	top: 5px;
+	right: 25px;
+	content: ' ';
+	height: 25px;
+	width: 1.5px;
+	background-color: #575757;
+}
+
+.CloseButton::before {
+	transform: rotate(45deg);
+}
+
+.CloseButton::after {
+	transform: rotate(-45deg);
+}
