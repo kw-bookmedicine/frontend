@@ -1,0 +1,85 @@
+.long-pickBookList_wrapper {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 520px;
+	margin: 10px;
+}
+
+.short-pickBookList_wrapper {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 320px;
+	margin: 5px;
+}
+
+.pickBook_title {
+	font-family: var(--basic-font);
+	font-style: normal;
+	font-weight: 300;
+	font-size: 12px;
+	line-height: 14px;
+	color: #000000;
+}
+
+.pickBook_author {
+	font-family: var(--basic-font);
+	font-style: normal;
+	font-weight: 300;
+	font-size: 12px;
+	line-height: 14px;
+	color: #777777;
+}
+
+/* 모달 창 책 리스트 추가 및 삭제 버튼 */
+.Btn-add {
+	display: flex;
+	justify-content: center;
+	margin: 0;
+	border: none;
+	cursor: pointer;
+
+	width: 100px;
+	height: 20px;
+	background-color: #c8edf2;
+	border-radius: 10px;
+	opacity: 1;
+
+	text-align: center;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 300;
+	line-height: normal;
+	font-family: var(--basic-font);
+	color: #000000;
+}
+
+.Btn-add:hover {
+	background-color: #a4d6dd;
+}
+
+.Btn-delete {
+	margin: 0;
+	border: none;
+	cursor: pointer;
+
+	width: 75px;
+	height: 20px;
+	background-color: #ffdadf;
+	border-radius: 10px;
+	opacity: 1;
+
+	/* Font */
+	text-align: center;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 300;
+	line-height: normal;
+	font-family: var(--basic-font);
+	color: #000000;
+}
+
+.Btn-delete:hover {
+	background-color: #f8b0b9;
+}
