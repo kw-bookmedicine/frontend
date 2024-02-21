@@ -39,20 +39,7 @@ const Button = ({ text, type }) => {
 
 	const renderButton = (url, type) => {
 		if (type === 'add' || type === 'delete') {
-			return (
-				<button className={styles[`Btn-${type}`]}>
-					{text}
-					{/* <Link to={url}>{text}</Link> */}
-				</button>
-				// <div
-				// 	className={styles[`Btn-${type}-text`]}
-				// 	onClick={() => {
-				// 		// console.log({ type });
-				// 	}}
-				// >
-				// 	{text}
-				// </div>
-			);
+			return <button className={styles[`Btn-${type}`]}>{text}</button>;
 		} else {
 			if (type === 'logout') {
 				return (
