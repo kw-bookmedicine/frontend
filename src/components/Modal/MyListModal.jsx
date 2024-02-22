@@ -35,13 +35,22 @@ const MyListModal = ({ onClose }) => {
 
 	// 읽은 목록 추가 버튼을 눌렀을 때, 읽은 목록 배열(addBookList)에 요소 추가 함수
 	const AddBookList = (pickBookTitle) => {
-		// addBookList.push(pickBookTitle);
-		// addBookList.includes(pickBookTitle)? addBookList : addBookList.concat(pickBookTitle)
 		setAddBookList(
 			addBookList.includes(pickBookTitle)
 				? addBookList
 				: addBookList.concat(pickBookTitle),
 		);
+	};
+
+	const FilterBookTitle = (title) => {
+		console.log("count1's add list:", addBookList);
+		console.log('title:', title);
+	};
+
+	// 삭제된 항목을 다시 추가할 때 실행될 함수
+	const newUpdateReadList = (newList) => {
+		setFilterBookList(newList);
+		console.log('new: ', newList);
 	};
 
 	// filterBookList '목록 삭제' 버튼 한 번만 눌러도 삭제되도록 하기
@@ -50,14 +59,24 @@ const MyListModal = ({ onClose }) => {
 	// 오른쪽에서 목록 삭제 버튼 클릭 시 실행되는 함수
 	const updateReadList = (list) => {
 		setFilterBookList(list);
-		console.log('book:', list);
+		console.log('filter:', list);
 	};
 
+	const [clickCount, setClickCount] = useState(0);
 	// 목록 삭제 버튼 클릭 시 활성 여부
 	const [isClick, setIsClick] = useState(false);
 	// 목록 삭제 버튼 눌렀을 때 실행되는 함수
 	const updateClick = (click) => {
-		console.log('click:', click);
+		// console.log('click=>', click);
+		if (click === 1) {
+			// 목록 삭제 버튼 활성화
+			setClickCount(2);
+		} else {
+			// 읽은 목록 추가 버튼 활성화
+			setClickCount(1);
+		}
+		// console.log('click:', click);
+
 		setIsClick(click);
 	};
 
@@ -170,34 +189,12 @@ const MyListModal = ({ onClose }) => {
 													type="long"
 													title={ele.volumeInfo.title}
 													updateTitle={AddBookList}
+													clicked={updateClick}
 													// author={ele.volumeInfo.authors}
 												/>
 											);
 									  })
 									: ''}
-								{/* {console.log({ bookData })} */}
-								{/* {input.length > 0 && isShow ? (
-									<PickBookList
-										type="long"
-										title={bookData}
-										author={'J.K. 롤링'}
-									/>
-								) : // <SearchResultList
-								// 	book={bookData}
-								// 	type="myBook"
-								// 	onClick={(e) => {
-								// 		e.stopPropagation();
-								// 		console.log(e);
-								// 		renderPickList(pickBookListTitle);
-								// 	}}
-								// 	updateBook={choiceTitle}
-								// />
-								null} */}
-								{/* <PickBookList
-									type="long"
-									title={'해리포터 불의 잔'}
-									author={'J.K. 롤링'}
-								/> */}
 							</div>
 						</div>
 					</div>
@@ -205,36 +202,48 @@ const MyListModal = ({ onClose }) => {
 						<div onClick={handleClose} className="CloseButton" />
 						<h1>읽은 책 목록</h1>
 						<div className="right_selectList">
+							{/* <PickBookList type="del" /> */}
 							{/* {addBookList.length} */}
 							{/* list:{addBookList} */}
 
-							{addBookList.length > 0
-								? isClick
-									? filterBookList.map((item) => {
+							{/* addBookList => 제일 처음 클릭해서 추가된 책 목록 */}
+							{/*  */}
+
+							{addBookList.length > 0 && clickCount > 0
+								? //이미 한 번 리스트가 추가된 상태
+
+								  clickCount === 2
+									? // 목록 삭제 버튼이 눌렸을 때
+									  filterBookList.map((item) => {
+											console.log('count:', clickCount);
 											return (
 												<PickBookItem
 													key={item}
 													type="short"
 													title={item}
 													readList={filterBookList}
+													updateTitle={FilterBookTitle}
 													updateList={updateReadList}
 													clicked={updateClick}
 												/>
 											);
 									  })
-									: addBookList.map((item) => {
+									: // 읽은 목록 다시 추가할 때
+									  addBookList.map((item) => {
+											console.log('count:', clickCount);
 											return (
 												<PickBookItem
 													key={item}
 													type="short"
 													title={item}
 													readList={addBookList}
-													updateList={updateReadList}
+													updateTitle={FilterBookTitle}
+													updateList={newUpdateReadList}
 													clicked={updateClick}
 												/>
 											);
 									  })
-								: console.log('no')}
+								: ''}
 						</div>
 						<button className="select_complete">선택완료</button>
 					</div>
