@@ -22,6 +22,7 @@ import UserInfo from './pages/UserInfo';
 import GlobalStyles from './styles/GlobalStyles';
 import './App.css';
 import ScrollTop from './components/ScrollTop';
+import LoginFind from './pages/LoginFind';
 
 function App() {
 	// 브라우저 새로고침 스크롤 이벤트
@@ -52,6 +53,7 @@ function App() {
 					<Route path="/login" element={<Login />} />
 					<Route path="/join" element={<Join />} />
 					<Route path="/join2" element={<Join2 />} />
+					<Route path='/login-find' element={<LoginFind/>} />
 					<Route path="/test" element={<Registration />} />
 
 					<Route path="/book-detail" element={<BookDetail />} />
