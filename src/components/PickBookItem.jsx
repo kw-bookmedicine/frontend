@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 // COMPONENT
 import Btn from './Button';
@@ -11,59 +11,54 @@ const PickBookItem = ({
 	title,
 	author,
 	updateTitle,
-	readList,
+	BookList,
 	updateList,
 	clicked,
+	clickCount,
 }) => {
+	let listType = ['long', 'short'].includes(type) ? type : 'default';
+
 	const clickRef = useRef(null);
 
 	// 오른쪽에 보여줄 선택된 책 제목
 	const [pickBookTitle, setPickBookTitle] = useState('');
+	const [bookList, setBookList] = useState([]);
+
+	useEffect(() => {
+		setBookList(BookList);
+	});
 
 	const addPick = () => {
-		// console.log('add - isClick:', isClick);
+		// console.log('add:', clickRef.current.textContent);
 		clickRef.current.focus();
 		setPickBookTitle(clickRef.current.textContent);
 	};
 
 	// 읽은 목록에서 삭제될 때 선택되는 함수
-	const deletePick = async () => {
-		// console.log('del - isClick:', isClick);
+	const deletePick = () => {
 		clickRef.current.focus();
-		console.log('del:', clickRef.current.textContent);
+		// console.log('del:', clickRef.current.textContent);
 		setPickBookTitle(clickRef.current.textContent);
 	};
 
 	// 목록 삭제 버튼 클릭 시 활성 여부
 	const onClick = () => {
-		clicked(1);
-		// setIsClick(true);
-		// console.log('del - isClick:', isClick);
-		// isClick ? deletePick() : console.log('no click');
-		// deletePick();
+		clicked(true);
 	};
+
 	const offClick = () => {
 		clicked(false);
 	};
 
-	// 오른쪽 읽은 목록에 추가될 책 제목 update 하는 함수
-	const updatePickTitle = (pickBookTitle) => {
-		console.log(clickRef.current.textContent);
-		updateTitle(pickBookTitle);
+	// 제일 처음 읽은 목록 추가 함수
+	const bookUpdateList = () => {
+		updateList(clickRef.current.textContent);
 	};
 
-	const updatePickList = (pickBookTitle) => {
-		// console.log('read:', readList);
-		// console.log('updatePickList:', pickBookTitle);
-		updateList(readList.filter((item) => item !== pickBookTitle));
+	// 읽은 목록에서 삭제 버튼 누른 후 필터링 되는 함수
+	const filterPickList = (pickBookTitle) => {
+		updateList(BookList.filter((item) => item !== pickBookTitle));
 	};
-
-	const tempList = (pickBookTitle) => {
-		console.log('temp: ', pickBookTitle);
-		updateList(readList);
-	};
-
-	let listType = ['short', 'long'].includes(type) ? type : 'default';
 
 	return (
 		<>
@@ -76,10 +71,13 @@ const PickBookItem = ({
 					<button
 						className="Btn-add"
 						onClick={() => {
-							console.log('읽은 목록 추가');
-							offClick();
+							// console.log('========== 읽은 목록 추가 ==========');
+							// offClick();
 							addPick();
-							updatePickTitle(clickRef.current.textContent);
+
+							// console.log(bookList);
+							// updateClickCount();
+							bookUpdateList();
 						}}
 					>
 						읽은 목록 추가
@@ -89,20 +87,10 @@ const PickBookItem = ({
 						className="Btn-delete"
 						onClick={() => {
 							// 해당 책 데이터가 삭제되어야 함.
-							console.log('목록 삭제');
-							onClick();
+							// console.log('========== 목록 삭제 ==========');
+							// onClick();
 							deletePick();
-							updatePickList(clickRef.current.textContent);
-
-							// filterReadList = readList.filter(
-							// 	(item) => item !== pickBookTitle,
-							// );
-							// updateList(filterReadList);
-
-							// 버튼이 한 번이라도 눌렸으면 설정되는 값을 모달로 보내서 다르게 렌더링 함.
-
-							// console.log(filterReadList);
-							// console.log(readList);
+							filterPickList(clickRef.current.textContent);
 						}}
 					>
 						목록 삭제
