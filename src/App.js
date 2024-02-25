@@ -24,6 +24,11 @@ import UserInfo from './pages/UserInfo';
 import GlobalStyles from './styles/GlobalStyles';
 import './App.css';
 import ScrollTop from './components/ScrollTop';
+import LoginFind from './pages/LoginFind';
+import LoginLayout from './components/LoginLayout';
+import LoginFindResult from './pages/LoginFindResult';
+import PasswordFind from './pages/PasswordFind';
+import PasswordFindResult from './pages/PasswordFindResult';
 
 function App() {
 	// 브라우저 새로고침 스크롤 이벤트
@@ -51,6 +56,19 @@ function App() {
 					<Route path="/edit" element={<Edit />} />
 					<Route path="/edit/:page" element={<UserInfo />} />
 
+					<Route path="/login" element={<Login />} />
+					<Route path="/join" element={<Join />} />
+					<Route path="/join2" element={<Join2 />} />
+					<Route element={<LoginLayout />}>
+						<Route path="/login-find" element={<LoginFind />} />
+						<Route path="/login-find-result" element={<LoginFindResult />} />
+						<Route path="/password-find" element={<PasswordFind />} />
+						<Route
+							path="/password-find-result"
+							element={<PasswordFindResult />}
+						/>
+					</Route>
+					<Route path="/test" element={<Registration />} />
 					<Route path="/login" element={<Login />} />
 					<Route path="/signup" element={<Join />} />
 					<Route path="/signup/1" element={<Signup2 />} />

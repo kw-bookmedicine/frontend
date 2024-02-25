@@ -257,7 +257,7 @@ export default function Login() {
 
 	return (
 		<LoginContainer>
-			<ImageContent></ImageContent>
+			<ImageContent/>
 			<LoginContent>
 				<Title>Login</Title>
 
