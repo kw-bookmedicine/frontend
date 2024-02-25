@@ -324,13 +324,13 @@ export default function Login() {
 				</button> */}
 				<LoginSubMenu>
 					<LoginSubMenuItem>
-						<Link to={'/join'}>회원가입</Link>
+						<Link to={'/signup'}>회원가입</Link>
 					</LoginSubMenuItem>
 					<LoginSubMenuItem>
-						<Link to={'/join'}>아이디 찾기</Link>
+						<Link to={'/find/user/info/id'}>아이디 찾기</Link>
 					</LoginSubMenuItem>
 					<LoginSubMenuItem>
-						<Link to={'/'}>비밀번호 찾기</Link>
+						<Link to={'/find/user/info/password'}>비밀번호 찾기</Link>
 					</LoginSubMenuItem>
 				</LoginSubMenu>
 				<Or>
