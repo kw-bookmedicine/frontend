@@ -1,85 +1,77 @@
 // 로그인하고 나서 바로 보여줄 모달창
 
 import React, { useState, useEffect } from 'react';
-import image from '../../assets/naver-icon.jpg';
 import axios from 'axios';
 
 // COMPONENTS
-import SearchResultList from '../../components/SearchResultList';
-import PickBookList from '../../components/PickBookList.js';
+import PickBookItem from '../PickBookItem.jsx';
 
 // STYLES
 import '../../styles/MyListModal.css';
 
 const MyListModal = ({ onClose }) => {
 	const [input, setInput] = useState('');
-	const [bookData, setData] = useState([]);
+	const [searchBookResult, setData] = useState([]); // 검색 결과가 추가된 리스트
+	const [pickBookList, setPickBookList] = useState([]); // 처음 읽은 목록이 추가된 리스트
+	const [filterBookList, setFilterBookList] = useState([]); // 삭제 후 필터링 된 책 리스트
 
-	useEffect(() => {
-		const timer = setTimeout(() => {
-			// 빈 문자열일 때 API 호출 방지
-			if (input.trim() !== '') {
-				axios
-					.get(
-						`https://www.googleapis.com/books/v1/volumes?q=${input}&key=AIzaSyDUtFpAVpNPHCEW-pxSxpTHSACNjko_MCc&maxResults=10`,
-					)
-					.then((res) => {
-						setData(res.data.items ? res.data.items : []);
-						// console.log('success');
-						// console.log(input);
-					})
-					.catch((err) => console.log(err));
-			}
-		}, 100);
+	// 오른쪽에 읽은 목록에 대한 책 제목 배열
+	const [addBookList, setAddBookList] = useState([]);
+	const [isEnter, setIsEnter] = useState(false);
+	const [bookCount, setBookCount] = useState(0);
 
-		// cleanup 함수를 반환하여 컴포넌트가 언마운트될 때 타이머를 해제합니다.
-		return () => clearTimeout(timer);
-	}, [input]);
+	// '읽은 목록 추가' 버튼 활성 여부
+	// false => 처음 추가
+	// true => 삭제 후 다시 추가
+	const [isClick, setIsClick] = useState(false);
 
-	// 모달 내에서 검색한 책 이름 받아오는 함수
-	const [pickTitle, setPickTitle] = useState('');
-
-	const choiceTitle = (bookTitle) => {
-		setPickTitle(bookTitle);
+	// '목록 삭제' 버튼 눌렀을 때 실행되는 함수
+	const updateClick = () => {
+		// '목록 삭제' 버튼 클릭 후에는 '읽은 목록 추가' 버튼 재활성
+		setIsClick(true);
 	};
 
-	let pickBookListTitle = pickTitle;
+	// 책 리스트 업데이트
+	const updateBookList = (list) => {
+		// console.log('isClick:', isClick);
+		!isClick ? setPickBookList(list) : setFilterBookList(list);
+	};
 
-	const renderPickList = (pickTitle, pickAuthor) => {
-		if (pickBookListTitle !== '') {
-			console.log(pickBookListTitle);
-			return (
-				<PickBookList type="short" title={pickTitle} author={pickAuthor} />
-			);
+	// 읽은 목록 추가 버튼을 눌렀을 때, 읽은 목록 배열(addBookList)에 요소 추가 함수
+	const AddBookList = (pickBookTitle) => {
+		// console.log('add book: ', pickBookTitle);
+		setAddBookList(
+			pickBookList.includes(pickBookTitle)
+				? pickBookList
+				: pickBookList.push(pickBookTitle),
+		);
+	};
+
+	// '목록 삭제' 버튼 클릭 시 실행되는 함수
+	const FilterBookList = (list) => {
+		// console.log('filter list:', list);
+		setPickBookList(list);
+	};
+
+	// 엔터 눌렀을 때 검색 결과 보이기
+	const renderSearchList = (e) => {
+		if (input.trim() !== '') {
+			axios
+				.get(
+					`https://www.googleapis.com/books/v1/volumes?q=${input}&key=AIzaSyDUtFpAVpNPHCEW-pxSxpTHSACNjko_MCc`,
+				)
+				.then((res) => {
+					setData(res.data.items); // 검색 결과 저장
+					setIsEnter(true); // 엔터 눌렀을 때 렌더링
+					setBookCount(res.data.items.length); // 검색 결과로 나온 책 권수
+				})
+				.catch((err) => console.log(err));
 		}
 	};
 
 	// 모달 창 닫는 함수
 	const handleClose = () => {
 		onClose?.();
-	};
-
-	const searchBook = (evt) => {
-		if (evt.key === 'Enter' || evt.target.name === 'search-button') {
-			console.log('hello');
-			axios
-				.get(
-					`https://www.googleapis.com/books/v1/volumes?q=${input}&key=AIzaSyDUtFpAVpNPHCEW-pxSxpTHSACNjko_MCc` +
-						'&maxResults=10',
-				)
-				.then((res) => {
-					// console.log(res.data.items.slice(0, 7));
-					setData(res.data.items.slice(0, 7));
-					// console.log("success");
-				})
-				.catch((err) => console.log(err));
-		}
-	};
-
-	const [isShow, setIsShow] = useState(false);
-
-	const handleSearchResultShow = () => {
-		setIsShow(true);
 	};
 
 	return (
@@ -92,14 +84,12 @@ const MyListModal = ({ onClose }) => {
 							className="myList_search_wrapper"
 							onClick={(e) => {
 								e.stopPropagation();
-								handleSearchResultShow();
 							}}
 						>
 							<label>
 								<div className="myList_search_wrap_inner">
 									<button
 										className="myList_search_button"
-										onChange={searchBook}
 										name="search-button"
 									/>
 									<input
@@ -110,14 +100,21 @@ const MyListModal = ({ onClose }) => {
 										onChange={(e) => {
 											setInput(e.target.value);
 										}}
-										onKeyPress={searchBook}
+										onKeyDown={(e) => {
+											if (e.key === 'Enter') {
+												renderSearchList(e);
+											}
+										}}
 									/>
 									{input.length > 0 ? (
 										<button
 											className="search-close-button"
-											onClick={(e) => {
+											onClick={() => {
+												// x 버튼 눌렀을 때 발생하는 이벤트
 												setInput('');
-												// setChoiceBook(e.target.value);
+												// 왼쪽에 검색 결과를 전부 안보이게 함.
+												setIsEnter(false);
+												setBookCount(0);
 											}}
 										>
 											X
@@ -125,26 +122,24 @@ const MyListModal = ({ onClose }) => {
 									) : null}
 								</div>
 							</label>
-							{input.length > 0 && isShow ? (
-								<SearchResultList
-									book={bookData}
-									type="myBook"
-									onClick={(e) => {
-										e.stopPropagation();
-										console.log(e);
-									}}
-									updateBook={choiceTitle}
-								/>
-							) : null}
 						</div>
 						<div className="left_inputList_wrapper">
-							<h4>50권의 책을 찾았어요!</h4>
+							<h4>{bookCount}권의 책을 찾았어요!</h4>
 							<div className="left_inputList_box">
-								<PickBookList
-									type="long"
-									title={'해리포터와 불의 잔'}
-									author={'J.K. 롤링'}
-								/>
+								{searchBookResult.length > 0 && isEnter
+									? searchBookResult.map((ele) => {
+											return (
+												<PickBookItem
+													key={ele.id}
+													type="long"
+													title={ele.volumeInfo.title}
+													BookList={pickBookList}
+													updateList={AddBookList}
+													// author={ele.volumeInfo.authors}
+												/>
+											);
+									  })
+									: ''}
 							</div>
 						</div>
 					</div>
@@ -152,8 +147,19 @@ const MyListModal = ({ onClose }) => {
 						<div onClick={handleClose} className="CloseButton" />
 						<h1>읽은 책 목록</h1>
 						<div className="right_selectList">
-							{/* <PickBookList type="short" /> */}
-							{renderPickList(pickBookListTitle)}
+							{pickBookList.length > 0
+								? pickBookList.map((item) => {
+										return (
+											<PickBookItem
+												key={item}
+												type="short"
+												title={item}
+												BookList={pickBookList}
+												updateList={FilterBookList}
+											/>
+										);
+								  })
+								: ''}
 						</div>
 						<button className="select_complete">선택완료</button>
 					</div>
@@ -163,5 +169,4 @@ const MyListModal = ({ onClose }) => {
 		</>
 	);
 };
-
 export default MyListModal;

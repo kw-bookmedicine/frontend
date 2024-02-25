@@ -95,6 +95,7 @@
 	width: 100%;
 	height: 415px;
 	border-radius: 10px;
+	padding: 5px 0;
 	margin-top: 10px;
 	background-color: #f5f5f5;
 }
@@ -125,8 +126,9 @@
 	flex-direction: column;
 	align-items: center;
 	width: 350px;
-	height: 450px;
-	margin-top: 20px;
+	height: 410px;
+	padding: 10px 0;
+	margin-top: 10px;
 	background-color: #fff;
 	border-radius: 10px;
 }
@@ -154,4 +156,38 @@
 
 .CloseButton::after {
 	transform: rotate(-45deg);
+}
+
+/* 선택완료 버튼 */
+.select_complete {
+	width: 350px;
+	height: 35px;
+	background: #c8edf2;
+	box-shadow: 6px 6px 30px rgba(119, 119, 119, 0.466667);
+	border-radius: 10px;
+	opacity: 1;
+	margin-top: 14px;
+
+	/* Font */
+	text-align: center;
+	font-family: var(--basic-font);
+	font-style: normal;
+	font-weight: 400;
+	font-size: 20px;
+	line-height: 0px;
+	color: #6e6e6e;
+}
+
+.select_complete:hover {
+	background: #a4d6dd;
+	box-shadow: 6px 6px 30px rgba(119, 119, 119, 0.466667),
+		inset 4px 4px 4px rgba(0, 0, 0, 0.25);
+	border-radius: 10px;
+
+	/* Font */
+	font-style: normal;
+	font-weight: 600;
+	font-size: 20px;
+	line-height: 24px;
+	color: #fff;
 }
