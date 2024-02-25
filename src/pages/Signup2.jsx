@@ -555,7 +555,7 @@ const Signup2 = () => {
 				</InputWrap>
 
 				<LoginButton isButtonEnabled={isButtonEnabled}>
-					<Link to={'/main'}>네, 동의합니다</Link>
+					<Link to={`/signup/2`}>네, 동의합니다</Link>
 				</LoginButton>
 			</LoginContent>
 		</LoginContainer>

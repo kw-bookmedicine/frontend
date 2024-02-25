@@ -88,8 +88,8 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	width: 32px;
-	height: 32px;
+	width: 28px;
+	height: 28px;
 	background: #d9d9d9;
 	border-radius: 100%;
 
@@ -98,8 +98,8 @@
 	font-family: var(--basic-font);
 	font-style: normal;
 	font-weight: 700;
-	font-size: 18px;
-	line-height: 18px;
+	font-size: 16px;
+	line-height: 16px;
 	text-align: center;
 }
 
@@ -119,8 +119,8 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	width: 32px;
-	height: 32px;
+	width: 28px;
+	height: 28px;
 	background: #d9d9d9;
 	border-radius: 100%;
 
@@ -129,8 +129,8 @@
 	font-family: var(--basic-font);
 	font-style: normal;
 	font-weight: 700;
-	font-size: 18px;
-	line-height: 18px;
+	font-size: 16px;
+	line-height: 16px;
 	text-align: center;
 }
 

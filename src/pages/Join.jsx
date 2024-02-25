@@ -440,7 +440,7 @@ const Join = () => {
 							</button>
 						</div>
 						<button className="arrow">
-							<Link to={'/join2'}>
+							<Link to={'/signup/1'}>
 								<img src={rightArrow} alt="다음 페이지로" />
 							</Link>
 						</button>

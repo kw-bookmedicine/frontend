@@ -11,7 +11,8 @@ import Mypage from './pages/Mypage';
 import BookDetail from './pages/BookDetail';
 import Login from './pages/Login';
 import Join from './pages/Join';
-import Join2 from './pages/Join2';
+import Signup2 from './pages/Signup2';
+import Signup3 from './pages/Signup3';
 import FindUserInfo from './pages/FindUserInfo';
 import Registration from './pages/Registration';
 import BookList from './pages/BookList';
@@ -52,7 +53,8 @@ function App() {
 
 					<Route path="/login" element={<Login />} />
 					<Route path="/signup" element={<Join />} />
-					<Route path="/signup/:page" element={<Join2 />} />
+					<Route path="/signup/1" element={<Signup2 />} />
+					<Route path="/signup/2" element={<Signup3 />} />
 					<Route path="/find/user/info/:page" element={<FindUserInfo />} />
 					<Route path="/test" element={<Registration />} />
 
