@@ -1,9 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { styled } from 'styled-components';
+import axios from 'axios';
+
+// COMPONENTS
+import Btn from '../components/Button';
+
+// ASSETS
 import kakaoIcon from '../assets/kakao-icon.jpg';
 import naverIcon from '../assets/naver-icon.jpg';
-import axios from 'axios';
+import banner from '../assets/Login-Banner.png';
+
+// STYLE
+import { styled } from 'styled-components';
 
 const LoginContainer = styled.div`
 	display: flex;
@@ -15,8 +23,10 @@ const ImageContent = styled.div`
 	flex: 1;
 	max-width: 50%;
 	box-sizing: border-box;
-	background-image: url('https://d3udu241ivsax2.cloudfront.net/v3/images/login/promotion_intro_bg.ac5237a5bed49b864cccee5224a464e4.jpg');
-	background-image: url('https://www.flybook.kr/FlyBookSitePublishing/assets/img/main/top-banner.jpg');
+	/* background-image: url('https://d3udu241ivsax2.cloudfront.net/v3/images/login/promotion_intro_bg.ac5237a5bed49b864cccee5224a464e4.jpg'); */
+	/* background-image: url('https://www.flybook.kr/FlyBookSitePublishing/assets/img/main/top-banner.jpg'); */
+	background-image: url('../../public/Login-Banner.png');
+	background: url(${banner});
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: center;
@@ -69,8 +79,9 @@ const Input = styled.input`
 	width: 100%;
 	height: 75px;
 	padding: 10px 12px;
-	border: 1px solid #ccc;
+	border: 1px solid #000;
 	border-radius: 4px;
+	font-family: var(--basic-font);
 	font-size: 20px;
 `;
 
@@ -214,24 +225,26 @@ export default function Login() {
 	};
 
 	// 로그인 요청
-	const loginData = { username: 'sim', password: '1234' };
+	const loginData = { username: { id }, password: { pwd } };
 
 	const postLogin = () => {
-		axios
-			.post(
-				'https://port-0-backend-book-pharmacy-umnqdut2blqqhv7sd.sel5.cloudtype.app/login',
-				loginData,
-			)
-			.then((res) => {
-				localStorage.clear();
-				localStorage.setItem('token', res.headers.authorization);
-				// 받아온 token을 암호화 하는 방식에 대해 고민 필요함.
-				console.log(res.headers.authorization);
-				window.location.replace('/main');
-			})
-			.catch((err) => {
-				console.log(err);
-			});
+		if (id.length > 0 && pwd.length > 0) {
+			axios
+				.post(
+					'https://port-0-backend-book-pharmacy-umnqdut2blqqhv7sd.sel5.cloudtype.app/login',
+					loginData,
+				)
+				.then((res) => {
+					localStorage.clear();
+					localStorage.setItem('token', res.headers.authorization);
+					// 받아온 token을 암호화 하는 방식에 대해 고민 필요함.
+					console.log(res.headers.authorization);
+					window.location.replace('/main');
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+		}
 	};
 
 	useEffect(() => {
@@ -244,7 +257,7 @@ export default function Login() {
 
 	return (
 		<LoginContainer>
-			<ImageContent/>
+			<ImageContent />
 			<LoginContent>
 				<Title>Login</Title>
 
@@ -252,7 +265,7 @@ export default function Login() {
 					<Input
 						type="text"
 						name="id"
-						placeholder="아이디 입력"
+						placeholder="아이디"
 						value={id}
 						onChange={handleInputChange}
 					/>
@@ -275,7 +288,7 @@ export default function Login() {
 					<Input
 						type="password"
 						name="password"
-						placeholder="비밀번호 입력"
+						placeholder="비밀번호"
 						value={pwd}
 						onChange={handleInputChange}
 					/>
@@ -294,21 +307,30 @@ export default function Login() {
 					)}
 				</ErrorMessageWrap>
 
-				<LoginButton disabled={notAllow}>로그인</LoginButton>
-				<button
+				{/* <LoginButton disabled={notAllow}>로그인</LoginButton> */}
+				<Btn
+					text={'로그인'}
+					type="postLogin"
+					onClick={() => {
+						postLogin();
+					}}
+				/>
+				{/* <button
 					onClick={() => {
 						postLogin();
 					}}
 				>
 					login test
-				</button>
+				</button> */}
 				<LoginSubMenu>
 					<LoginSubMenuItem>
-						<Link to={'/join'}>회원가입</Link>
+						<Link to={'/signup'}>회원가입</Link>
 					</LoginSubMenuItem>
-
 					<LoginSubMenuItem>
-						<Link to={'/'}>비밀번호 찾기</Link>
+						<Link to={'/id-find'}>아이디 찾기</Link>
+					</LoginSubMenuItem>
+					<LoginSubMenuItem>
+						<Link to={'/password-find'}>비밀번호 찾기</Link>
 					</LoginSubMenuItem>
 				</LoginSubMenu>
 				<Or>

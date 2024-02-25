@@ -5,6 +5,7 @@ import styles from '../styles/Button.module.css';
 const Button = ({ text, type }) => {
 	let btnType = [
 		'login',
+		'postLogin',
 		'join',
 		'logout',
 		'logout2',
