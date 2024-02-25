@@ -22,6 +22,11 @@ import UserInfo from './pages/UserInfo';
 import GlobalStyles from './styles/GlobalStyles';
 import './App.css';
 import ScrollTop from './components/ScrollTop';
+import LoginFind from './pages/LoginFind';
+import LoginLayout from './components/LoginLayout';
+import LoginFindResult from './pages/LoginFindResult';
+import PasswordFind from './pages/PasswordFind';
+import PasswordFindResult from './pages/PasswordFindResult';
 
 function App() {
 	// 브라우저 새로고침 스크롤 이벤트
@@ -34,33 +39,39 @@ function App() {
 	let [category, setCategory] = useState('소설');
 
 	https: return (
-		<BrowserRouter>
-			<div className="App">
-				<GlobalStyles />
-				<ScrollTop />
-				<Routes>
-					<Route path="/" element={<Home />} />
-					<Route path="/logout" element={<Home />} />
-					<Route path="/main" element={<Main />} />
-					<Route path="/feed" element={<Feed />} />
-					<Route path="/search" element={<Search />} />
-					<Route path="/mypage" element={<Mypage />} />
-					<Route path="/myfeed" element={<MyFeed />} />
-					<Route path="/edit" element={<Edit />} />
-					<Route path="/edit/:page" element={<UserInfo />} />
+    <BrowserRouter>
+      <div className="App">
+        <GlobalStyles />
+        <ScrollTop />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/logout" element={<Home />} />
+          <Route path="/main" element={<Main />} />
+          <Route path="/feed" element={<Feed />} />
+          <Route path="/search" element={<Search />} />
+          <Route path="/mypage" element={<Mypage />} />
+          <Route path="/myfeed" element={<MyFeed />} />
+          <Route path="/edit" element={<Edit />} />
+          <Route path="/edit/:page" element={<UserInfo />} />
 
-					<Route path="/login" element={<Login />} />
-					<Route path="/join" element={<Join />} />
-					<Route path="/join2" element={<Join2 />} />
-					<Route path="/test" element={<Registration />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/join" element={<Join />} />
+          <Route path="/join2" element={<Join2 />} />
+          <Route element={<LoginLayout />}>
+            <Route path="/login-find" element={<LoginFind />} />
+            <Route path="/login-find-result" element={<LoginFindResult />} />
+            <Route path="/password-find" element={<PasswordFind />} />
+            <Route path="/password-find-result" element={<PasswordFindResult />} />
+          </Route>
+          <Route path="/test" element={<Registration />} />
 
-					<Route path="/book-detail" element={<BookDetail />} />
-					<Route path="/book/list/:title" element={<BookList />} />
-					<Route path="/book/:title/:category" element={<SmallCategory />} />
-				</Routes>
-			</div>
-		</BrowserRouter>
-	);
+          <Route path="/book-detail" element={<BookDetail />} />
+          <Route path="/book/list/:title" element={<BookList />} />
+          <Route path="/book/:title/:category" element={<SmallCategory />} />
+        </Routes>
+      </div>
+    </BrowserRouter>
+  );
 }
 
 export default App;
