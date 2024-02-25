@@ -12,6 +12,7 @@ import BookDetail from './pages/BookDetail';
 import Login from './pages/Login';
 import Join from './pages/Join';
 import Join2 from './pages/Join2';
+import FindUserInfo from './pages/FindUserInfo';
 import Registration from './pages/Registration';
 import BookList from './pages/BookList';
 import SmallCategory from './pages/SmallCategory';
@@ -50,8 +51,9 @@ function App() {
 					<Route path="/edit/:page" element={<UserInfo />} />
 
 					<Route path="/login" element={<Login />} />
-					<Route path="/join" element={<Join />} />
-					<Route path="/join2" element={<Join2 />} />
+					<Route path="/signup" element={<Join />} />
+					<Route path="/signup/:page" element={<Join2 />} />
+					<Route path="/find/user/info/:page" element={<FindUserInfo />} />
 					<Route path="/test" element={<Registration />} />
 
 					<Route path="/book-detail" element={<BookDetail />} />
