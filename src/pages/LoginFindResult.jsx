@@ -6,17 +6,14 @@ const LoginFindResult = () => {
   const navigate = useNavigate();
   const name = useRef("김일일");
   const userId = useRef("qweasdzxc");
-  const isSuccess = useRef(!true);
+  const isSuccess = useRef(true);
 
   const maskStartIndex = Math.floor(userId.current.length / 2); // userId의 길이의 절반을 내림 처리하여 마스킹을 시작할 인덱스로 설정
 
   // 마스킹 처리된 userId 생성
   const maskedUserId =
-    userId.current.length > maskStartIndex
-      ? `${userId.current.substring(0, maskStartIndex)}${"*".repeat(
-          userId.current.length - maskStartIndex
-        )}`
-      : userId.current;
+    userId.current.substring(0, maskStartIndex) +
+    "*".repeat(userId.current.length - maskStartIndex);
 
   return (
     <section>
@@ -28,47 +25,47 @@ const LoginFindResult = () => {
         </ContentTitle>
 
         {isSuccess.current ? (
-          <>
-            <UserIdDisplay>아이디: {maskedUserId}</UserIdDisplay>
-            <ResultNotification>
-              <p>아이디 찾기 성공적으로 이루어졌습니다!</p>
-              <p>오늘도 책국과 함께하는 즐거운 독서 생활 바랍니다!</p>
-            </ResultNotification>
-
-            <ButtonsContainer>
-              <LoginButton onClick={() => navigate("/login")}>
-                로그인
-              </LoginButton>
-              <PasswordFindButton onClick={() => navigate("/password-find")}>
-                비밀번호 찾기
-              </PasswordFindButton>
-            </ButtonsContainer>
-          </>
+          <SuccessResult maskedUserId={maskedUserId} onNavigate={navigate} />
         ) : (
-          <>
-            <ResultNotification>
-              <UserIdDisplay>등록되지 않은 회원입니다.</UserIdDisplay>
-              <p>
-                등록되지 않은 회원입니다.
-                <br />
-                이름이나 이메일을 잘 못 입력하셨을 수도 있으니 다시
-                시도해주십시오.
-              </p>
-            </ResultNotification>
-            <ButtonsContainer>
-              <LoginFindButton onClick={() => navigate("/login-find")}>
-                아이디 찾기
-              </LoginFindButton>
-              <JoinButton onClick={() => navigate("/join")}>
-                회원가입
-              </JoinButton>
-            </ButtonsContainer>
-          </>
+          <FailureResult onNavigate={navigate} />
         )}
       </article>
     </section>
   );
 };
+
+const SuccessResult = ({ maskedUserId, onNavigate }) => (
+  <>
+    <UserIdDisplay>아이디: {maskedUserId}</UserIdDisplay>
+    <ResultNotification>
+      <p>아이디 찾기가 성공적으로 이루어졌습니다!</p>
+      <p>오늘도 책국과 함께하는 즐거운 독서 생활 바랍니다!</p>
+    </ResultNotification>
+    <ButtonsContainer>
+      <LoginButton onClick={() => onNavigate("/login")}>로그인</LoginButton>
+      <PasswordFindButton wide onClick={() => onNavigate("/password-find")}>
+        비밀번호 찾기
+      </PasswordFindButton>
+    </ButtonsContainer>
+  </>
+);
+
+const FailureResult = ({ onNavigate }) => (
+  <>
+    <ResultNotification>
+      <UserIdDisplay>등록되지 않은 회원입니다.</UserIdDisplay>
+      <p>이름이나 이메일을 잘못 입력하셨을 수 있으니, 다시 시도해주십시오.</p>
+    </ResultNotification>
+    <ButtonsContainer>
+      <LoginFindButton onClick={() => onNavigate("/login-find")}>
+        아이디 찾기
+      </LoginFindButton>
+      <JoinButton wide onClick={() => onNavigate("/join")}>
+        회원가입
+      </JoinButton>
+    </ButtonsContainer>
+  </>
+);
 
 export default LoginFindResult;
 
