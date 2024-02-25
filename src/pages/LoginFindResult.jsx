@@ -18,12 +18,10 @@ const LoginFindResult = () => {
   return (
     <section>
       <Title>아이디 찾기 결과</Title>
-
       <article>
         <ContentTitle>
           {name.current} 님의 아이디 조회 결과 입니다.
         </ContentTitle>
-
         {isSuccess.current ? (
           <SuccessResult maskedUserId={maskedUserId} onNavigate={navigate} />
         ) : (

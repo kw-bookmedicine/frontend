@@ -48,5 +48,5 @@ const StyledImg = styled.img`
 `;
 
 const Wrapper = styled.div`
-  padding: 20% 10%;
+  padding: 20% 10% 0 10%;
 `;

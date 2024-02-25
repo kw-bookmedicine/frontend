@@ -25,6 +25,8 @@ import ScrollTop from './components/ScrollTop';
 import LoginFind from './pages/LoginFind';
 import LoginLayout from './components/LoginLayout';
 import LoginFindResult from './pages/LoginFindResult';
+import PasswordFind from './pages/PasswordFind';
+import PasswordFindResult from './pages/PasswordFindResult';
 
 function App() {
 	// 브라우저 새로고침 스크롤 이벤트
@@ -58,8 +60,9 @@ function App() {
           <Route element={<LoginLayout />}>
             <Route path="/login-find" element={<LoginFind />} />
             <Route path="/login-find-result" element={<LoginFindResult />} />
+            <Route path="/password-find" element={<PasswordFind />} />
+            <Route path="/password-find-result" element={<PasswordFindResult />} />
           </Route>
-          {/* <Route path="/login-find" element={<LoginFind />} /> */}
           <Route path="/test" element={<Registration />} />
 
           <Route path="/book-detail" element={<BookDetail />} />
