@@ -38,8 +38,6 @@ function App() {
 		};
 	}, []);
 
-	let [category, setCategory] = useState('소설');
-
 	https: return (
 		<BrowserRouter>
 			<div className="App">
@@ -57,11 +55,9 @@ function App() {
 					<Route path="/edit/:page" element={<UserInfo />} />
 
 					<Route path="/login" element={<Login />} />
-					<Route path="/join" element={<Join />} />
-					<Route path="/join2" element={<Join2 />} />
 					<Route element={<LoginLayout />}>
-						<Route path="/login-find" element={<LoginFind />} />
-						<Route path="/login-find-result" element={<LoginFindResult />} />
+						<Route path="/id-find" element={<LoginFind />} />
+						<Route path="/id-find-result" element={<LoginFindResult />} />
 						<Route path="/password-find" element={<PasswordFind />} />
 						<Route
 							path="/password-find-result"
@@ -73,7 +69,7 @@ function App() {
 					<Route path="/signup" element={<Join />} />
 					<Route path="/signup/1" element={<Signup2 />} />
 					<Route path="/signup/2" element={<Signup3 />} />
-					<Route path="/find/user/info/:page" element={<FindUserInfo />} />
+					{/* <Route path="/find/user/info/:page" element={<FindUserInfo />} /> */}
 					<Route path="/test" element={<Registration />} />
 
 					<Route path="/book-detail" element={<BookDetail />} />

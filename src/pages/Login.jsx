@@ -257,7 +257,7 @@ export default function Login() {
 
 	return (
 		<LoginContainer>
-			<ImageContent/>
+			<ImageContent />
 			<LoginContent>
 				<Title>Login</Title>
 
@@ -327,10 +327,10 @@ export default function Login() {
 						<Link to={'/signup'}>회원가입</Link>
 					</LoginSubMenuItem>
 					<LoginSubMenuItem>
-						<Link to={'/find/user/info/id'}>아이디 찾기</Link>
+						<Link to={'/id-find'}>아이디 찾기</Link>
 					</LoginSubMenuItem>
 					<LoginSubMenuItem>
-						<Link to={'/find/user/info/password'}>비밀번호 찾기</Link>
+						<Link to={'/password-find'}>비밀번호 찾기</Link>
 					</LoginSubMenuItem>
 				</LoginSubMenu>
 				<Or>
