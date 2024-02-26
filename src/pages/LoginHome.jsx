@@ -17,9 +17,9 @@ const LoginHome = () => {
 
 	// 로그아웃된 상태라면 로그인 화면으로 이동
 	useEffect(() => {
-		if (localStorage.getItem('token') === null) {
-			window.location.replace('http://localhost:3000/login');
-		}
+		// if (localStorage.getItem('token') === null) {
+		// 	window.location.replace('http://localhost:3000/login');
+		// }
 	}, []);
 
 	useEffect(() => {
