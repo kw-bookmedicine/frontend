@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
 // COMPONENTS
-import FindID from '../components/Signup/FindID';
+// import FindID from '../components/Signup/FindID';
 
 // ASSETS
 import banner from '../assets/Login-Banner.png';
@@ -46,7 +46,7 @@ const FindUserInfo = () => {
 			<LoginContainer>
 				<ImageContent></ImageContent>
 				<LoginContent>
-					{page === 'id' ? <FindID /> : <h1>비밀번호</h1>}
+					{/* {page === 'id' ? <FindID /> : <h1>비밀번호</h1>} */}
 				</LoginContent>
 			</LoginContainer>
 		</>
