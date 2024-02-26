@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-const LoginFindResult = () => {
+const IdFindResult = () => {
   const navigate = useNavigate();
   const name = useRef("김일일");
   const userId = useRef("qweasdzxc");
@@ -55,7 +55,7 @@ const FailureResult = ({ onNavigate }) => (
       <p>이름이나 이메일을 잘못 입력하셨을 수 있으니, 다시 시도해주십시오.</p>
     </ResultNotification>
     <ButtonsContainer>
-      <LoginFindButton onClick={() => onNavigate("/login-find")}>
+      <LoginFindButton onClick={() => onNavigate("/id-find")}>
         아이디 찾기
       </LoginFindButton>
       <JoinButton wide onClick={() => onNavigate("/join")}>
@@ -65,7 +65,7 @@ const FailureResult = ({ onNavigate }) => (
   </>
 );
 
-export default LoginFindResult;
+export default IdFindResult;
 
 const Title = styled.h1`
   font-size: 3rem;

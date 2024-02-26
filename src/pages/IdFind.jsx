@@ -7,7 +7,7 @@ import banner from '../assets/Login-Banner.png';
 // STYLE
 import styled from 'styled-components';
 
-const LoginFind = () => {
+const IdFind = () => {
 	let navigate = useNavigate();
 
 	const [name, setName] = useState();
@@ -92,17 +92,6 @@ const LoginFind = () => {
 							disabled={isInputEnabled}
 							value={emailDomain}
 						/>
-						{/* <SelectEmail name="" id="" onChange={handleSelectedEmailDomain}>
-                <option value="type" selected>
-                  직접 입력
-                </option>
-                <option value="naver.com">naver.com</option>
-                <option value="google.com">google.com</option>
-                <option value="hanmail.net">hanmail.net</option>
-                <option value="nate.com">nate.com</option>
-                <option value="kakao.com">kakao.com</option>
-              </SelectEmail>
-               */}
 						<SelectEmail
 							value={emailDomain}
 							onChange={handleSelectedEmailDomain}
@@ -135,7 +124,7 @@ const LoginFind = () => {
 	);
 };
 
-export default LoginFind;
+export default IdFind;
 
 const Title = styled.h1`
 	font-size: 3rem;
