@@ -2,19 +2,17 @@ import React, { useRef } from "react";
 import styled from "styled-components";
 
 const Input = ({ placeholder, width, height, onChange }) => {
-  // You could use useRef here if needed, but for simplicity and to keep it generic, let's stick with onChange
   return (
     <StyledInput
       type="text"
       placeholder={placeholder}
       width={width}
       height={height}
-      onChange={onChange} // Use the passed onChange prop for handling changes
+      onChange={onChange} 
     />
   );
 };
 
-// Styled component for the input
 const StyledInput = styled.input`
   width: ${(props) => props.width || "100%"};
   height: ${(props) => props.height || "60px"};
