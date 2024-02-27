@@ -6,7 +6,7 @@ const PasswordFindResult = () => {
   const navigate = useNavigate();
   return (
     <section>
-      <Title>비밀번호 결과</Title>
+      <Title>비밀번호 찾기 결과</Title>
       <EmailInstruction>
         입력하신 이메일로 임시 비밀번호가 발급되었습니다.
       </EmailInstruction>

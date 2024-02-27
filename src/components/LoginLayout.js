@@ -35,6 +35,7 @@ const LeftContainer = styled.div`
 	display: flex;
 	height: 100vh;
 	color: black;
+	
 	/* width: 50%;
   height: 100%;
   position: absolute;
@@ -47,6 +48,7 @@ const RightContainer = styled.div`
 	position: absolute;
 	right: 0;
 	top: 0;
+	overflow-y: auto;
 `;
 
 const StyledImg = styled.img`

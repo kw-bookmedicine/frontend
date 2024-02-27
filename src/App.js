@@ -24,11 +24,11 @@ import UserInfo from './pages/UserInfo';
 import GlobalStyles from './styles/GlobalStyles';
 import './App.css';
 import ScrollTop from './components/ScrollTop';
-import LoginFind from './pages/LoginFind';
 import LoginLayout from './components/LoginLayout';
-import LoginFindResult from './pages/LoginFindResult';
+import LoginFindResult from './pages/IdFindResult';
 import PasswordFind from './pages/PasswordFind';
 import PasswordFindResult from './pages/PasswordFindResult';
+import IdFind from './pages/IdFind';
 
 function App() {
 	// 브라우저 새로고침 스크롤 이벤트
@@ -54,9 +54,8 @@ function App() {
 					<Route path="/edit" element={<Edit />} />
 					<Route path="/edit/:page" element={<UserInfo />} />
 
-					<Route path="/login" element={<Login />} />
 					<Route element={<LoginLayout />}>
-						<Route path="/id-find" element={<LoginFind />} />
+						<Route path="/id-find" element={<IdFind />} />
 						<Route path="/id-find-result" element={<LoginFindResult />} />
 						<Route path="/password-find" element={<PasswordFind />} />
 						<Route
