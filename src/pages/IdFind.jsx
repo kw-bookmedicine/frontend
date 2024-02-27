@@ -6,14 +6,16 @@ import banner from '../assets/Login-Banner.png';
 
 // STYLE
 import styled from 'styled-components';
+import useInput from '../hooks/useInput';
 
 const IdFind = () => {
 	let navigate = useNavigate();
 
-	const [name, setName] = useState();
-	const [email, setEmail] = useState('');
-	const [emailUsername, setEmailUsername] = useState('');
-	const [emailDomain, setEmailDomain] = useState();
+	const [name, setName, handleNameChange] = useInput('');
+	const [email, setEmail, handleEmailChange] = useInput('');
+	const [emailUsername, setEmailUsername, handleEmailUsernameChange] =
+    useInput("");
+	const [emailDomain, setEmailDomain, handleEmailDomain] = useInput('');
 	const [isInputEnabled, setIsInputEnabled] = useState(false);
 
 	const handleMoveLoginPage = () => {
@@ -22,18 +24,6 @@ const IdFind = () => {
 
 	const handleMoveLoginFindResultPage = () => {
 		navigate('/id-find-result');
-	};
-
-	const handleNameChange = (e) => {
-		setName(e.target.value);
-	};
-
-	const handleEmailChange = (e) => {
-		setEmailUsername(e.target.value);
-	};
-
-	const handleEmailDomain = (e) => {
-		setEmailDomain(e.target.value);
 	};
 
 	const handleSelectedEmailDomain = (e) => {

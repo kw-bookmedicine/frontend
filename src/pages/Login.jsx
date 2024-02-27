@@ -225,7 +225,9 @@ export default function Login() {
 	};
 
 	// 로그인 요청
-	const loginData = { username: { id }, password: { pwd } };
+	const loginData = { username: "sim", password: "1234" };
+	
+	// const loginData = { username: { id }, password: { pwd } };
 
 	const postLogin = () => {
 		if (id.length > 0 && pwd.length > 0) {
@@ -246,6 +248,9 @@ export default function Login() {
 				});
 		}
 	};
+
+
+	 
 
 	useEffect(() => {
 		if (idValid && pwdValid) {
