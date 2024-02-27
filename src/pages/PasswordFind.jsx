@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import Input from "../components/Input/Input";
 
 const PasswordFind = () => {
   let navigate = useNavigate();
@@ -54,19 +55,21 @@ const PasswordFind = () => {
       <Title>비밀번호 찾기</Title>
       <article>
         <div>
-          <StyledInput
-            type="text"
+          <Input
             placeholder="이름"
-            style={{ width: "100%" }}
-            onChange={handleNameChange}
+            width="100%"
+            onChange={(e) => {
+              userName.current = e.target.value;
+            }}
           />
         </div>
         <div>
-          <StyledInput
-            type="text"
+          <Input
             placeholder="아이디"
-            style={{ width: "100%" }}
-            onChange={handleIDChange}
+            width="100%"
+            onChange={(e) => {
+              userId.current = e.target.value;
+            }}
           />
         </div>
         <div
