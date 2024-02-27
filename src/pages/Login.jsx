@@ -40,6 +40,7 @@ const LoginContent = styled.div`
 	background: #fff;
 	padding: 128px 60px;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	overflow-y: auto;
 `;
 
 const Title = styled.h1`
@@ -71,8 +72,7 @@ const InputDelete = styled.button`
 	border: none;
 	font-size: 20px;
 	cursor: pointer;
-	display: ${({ showDeleteButton }) => (showDeleteButton ? 'block' : 'none')};
-`;
+	`;
 
 const Input = styled.input`
 	box-sizing: border-box;
@@ -261,95 +261,95 @@ export default function Login() {
 	}, [idValid, pwdValid]);
 
 	return (
-		<LoginContainer>
-			<ImageContent />
-			<LoginContent>
-				<Title>Login</Title>
+    <LoginContainer>
+      <ImageContent />
+      <LoginContent>
+        <Title>Login</Title>
 
-				<InputWrap>
-					<Input
-						type="text"
-						name="id"
-						placeholder="아이디"
-						value={id}
-						onChange={handleInputChange}
-					/>
-					<InputDelete
-						showDeleteButton={id.length > 0}
-						onClick={() => handleDeleteButtonClick('Id')}
-					>
-						X
-					</InputDelete>
-				</InputWrap>
-				<ErrorMessageWrap>
-					{!idValid && id.length > 0 && (
-						<div>
-							<p>4글자 이상 입력해주세요.</p>
-						</div>
-					)}
-				</ErrorMessageWrap>
+        <InputWrap>
+          <Input
+            type="text"
+            name="id"
+            placeholder="아이디"
+            value={id}
+            onChange={handleInputChange}
+          />
+          {id.length > 0 && (
+            <InputDelete onClick={() => handleDeleteButtonClick("Id")}>
+              X
+            </InputDelete>
+          )}
+        </InputWrap>
+        <ErrorMessageWrap>
+          {!idValid && id.length > 0 && (
+            <div>
+              <p>4글자 이상 입력해주세요.</p>
+            </div>
+          )}
+        </ErrorMessageWrap>
 
-				<InputWrap>
-					<Input
-						type="password"
-						name="password"
-						placeholder="비밀번호"
-						value={pwd}
-						onChange={handleInputChange}
-					/>
-					<InputDelete
-						showDeleteButton={pwd.length > 0}
-						onClick={() => handleDeleteButtonClick('password')}
-					>
-						X
-					</InputDelete>
-				</InputWrap>
-				<ErrorMessageWrap>
-					{!pwdValid && pwd.length > 0 && (
-						<div>
-							<p>영문, 숫자, 특수문자 포함 8자 이상 입력해주세요.</p>
-						</div>
-					)}
-				</ErrorMessageWrap>
+        <InputWrap>
+          <Input
+            type="password"
+            name="password"
+            placeholder="비밀번호"
+            value={pwd}
+            onChange={handleInputChange}
+          />
+          {pwd.length > 0 && (
+            <InputDelete
+              onClick={() => handleDeleteButtonClick("password")}
+            >
+              X
+            </InputDelete>
+          )}
+        </InputWrap>
+        <ErrorMessageWrap>
+          {!pwdValid && pwd.length > 0 && (
+            <div>
+              <p>영문, 숫자, 특수문자 포함 8자 이상 입력해주세요.</p>
+            </div>
+          )}
+        </ErrorMessageWrap>
 
-				{/* <LoginButton disabled={notAllow}>로그인</LoginButton> */}
-				<Btn
-					text={'로그인'}
-					type="postLogin"
-					onClick={() => {
-						postLogin();
-					}}
-				/>
-				{/* <button
+        {/* <LoginButton disabled={notAllow}>로그인</LoginButton> */}
+        <Btn
+          text={"로그인"}
+          type="postLogin"
+          onClick={() => {
+            postLogin();
+          }}
+        />
+        {/* <button
 					onClick={() => {
 						postLogin();
 					}}
 				>
 					login test
 				</button> */}
-				<LoginSubMenu>
-					<LoginSubMenuItem>
-						<Link to={'/signup'}>회원가입</Link>
-					</LoginSubMenuItem>
-					<LoginSubMenuItem>
-						<Link to={'/id-find'}>아이디 찾기</Link>
-					</LoginSubMenuItem>
-					<LoginSubMenuItem>
-						<Link to={'/password-find'}>비밀번호 찾기</Link>
-					</LoginSubMenuItem>
-				</LoginSubMenu>
-				<Or>
-					<p>or</p>
-				</Or>
-				<SnsList>
-					<button>
-						<img src={kakaoIcon} alt="" />
-					</button>
-					<button>
-						<img src={naverIcon} alt="" />
-					</button>
-				</SnsList>
-			</LoginContent>
-		</LoginContainer>
-	);
+        <LoginSubMenu>
+          <LoginSubMenuItem>
+            <Link to={"/signup"}>회원가입</Link>
+          </LoginSubMenuItem>
+          <LoginSubMenuItem>
+            <Link to={"/id-find"}>아이디 찾기</Link>
+          </LoginSubMenuItem>
+          <LoginSubMenuItem>
+            <Link to={"/password-find"}>비밀번호 찾기</Link>
+          </LoginSubMenuItem>
+        </LoginSubMenu>
+        <Or>
+          <p>or</p>
+        </Or>
+        <SnsList>
+          <button>
+            <img src={kakaoIcon} alt="" />
+          </button>
+          <button>
+            <img src={naverIcon} alt="" />
+          </button>
+        </SnsList>
+      </LoginContent>
+    </LoginContainer>
+  );
 }
