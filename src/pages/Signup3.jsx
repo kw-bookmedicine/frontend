@@ -49,83 +49,92 @@ const Signup3 = () => {
 					</div> */}
 					<div
 						className="user_interest_item"
-						style={{
-							backgroundImage: `url(${philosophy})`,
-							backgroundSize: 'cover',
-						}}
+						id="philosophy"
+						// style={{
+						// 	backgroundImage: `url(${philosophy})`,
+						// 	backgroundSize: 'cover',
+						// }}
 					>
 						철학
 					</div>
 					<div
 						className="user_interest_item"
-						style={{
-							backgroundImage: `url(${religion})`,
-							backgroundSize: 'cover',
-						}}
+						id="religion"
+						// style={{
+						// 	backgroundImage: `url(${religion})`,
+						// 	backgroundSize: 'cover',
+						// }}
 					>
 						종교
 					</div>
 					<div
 						className="user_interest_item"
-						style={{
-							backgroundImage: `url(${social})`,
-							backgroundSize: 'cover',
-						}}
+						id="social"
+						// style={{
+						// 	backgroundImage: `url(${social})`,
+						// 	backgroundSize: 'cover',
+						// }}
 					>
 						사회과학
 					</div>
 					<div
 						className="user_interest_item"
-						style={{
-							backgroundImage: `url(${natural})`,
-							backgroundSize: 'cover',
-						}}
+						id="natural"
+						// style={{
+						// 	backgroundImage: `url(${natural})`,
+						// 	backgroundSize: 'cover',
+						// }}
 					>
 						자연과학
 					</div>
 					<div
 						className="user_interest_item"
 						alt={'기술과학'}
-						style={{
-							backgroundImage: `url(${tech})`,
-							backgroundSize: 'cover',
-						}}
+						id="tech"
+						// style={{
+						// 	backgroundImage: `url(${tech})`,
+						// 	backgroundSize: 'cover',
+						// }}
 					>
 						기술과학
 					</div>
 					<div
 						className="user_interest_item"
-						style={{
-							backgroundImage: `url(${art})`,
-							backgroundSize: 'cover',
-						}}
+						id="art"
+						// style={{
+						// 	backgroundImage: `url(${art})`,
+						// 	backgroundSize: 'cover',
+						// }}
 					>
 						예술
 					</div>
 					<div
 						className="user_interest_item"
-						style={{
-							backgroundImage: `url(${language})`,
-							backgroundSize: 'cover',
-						}}
+						id="language"
+						// style={{
+						// 	backgroundImage: `url(${language})`,
+						// 	backgroundSize: 'cover',
+						// }}
 					>
 						언어
 					</div>
 					<div
 						className="user_interest_item"
-						style={{
-							backgroundImage: `url(${literature})`,
-							backgroundSize: 'cover',
-						}}
+						id="literature"
+						// style={{
+						// 	backgroundImage: `url(${literature})`,
+						// 	backgroundSize: 'cover',
+						// }}
 					>
 						문학
 					</div>
 					<div
 						className="user_interest_item"
-						style={{
-							backgroundImage: `url(${history})`,
-							backgroundSize: 'cover',
-						}}
+						id="history"
+						// style={{
+						// 	backgroundImage: `url(${history})`,
+						// 	backgroundSize: 'cover',
+						// }}
 					>
 						역사
 					</div>

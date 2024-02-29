@@ -178,24 +178,43 @@
 }
 
 #general {
-	width: 220px;
-	height: 220px;
-	margin: 10px;
 	background: url('../assets/interest_category_general.png');
-	background-size: cover;
-	background-position: center;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	border-radius: 10px;
+}
 
-	/* Font */
-	color: #fff;
-	font-family: var(--basic-font);
-	font-size: 20px;
-	font-style: normal;
-	font-weight: 700;
-	line-height: normal;
+#philosophy {
+	background: url('../assets/interest_category_philosophy.png');
+}
+
+#religion {
+	background: url('../assets/interest_category_religion.png');
+}
+
+#social {
+	background: url('../assets/interest_category_social-science.png');
+}
+
+#natural {
+	background: url('../assets/interest_category_natural-science.png');
+}
+
+#tech {
+	background: url('../assets/interest_category_tech.png');
+}
+
+#art {
+	background: url('../assets/interest_category_art.png');
+}
+
+#language {
+	background: url('../assets/interest_category_language.png');
+}
+
+#literature {
+	background: url('../assets/interest_category_literature.png');
+}
+
+#history {
+	background: url('../assets/interest_category_history.png');
 }
 
 #general:hover {
@@ -206,6 +225,96 @@
 		),
 		url('../assets/interest_category_general.png');
 	cursor: pointer;
+}
+
+#philosophy:hover {
+	background: linear-gradient(
+			0deg,
+			rgba(164, 214, 222, 0.78),
+			rgba(164, 214, 222, 0.78)
+		),
+		url('../assets/interest_category_philosophy.png');
+	cursor: pointer;
+}
+
+#religion:hover {
+	cursor: pointer;
+	background: linear-gradient(
+			0deg,
+			rgba(164, 214, 222, 0.78),
+			rgba(164, 214, 222, 0.78)
+		),
+		url('../assets/interest_category_religion.png');
+}
+
+#social:hover {
+	cursor: pointer;
+	background: linear-gradient(
+			0deg,
+			rgba(164, 214, 222, 0.78),
+			rgba(164, 214, 222, 0.78)
+		),
+		url('../assets/interest_category_social-science.png');
+}
+
+#natural:hover {
+	cursor: pointer;
+	background: linear-gradient(
+			0deg,
+			rgba(164, 214, 222, 0.78),
+			rgba(164, 214, 222, 0.78)
+		),
+		url('../assets/interest_category_natural-science.png');
+}
+
+#tech:hover {
+	cursor: pointer;
+	background: linear-gradient(
+			0deg,
+			rgba(164, 214, 222, 0.78),
+			rgba(164, 214, 222, 0.78)
+		),
+		url('../assets/interest_category_tech.png');
+}
+
+#art:hover {
+	cursor: pointer;
+	background: linear-gradient(
+			0deg,
+			rgba(164, 214, 222, 0.78),
+			rgba(164, 214, 222, 0.78)
+		),
+		url('../assets/interest_category_art.png');
+}
+
+#language:hover {
+	cursor: pointer;
+	background: linear-gradient(
+			0deg,
+			rgba(164, 214, 222, 0.78),
+			rgba(164, 214, 222, 0.78)
+		),
+		url('../assets/interest_category_language.png');
+}
+
+#literature:hover {
+	cursor: pointer;
+	background: linear-gradient(
+			0deg,
+			rgba(164, 214, 222, 0.78),
+			rgba(164, 214, 222, 0.78)
+		),
+		url('../assets/interest_category_literature.png');
+}
+
+#history:hover {
+	cursor: pointer;
+	background: linear-gradient(
+			0deg,
+			rgba(164, 214, 222, 0.78),
+			rgba(164, 214, 222, 0.78)
+		),
+		url('../assets/interest_category_history.png');
 }
 
 .select_complete_button {
