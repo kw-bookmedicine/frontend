@@ -20,6 +20,8 @@ import history from '../assets/interest_category_history.png';
 import { styled } from 'styled-components';
 import '../styles/Signup3.css';
 
+const categoryList = ['general', 'philosophy', 'religion'];
+
 const Signup3 = () => {
 	return (
 		<>
@@ -41,16 +43,10 @@ const Signup3 = () => {
 					</div>
 				</div>
 				<div className="signup3_mid_wrapper">
-					<div
-						className="user_interest_item"
-						alt={'총류'}
-						style={{
-							backgroundImage: `url(${general})`,
-							backgroundSize: 'cover',
-						}}
-					>
+					<UserInterestItem>총류</UserInterestItem>
+					{/* <div className="user_interest_item" id="general" alt={'총류'}>
 						총류
-					</div>
+					</div> */}
 					<div
 						className="user_interest_item"
 						style={{
@@ -146,11 +142,32 @@ const Signup3 = () => {
 export default Signup3;
 
 const UserInterestItem = styled.div`
-	width: 150px;
-	height: 150px;
-	/* background-color: #d3e7f6; */
-	background: url(${general});
-	background-position: center;
+	width: 220px;
+	height: 220px;
 	margin: 10px;
-	/* background-image: url('../assets/interest_category_general.png'); */
+	background: url(${general});
+	background-size: cover;
+	background-position: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 10px;
+
+	/* Font */
+	color: #fff;
+	font-family: var(--basic-font);
+	font-size: 20px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: normal;
+
+	&:hover {
+		background: linear-gradient(
+				0deg,
+				rgba(164, 214, 222, 0.78),
+				rgba(164, 214, 222, 0.78)
+			),
+			url(${general});
+		cursor: pointer;
+	}
 `;

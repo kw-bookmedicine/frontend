@@ -20,7 +20,7 @@
 .signup3_up_title_tag_wrapper {
 	display: flex;
 	justify-content: flex-start;
-	padding: 0 60px;
+	padding: 0 40px;
 }
 
 .signup3_title {
@@ -44,7 +44,7 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding: 0 60px;
+	padding: 0 40px;
 }
 
 .signup3_step_wrapper {
@@ -177,12 +177,35 @@
 	line-height: normal;
 }
 
-.user_interest_item::hover {
-	box-shadow: linear-gradient(
-		0deg,
-		rgba(164, 214, 222, 0.78),
-		rgba(164, 214, 222, 0.78)
-	);
+#general {
+	width: 220px;
+	height: 220px;
+	margin: 10px;
+	background: url('../assets/interest_category_general.png');
+	background-size: cover;
+	background-position: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 10px;
+
+	/* Font */
+	color: #fff;
+	font-family: var(--basic-font);
+	font-size: 20px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: normal;
+}
+
+#general:hover {
+	background: linear-gradient(
+			0deg,
+			rgba(164, 214, 222, 0.78),
+			rgba(164, 214, 222, 0.78)
+		),
+		url('../assets/interest_category_general.png');
+	cursor: pointer;
 }
 
 .select_complete_button {
