@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 
 // COMPONENTS
 import Footer from '../components/Footer';
@@ -23,13 +23,24 @@ import '../styles/Signup3.css';
 const categoryList = ['general', 'philosophy', 'religion'];
 
 const Signup3 = () => {
+	const categoryRef = useRef();
+	const generalRef = useRef();
+
+	const [pickCategory, setPickCategory] = useState('');
+
+	const pick = () => {
+		console.log(categoryRef.current.textContent);
+		categoryRef.current.focus();
+		setPickCategory(categoryRef.current.textContent);
+	};
+
 	return (
 		<>
 			<div className="signup3_container">
 				<div className="signup3_up_wrapper">
 					<div className="signup3_up_title_tag_wrapper">
 						<h1 className="signup3_title">관심사 선택</h1>
-						<div className="select_tag_wrapper"></div>
+						<div className="select_tag_wrapper">{pickCategory}</div>
 					</div>
 					<div className="signup3_up_subTitle_step_wrapper">
 						<div className="signup3_subTitle">최대 5개까지 선택 가능</div>
@@ -43,99 +54,52 @@ const Signup3 = () => {
 					</div>
 				</div>
 				<div className="signup3_mid_wrapper">
-					<UserInterestItem>총류</UserInterestItem>
-					{/* <div className="user_interest_item" id="general" alt={'총류'}>
+					<UserInterestItem
+						onClick={() => {
+							setPickCategory('총류');
+						}}
+					>
 						총류
-					</div> */}
+					</UserInterestItem>
+
 					<div
 						className="user_interest_item"
 						id="philosophy"
-						// style={{
-						// 	backgroundImage: `url(${philosophy})`,
-						// 	backgroundSize: 'cover',
-						// }}
+						onClick={() => {
+							setPickCategory('철학');
+						}}
 					>
 						철학
 					</div>
 					<div
 						className="user_interest_item"
 						id="religion"
-						// style={{
-						// 	backgroundImage: `url(${religion})`,
-						// 	backgroundSize: 'cover',
-						// }}
+						// ref={categoryRef}
+						onClick={() => {
+							setPickCategory('종교');
+						}}
 					>
 						종교
 					</div>
-					<div
-						className="user_interest_item"
-						id="social"
-						// style={{
-						// 	backgroundImage: `url(${social})`,
-						// 	backgroundSize: 'cover',
-						// }}
-					>
+					<div className="user_interest_item" id="social">
 						사회과학
 					</div>
-					<div
-						className="user_interest_item"
-						id="natural"
-						// style={{
-						// 	backgroundImage: `url(${natural})`,
-						// 	backgroundSize: 'cover',
-						// }}
-					>
+					<div className="user_interest_item" id="natural">
 						자연과학
 					</div>
-					<div
-						className="user_interest_item"
-						alt={'기술과학'}
-						id="tech"
-						// style={{
-						// 	backgroundImage: `url(${tech})`,
-						// 	backgroundSize: 'cover',
-						// }}
-					>
+					<div className="user_interest_item" id="tech">
 						기술과학
 					</div>
-					<div
-						className="user_interest_item"
-						id="art"
-						// style={{
-						// 	backgroundImage: `url(${art})`,
-						// 	backgroundSize: 'cover',
-						// }}
-					>
+					<div className="user_interest_item" id="art">
 						예술
 					</div>
-					<div
-						className="user_interest_item"
-						id="language"
-						// style={{
-						// 	backgroundImage: `url(${language})`,
-						// 	backgroundSize: 'cover',
-						// }}
-					>
+					<div className="user_interest_item" id="language">
 						언어
 					</div>
-					<div
-						className="user_interest_item"
-						id="literature"
-						// style={{
-						// 	backgroundImage: `url(${literature})`,
-						// 	backgroundSize: 'cover',
-						// }}
-					>
+					<div className="user_interest_item" id="literature">
 						문학
 					</div>
-					<div
-						className="user_interest_item"
-						id="history"
-						// style={{
-						// 	backgroundImage: `url(${history})`,
-						// 	backgroundSize: 'cover',
-						// }}
-					>
+					<div className="user_interest_item" id="history">
 						역사
 					</div>
 				</div>
