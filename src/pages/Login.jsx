@@ -114,8 +114,10 @@ export default function Login() {
 	const loginData = { username: id, password: pwd };
 
 	const postLogin = async () => {
-		console.log('아이디:', id, '비번:', pwd);
+		// console.log('아이디:', id, '비번:', pwd);
 		if (id.length > 0 && pwd.length > 0) {
+			localStorage.setItem('id', id);
+			localStorage.setItem('password', pwd);
 			axios
 				.post(
 					'https://port-0-backend-book-pharmacy-umnqdut2blqqhv7sd.sel5.cloudtype.app/login',
