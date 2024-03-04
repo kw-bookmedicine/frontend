@@ -16,7 +16,7 @@ import { login } from '../services/login';
 import { LoginContext } from '../contexts/LoginContextProvider';
 
 export default function Login() {
-	const { userId, userPwd, setUserId, setUserPwd } = useContext(LoginContext);
+	const {setUserId, setUserPwd } = useContext(LoginContext);
 	const [id, setId] = useState('');
 	const [pwd, setPwd] = useState('');
 	const router = useNavigate();
