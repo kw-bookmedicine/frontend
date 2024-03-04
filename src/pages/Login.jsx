@@ -17,8 +17,8 @@ import { LoginContext } from '../contexts/LoginContextProvider';
 
 export default function Login() {
 	const {setUserId, setUserPwd } = useContext(LoginContext);
-	const [id, setId] = useState('');
-	const [pwd, setPwd] = useState('');
+	const [id, setId] = useState('sim');
+	const [pwd, setPwd] = useState('1234');
 	const router = useNavigate();
 	const [notAllow, setNotAllow] = useState(true);
 
@@ -39,13 +39,13 @@ export default function Login() {
 
 		if (name === 'password') {
 			setPwd(value);
-			const regex =
-				/^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+])(?!.*[^a-zA-z0-9$`~!@$!%*#^?&\\(\\)\-_=+]).{8,20}$/;
-			if (regex.test(value)) {
+			// const regex =
+			// 	/^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+])(?!.*[^a-zA-z0-9$`~!@$!%*#^?&\\(\\)\-_=+]).{8,20}$/;
+			// if (regex.test(value)) {
 				setPwdValid(true);
-			} else {
-				setPwdValid(false);
-			}
+			// } else {
+			// 	setPwdValid(false);
+			// }
 		}
 	};
 
@@ -119,8 +119,8 @@ export default function Login() {
 
 	const postLogin = async () => {
 		console.log('아이디:', id, '비번:', pwd);
-		setUserId(id);
-    setUserPwd(pwd);
+		setUserId(id); // 전역에 id 저장
+    setUserPwd(pwd); // 전역에 password 저장
 		if (id.length > 0 && pwd.length > 0) {
 			localStorage.setItem('id', id);
 			localStorage.setItem('password', pwd);
@@ -128,6 +128,7 @@ export default function Login() {
 				.post(
 					'https://port-0-backend-book-pharmacy-umnqdut2blqqhv7sd.sel5.cloudtype.app/login',
 					loginData,
+					{withCredentials:true}
 				)
 				.then((res) => {
 					let token = res.headers.authorization;
@@ -137,13 +138,29 @@ export default function Login() {
 
 					// 받아온 token을 암호화 하는 방식에 대해 고민 필요함.
 
-					window.location.replace('/main');
+					// window.location.replace('/main');
+					getCategory();
 				})
 				.catch((err) => {
 					console.log(err);
 				});
 		}
 	};
+
+	const getCategory = async () => {
+		axios
+			.get(
+				'https://port-0-backend-book-pharmacy-umnqdut2blqqhv7sd.sel5.cloudtype.app/api/category/big',
+				{ withCredentials: true }
+			)
+			.then((res) => {
+				console.log(res);
+			})
+			.catch((error) => {
+				console.log(error);
+			})
+	}
+
 
 	useEffect(() => {
 		if (idValid && pwdValid) {

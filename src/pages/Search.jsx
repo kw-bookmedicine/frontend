@@ -83,9 +83,11 @@ const Search = () => {
 		axios
 			.get(
 				'https://port-0-backend-book-pharmacy-umnqdut2blqqhv7sd.sel5.cloudtype.app/api/category/big',
-				{
-					headers: { Authorization: accessToken },
-				},
+				{withCredentials:true}
+				// {
+				// 	headers: { Authorization: accessToken },
+			// },
+				
 			)
 			.then((res) => {
 				// 정상처리
@@ -225,8 +227,8 @@ const Search = () => {
 					})
 					.catch(() => {
 						console.log('전부 만료!');
-						alert('로그인 페이지로 이동합니다.');
-						window.location.replace('/login');
+						// alert('로그인 페이지로 이동합니다.');
+						// window.location.replace('/login');
 					});
 			});
 	};
