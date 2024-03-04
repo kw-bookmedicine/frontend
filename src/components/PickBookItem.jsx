@@ -13,15 +13,18 @@ const PickBookItem = ({
 	updateTitle,
 	BookList,
 	updateList,
+	updateAuthor,
 	clicked,
 	clickCount,
 }) => {
 	let listType = ['long', 'short'].includes(type) ? type : 'default';
 
 	const clickRef = useRef(null);
+	const clickAuthorRef = useRef(null);
 
 	// 오른쪽에 보여줄 선택된 책 제목
 	const [pickBookTitle, setPickBookTitle] = useState('');
+	const [pickBookAuthor, setPickBookAuthor] = useState('');
 	const [bookList, setBookList] = useState([]);
 
 	useEffect(() => {
@@ -29,9 +32,15 @@ const PickBookItem = ({
 	});
 
 	const addPick = () => {
-		// console.log('add:', clickRef.current.textContent);
+		console.log('add:', clickRef.current);
 		clickRef.current.focus();
 		setPickBookTitle(clickRef.current.textContent);
+	};
+
+	const addAuthorPick = () => {
+		console.log('add author:', clickAuthorRef.current);
+		clickAuthorRef.current.focus();
+		setPickBookAuthor(clickAuthorRef.current.textContent);
 	};
 
 	// 읽은 목록에서 삭제될 때 선택되는 함수
@@ -53,6 +62,7 @@ const PickBookItem = ({
 	// 제일 처음 읽은 목록 추가 함수
 	const bookUpdateList = () => {
 		updateList(clickRef.current.textContent);
+		updateAuthor(clickAuthorRef.current.textContent);
 	};
 
 	// 읽은 목록에서 삭제 버튼 누른 후 필터링 되는 함수
@@ -63,10 +73,20 @@ const PickBookItem = ({
 	return (
 		<>
 			<div className={`${listType}-pickBookList_wrapper`}>
-				<span className="pickBook_title" ref={clickRef}>
+				<div
+					className={`${listType}-pickBook_title`}
+					ref={clickRef}
+					title={title}
+				>
 					{title}
-				</span>
-				<span className="pickBook_author">{author}</span>
+				</div>
+				<div
+					className={`${listType}-pickBook_author`}
+					ref={clickAuthorRef}
+					title={author}
+				>
+					{author}
+				</div>
 				{listType === 'long' ? (
 					<button
 						className="Btn-add"
@@ -74,6 +94,7 @@ const PickBookItem = ({
 							// console.log('========== 읽은 목록 추가 ==========');
 							// offClick();
 							addPick();
+							addAuthorPick();
 
 							// console.log(bookList);
 							// updateClickCount();

@@ -13,10 +13,12 @@ const MyListModal = ({ onClose }) => {
 	const [input, setInput] = useState('');
 	const [searchBookResult, setData] = useState([]); // 검색 결과가 추가된 리스트
 	const [pickBookList, setPickBookList] = useState([]); // 처음 읽은 목록이 추가된 리스트
+	const [pickAuthorList, setPickAuthorList] = useState([]);
 	const [filterBookList, setFilterBookList] = useState([]); // 삭제 후 필터링 된 책 리스트
 
 	// 오른쪽에 읽은 목록에 대한 책 제목 배열
 	const [addBookList, setAddBookList] = useState([]);
+	const [addAuthorList, setAddAuthorList] = useState([]);
 	const [isEnter, setIsEnter] = useState(false);
 	const [bookCount, setBookCount] = useState(0);
 
@@ -44,6 +46,15 @@ const MyListModal = ({ onClose }) => {
 			pickBookList.includes(pickBookTitle)
 				? pickBookList
 				: pickBookList.push(pickBookTitle),
+		);
+	};
+
+	const AddAuthorList = (pickBookAuthor) => {
+		console.log('add author: ', pickBookAuthor);
+		setAddAuthorList(
+			pickAuthorList.includes(pickBookAuthor)
+				? pickAuthorList
+				: pickAuthorList.push(pickBookAuthor),
 		);
 	};
 
@@ -135,7 +146,8 @@ const MyListModal = ({ onClose }) => {
 													title={ele.volumeInfo.title}
 													BookList={pickBookList}
 													updateList={AddBookList}
-													// author={ele.volumeInfo.authors}
+													author={ele.volumeInfo.authors}
+													updateAuthor={AddAuthorList}
 												/>
 											);
 									  })
@@ -154,8 +166,10 @@ const MyListModal = ({ onClose }) => {
 												key={item}
 												type="short"
 												title={item}
+												// author={author}
 												BookList={pickBookList}
 												updateList={FilterBookList}
+												// updateAuthor={pickAuthorList}
 											/>
 										);
 								  })

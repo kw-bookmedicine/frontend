@@ -14,22 +14,75 @@
 	margin: 5px;
 }
 
-.pickBook_title {
+.long-pickBook_title {
+	width: 300px;
 	font-family: var(--basic-font);
 	font-style: normal;
 	font-weight: 300;
 	font-size: 12px;
 	line-height: 14px;
 	color: #000000;
+	/* cursor: grab; */
+
+	/* 긴 제목 ... 표시 */
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+/* 
+.long-pickBook_title:hover {
+	text-overflow: ellipsis;
+	white-space: normal;
+	word-wrap: break-word;
+	text-align: left;
+	display: -webkit-box;
+	-webkit-line-clamp: 3;
+	-webkit-box-orient: vertical;
+} */
+
+.short-pickBook_title {
+	width: 200px;
+	font-family: var(--basic-font);
+	font-style: normal;
+	font-weight: 300;
+	font-size: 12px;
+	line-height: 14px;
+	color: #000000;
+
+	/* 긴 제목 ... 표시 */
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
-.pickBook_author {
+.long-pickBook_author {
+	width: 80px;
 	font-family: var(--basic-font);
 	font-style: normal;
 	font-weight: 300;
 	font-size: 12px;
 	line-height: 14px;
 	color: #777777;
+
+	/* 긴 작가명 ... 표시 */
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.short-pickBook_author {
+	width: 30px;
+	font-family: var(--basic-font);
+	font-style: normal;
+	font-weight: 300;
+	font-size: 12px;
+	line-height: 14px;
+	color: #777777;
+
+	/* 긴 작가명 ... 표시 */
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 /* 모달 창 책 리스트 추가 및 삭제 버튼 */

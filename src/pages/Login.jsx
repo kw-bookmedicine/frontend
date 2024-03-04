@@ -122,6 +122,8 @@ export default function Login() {
 		setUserId(id);
     setUserPwd(pwd);
 		if (id.length > 0 && pwd.length > 0) {
+			localStorage.setItem('id', id);
+			localStorage.setItem('password', pwd);
 			axios
 				.post(
 					'https://port-0-backend-book-pharmacy-umnqdut2blqqhv7sd.sel5.cloudtype.app/login',
