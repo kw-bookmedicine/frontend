@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
@@ -18,6 +18,7 @@ import bookImg7 from '../assets/category-book-예술.jpg';
 import bookImg8 from '../assets/category-book-언어.jpg';
 import bookImg9 from '../assets/category-book-문학.png';
 import bookImg10 from '../assets/category-book-역사.jpg';
+import { LoginContext } from '../contexts/LoginContextProvider';
 
 const Search = () => {
 	const baseURL =
@@ -29,9 +30,8 @@ const Search = () => {
 	let accessToken = localStorage.getItem('accessToken');
 	let refreshToken = localStorage.getItem('refreshToken');
 
-	let id = localStorage.getItem('id');
-	let pwd = localStorage.getItem('password');
-	const loginData = { username: id, password: pwd };
+  const { userId, userPwd } = useContext(LoginContext);
+	const loginData = { username: userId, password: userPwd };
 
 	// 카테고리 배경 색상(10개) && 카테고리별 대표 책 이미지 정보
 	const categoriesInfo = [

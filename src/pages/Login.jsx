@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -13,8 +13,10 @@ import banner from '../assets/Login-Banner.png';
 // STYLE
 import { styled } from 'styled-components';
 import { login } from '../services/login';
+import { LoginContext } from '../contexts/LoginContextProvider';
 
 export default function Login() {
+	const {setUserId, setUserPwd } = useContext(LoginContext);
 	const [id, setId] = useState('');
 	const [pwd, setPwd] = useState('');
 	const router = useNavigate();
@@ -112,9 +114,13 @@ export default function Login() {
 	});
 
 	const loginData = { username: id, password: pwd };
+	
+
 
 	const postLogin = async () => {
-		// console.log('아이디:', id, '비번:', pwd);
+		console.log('아이디:', id, '비번:', pwd);
+		setUserId(id);
+    setUserPwd(pwd);
 		if (id.length > 0 && pwd.length > 0) {
 			localStorage.setItem('id', id);
 			localStorage.setItem('password', pwd);
