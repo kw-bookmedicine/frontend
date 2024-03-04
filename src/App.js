@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 // PAGES
@@ -29,6 +29,7 @@ import LoginFindResult from './pages/IdFindResult';
 import PasswordFind from './pages/PasswordFind';
 import PasswordFindResult from './pages/PasswordFindResult';
 import IdFind from './pages/IdFind';
+import LoginContextProvider, { LoginContext } from './contexts/LoginContextProvider';
 
 function App() {
 	// 브라우저 새로고침 스크롤 이벤트
@@ -39,45 +40,47 @@ function App() {
 	}, []);
 
 	https: return (
-		<BrowserRouter>
-			<div className="App">
-				<GlobalStyles />
-				<ScrollTop />
-				<Routes>
-					<Route path="/" element={<Home />} />
-					<Route path="/logout" element={<Home />} />
-					<Route path="/main" element={<Main />} />
-					<Route path="/feed" element={<Feed />} />
-					<Route path="/search" element={<Search />} />
-					<Route path="/mypage" element={<Mypage />} />
-					<Route path="/myfeed" element={<MyFeed />} />
-					<Route path="/edit" element={<Edit />} />
-					<Route path="/edit/:page" element={<UserInfo />} />
+    <BrowserRouter>
+      <LoginContextProvider>
+        <div className="App">
+          <GlobalStyles />
+          <ScrollTop />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/logout" element={<Home />} />
+            <Route path="/main" element={<Main />} />
+            <Route path="/feed" element={<Feed />} />
+            <Route path="/search" element={<Search />} />
+            <Route path="/mypage" element={<Mypage />} />
+            <Route path="/myfeed" element={<MyFeed />} />
+            <Route path="/edit" element={<Edit />} />
+            <Route path="/edit/:page" element={<UserInfo />} />
 
-					<Route element={<LoginLayout />}>
-						<Route path="/id-find" element={<IdFind />} />
-						<Route path="/id-find-result" element={<LoginFindResult />} />
-						<Route path="/password-find" element={<PasswordFind />} />
-						<Route
-							path="/password-find-result"
-							element={<PasswordFindResult />}
-						/>
-					</Route>
-					<Route path="/test" element={<Registration />} />
-					<Route path="/login" element={<Login />} />
-					<Route path="/signup" element={<Join />} />
-					<Route path="/signup/1" element={<Signup2 />} />
-					<Route path="/signup/2" element={<Signup3 />} />
-					{/* <Route path="/find/user/info/:page" element={<FindUserInfo />} /> */}
-					<Route path="/test" element={<Registration />} />
+            <Route element={<LoginLayout />}>
+              <Route path="/id-find" element={<IdFind />} />
+              <Route path="/id-find-result" element={<LoginFindResult />} />
+              <Route path="/password-find" element={<PasswordFind />} />
+              <Route
+                path="/password-find-result"
+                element={<PasswordFindResult />}
+              />
+            </Route>
+            <Route path="/test" element={<Registration />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Join />} />
+            <Route path="/signup/1" element={<Signup2 />} />
+            <Route path="/signup/2" element={<Signup3 />} />
+            {/* <Route path="/find/user/info/:page" element={<FindUserInfo />} /> */}
+            <Route path="/test" element={<Registration />} />
 
-					<Route path="/book-detail" element={<BookDetail />} />
-					<Route path="/book/list/:title" element={<BookList />} />
-					<Route path="/book/:title/:category" element={<SmallCategory />} />
-				</Routes>
-			</div>
-		</BrowserRouter>
-	);
+            <Route path="/book-detail" element={<BookDetail />} />
+            <Route path="/book/list/:title" element={<BookList />} />
+            <Route path="/book/:title/:category" element={<SmallCategory />} />
+          </Routes>
+        </div>
+      </LoginContextProvider>
+    </BrowserRouter>
+  );
 }
 
 export default App;
