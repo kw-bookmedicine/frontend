@@ -24,7 +24,7 @@ const SmallCategory = () => {
 		// 중분류에 해당하는 책 목록 가져오기
 		axios
 			.get(
-				`https://port-0-backend-book-pharmacy-umnqdut2blqqhv7sd.sel5.cloudtype.app/api/book/list/middle?name=${category}&page=0&size=1&sort=string`,
+				`https://port-0-backend-book-pharmacy-umnqdut2blqqhv7sd.sel5.cloudtype.app/api/book/list/middle?name=${category}&page=0&size=30&sort=string`,
 			)
 			.then((res) => {
 				setSmCategoryBookList(res.data);
@@ -54,6 +54,7 @@ const SmallCategory = () => {
 									title={data.title}
 									author={data.author}
 									key={data.isbn}
+									imageUrl={data.imageUrl}
 									// onClick={() => {
 									// 	setSearchParams({
 									// 		title: data[title],
@@ -63,6 +64,8 @@ const SmallCategory = () => {
 								/>
 							);
 						})}
+					</div>
+					{/* <div className="smCategory_card_slide">
 						<Card />
 						<Card />
 						<Card />
@@ -71,12 +74,7 @@ const SmallCategory = () => {
 						<Card />
 						<Card />
 						<Card />
-					</div>
-					<div className="smCategory_card_slide">
-						<Card />
-						<Card />
-						<Card />
-					</div>
+					</div> */}
 				</div>
 			</div>
 		</>
