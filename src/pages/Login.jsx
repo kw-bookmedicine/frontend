@@ -116,40 +116,22 @@ export default function Login() {
 	const loginData = { username: id, password: pwd };
 
 	const postLogin = async () => {
-		console.log('아이디:', id, '비번:', pwd);
+		// console.log('아이디:', id, '비번:', pwd);
 		setUserId(id);
 		setUserPwd(pwd);
 		if (id.length > 0 && pwd.length > 0) {
-			localStorage.setItem('id', id);
-			localStorage.setItem('password', pwd);
 			axios
 				.post(
 					'https://port-0-backend-book-pharmacy-umnqdut2blqqhv7sd.sel5.cloudtype.app/login',
 					loginData,
-					{ withCredentials: true },
+					// { withCredentials: true },
 				)
-				.then(() => {
-					axios
-						.get(
-							'https://port-0-backend-book-pharmacy-umnqdut2blqqhv7sd.sel5.cloudtype.app/hello',
-							{ withCredentials: true },
-						)
-						.then((res) => {
-							console.log(res.data);
-						})
-						.catch((err) => {
-							console.log(err);
-						});
+				.then((res) => {
 					// console.log(res);
-					// let token = res.headers.authorization;
-					// // localStorage.setItem('token', token); // 전체 토큰 저장
-					// localStorage.setItem('accessToken', 'Bearer ' + token.split(' ')[1]); // 액세스 토큰 저장
+					localStorage.setItem('id', id);
+					localStorage.setItem('password', pwd);
 
-					// localStorage.setItem('refreshToken', 'Bearer ' + token.split(' ')[2]); // 리프레시 토큰 저장
-
-					// 받아온 token을 암호화 하는 방식에 대해 고민 필요함.
-
-					// window.location.replace('/main');
+					window.location.replace('/main');
 				})
 				.catch((err) => {
 					console.log(err);
