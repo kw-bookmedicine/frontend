@@ -122,16 +122,19 @@ export default function Login() {
 				.post(
 					'https://port-0-backend-book-pharmacy-umnqdut2blqqhv7sd.sel5.cloudtype.app/login',
 					loginData,
+					{ withCredentials: true },
 				)
 				.then((res) => {
-					let token = res.headers.authorization;
-					// localStorage.setItem('token', token); // 전체 토큰 저장
-					localStorage.setItem('accessToken', 'Bearer ' + token.split(' ')[1]); // 액세스 토큰 저장
-					localStorage.setItem('refreshToken', 'Bearer ' + token.split(' ')[2]); // 리프레시 토큰 저장
+					console.log(res);
+					// let token = res.headers.authorization;
+					// // localStorage.setItem('token', token); // 전체 토큰 저장
+					// localStorage.setItem('accessToken', 'Bearer ' + token.split(' ')[1]); // 액세스 토큰 저장
+
+					// localStorage.setItem('refreshToken', 'Bearer ' + token.split(' ')[2]); // 리프레시 토큰 저장
 
 					// 받아온 token을 암호화 하는 방식에 대해 고민 필요함.
 
-					window.location.replace('/main');
+					// window.location.replace('/main');
 				})
 				.catch((err) => {
 					console.log(err);

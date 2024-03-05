@@ -84,15 +84,17 @@ const Search = () => {
 			.get(
 				'https://port-0-backend-book-pharmacy-umnqdut2blqqhv7sd.sel5.cloudtype.app/api/category/big',
 				{
-					headers: { Authorization: accessToken },
+					// headers: { Authorization: accessToken },
+					withCredentials: true,
 				},
 			)
 			.then((res) => {
+				console.log(res);
 				// 정상처리
-				console.log('============ 1 =============');
-				console.log('access:', accessToken);
-				console.log('refresh:', refreshToken);
-				setCategory(res);
+				// console.log('============ 1 =============');
+				// console.log('access:', accessToken);
+				// console.log('refresh:', refreshToken);
+				// setCategory(res);
 			})
 			.catch(() => {
 				// 토큰이 만료되었을 때, refresh token으로 카테고리 불러오기 다시 시도
@@ -111,8 +113,8 @@ const Search = () => {
 					})
 					.catch(() => {
 						console.log('전부 만료!');
-						alert('로그인 페이지로 이동합니다.');
-						window.location.replace('/login');
+						// alert('로그인 페이지로 이동합니다.');
+						// window.location.replace('/login');
 					});
 			});
 	};
@@ -124,7 +126,39 @@ const Search = () => {
 
 		const fetchCategories = async () => {
 			try {
-				getCategory();
+				axios
+					.post(
+						'https://port-0-backend-book-pharmacy-umnqdut2blqqhv7sd.sel5.cloudtype.app/login',
+						loginData,
+						{ withCredentials: true },
+					)
+					.then((res) => {
+						console.log('성공');
+						axios
+							.get(
+								'https://port-0-backend-book-pharmacy-umnqdut2blqqhv7sd.sel5.cloudtype.app/api/category/big',
+								{
+									// headers: { Authorization: accessToken },
+									withCredentials: true,
+								},
+							)
+							.then((res) => {
+								console.log(res.data);
+							});
+						// let token = res.headers.authorization;
+						// // localStorage.setItem('token', token); // 전체 토큰 저장
+						// localStorage.setItem('accessToken', 'Bearer ' + token.split(' ')[1]); // 액세스 토큰 저장
+
+						// localStorage.setItem('refreshToken', 'Bearer ' + token.split(' ')[2]); // 리프레시 토큰 저장
+
+						// 받아온 token을 암호화 하는 방식에 대해 고민 필요함.
+
+						// window.location.replace('/main');
+					})
+					.catch((err) => {
+						console.log(err);
+					});
+				// getCategory();
 
 				// const response = await axios.get(
 				//   "https://port-0-backend-book-pharmacy-umnqdut2blqqhv7sd.sel5.cloudtype.app/api/category/big", {
@@ -150,26 +184,26 @@ const Search = () => {
 			} catch (error) {
 				console.error('Error fetching categories:', error);
 
-				axios
-					.post(
-						'https://port-0-backend-book-pharmacy-umnqdut2blqqhv7sd.sel5.cloudtype.app/login',
-						{
-							username: username,
-							password: password,
-						},
-					)
-					.then((res) => {
-						let token = res.headers.authorization;
+				// axios
+				// 	.post(
+				// 		'https://port-0-backend-book-pharmacy-umnqdut2blqqhv7sd.sel5.cloudtype.app/login',
+				// 		{
+				// 			username: username,
+				// 			password: password,
+				// 		},
+				// 	)
+				// 	.then((res) => {
+				// 		let token = res.headers.authorization;
 
-						localStorage.setItem(
-							'accessToken',
-							'Bearer ' + token.split(' ')[1],
-						); // 액세스 토큰 저장
-						localStorage.setItem(
-							'refreshToken',
-							'Bearer ' + token.split(' ')[2],
-						); // 리프레시 토큰 저장
-					});
+				// 		localStorage.setItem(
+				// 			'accessToken',
+				// 			'Bearer ' + token.split(' ')[1],
+				// 		); // 액세스 토큰 저장
+				// 		localStorage.setItem(
+				// 			'refreshToken',
+				// 			'Bearer ' + token.split(' ')[2],
+				// 		); // 리프레시 토큰 저장
+				// 	});
 			}
 		};
 
