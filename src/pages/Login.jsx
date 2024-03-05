@@ -16,7 +16,7 @@ import { login } from '../services/login';
 import { LoginContext } from '../contexts/LoginContextProvider';
 
 export default function Login() {
-	const {setUserId, setUserPwd } = useContext(LoginContext);
+	const { setUserId, setUserPwd } = useContext(LoginContext);
 	const [id, setId] = useState('');
 	const [pwd, setPwd] = useState('');
 	const router = useNavigate();
@@ -114,13 +114,11 @@ export default function Login() {
 	});
 
 	const loginData = { username: id, password: pwd };
-	
-
 
 	const postLogin = async () => {
 		console.log('아이디:', id, '비번:', pwd);
 		setUserId(id);
-    setUserPwd(pwd);
+		setUserPwd(pwd);
 		if (id.length > 0 && pwd.length > 0) {
 			localStorage.setItem('id', id);
 			localStorage.setItem('password', pwd);
@@ -130,8 +128,19 @@ export default function Login() {
 					loginData,
 					{ withCredentials: true },
 				)
-				.then((res) => {
-					console.log(res);
+				.then(() => {
+					axios
+						.get(
+							'https://port-0-backend-book-pharmacy-umnqdut2blqqhv7sd.sel5.cloudtype.app/hello',
+							{ withCredentials: true },
+						)
+						.then((res) => {
+							console.log(res.data);
+						})
+						.catch((err) => {
+							console.log(err);
+						});
+					// console.log(res);
 					// let token = res.headers.authorization;
 					// // localStorage.setItem('token', token); // 전체 토큰 저장
 					// localStorage.setItem('accessToken', 'Bearer ' + token.split(' ')[1]); // 액세스 토큰 저장
