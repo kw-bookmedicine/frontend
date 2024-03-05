@@ -27,9 +27,9 @@ const Edit = () => {
 							</div>
 						</div>
 						<div className="user_id_wrapper">
-							<div className="input_title">askdjfkjeio</div>
+							<div className="input_title">아이디</div>
 							<div className="id_input_wrapper">
-								<div className="id_text">아이디</div>
+								<div className="id_text">askdjfkjeio</div>
 							</div>
 						</div>
 						<div className="user_password_wrapper">

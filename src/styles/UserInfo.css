@@ -1,13 +1,14 @@
 .userInfo_container {
-	width: 100vw;
+	/* width: 100vw; */
+	width: fill-available;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 }
 
 .userInfo_title_wrapper {
-	width: 100vw;
-	/* width: fill-available; */
+	/* width: 100vw; */
+	width: fill-available;
 	height: 65px;
 	display: flex;
 	justify-content: center;

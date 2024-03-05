@@ -8,6 +8,13 @@ import Btn from '../components/Button';
 import '../styles/Header.css';
 
 const Header = () => {
+	const logout = () => {
+		let token = localStorage.getItem('token');
+		console.log('logout!');
+		localStorage.clear();
+		// window.location.replace('http://localhost:3000/');
+	};
+
 	return (
 		<div className="head">
 			<header>
@@ -31,7 +38,14 @@ const Header = () => {
 					</ul>
 				</nav>
 				<div className="head_btn__logout">
-					<Btn text={'로그아웃'} type="logout" id="home-header-btn" />
+					<Btn
+						onClick={() => {
+							logout();
+						}}
+						text={'로그아웃'}
+						type="logout"
+						id="home-header-btn"
+					/>
 				</div>
 			</header>
 		</div>
