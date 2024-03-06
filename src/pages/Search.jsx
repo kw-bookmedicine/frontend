@@ -21,8 +21,7 @@ import bookImg10 from '../assets/category-book-역사.jpg';
 import { LoginContext } from '../contexts/LoginContextProvider';
 
 const Search = () => {
-	const baseURL =
-		'https://port-0-backend-book-pharmacy-umnqdut2blqqhv7sd.sel5.cloudtype.app';
+	const baseURL = 'https://api.bookpharmacy.store/api';
 	const [input, setInput] = useState(''); // 검색 데이터
 	const [searchData, setSearchData] = useState([]); // 검색 결과 데이터
 	const [categories, setCategories] = useState([]); // 카테고리 데이터
@@ -70,19 +69,16 @@ const Search = () => {
 			try {
 				axios
 					.post(
-						'https://port-0-backend-book-pharmacy-umnqdut2blqqhv7sd.sel5.cloudtype.app/login',
+						'https://api.bookpharmacy.store/login',
 						{ username: username, password: password },
-						// { withCredentials: true },
+						{ withCredentials: true },
 					)
 					.then(async () => {
 						// console.log('성공');
 						axios
-							.get(
-								'https://port-0-backend-book-pharmacy-umnqdut2blqqhv7sd.sel5.cloudtype.app/api/category/big',
-								{
-									// withCredentials: true,
-								},
-							)
+							.get('https://api.bookpharmacy.store/api/category/big', {
+								// withCredentials: true,
+							})
 							.then((res) => {
 								setCategories(res.data);
 							});

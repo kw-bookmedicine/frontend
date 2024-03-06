@@ -121,17 +121,15 @@ export default function Login() {
 		setUserPwd(pwd);
 		if (id.length > 0 && pwd.length > 0) {
 			axios
-				.post(
-					'https://port-0-backend-book-pharmacy-umnqdut2blqqhv7sd.sel5.cloudtype.app/login',
-					loginData,
-					// { withCredentials: true },
-				)
+				.post('https://api.bookpharmacy.store/login', loginData, {
+					withCredentials: true,
+				})
 				.then((res) => {
 					// console.log(res);
 					localStorage.setItem('id', id);
 					localStorage.setItem('password', pwd);
 
-					window.location.replace('/main');
+					// window.location.replace('/main');
 				})
 				.catch((err) => {
 					console.log(err);
