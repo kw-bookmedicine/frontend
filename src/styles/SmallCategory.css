@@ -51,6 +51,7 @@
 }
 
 .smCategory_card_slide {
-	display: flex;
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
 	align-items: center;
 }
