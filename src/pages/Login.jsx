@@ -2,6 +2,9 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+// SERVICE
+import api from '../services/api';
+
 // COMPONENTS
 import Btn from '../components/Button';
 
@@ -59,54 +62,6 @@ export default function Login() {
 		}
 	};
 
-	// 로그인 요청, login
-	// useEffect(() => {
-	//   const postFetch = async () => {
-	//     try {
-	//       localStorage.clear();
-	//       const result = await login(id, pwd);
-	//       console.log("result.data", result.data);
-	//       const token = result.headers.authorization;
-	//       // console.log(token);
-	//       localStorage.setItem("token", token); // 전체 토큰 저장
-	//       localStorage.setItem("accessToken", token.split(" ")[1]); // 액세스 토큰 저장
-	//       localStorage.setItem("refreshToken", token.split(" ")[2]); // 리프레시 토큰 저장
-	//       // router('/main'); // 메인 페이지로 이동
-	//     } catch (error) {
-	//       console.error("로그인 요청 실패", error);
-	//     }
-	//   };
-	//   postFetch();
-	// }, []);
-
-	// hello 요청
-	// useEffect(() => {
-	//   const token = localStorage.getItem("token"); // 로컬 스토리지에서 전체 토큰 추출
-	//   const accessToken = localStorage.getItem("accessToken"); // 필요한 경우 액세스 토큰만 따로 추출
-
-	//   if (token) {
-	//     // 토큰이 존재할 경우에만 GET 요청 수행
-	//     const getFetch = async () => {
-	//       try {
-	//         const result = await axios.get(
-	//           "https://port-0-backend-book-pharmacy-umnqdut2blqqhv7sd.sel5.cloudtype.app/hello",
-	//           {
-	//             headers: {
-	//               // Authorization: `Bearer ${accessToken}`, // 'Bearer ' 접두어 추가하여 액세스 토큰 설정
-	//               Authorization: token,
-	//             },
-	//             withCredentials: true, // 쿠키를 이용한 인증
-	//           }
-	//         );
-	//         console.log(result);
-	//       } catch(error) {
-	//         console.error("로그인 요청 실패", error);
-	//       }
-	//     };
-	//     getFetch();
-	//   }
-	// }, []);
-
 	// 나중에 상태관리 사용해서 로그인 관리하도록 하기
 	// refresh에 대한 post 요청 api 추가해야할거같음
 	useEffect(() => {
@@ -115,13 +70,13 @@ export default function Login() {
 
 	const loginData = { username: id, password: pwd };
 
-	const postLogin = async () => {
+	const postLogin = () => {
 		// console.log('아이디:', id, '비번:', pwd);
 		setUserId(id);
 		setUserPwd(pwd);
 		if (id.length > 0 && pwd.length > 0) {
-			axios
-				.post('https://api.bookpharmacy.store/login', loginData, {
+			api
+				.post('/login', loginData, {
 					withCredentials: true,
 				})
 				.then((res) => {
@@ -129,7 +84,7 @@ export default function Login() {
 					localStorage.setItem('id', id);
 					localStorage.setItem('password', pwd);
 
-					// window.location.replace('/main');
+					window.location.replace('/main');
 				})
 				.catch((err) => {
 					console.log(err);
