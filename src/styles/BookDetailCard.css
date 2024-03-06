@@ -24,14 +24,19 @@
 	padding-left: 5px;
 }
 
-.left_img_wrapper {
+/* .left_img_wrapper {
 	width: 120px;
 	height: 170px;
 	background: #a1a1a1;
 
-	/* Drop Shadow */
 	box-shadow: 2px 2px 4px rgba(119, 119, 119, 0.25);
 	border: solid #a1a1a1;
+	border-radius: 5px;
+} */
+
+.img_wrapper_thumbnail {
+	width: 120px;
+	height: 170px;
 	border-radius: 5px;
 }
 
@@ -48,12 +53,20 @@
 }
 
 .right_up_title {
+	width: 260px;
+
+	/* Font */
 	font-family: var(--basic-font);
 	font-style: normal;
 	font-weight: 700;
 	font-size: 18px;
 	line-height: 21px;
 	color: #000;
+
+	/* 말 줄임 */
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .right_up_author {
@@ -66,6 +79,8 @@
 }
 
 .bookCard_right_bottom_wrapper {
+	width: 260px;
 	height: 130px;
 	padding-top: 60px;
+	overflow: auto;
 }

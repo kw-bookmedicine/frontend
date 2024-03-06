@@ -21,14 +21,11 @@ import bookImg10 from '../assets/category-book-역사.jpg';
 import { LoginContext } from '../contexts/LoginContextProvider';
 
 const Search = () => {
-	const baseURL =
-		'https://port-0-backend-book-pharmacy-umnqdut2blqqhv7sd.sel5.cloudtype.app';
+	const baseURL = 'https://api.bookpharmacy.store/api';
 	const [input, setInput] = useState(''); // 검색 데이터
 	const [searchData, setSearchData] = useState([]); // 검색 결과 데이터
 	const [categories, setCategories] = useState([]); // 카테고리 데이터
 	const [isShow, setIsShow] = useState(false); // 검색창 모달창
-	let accessToken = localStorage.getItem('accessToken');
-	let refreshToken = localStorage.getItem('refreshToken');
 
 	const { userId, userPwd } = useContext(LoginContext);
 	const loginData = { username: userId, password: userPwd };
@@ -47,189 +44,20 @@ const Search = () => {
 		{ color: '#D6CABC', image: bookImg10 },
 	];
 
-	const getToken = async () => {
-		axios
-			.post(baseURL + '/login', loginData)
-			.then((res) => {
-				let token = res.headers.authorization;
-				accessToken = 'Bearer' + token.split(' ')[1];
-				refreshToken = 'Bearer' + token.split(' ')[2];
-				localStorage.setItem('accessToken', accessToken); // 액세스 토큰 저장
-				localStorage.setItem('refreshToken', refreshToken); // 리프레시 토큰 저장
-			})
-			.then(async () => {
-				console.log('access:', accessToken);
-				console.log('refresh:', refreshToken);
-			});
-	};
-
-	// const setCategory = async (res) => {
-	// 	const fetchedCategories = res.data;
-	// 	const transformedCategories = Object.keys(fetchedCategories).map(
-	// 		(key, index) => {
-	// 			const { color, image } = categoriesInfo[index % categoriesInfo.length]; // 객체에서 색상과 이미지를 가져옴
-	// 			return {
-	// 				title: key,
-	// 				subtitle: fetchedCategories[key].join(', '),
-	// 				image: image,
-	// 				color: color,
-	// 			};
-	// 		},
-	// 	);
-	// 	setCategories(transformedCategories);
-	// };
-
-	const getCategory = async () => {
-		axios
-			.get(
-				'https://port-0-backend-book-pharmacy-umnqdut2blqqhv7sd.sel5.cloudtype.app/api/category/big',
-				{
-					// headers: { Authorization: accessToken },
-					withCredentials: true,
-				},
-			)
-			.then((res) => {
-				console.log(res);
-				// 정상처리
-				console.log('============ 1 =============');
-				console.log('access:', accessToken);
-				console.log('refresh:', refreshToken);
-				setCategories(res.data);
-				// res.data가 아래와 같다고 생각하고 로직을 짰습니다. postman의 응답으로 코드 작성
-				// 				{
-				//     "철학": [
-				//         "형이상학",
-				//         "인식론&인과론&인간학",
-				//         "철학의 체계",
-				//         "경학",
-				//         "동양철학/7사상",
-				//         "서양철학",
-				//         "논리학",
-				//         "심리학",
-				//         "윤리학&도덕철학"
-				//     ],
-				//     "예술": [
-				//         "건축물",
-				//         "조각&조형예술",
-				//         "공예&장식미술",
-				//         "서예",
-				//         "회화&도화",
-				//         "사진예술",
-				//         "음악",
-				//         "공연예술&매체예술",
-				//         "오락&스포츠"
-				//     ],
-				//     "기술과학": [
-				//         "의학",
-				//         "농업&농학",
-				//         "공학&공업일반&토목공학&환경공학",
-				//         "건축공학",
-				//         "기계공학",
-				//         "전기공학&전자공학",
-				//         "화학공학",
-				//         "제조업",
-				//         "생활과학"
-				//     ],
-				//     "총류": [
-				//         "도서학&서지학",
-				//         "문헌정보학",
-				//         "백과사전",
-				//         "강연집&수필집&연설문집",
-				//         "일반연속간행물",
-				//         "일반학회&단체&협회&기관",
-				//         "신문&언론&저널리즘",
-				//         "일반전집&총서",
-				//         "향토자료"
-				//     ],
-				//     "종교": [
-				//         "비교종교",
-				//         "불교",
-				//         "기독교",
-				//         "도교",
-				//         "천도교",
-				//         "신도",
-				//         "힌두교&브라만교",
-				//         "이슬람교(회교)",
-				//         "기타 제종교"
-				//     ],
-				//     "언어": [
-				//         "한국어",
-				//         "중국어",
-				//         "일본어&기타아시아제어",
-				//         "영어",
-				//         "독일어",
-				//         "프랑스어",
-				//         "스페인어&포르투갈어",
-				//         "이탈리아어",
-				//         "기타제어"
-				//     ],
-				//     "문학": [
-				//         "한국문학",
-				//         "중국문학",
-				//         "일본문학&기타아시아문학",
-				//         "영미문학",
-				//         "독일문학",
-				//         "프랑스문학",
-				//         "스페인&포르투갈문학",
-				//         "이탈리아문학",
-				//         "기타제문학"
-				//     ],
-				//     "역사": [
-				//         "아시아",
-				//         "유럽",
-				//         "아프리카",
-				//         "북아프리카",
-				//         "남아메리카",
-				//         "오세아니아",
-				//         "양극지방",
-				//         "지리",
-				//         "전기"
-				//     ],
-				//     "자연과학": [
-				//         "수학",
-				//         "물리학",
-				//         "화학",
-				//         "천문학",
-				//         "지학",
-				//         "광물학",
-				//         "생명과학",
-				//         "식물학",
-				//         "동물학"
-				//     ],
-				//     "사회과학": [
-				//         "통계학",
-				//         "경제학",
-				//         "사회학&사회문제",
-				//         "정치학",
-				//         "행정항",
-				//         "법학",
-				//         "교육학",
-				//         "풍속&예절&민속학",
-				//         "국방&군사학"
-				//     ]
-				// }
-			})
-			.catch(() => {
-				// 토큰이 만료되었을 때, refresh token으로 카테고리 불러오기 다시 시도
-				console.log('access만 만료');
-				console.log(refreshToken);
-				axios
-					.get(
-						'https://port-0-backend-book-pharmacy-umnqdut2blqqhv7sd.sel5.cloudtype.app/api/category/big',
-						{
-							headers: { Authorization: refreshToken },
-						},
-					)
-					.then((res) => {
-						setCategories(res.data);
-						getToken();
-					})
-					.catch(() => {
-						console.log('전부 만료!');
-						// alert('로그인 페이지로 이동합니다.');
-						// window.location.replace('/login');
-					});
-			});
+	const setCategory = async (res) => {
+		const fetchedCategories = res.data;
+		const transformedCategories = Object.keys(fetchedCategories).map(
+			(key, index) => {
+				const { color, image } = categoriesInfo[index % categoriesInfo.length]; // 객체에서 색상과 이미지를 가져옴
+				return {
+					title: key,
+					subtitle: fetchedCategories[key].join(', '),
+					image: image,
+					color: color,
+				};
+			},
+		);
+		setCategories(transformedCategories);
 	};
 
 	// 카테고리 대분류, 중분류 GET 요청 및 요청 데이터 사용하기 쉽게 처리
@@ -241,82 +69,25 @@ const Search = () => {
 			try {
 				axios
 					.post(
-						'https://port-0-backend-book-pharmacy-umnqdut2blqqhv7sd.sel5.cloudtype.app/login',
-						loginData,
+						'https://api.bookpharmacy.store/login',
+						{ username: username, password: password },
 						{ withCredentials: true },
 					)
-					.then((res) => {
-						console.log('성공');
+					.then(async () => {
+						// console.log('성공');
 						axios
-							.get(
-								'https://port-0-backend-book-pharmacy-umnqdut2blqqhv7sd.sel5.cloudtype.app/api/category/big',
-								{
-									// headers: { Authorization: accessToken },
-									withCredentials: true,
-								},
-							)
+							.get('https://api.bookpharmacy.store/api/category/big', {
+								// withCredentials: true,
+							})
 							.then((res) => {
-								console.log(res.data);
+								setCategories(res.data);
 							});
-						// let token = res.headers.authorization;
-						// // localStorage.setItem('token', token); // 전체 토큰 저장
-						// localStorage.setItem('accessToken', 'Bearer ' + token.split(' ')[1]); // 액세스 토큰 저장
-
-						// localStorage.setItem('refreshToken', 'Bearer ' + token.split(' ')[2]); // 리프레시 토큰 저장
-
-						// 받아온 token을 암호화 하는 방식에 대해 고민 필요함.
-
-						// window.location.replace('/main');
 					})
 					.catch((err) => {
 						console.log(err);
 					});
-				// getCategory();
-
-				// const response = await axios.get(
-				//   "https://port-0-backend-book-pharmacy-umnqdut2blqqhv7sd.sel5.cloudtype.app/api/category/big", {
-				//     headers:{Authorization: accessToken}
-				//   }
-				// ).then((res) => {
-				//   console.log(res.data);
-				// })
-				// const fetchedCategories = response.data;
-				// const transformedCategories = Object.keys(fetchedCategories).map(
-				//   (key, index) => {
-				//     const { color, image } =
-				//       categoriesInfo[index % categoriesInfo.length]; // 객체에서 색상과 이미지를 가져옴
-				//     return {
-				//       title: key,
-				//       subtitle: fetchedCategories[key].join(", "),
-				//       image: image,
-				//       color: color,
-				//     };
-				//   }
-				// );
-				// setCategories(transformedCategories);
 			} catch (error) {
 				console.error('Error fetching categories:', error);
-
-				// axios
-				// 	.post(
-				// 		'https://port-0-backend-book-pharmacy-umnqdut2blqqhv7sd.sel5.cloudtype.app/login',
-				// 		{
-				// 			username: username,
-				// 			password: password,
-				// 		},
-				// 	)
-				// 	.then((res) => {
-				// 		let token = res.headers.authorization;
-
-				// 		localStorage.setItem(
-				// 			'accessToken',
-				// 			'Bearer ' + token.split(' ')[1],
-				// 		); // 액세스 토큰 저장
-				// 		localStorage.setItem(
-				// 			'refreshToken',
-				// 			'Bearer ' + token.split(' ')[2],
-				// 		); // 리프레시 토큰 저장
-				// 	});
 			}
 		};
 
