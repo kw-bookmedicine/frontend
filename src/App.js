@@ -30,6 +30,7 @@ import PasswordFind from './pages/PasswordFind';
 import PasswordFindResult from './pages/PasswordFindResult';
 import IdFind from './pages/IdFind';
 import LoginContextProvider, { LoginContext } from './contexts/LoginContextProvider';
+import SearchResult from './pages/SearchResult';
 
 function App() {
 	// 브라우저 새로고침 스크롤 이벤트
@@ -51,6 +52,7 @@ function App() {
             <Route path="/main" element={<Main />} />
             <Route path="/feed" element={<Feed />} />
             <Route path="/search" element={<Search />} />
+            <Route path="/search/result/:title" element={<SearchResult />} />
             <Route path="/mypage" element={<Mypage />} />
             <Route path="/myfeed" element={<MyFeed />} />
             <Route path="/edit" element={<Edit />} />
