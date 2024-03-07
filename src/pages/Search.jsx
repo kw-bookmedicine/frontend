@@ -44,22 +44,21 @@ const Search = () => {
 		{ color: '#D6CABC', image: bookImg10 },
 	];
 
-<<<<<<< HEAD
-	const getToken = async () => {
-		axios
-			.post(baseURL + '/login', loginData)
-			.then((res) => {
-				let token = res.headers.authorization;
-				accessToken = 'Bearer' + token.split(' ')[1];
-				refreshToken = 'Bearer' + token.split(' ')[2];
-				localStorage.setItem('accessToken', accessToken); // 액세스 토큰 저장
-				localStorage.setItem('refreshToken', refreshToken); // 리프레시 토큰 저장
-			})
-			.then(async () => {
-				console.log('access:', accessToken);
-				console.log('refresh:', refreshToken);
-			});
-	};
+	// const getToken = async () => {
+	// 	axios
+	// 		.post(baseURL + '/login', loginData)
+	// 		.then((res) => {
+	// 			let token = res.headers.authorization;
+	// 			accessToken = 'Bearer' + token.split(' ')[1];
+	// 			refreshToken = 'Bearer' + token.split(' ')[2];
+	// 			localStorage.setItem('accessToken', accessToken); // 액세스 토큰 저장
+	// 			localStorage.setItem('refreshToken', refreshToken); // 리프레시 토큰 저장
+	// 		})
+	// 		.then(async () => {
+	// 			console.log('access:', accessToken);
+	// 			console.log('refresh:', refreshToken);
+	// 		});
+	// };
 
 	// const setCategory = async (res) => {
 	// 	const fetchedCategories = res.data;
@@ -90,8 +89,8 @@ const Search = () => {
 			.then((res) => {
 				// 정상처리
 				console.log('============ 1 =============');
-				console.log('access:', accessToken);
-				console.log('refresh:', refreshToken);
+				// console.log('access:', accessToken);
+				// console.log('refresh:', refreshToken);
 				setCategories(res.data);
 				// res.data가 아래와 같다고 생각하고 로직을 짰습니다. postman의 응답으로 코드 작성
 // 				{
@@ -229,22 +228,6 @@ const Search = () => {
 						// window.location.replace('/login');
 					});
 			});
-=======
-	const setCategory = async (res) => {
-		const fetchedCategories = res.data;
-		const transformedCategories = Object.keys(fetchedCategories).map(
-			(key, index) => {
-				const { color, image } = categoriesInfo[index % categoriesInfo.length]; // 객체에서 색상과 이미지를 가져옴
-				return {
-					title: key,
-					subtitle: fetchedCategories[key].join(', '),
-					image: image,
-					color: color,
-				};
-			},
-		);
-		setCategories(transformedCategories);
->>>>>>> 9d6c16c0f7943d58514fa86a5ed251d70f5a64d2
 	};
 
 	// 카테고리 대분류, 중분류 GET 요청 및 요청 데이터 사용하기 쉽게 처리
