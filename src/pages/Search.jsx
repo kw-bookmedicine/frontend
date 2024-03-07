@@ -21,16 +21,13 @@ import bookImg10 from '../assets/category-book-역사.jpg';
 import { LoginContext } from '../contexts/LoginContextProvider';
 
 const Search = () => {
-	const baseURL =
-		'https://port-0-backend-book-pharmacy-umnqdut2blqqhv7sd.sel5.cloudtype.app';
+	const baseURL = 'https://api.bookpharmacy.store/api';
 	const [input, setInput] = useState(''); // 검색 데이터
 	const [searchData, setSearchData] = useState([]); // 검색 결과 데이터
 	const [categories, setCategories] = useState([]); // 카테고리 데이터
 	const [isShow, setIsShow] = useState(false); // 검색창 모달창
-	let accessToken = localStorage.getItem('accessToken');
-	let refreshToken = localStorage.getItem('refreshToken');
 
-  const { userId, userPwd } = useContext(LoginContext);
+	const { userId, userPwd } = useContext(LoginContext);
 	const loginData = { username: userId, password: userPwd };
 
 	// 카테고리 배경 색상(10개) && 카테고리별 대표 책 이미지 정보
@@ -47,6 +44,7 @@ const Search = () => {
 		{ color: '#D6CABC', image: bookImg10 },
 	];
 
+<<<<<<< HEAD
 	const getToken = async () => {
 		axios
 			.post(baseURL + '/login', loginData)
@@ -231,6 +229,22 @@ const Search = () => {
 						// window.location.replace('/login');
 					});
 			});
+=======
+	const setCategory = async (res) => {
+		const fetchedCategories = res.data;
+		const transformedCategories = Object.keys(fetchedCategories).map(
+			(key, index) => {
+				const { color, image } = categoriesInfo[index % categoriesInfo.length]; // 객체에서 색상과 이미지를 가져옴
+				return {
+					title: key,
+					subtitle: fetchedCategories[key].join(', '),
+					image: image,
+					color: color,
+				};
+			},
+		);
+		setCategories(transformedCategories);
+>>>>>>> 9d6c16c0f7943d58514fa86a5ed251d70f5a64d2
 	};
 
 	// 카테고리 대분류, 중분류 GET 요청 및 요청 데이터 사용하기 쉽게 처리
@@ -240,52 +254,27 @@ const Search = () => {
 
 		const fetchCategories = async () => {
 			try {
-				getCategory();
-
-				// const response = await axios.get(
-				//   "https://port-0-backend-book-pharmacy-umnqdut2blqqhv7sd.sel5.cloudtype.app/api/category/big", {
-				//     headers:{Authorization: accessToken}
-				//   }
-				// ).then((res) => {
-				//   console.log(res.data);
-				// })
-				// const fetchedCategories = response.data;
-				// const transformedCategories = Object.keys(fetchedCategories).map(
-				//   (key, index) => {
-				//     const { color, image } =
-				//       categoriesInfo[index % categoriesInfo.length]; // 객체에서 색상과 이미지를 가져옴
-				//     return {
-				//       title: key,
-				//       subtitle: fetchedCategories[key].join(", "),
-				//       image: image,
-				//       color: color,
-				//     };
-				//   }
-				// );
-				// setCategories(transformedCategories);
-			} catch (error) {
-				console.error('Error fetching categories:', error);
-
 				axios
 					.post(
-						'https://port-0-backend-book-pharmacy-umnqdut2blqqhv7sd.sel5.cloudtype.app/login',
-						{
-							username: username,
-							password: password,
-						},
+						'https://api.bookpharmacy.store/login',
+						{ username: username, password: password },
+						{ withCredentials: true },
 					)
-					.then((res) => {
-						let token = res.headers.authorization;
-
-						localStorage.setItem(
-							'accessToken',
-							'Bearer ' + token.split(' ')[1],
-						); // 액세스 토큰 저장
-						localStorage.setItem(
-							'refreshToken',
-							'Bearer ' + token.split(' ')[2],
-						); // 리프레시 토큰 저장
+					.then(async () => {
+						// console.log('성공');
+						axios
+							.get('https://api.bookpharmacy.store/api/category/big', {
+								// withCredentials: true,
+							})
+							.then((res) => {
+								setCategories(res.data);
+							});
+					})
+					.catch((err) => {
+						console.log(err);
 					});
+			} catch (error) {
+				console.error('Error fetching categories:', error);
 			}
 		};
 
@@ -424,86 +413,86 @@ const Search = () => {
 	};
 
 	return (
-    <div onClick={handleSearchResultClose}>
-      <Header />
+		<div onClick={handleSearchResultClose}>
+			<Header />
 
-      {/* 검색 페이지 전체 */}
-      <section className="search-container">
-        {/* 검색 창 */}
-        <section
-          className="search-wrapper"
-          onClick={(e) => {
-            e.stopPropagation();
-            handleSearchResultShow();
-          }}
-        >
-          <label>
-            <div className="search-wrap-inner">
-              {/* 검색창에 라벨 적용해보기 */}
-              {/* 책 렌더링했던 유튜브 영상을 활용해서 검색창 누르면 밑에 책보여주는 방법으로 활용하기 */}
-              <button
-                className="search-button"
-                onClick={searchBook}
-                name="search-button"
-              />
-              <input
-                type="text"
-                placeholder="검색어를 입력하세요"
-                className="search-input"
-                value={input}
-                onChange={(e) => {
-                  setInput(e.target.value);
-                }}
-                onKeyPress={searchBook}
-              />
-              {input.length > 0 ? (
-                <button
-                  className="search-close-button"
-                  onClick={(e) => {
-                    setInput("");
-                  }}
-                >
-                  X
-                </button>
-              ) : null}
-            </div>
-          </label>
-          {input.length > 0 && isShow ? (
-            <SearchResultList
-              book={searchData}
-              onClick={(e) => {
-                e.stopPropagation();
-              }}
-            />
-          ) : null}
-        </section>
+			{/* 검색 페이지 전체 */}
+			<section className="search-container">
+				{/* 검색 창 */}
+				<section
+					className="search-wrapper"
+					onClick={(e) => {
+						e.stopPropagation();
+						handleSearchResultShow();
+					}}
+				>
+					<label>
+						<div className="search-wrap-inner">
+							{/* 검색창에 라벨 적용해보기 */}
+							{/* 책 렌더링했던 유튜브 영상을 활용해서 검색창 누르면 밑에 책보여주는 방법으로 활용하기 */}
+							<button
+								className="search-button"
+								onClick={searchBook}
+								name="search-button"
+							/>
+							<input
+								type="text"
+								placeholder="검색어를 입력하세요"
+								className="search-input"
+								value={input}
+								onChange={(e) => {
+									setInput(e.target.value);
+								}}
+								onKeyPress={searchBook}
+							/>
+							{input.length > 0 ? (
+								<button
+									className="search-close-button"
+									onClick={(e) => {
+										setInput('');
+									}}
+								>
+									X
+								</button>
+							) : null}
+						</div>
+					</label>
+					{input.length > 0 && isShow ? (
+						<SearchResultList
+							book={searchData}
+							onClick={(e) => {
+								e.stopPropagation();
+							}}
+						/>
+					) : null}
+				</section>
 
-        {/* 추천 검색어 */}
-        {renderKeywordList("추천검색어", recommendedSearchKeywords)}
+				{/* 추천 검색어 */}
+				{renderKeywordList('추천검색어', recommendedSearchKeywords)}
 
-        {/* 사용자 추천 키워드 */}
-        {renderKeywordList("사용자 추천 키워드", userRecommendedKeywords)}
+				{/* 사용자 추천 키워드 */}
+				{renderKeywordList('사용자 추천 키워드', userRecommendedKeywords)}
 
-        {/* 카테고리 */}
-        <section className="category-wrapper">
-          <h2 className="recommend-title">카테고리</h2>
-          <div className="category-items">
-            {Object.keys(categories).map((key, index) => {
-              const title = key;
-              const subtitle = categories[key].join(", ");
-              const infoIndex = index % categoriesInfo.length; // 나머지로 0~9만 접근하도록 길이제한
-              const color = categoriesInfo[infoIndex].color;
-              const image = categoriesInfo[infoIndex].image;
-              return renderCategoryItem(
-                { title, subtitle, color, image },
-                index
-              );
-            })}
-          </div>
-        </section>
-      </section>
-    </div>
-  );
+				{/* 카테고리 */}
+				<section className="category-wrapper">
+					<h2 className="recommend-title">카테고리</h2>
+					<div className="category-items">
+						{Object.keys(categories).map((key, index) => {
+							const title = key;
+							const subtitle = categories[key].join(', ');
+							const infoIndex = index % categoriesInfo.length; // 나머지로 0~9만 접근하도록 길이제한
+							const color = categoriesInfo[infoIndex].color;
+							const image = categoriesInfo[infoIndex].image;
+							return renderCategoryItem(
+								{ title, subtitle, color, image },
+								index,
+							);
+						})}
+					</div>
+				</section>
+			</section>
+		</div>
+	);
 };
 
 export default Search;

@@ -150,33 +150,18 @@ const BookList = () => {
 
 		// 중분류 가져오기
 
-		categories.map((res) => {
-			console.log('대분류:', title);
-			setMidCategory(res[title]);
-		});
-		// axios
-		// 	.get(
-		// 		'https://port-0-backend-book-pharmacy-umnqdut2blqqhv7sd.sel5.cloudtype.app/api/category/big',
-		// 	)
-		// 	.then((res) => {
-		// setMidCategory(res.data);
-		// console.log(res.data);
-		// console.log('대분류:', title);
-		// setMidCategory(res.data[title]);
-		// categories.map((result) => {
-		// console.log(result);
-		// if (result.big === title) {
-		// 	console.log(result.big);
-		// 	console.log(result.mid);
-		// 	setMidCategory(result.mid);
-		// setNameList(result.big);
-		// console.log('name:', nameList);
-		// }
-		// console.log('yes');
+		// categories.map((res) => {
+		// 	console.log('대분류:', title);
+		// 	setMidCategory(res[title]);
 		// });
-
-		// console.log(res.data[title]);
-		// });
+		axios
+			.get(
+				'https://port-0-backend-book-pharmacy-umnqdut2blqqhv7sd.sel5.cloudtype.app/api/category/big',
+			)
+			.then((res) => {
+				console.log(res.data[title]);
+				setMidCategory(res.data[title]);
+			});
 	}, []);
 
 	return (
@@ -192,9 +177,8 @@ const BookList = () => {
 					/>
 					<div className="bookList_wrapper">
 						{midCategory?.map((e) => {
-							console.log(e);
+							// console.log(e);
 							// setNameList(e.name);
-							// key 값 중분류에 맞게 변경해야됨.
 							return (
 								<BookListSlide
 									key={e}

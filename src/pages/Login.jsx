@@ -17,8 +17,8 @@ import { LoginContext } from '../contexts/LoginContextProvider';
 
 export default function Login() {
 	const {setUserId, setUserPwd } = useContext(LoginContext);
-	const [id, setId] = useState('sim');
-	const [pwd, setPwd] = useState('1234');
+	const [id, setId] = useState('');
+	const [pwd, setPwd] = useState('');
 	const router = useNavigate();
 	const [notAllow, setNotAllow] = useState(true);
 
@@ -114,32 +114,25 @@ export default function Login() {
 	});
 
 	const loginData = { username: id, password: pwd };
-	
-
 
 	const postLogin = async () => {
 		console.log('아이디:', id, '비번:', pwd);
-		setUserId(id); // 전역에 id 저장
-    setUserPwd(pwd); // 전역에 password 저장
+		setUserId(id);
+    setUserPwd(pwd);
 		if (id.length > 0 && pwd.length > 0) {
-			localStorage.setItem('id', id);
-			localStorage.setItem('password', pwd);
 			axios
 				.post(
 					'https://port-0-backend-book-pharmacy-umnqdut2blqqhv7sd.sel5.cloudtype.app/login',
 					loginData,
-					{withCredentials:true}
 				)
 				.then((res) => {
-					let token = res.headers.authorization;
-					// localStorage.setItem('token', token); // 전체 토큰 저장
-					localStorage.setItem('accessToken', 'Bearer ' + token.split(' ')[1]); // 액세스 토큰 저장
-					localStorage.setItem('refreshToken', 'Bearer ' + token.split(' ')[2]); // 리프레시 토큰 저장
+					// console.log(res);
+					localStorage.setItem('id', id);
+					localStorage.setItem('password', pwd);
 
 					// 받아온 token을 암호화 하는 방식에 대해 고민 필요함.
 
-					// window.location.replace('/main');
-					getCategory();
+					window.location.replace('/main');
 				})
 				.catch((err) => {
 					console.log(err);
