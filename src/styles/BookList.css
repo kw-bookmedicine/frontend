@@ -32,3 +32,14 @@
 	width: 1338px;
 	margin: 0 auto;
 }
+
+.bookList_title_wrapper {
+	margin-top: 30px;
+}
+
+.bookList_slide_wrapper {
+	display: grid;
+	grid-template-columns: repeat(8, 1fr);
+	width: 100%;
+	/* overflow-x: scroll; */
+}
