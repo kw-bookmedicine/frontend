@@ -92,6 +92,11 @@ export default function Login() {
 		}
 	};
 
+	const getOauth = () => {
+		console.log('oauth');
+		window.open('https://api.bookpharmacy.store/oauth2/authorization/naver');
+	};
+
 	useEffect(() => {
 		if (idValid && pwdValid) {
 			setNotAllow(false);
@@ -178,7 +183,7 @@ export default function Login() {
 						<img src={kakaoIcon} alt="" />
 					</button>
 					<button>
-						<img src={naverIcon} alt="" />
+						<img src={naverIcon} alt="" onClick={getOauth} />
 					</button>
 				</SnsList>
 			</LoginContent>
