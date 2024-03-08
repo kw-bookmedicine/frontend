@@ -43,25 +43,13 @@ const BookList = () => {
 		setBigCategory(title);
 
 		api.get('/api/category/big').then((res) => {
-			// console.log(res.data[title]);
 			setMidCategory(res.data[title]);
 		});
 
 		api.get(`/api/book/list/big?name=${title}`).then((res) => {
-			res.data.map((list, idx) => {
-				// console.log(list);
-				// console.log(idx);
-				// bookList.concat(list);
-				// resMidBookList.length === 0
-				// 	? setResMidBookList(list)
-				// 	: setResMidBookList[idx](list);
+			res.data.map(() => {
 				setResMidBookList(res.data);
 			});
-			setMidCategoryList0(res.data[0].bookList);
-			setMidCategoryList1(res.data[1].bookList);
-			setMidCategoryList2(res.data[2].bookList);
-			setMidCategoryList3(res.data[3].bookList);
-			setMidCategoryList4(res.data[4].bookList);
 		});
 	}, []);
 
@@ -79,8 +67,8 @@ const BookList = () => {
 					/>
 
 					{resMidBookList.map((list, idx) => {
-						// console.log(list.categoryName);
 						return (
+							// 중분류 타이틀 렌더링
 							<div className="bookList_wrapper" key={idx}>
 								<div className="bookList_title_wrapper">
 									<Title
@@ -90,8 +78,8 @@ const BookList = () => {
 									/>
 								</div>
 								<div className="bookList_slide_wrapper">
+									{/* 중분류에 해당하는 책 리스트 데이터 바인딩 */}
 									{list.bookList.map((item) => {
-										// console.log(item);
 										return (
 											<BookListSlide
 												key={item.isbn}
@@ -106,96 +94,6 @@ const BookList = () => {
 							</div>
 						);
 					})}
-
-					{/* <div className="bookList_wrapper">
-						<div className="bookList_title_wrapper">
-							<Title
-								key={midCategory[0]}
-								bigCategory={bigCategory}
-								title={midCategory[0]}
-							/>
-						</div>
-						<div className="bookList_slide_wrapper">
-							{midCategoryList0.map((item) => {
-								// console.log(resMidBookList);
-								return (
-									<BookListSlide
-										key={item.isbn}
-										title={item.title}
-										author={item.author}
-										bigCategory={bigCategory}
-										imageUrl={item.imageUrl}
-									/>
-								);
-							})}
-						</div>
-					</div>
-					<div className="bookList_wrapper">
-						<div className="bookList_title_wrapper">
-							<Title
-								key={midCategory[1]}
-								bigCategory={bigCategory}
-								title={midCategory[1]}
-							/>
-						</div>
-						<div className="bookList_slide_wrapper">
-							{midCategoryList1.map((item) => {
-								return (
-									<BookListSlide
-										key={item.isbn}
-										title={item.title}
-										author={item.author}
-										bigCategory={bigCategory}
-										imageUrl={item.imageUrl}
-									/>
-								);
-							})}
-						</div>
-					</div>
-					<div className="bookList_wrapper">
-						<div className="bookList_title_wrapper">
-							<Title
-								key={midCategory[2]}
-								bigCategory={bigCategory}
-								title={midCategory[2]}
-							/>
-						</div>
-						<div className="bookList_slide_wrapper">
-							{midCategoryList2.map((item) => {
-								return (
-									<BookListSlide
-										key={item.isbn}
-										title={item.title}
-										author={item.author}
-										bigCategory={bigCategory}
-										imageUrl={item.imageUrl}
-									/>
-								);
-							})}
-						</div>
-					</div>
-					<div className="bookList_wrapper">
-						<div className="bookList_title_wrapper">
-							<Title
-								key={midCategory[3]}
-								bigCategory={bigCategory}
-								title={midCategory[3]}
-							/>
-						</div>
-						<div className="bookList_slide_wrapper">
-							{midCategoryList3.map((item) => {
-								return (
-									<BookListSlide
-										key={item.isbn}
-										title={item.title}
-										author={item.author}
-										bigCategory={bigCategory}
-										imageUrl={item.imageUrl}
-									/>
-								);
-							})}
-						</div>
-					</div> */}
 				</div>
 
 				<Footer />
