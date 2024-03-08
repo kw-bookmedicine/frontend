@@ -29,7 +29,7 @@ import LoginFindResult from './pages/IdFindResult';
 import PasswordFind from './pages/PasswordFind';
 import PasswordFindResult from './pages/PasswordFindResult';
 import IdFind from './pages/IdFind';
-import LoginContextProvider, { LoginContext } from './contexts/LoginContextProvider';
+import LoginContextProvider from './contexts/LoginContextProvider';
 
 function App() {
 	// 브라우저 새로고침 스크롤 이벤트
