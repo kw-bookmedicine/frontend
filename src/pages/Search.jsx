@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 // COMPONENTS
@@ -24,6 +24,7 @@ import api from "../services/api";
 
 const Search = () => {
   const baseURL = "https://api.bookpharmacy.store/api";
+  const navigate = useNavigate();
   const [input, setInput] = useState(""); // 검색 데이터
   const [inputKeyword, setInputKeyword] = useState([]); // 키워드 검색 데이터
   const [searchData, setSearchData] = useState([]); // 검색 결과 데이터
@@ -186,8 +187,9 @@ const Search = () => {
   // 검색창 엔터 및 버튼 이벤트 처리
 
   const searchBook = (evt) => {
-    if (evt.key === "Enter" || evt.target.name === "search-button") {
+    if (evt.key === "Enter") {
       fetchBooks(input);
+      navigate(`/search/result/${input}`)
     }
   };
 

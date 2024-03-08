@@ -20,7 +20,6 @@ const SearchResultListModal = ({ book, type, updateBook, addInput }) => {
           let author = item && item.author;
           let thumbnail = item && item.imageUrl;
           let keyword = item && item.name;
-          console.log(`/book-detial/${title}`);
 
           // 책 제목 && 작가 UI
           if (title !== undefined) {
