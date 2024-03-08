@@ -25,6 +25,7 @@ import api from "../services/api";
 const Search = () => {
   const baseURL = "https://api.bookpharmacy.store/api";
   const [input, setInput] = useState(""); // 검색 데이터
+  const [inputKeyword, setInputKeyword] = useState([]); // 키워드 검색 데이터
   const [searchData, setSearchData] = useState([]); // 검색 결과 데이터
   const [categories, setCategories] = useState([]); // 카테고리 데이터
   const [isShow, setIsShow] = useState(false); // 검색창 모달창
@@ -173,9 +174,6 @@ const Search = () => {
 
       try {
         const response = await api.get(
-          // `https://www.googleapis.com/books/v1/volumes?q=${searchInput}&key=AIzaSyDUtFpAVpNPHCEW-pxSxpTHSACNjko_MCc&maxResults=10`
-          // `https://api.bookpharmacy.store/api/search/book?author=${searchInput}&target=modal`
-          // `https://api.bookpharmacy.store/api/search/keyword?name=${searchInput}&target=modal`
           endpoint
         );
         console.log("test", searchType,response.data);
@@ -241,26 +239,43 @@ const Search = () => {
                 <option value="author">작가</option>
                 <option value="keyword">키워드</option>
               </select>
-              <input
-                type="text"
-                placeholder="검색어를 입력하세요"
-                className="search-input"
-                value={input}
-                onChange={(e) => {
-                  setInput(e.target.value);
-                }}
-                onKeyPress={searchBook}
-              />
-              {input.length > 0 ? (
-                <button
-                  className="search-close-button"
-                  onClick={(e) => {
-                    setInput("");
-                  }}
-                >
-                  X
-                </button>
-              ) : null}
+              {searchType === "keyword" ? (
+                <>
+                  <input
+                    type="text"
+                    placeholder="검색어를 입력하세요"
+                    className="search-input"
+                    value={input}
+                    onChange={(e) => {
+                      setInput(e.target.value);
+                    }}
+                    onKeyPress={searchBook}
+                  />
+                </>
+              ) : (
+                <>
+                  <input
+                    type="text"
+                    placeholder="검색어를 입력하세요"
+                    className="search-input"
+                    value={input}
+                    onChange={(e) => {
+                      setInput(e.target.value);
+                    }}
+                    onKeyPress={searchBook}
+                  />
+                  {input.length > 0 ? (
+                    <button
+                      className="search-close-button"
+                      onClick={(e) => {
+                        setInput("");
+                      }}
+                    >
+                      X
+                    </button>
+                  ) : null}
+                </>
+              )}
             </div>
           </label>
           {input.length > 0 && isShow && searchData.length > 0 ? (
@@ -272,6 +287,7 @@ const Search = () => {
             // />
             <SearchResultListModal
               book={searchData}
+              addInput={setInput}
               onClick={(e) => {
                 e.stopPropagation();
               }}

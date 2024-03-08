@@ -1,7 +1,7 @@
 import React from 'react'
 import "../styles/SearchResultList.css";
 
-const SearchResultListModal = ({ book, type, updateBook }) => {
+const SearchResultListModal = ({ book, type, updateBook, addInput }) => {
   let listType = ["myBook"].includes(type) ? type : "search";
 
   const updateBookTitle = (pickTitle) => {
@@ -45,7 +45,12 @@ const SearchResultListModal = ({ book, type, updateBook }) => {
           // 키워드 UI
           if (keyword !== undefined) {
             return (
-              <p className={`${listType}-result-item-title`} style={{ fontSize: "20px", marginBottom: "10px" }}>{keyword}</p>
+              <p
+                style={{ fontSize: "20px", marginBottom: "10px" }}
+                onClick={()=>addInput(`#${keyword}`)}
+              >
+                {keyword}
+              </p>
             );
           }
         })}
