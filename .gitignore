@@ -14,6 +14,7 @@
 # misc
 .DS_Store
 .env.local
+.env.development
 .env.development.local
 .env.test.local
 .env.production.local
@@ -24,3 +25,4 @@ yarn-error.log*
 
 localhost-key.pem
 localhost.pem
+
