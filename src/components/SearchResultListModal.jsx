@@ -18,7 +18,9 @@ const SearchResultListModal = ({ book, type, updateBook }) => {
           let title = item && item.title;
           let author = item && item.author;
           let thumbnail = item && item.imageUrl;
+          let keyword = item && item.name;
 
+          // 책 제목 && 작가 UI
           if (title !== undefined) {
             return (
               <ul key={item.id} className={`${listType}-result-container`}>
@@ -37,6 +39,13 @@ const SearchResultListModal = ({ book, type, updateBook }) => {
                   </div>
                 </li>
               </ul>
+            );
+          }
+
+          // 키워드 UI
+          if (keyword !== undefined) {
+            return (
+              <p className={`${listType}-result-item-title`} style={{ fontSize: "20px", marginBottom: "10px" }}>{keyword}</p>
             );
           }
         })}

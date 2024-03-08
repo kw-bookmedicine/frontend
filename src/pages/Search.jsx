@@ -19,6 +19,8 @@ import bookImg8 from "../assets/category-book-언어.jpg";
 import bookImg9 from "../assets/category-book-문학.png";
 import bookImg10 from "../assets/category-book-역사.jpg";
 import { LoginContext } from "../contexts/LoginContextProvider";
+import SearchResultListModal from './../components/SearchResultListModal';
+import api from "../services/api";
 
 const Search = () => {
   const baseURL = "https://api.bookpharmacy.store/api";
@@ -26,6 +28,7 @@ const Search = () => {
   const [searchData, setSearchData] = useState([]); // 검색 결과 데이터
   const [categories, setCategories] = useState([]); // 카테고리 데이터
   const [isShow, setIsShow] = useState(false); // 검색창 모달창
+  const [searchType, setSearchType] = useState("title"); // 검색 유형 상태
 
   const { userId, userPwd } = useContext(LoginContext);
   const loginData = { username: userId, password: userPwd };
@@ -44,6 +47,8 @@ const Search = () => {
     { color: "#D6CABC", image: bookImg10 },
   ];
 
+
+
   // 카테고리 대분류, 중분류 GET 요청 및 요청 데이터 사용하기 쉽게 처리
   useEffect(() => {
     let username = localStorage.getItem("id");
@@ -61,7 +66,7 @@ const Search = () => {
             // console.log('성공');
             axios
               .get("https://api.bookpharmacy.store/api/category/big", {
-                // withCredentials: true,
+                withCredentials: true,
               })
               .then((res) => {
                 setCategories(res.data);
@@ -69,6 +74,13 @@ const Search = () => {
           })
           .catch((err) => {
             console.log(err);
+          });
+        axios
+          .get("https://api.bookpharmacy.store/api/category/big", {
+            withCredentials: true,
+          })
+          .then((res) => {
+            setCategories(res.data);
           });
       } catch (error) {
         console.error("Error fetching categories:", error);
@@ -123,42 +135,11 @@ const Search = () => {
     "화장품",
     "하늘 높이 비상",
     "감정",
-    "해리포터",
-    "화장품",
-    "하늘 높이 비상",
-    "감정",
-    "해리포터",
-    "화장품",
-    "하늘 높이 비상",
-    "감정",
-    "해리포터",
-    "화장품",
-    "하늘 높이 비상",
-    "감정",
-    "해리포터",
-    "화장품",
-    "하늘 높이 비상",
-    "감정",
-    "해리포터",
-    "화장품",
-    "하늘 높이 비상",
     // Add more keywords as needed
   ];
 
   // 사용자 추천 키워드 리스트
   const userRecommendedKeywords = [
-    "#감정",
-    "#해리포터",
-    "#화장품",
-    "#하늘 높이 비상",
-    "#감정",
-    "#해리포터",
-    "#화장품",
-    "#하늘 높이 비상",
-    "#감정",
-    "#해리포터",
-    "#화장품",
-    "#하늘 높이 비상",
     "#감정",
     "#해리포터",
     "#화장품",
@@ -179,18 +160,29 @@ const Search = () => {
   const fetchBooks = async (searchInput) => {
     if (input.trim() === "") return; // 빈 문자열일 때 API 호출 방지
 
-    try {
-      const response = await axios.get(
-        `https://www.googleapis.com/books/v1/volumes?q=${searchInput}&key=AIzaSyDUtFpAVpNPHCEW-pxSxpTHSACNjko_MCc&maxResults=10`
-      );
-      const booksData = response.data.items
-        ? response.data.items.slice(0, 6)
-        : []; // 검색창에서 6개의 데이터만 보여줌
-
-      setSearchData(booksData);
-    } catch (error) {
-      console.error("Failed to fetch books:", error);
+    let endpoint = "";
+    if (searchType === "title") {
+      endpoint = `/api/search/book?title=${searchInput}&target=modal`;
     }
+    if (searchType === "author") {
+      endpoint = `/api/search/book?author=${searchInput}&target=modal`;
+    }
+    if (searchType === "keyword") {
+      endpoint = `/api/search/keyword?name=${searchInput}&target=modal`;
+    }
+
+      try {
+        const response = await api.get(
+          // `https://www.googleapis.com/books/v1/volumes?q=${searchInput}&key=AIzaSyDUtFpAVpNPHCEW-pxSxpTHSACNjko_MCc&maxResults=10`
+          // `https://api.bookpharmacy.store/api/search/book?author=${searchInput}&target=modal`
+          // `https://api.bookpharmacy.store/api/search/keyword?name=${searchInput}&target=modal`
+          endpoint
+        );
+        console.log("test", searchType,response.data);
+        setSearchData(response.data);
+      } catch (error) {
+        console.error("Failed to fetch books:", error);
+      }
   };
 
   // 검색창 엔터 및 버튼 이벤트 처리
@@ -208,6 +200,10 @@ const Search = () => {
   const handleSearchResultShow = () => {
     setIsShow(true);
   };
+
+   const handleSelectChange = (e) => {
+     setSearchType(e.target.value);
+   };
 
   return (
     <div onClick={handleSearchResultClose}>
@@ -227,11 +223,24 @@ const Search = () => {
             <div className="search-wrap-inner">
               {/* 검색창에 라벨 적용해보기 */}
               {/* 책 렌더링했던 유튜브 영상을 활용해서 검색창 누르면 밑에 책보여주는 방법으로 활용하기 */}
-              <button
+              {/* <button
                 className="search-button"
                 onClick={searchBook}
                 name="search-button"
-              />
+              /> */}
+              <select
+                value={searchType}
+                onChange={handleSelectChange}
+                name=""
+                id=""
+                className="search-select"
+              >
+                <option value="title" selected>
+                  책제목
+                </option>
+                <option value="author">작가</option>
+                <option value="keyword">키워드</option>
+              </select>
               <input
                 type="text"
                 placeholder="검색어를 입력하세요"
@@ -254,8 +263,14 @@ const Search = () => {
               ) : null}
             </div>
           </label>
-          {input.length > 0 && isShow ? (
-            <SearchResultList
+          {input.length > 0 && isShow && searchData.length > 0 ? (
+            // <SearchResultList
+            //   book={searchData}
+            //   onClick={(e) => {
+            //     e.stopPropagation();
+            //   }}
+            // />
+            <SearchResultListModal
               book={searchData}
               onClick={(e) => {
                 e.stopPropagation();
