@@ -25,6 +25,8 @@
 }
 
 .search-result-list img {
+	width: 70px;
+	background-color: rgb(192, 192, 192);
 	border: 1px solid #d6d6d6;
 }
 
