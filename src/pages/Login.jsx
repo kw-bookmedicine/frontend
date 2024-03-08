@@ -84,18 +84,18 @@ export default function Login() {
           localStorage.setItem("id", id);
           localStorage.setItem("password", pwd);
 
-          window.location.replace("/main");
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  };
+					window.location.replace('/main');
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+		}
+	};
 
-  const getOauth = () => {
-    console.log("oauth");
-    window.open("https://api.bookpharmacy.store/oauth2/authorization/naver");
-  };
+	const getOauth = () => {
+		console.log('oauth');
+		window.open('https://api.bookpharmacy.store/oauth2/authorization/naver');
+	};
 
   useEffect(() => {
     if (idValid && pwdValid) {
@@ -157,38 +157,38 @@ export default function Login() {
 
         {/* <LoginButton disabled={notAllow}>로그인</LoginButton> */}
 
-        <LoginButton
-          onClick={() => {
-            postLogin();
-          }}
-        >
-          로그인
-        </LoginButton>
-        <LoginSubMenu>
-          <LoginSubMenuItem>
-            <Link to={"/signup"}>회원가입</Link>
-          </LoginSubMenuItem>
-          <LoginSubMenuItem>
-            <Link to={"/id-find"}>아이디 찾기</Link>
-          </LoginSubMenuItem>
-          <LoginSubMenuItem>
-            <Link to={"/password-find"}>비밀번호 찾기</Link>
-          </LoginSubMenuItem>
-        </LoginSubMenu>
-        <Or>
-          <p>or</p>
-        </Or>
-        <SnsList>
-          <button>
-            <img src={kakaoIcon} alt="" />
-          </button>
-          <button>
-            <img src={naverIcon} alt="" onClick={getOauth} />
-          </button>
-        </SnsList>
-      </LoginContent>
-    </LoginContainer>
-  );
+				<LoginButton
+					onClick={() => {
+						postLogin();
+					}}
+				>
+					로그인
+				</LoginButton>
+				<LoginSubMenu>
+					<LoginSubMenuItem>
+						<Link to={'/signup'}>회원가입</Link>
+					</LoginSubMenuItem>
+					<LoginSubMenuItem>
+						<Link to={'/id-find'}>아이디 찾기</Link>
+					</LoginSubMenuItem>
+					<LoginSubMenuItem>
+						<Link to={'/password-find'}>비밀번호 찾기</Link>
+					</LoginSubMenuItem>
+				</LoginSubMenu>
+				<Or>
+					<p>or</p>
+				</Or>
+				<SnsList>
+					<button>
+						<img src={kakaoIcon} alt="" />
+					</button>
+					<button>
+						<img src={naverIcon} alt="" onClick={getOauth} />
+					</button>
+				</SnsList>
+			</LoginContent>
+		</LoginContainer>
+	);
 }
 
 const LoginContainer = styled.div`
