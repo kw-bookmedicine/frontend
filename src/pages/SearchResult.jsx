@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Header from "../components/Header";
 import styled from "styled-components";
@@ -8,23 +8,12 @@ import bookImg1 from "../assets/category-book-총류.jpg";
 
 const SearchResult = () => {
   const { title } = useParams();
-  console.log(title);
+  const [viewMode, setViewMode] = useState(true);
   let searchResultsCount = 1234;
   searchResultsCount = searchResultsCount.toLocaleString();
   let searchResultsKeywordCount = 123;
   let bookTitle = "해리포터와 저주받은 아이";
   let bookAuthor = "J.K. 롤링· 문학수첩";
-
-
-  // 키워드만큼 옵션을 추가하도록 구현
-  // 별점 컴포넌트 구현
-  // 버튼마다 게시판 / 카드 형식으로 보여주도록 구현
-  // 검색에 엔터 누르면 이동되도록 라우팅 설정하기
-  // api 연결
-
-  // 이 페이지 만의 컴포넌트 <CardUIItem {props} /> 이렇게 받게 하자
-
-
 
   return (
     <>
@@ -76,6 +65,7 @@ const SearchResult = () => {
                 width: "100%",
                 display: "flex",
                 justifyContent: "space-between",
+                alignItems: "center",
                 paddingBottom: "20px",
                 borderBottom: "1px solid #c4bebe",
               }}
@@ -87,35 +77,80 @@ const SearchResult = () => {
                 </span>
               </ContentTitle>
               <div>
-                <select name="" id="">
-                  <option value="" selected>
-                    인기순
-                  </option>
-                  <option value="">평점순</option>
-                </select>
-                <select name="" id="">
-                  <option value="" selected>
-                    10개씩 보기
-                  </option>
-                  <option value="" selected>
-                    50개씩 보기
-                  </option>
-                  <option value="" selected>
-                    100개씩 보기
-                  </option>
-                </select>
-                <button>
-                  <img
-                    src="https://contents.kyobobook.co.kr/resources/fo/images/common/ink/ico_view_list_active.png"
-                    alt=""
-                  />
-                </button>
-                <button>
-                  <img
-                    src="https://contents.kyobobook.co.kr/resources/fo/images/common/ink/ico_view_img_active.png"
-                    alt=""
-                  />
-                </button>
+                <div style={{ display: "flex" }}>
+                  <select
+                    name=""
+                    id=""
+                    style={{
+                      width: "120px",
+                      border: "1px solid #C0C0C0 ",
+                      padding: "10px",
+                      borderRadius: "5px",
+                      // marginRight: "10px",
+                    }}
+                  >
+                    <option value="" selected>
+                      인기순
+                    </option>
+                    <option value="">평점순</option>
+                  </select>
+                  <select
+                    name=""
+                    id=""
+                    style={{
+                      width: "120px",
+                      border: "1px solid #C0C0C0 ",
+                      padding: "10px",
+                      borderRadius: "5px",
+                      marginLeft: "10px",
+                    }}
+                  >
+                    <option value="" selected>
+                      10개씩 보기
+                    </option>
+                    <option value="" selected>
+                      50개씩 보기
+                    </option>
+                    <option value="" selected>
+                      100개씩 보기
+                    </option>
+                  </select>
+                  <div
+                    style={{
+                      display: "flex",
+                      width: "75px",
+                      border: "1px solid #C0C0C0",
+                      borderRadius: "5px",
+                      marginLeft: "10px",
+                    }}
+                  >
+                    <button
+                      onClick={() => setViewMode(true)}
+                      style={{
+                        padding: "10px",
+                        backgroundColor: "white",
+                        borderRight: "1px solid #C0C0C0",
+                      }}
+                    >
+                      <img
+                        src="https://contents.kyobobook.co.kr/resources/fo/images/common/ink/ico_view_list_active.png"
+                        alt=""
+                      />
+                    </button>
+                    <button
+                      onClick={() => setViewMode(false)}
+                      style={{
+                        padding: "10px",
+                        backgroundColor: "white",
+                      }}
+                    >
+                      <img
+                        src="https://contents.kyobobook.co.kr/resources/fo/images/common/ink/ico_view_img_active.png"
+                        alt=""
+                      />
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -145,820 +180,156 @@ const SearchResult = () => {
 
             {/* 콘텐츠 영역 */}
             <div>
-              {/* <ul>
-                <li
-                  style={{
-                    height: "310px",
-                    display: "flex",
-                    padding: "36px 20px",
-                    borderBottom: "1px solid #A1A1A1",
-                  }}
-                >
-                  <img
-                    src={bookImg1}
-                    alt="책 표지 이미지"
+              {viewMode ? (
+                <ListUIWrap>
+                  <li
                     style={{
-                      height: "240px",
-                      width: "170px",
-                      backgroundColor: "gray",
-                      borderRadius: "5px",
+                      height: "310px",
+                      display: "flex",
+                      padding: "36px 20px",
+                      borderBottom: "1px solid #A1A1A1",
                     }}
-                  />
-                  <div style={{ padding: "1rem 0px 0px 1rem" }}>
-                    <div>
-                      <h3
-                        style={{
-                          fontSize: "20px",
-                          fontWeight: "bold",
-                          marginBottom: "8px",
-                        }}
-                      >
-                        {bookTitle}
-                      </h3>
-                      <h4
-                        style={{
-                          fontSize: "1rem",
-                          color: "gray",
-                          marginBottom: "40px",
-                        }}
-                      >
-                        {bookAuthor}
-                      </h4>
+                  >
+                    <img
+                      src={bookImg1}
+                      alt="책 표지 이미지"
+                      style={{
+                        height: "240px",
+                        width: "170px",
+                        backgroundColor: "gray",
+                        borderRadius: "5px",
+                      }}
+                    />
+                    <div style={{ padding: "1rem 0px 0px 1rem" }}>
+                      <div>
+                        <h3
+                          style={{
+                            fontSize: "20px",
+                            fontWeight: "bold",
+                            marginBottom: "8px",
+                          }}
+                        >
+                          {bookTitle}
+                        </h3>
+                        <h4
+                          style={{
+                            fontSize: "1rem",
+                            color: "gray",
+                            marginBottom: "40px",
+                          }}
+                        >
+                          {bookAuthor}
+                        </h4>
+                      </div>
+                      <div style={{ marginBottom: "40px" }}>
+                        <ul style={{ display: "flex" }}>
+                          <BookKeyword>영미소설</BookKeyword>
+                          <BookKeyword>판타지소설</BookKeyword>
+                          <BookKeyword>해리포터</BookKeyword>
+                          <BookKeyword>마법주문</BookKeyword>
+                          <BookKeyword>저주</BookKeyword>
+                        </ul>
+                      </div>
+                      <h1 style={{ fontWeight: "bold", marginBottom: "10px" }}>
+                        평균 ★5.0 <span style={{ color: "gray" }}>(12)</span>
+                      </h1>
+                      <div style={{ display: "flex", alignItems: "center" }}>
+                        <img
+                          src={starIcon}
+                          alt=""
+                          style={{ marginRight: "5px" }}
+                        />
+                        <img
+                          src={starIcon}
+                          alt=""
+                          style={{ marginRight: "5px" }}
+                        />
+                        <img
+                          src={starIcon}
+                          alt=""
+                          style={{ marginRight: "5px" }}
+                        />
+                        <img
+                          src={starIcon}
+                          alt=""
+                          style={{ marginRight: "5px" }}
+                        />
+                        <img
+                          src={starIcon}
+                          alt=""
+                          style={{ marginRight: "5px" }}
+                        />
+                      </div>
                     </div>
-                    <div style={{ marginBottom: "40px" }}>
-                      <ul style={{ display: "flex" }}>
-                        <BookKeyword>영미소설</BookKeyword>
-                        <BookKeyword>판타지소설</BookKeyword>
-                        <BookKeyword>해리포터</BookKeyword>
-                        <BookKeyword>마법주문</BookKeyword>
-                        <BookKeyword>저주</BookKeyword>
-                      </ul>
-                    </div>
-                    <h1 style={{ fontWeight: "bold", marginBottom: "10px" }}>
-                      평균 ★5.0 <span style={{color:"gray"}}>(12)</span>
+                  </li>
+                </ListUIWrap>
+              ) : (
+                <CardUIWrap>
+                  <li style={{ width: "170px" }}>
+                    <img
+                      src={bookImg1}
+                      alt="책이미지"
+                      style={{
+                        height: "240px",
+                        width: "170px",
+                        borderRadius: "5px",
+                        backgroundColor: "gray",
+                        marginBottom: "10px",
+                      }}
+                    />
+                    <h2
+                      style={{
+                        fontSize: "20px",
+                        fontWeight: "bold",
+                        marginBottom: "5px",
+                      }}
+                    >
+                      {bookTitle}
+                    </h2>
+                    <h3 style={{ color: "#6B6B6B", marginBottom: "10px" }}>
+                      {bookAuthor}
+                    </h3>
+                    <h1 style={{ marginBottom: "10px" }}>
+                      평균 ★5.0 <span style={{ color: "gray" }}>(12)</span>
                     </h1>
-                    <div style={{ display: "flex", alignItems: "center" }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        marginBottom: "40px",
+                      }}
+                    >
                       <img
                         src={starIcon}
                         alt=""
-                        style={{ marginRight: "5px" }}
+                        style={{ width: "20px", marginRight: "5px" }}
                       />
                       <img
                         src={starIcon}
                         alt=""
-                        style={{ marginRight: "5px" }}
+                        style={{ width: "20px", marginRight: "5px" }}
                       />
                       <img
                         src={starIcon}
                         alt=""
-                        style={{ marginRight: "5px" }}
+                        style={{ width: "20px", marginRight: "5px" }}
                       />
                       <img
                         src={starIcon}
                         alt=""
-                        style={{ marginRight: "5px" }}
+                        style={{ width: "20px", marginRight: "5px" }}
                       />
                       <img
                         src={starIcon}
                         alt=""
-                        style={{ marginRight: "5px" }}
+                        style={{ width: "20px", marginRight: "5px" }}
                       />
                     </div>
-                  </div>
-                </li>
 
-                <li
-                  style={{
-                    height: "310px",
-                    display: "flex",
-                    padding: "36px 20px",
-                    borderBottom: "1px solid #A1A1A1",
-                  }}
-                >
-                  <img
-                    src={bookImg1}
-                    alt="책 표지 이미지"
-                    style={{
-                      height: "240px",
-                      width: "170px",
-                      backgroundColor: "gray",
-                      borderRadius: "5px",
-                    }}
-                  />
-                  <div style={{ padding: "1rem 0px 0px 1rem" }}>
-                    <div>
-                      <h3
-                        style={{
-                          fontSize: "20px",
-                          fontWeight: "bold",
-                          marginBottom: "8px",
-                        }}
-                      >
-                        {bookTitle}
-                      </h3>
-                      <h4
-                        style={{
-                          fontSize: "1rem",
-                          color: "gray",
-                          marginBottom: "40px",
-                        }}
-                      >
-                        {bookAuthor}
-                      </h4>
-                    </div>
-                    <div style={{ marginBottom: "40px" }}>
-                      <ul style={{ display: "flex" }}>
-                        <BookKeyword>영미소설</BookKeyword>
-                        <BookKeyword>판타지소설</BookKeyword>
-                        <BookKeyword>해리포터</BookKeyword>
-                        <BookKeyword>마법주문</BookKeyword>
-                        <BookKeyword>저주</BookKeyword>
-                      </ul>
-                    </div>
-                    <h1 style={{ fontWeight: "bold", marginBottom: "10px" }}>
-                      평균 ★5.0 (12)
-                    </h1>
-                    <div style={{ display: "flex", alignItems: "center" }}>
-                      <img
-                        src={starIcon}
-                        alt=""
-                        style={{ marginRight: "5px" }}
-                      />
-                      <img
-                        src={starIcon}
-                        alt=""
-                        style={{ marginRight: "5px" }}
-                      />
-                      <img
-                        src={starIcon}
-                        alt=""
-                        style={{ marginRight: "5px" }}
-                      />
-                      <img
-                        src={starIcon}
-                        alt=""
-                        style={{ marginRight: "5px" }}
-                      />
-                      <img
-                        src={starIcon}
-                        alt=""
-                        style={{ marginRight: "5px" }}
-                      />
-                    </div>
-                  </div>
-                </li>
-                <li
-                  style={{
-                    height: "310px",
-                    display: "flex",
-                    padding: "36px 20px",
-                    borderBottom: "1px solid #A1A1A1",
-                  }}
-                >
-                  <img
-                    src={bookImg1}
-                    alt="책 표지 이미지"
-                    style={{
-                      height: "240px",
-                      width: "170px",
-                      backgroundColor: "gray",
-                      borderRadius: "5px",
-                    }}
-                  />
-                  <div style={{ padding: "1rem 0px 0px 1rem" }}>
-                    <div>
-                      <h3
-                        style={{
-                          fontSize: "20px",
-                          fontWeight: "bold",
-                          marginBottom: "8px",
-                        }}
-                      >
-                        {bookTitle}
-                      </h3>
-                      <h4
-                        style={{
-                          fontSize: "1rem",
-                          color: "gray",
-                          marginBottom: "40px",
-                        }}
-                      >
-                        {bookAuthor}
-                      </h4>
-                    </div>
-                    <div style={{ marginBottom: "40px" }}>
-                      <ul style={{ display: "flex" }}>
-                        <BookKeyword>영미소설</BookKeyword>
-                        <BookKeyword>판타지소설</BookKeyword>
-                        <BookKeyword>해리포터</BookKeyword>
-                        <BookKeyword>마법주문</BookKeyword>
-                        <BookKeyword>저주</BookKeyword>
-                      </ul>
-                    </div>
-                    <h1 style={{ fontWeight: "bold", marginBottom: "10px" }}>
-                      평균 ★5.0 (12)
-                    </h1>
-                    <div style={{ display: "flex", alignItems: "center" }}>
-                      <img
-                        src={starIcon}
-                        alt=""
-                        style={{ marginRight: "5px" }}
-                      />
-                      <img
-                        src={starIcon}
-                        alt=""
-                        style={{ marginRight: "5px" }}
-                      />
-                      <img
-                        src={starIcon}
-                        alt=""
-                        style={{ marginRight: "5px" }}
-                      />
-                      <img
-                        src={starIcon}
-                        alt=""
-                        style={{ marginRight: "5px" }}
-                      />
-                      <img
-                        src={starIcon}
-                        alt=""
-                        style={{ marginRight: "5px" }}
-                      />
-                    </div>
-                  </div>
-                </li>
-                <li
-                  style={{
-                    height: "310px",
-                    display: "flex",
-                    padding: "36px 20px",
-                    borderBottom: "1px solid #A1A1A1",
-                  }}
-                >
-                  <img
-                    src={bookImg1}
-                    alt="책 표지 이미지"
-                    style={{
-                      height: "240px",
-                      width: "170px",
-                      backgroundColor: "gray",
-                      borderRadius: "5px",
-                    }}
-                  />
-                  <div style={{ padding: "1rem 0px 0px 1rem" }}>
-                    <div>
-                      <h3
-                        style={{
-                          fontSize: "20px",
-                          fontWeight: "bold",
-                          marginBottom: "8px",
-                        }}
-                      >
-                        {bookTitle}
-                      </h3>
-                      <h4
-                        style={{
-                          fontSize: "1rem",
-                          color: "gray",
-                          marginBottom: "40px",
-                        }}
-                      >
-                        {bookAuthor}
-                      </h4>
-                    </div>
-                    <div style={{ marginBottom: "40px" }}>
-                      <ul style={{ display: "flex" }}>
-                        <BookKeyword>영미소설</BookKeyword>
-                        <BookKeyword>판타지소설</BookKeyword>
-                        <BookKeyword>해리포터</BookKeyword>
-                        <BookKeyword>마법주문</BookKeyword>
-                        <BookKeyword>저주</BookKeyword>
-                      </ul>
-                    </div>
-                    <h1 style={{ fontWeight: "bold", marginBottom: "10px" }}>
-                      평균 ★5.0 (12)
-                    </h1>
-                    <div style={{ display: "flex", alignItems: "center" }}>
-                      <img
-                        src={starIcon}
-                        alt=""
-                        style={{ marginRight: "5px" }}
-                      />
-                      <img
-                        src={starIcon}
-                        alt=""
-                        style={{ marginRight: "5px" }}
-                      />
-                      <img
-                        src={starIcon}
-                        alt=""
-                        style={{ marginRight: "5px" }}
-                      />
-                      <img
-                        src={starIcon}
-                        alt=""
-                        style={{ marginRight: "5px" }}
-                      />
-                      <img
-                        src={starIcon}
-                        alt=""
-                        style={{ marginRight: "5px" }}
-                      />
-                    </div>
-                  </div>
-                </li>
-                <li
-                  style={{
-                    height: "310px",
-                    display: "flex",
-                    padding: "36px 20px",
-                    borderBottom: "1px solid #A1A1A1",
-                  }}
-                >
-                  <img
-                    src={bookImg1}
-                    alt="책 표지 이미지"
-                    style={{
-                      height: "240px",
-                      width: "170px",
-                      backgroundColor: "gray",
-                      borderRadius: "5px",
-                    }}
-                  />
-                  <div style={{ padding: "1rem 0px 0px 1rem" }}>
-                    <div>
-                      <h3
-                        style={{
-                          fontSize: "20px",
-                          fontWeight: "bold",
-                          marginBottom: "8px",
-                        }}
-                      >
-                        {bookTitle}
-                      </h3>
-                      <h4
-                        style={{
-                          fontSize: "1rem",
-                          color: "gray",
-                          marginBottom: "40px",
-                        }}
-                      >
-                        {bookAuthor}
-                      </h4>
-                    </div>
-                    <div style={{ marginBottom: "40px" }}>
-                      <ul style={{ display: "flex" }}>
-                        <BookKeyword>영미소설</BookKeyword>
-                        <BookKeyword>판타지소설</BookKeyword>
-                        <BookKeyword>해리포터</BookKeyword>
-                        <BookKeyword>마법주문</BookKeyword>
-                        <BookKeyword>저주</BookKeyword>
-                      </ul>
-                    </div>
-                    <h1 style={{ fontWeight: "bold", marginBottom: "10px" }}>
-                      평균 ★5.0 (12)
-                    </h1>
-                    <div style={{ display: "flex", alignItems: "center" }}>
-                      <img
-                        src={starIcon}
-                        alt=""
-                        style={{ marginRight: "5px" }}
-                      />
-                      <img
-                        src={starIcon}
-                        alt=""
-                        style={{ marginRight: "5px" }}
-                      />
-                      <img
-                        src={starIcon}
-                        alt=""
-                        style={{ marginRight: "5px" }}
-                      />
-                      <img
-                        src={starIcon}
-                        alt=""
-                        style={{ marginRight: "5px" }}
-                      />
-                      <img
-                        src={starIcon}
-                        alt=""
-                        style={{ marginRight: "5px" }}
-                      />
-                    </div>
-                  </div>
-                </li>
-                <li
-                  style={{
-                    height: "310px",
-                    display: "flex",
-                    padding: "36px 20px",
-                    borderBottom: "1px solid #A1A1A1",
-                  }}
-                >
-                  <img
-                    src={bookImg1}
-                    alt="책 표지 이미지"
-                    style={{
-                      height: "240px",
-                      width: "170px",
-                      backgroundColor: "gray",
-                      borderRadius: "5px",
-                    }}
-                  />
-                  <div style={{ padding: "1rem 0px 0px 1rem" }}>
-                    <div>
-                      <h3
-                        style={{
-                          fontSize: "20px",
-                          fontWeight: "bold",
-                          marginBottom: "8px",
-                        }}
-                      >
-                        {bookTitle}
-                      </h3>
-                      <h4
-                        style={{
-                          fontSize: "1rem",
-                          color: "gray",
-                          marginBottom: "40px",
-                        }}
-                      >
-                        {bookAuthor}
-                      </h4>
-                    </div>
-                    <div style={{ marginBottom: "40px" }}>
-                      <ul style={{ display: "flex" }}>
-                        <BookKeyword>영미소설</BookKeyword>
-                        <BookKeyword>판타지소설</BookKeyword>
-                        <BookKeyword>해리포터</BookKeyword>
-                        <BookKeyword>마법주문</BookKeyword>
-                        <BookKeyword>저주</BookKeyword>
-                      </ul>
-                    </div>
-                    <h1 style={{ fontWeight: "bold", marginBottom: "10px" }}>
-                      평균 ★5.0 (12)
-                    </h1>
-                    <div style={{ display: "flex", alignItems: "center" }}>
-                      <img
-                        src={starIcon}
-                        alt=""
-                        style={{ marginRight: "5px" }}
-                      />
-                      <img
-                        src={starIcon}
-                        alt=""
-                        style={{ marginRight: "5px" }}
-                      />
-                      <img
-                        src={starIcon}
-                        alt=""
-                        style={{ marginRight: "5px" }}
-                      />
-                      <img
-                        src={starIcon}
-                        alt=""
-                        style={{ marginRight: "5px" }}
-                      />
-                      <img
-                        src={starIcon}
-                        alt=""
-                        style={{ marginRight: "5px" }}
-                      />
-                    </div>
-                  </div>
-                </li>
-                <li
-                  style={{
-                    height: "310px",
-                    display: "flex",
-                    padding: "36px 20px",
-                    borderBottom: "1px solid #A1A1A1",
-                  }}
-                >
-                  <img
-                    src={bookImg1}
-                    alt="책 표지 이미지"
-                    style={{
-                      height: "240px",
-                      width: "170px",
-                      backgroundColor: "gray",
-                      borderRadius: "5px",
-                    }}
-                  />
-                  <div style={{ padding: "1rem 0px 0px 1rem" }}>
-                    <div>
-                      <h3
-                        style={{
-                          fontSize: "20px",
-                          fontWeight: "bold",
-                          marginBottom: "8px",
-                        }}
-                      >
-                        {bookTitle}
-                      </h3>
-                      <h4
-                        style={{
-                          fontSize: "1rem",
-                          color: "gray",
-                          marginBottom: "40px",
-                        }}
-                      >
-                        {bookAuthor}
-                      </h4>
-                    </div>
-                    <div style={{ marginBottom: "40px" }}>
-                      <ul style={{ display: "flex" }}>
-                        <BookKeyword>영미소설</BookKeyword>
-                        <BookKeyword>판타지소설</BookKeyword>
-                        <BookKeyword>해리포터</BookKeyword>
-                        <BookKeyword>마법주문</BookKeyword>
-                        <BookKeyword>저주</BookKeyword>
-                      </ul>
-                    </div>
-                    <h1 style={{ fontWeight: "bold", marginBottom: "10px" }}>
-                      평균 ★5.0 (12)
-                    </h1>
-                    <div style={{ display: "flex", alignItems: "center" }}>
-                      <img
-                        src={starIcon}
-                        alt=""
-                        style={{ marginRight: "5px" }}
-                      />
-                      <img
-                        src={starIcon}
-                        alt=""
-                        style={{ marginRight: "5px" }}
-                      />
-                      <img
-                        src={starIcon}
-                        alt=""
-                        style={{ marginRight: "5px" }}
-                      />
-                      <img
-                        src={starIcon}
-                        alt=""
-                        style={{ marginRight: "5px" }}
-                      />
-                      <img
-                        src={starIcon}
-                        alt=""
-                        style={{ marginRight: "5px" }}
-                      />
-                    </div>
-                  </div>
-                </li>
-                <li
-                  style={{
-                    height: "310px",
-                    display: "flex",
-                    padding: "36px 20px",
-                    borderBottom: "1px solid #A1A1A1",
-                  }}
-                >
-                  <img
-                    src={bookImg1}
-                    alt="책 표지 이미지"
-                    style={{
-                      height: "240px",
-                      width: "170px",
-                      backgroundColor: "gray",
-                      borderRadius: "5px",
-                    }}
-                  />
-                  <div style={{ padding: "1rem 0px 0px 1rem" }}>
-                    <div>
-                      <h3
-                        style={{
-                          fontSize: "20px",
-                          fontWeight: "bold",
-                          marginBottom: "8px",
-                        }}
-                      >
-                        {bookTitle}
-                      </h3>
-                      <h4
-                        style={{
-                          fontSize: "1rem",
-                          color: "gray",
-                          marginBottom: "40px",
-                        }}
-                      >
-                        {bookAuthor}
-                      </h4>
-                    </div>
-                    <div style={{ marginBottom: "40px" }}>
-                      <ul style={{ display: "flex" }}>
-                        <BookKeyword>영미소설</BookKeyword>
-                        <BookKeyword>판타지소설</BookKeyword>
-                        <BookKeyword>해리포터</BookKeyword>
-                        <BookKeyword>마법주문</BookKeyword>
-                        <BookKeyword>저주</BookKeyword>
-                      </ul>
-                    </div>
-                    <h1 style={{ fontWeight: "bold", marginBottom: "10px" }}>
-                      평균 ★5.0 (12)
-                    </h1>
-                    <div style={{ display: "flex", alignItems: "center" }}>
-                      <img
-                        src={starIcon}
-                        alt=""
-                        style={{ marginRight: "5px" }}
-                      />
-                      <img
-                        src={starIcon}
-                        alt=""
-                        style={{ marginRight: "5px" }}
-                      />
-                      <img
-                        src={starIcon}
-                        alt=""
-                        style={{ marginRight: "5px" }}
-                      />
-                      <img
-                        src={starIcon}
-                        alt=""
-                        style={{ marginRight: "5px" }}
-                      />
-                      <img
-                        src={starIcon}
-                        alt=""
-                        style={{ marginRight: "5px" }}
-                      />
-                    </div>
-                  </div>
-                </li>
-                <li
-                  style={{
-                    height: "310px",
-                    display: "flex",
-                    padding: "36px 20px",
-                    borderBottom: "1px solid #A1A1A1",
-                  }}
-                >
-                  <img
-                    src={bookImg1}
-                    alt="책 표지 이미지"
-                    style={{
-                      height: "240px",
-                      width: "170px",
-                      backgroundColor: "gray",
-                      borderRadius: "5px",
-                    }}
-                  />
-                  <div style={{ padding: "1rem 0px 0px 1rem" }}>
-                    <div>
-                      <h3
-                        style={{
-                          fontSize: "20px",
-                          fontWeight: "bold",
-                          marginBottom: "8px",
-                        }}
-                      >
-                        {bookTitle}
-                      </h3>
-                      <h4
-                        style={{
-                          fontSize: "1rem",
-                          color: "gray",
-                          marginBottom: "40px",
-                        }}
-                      >
-                        {bookAuthor}
-                      </h4>
-                    </div>
-                    <div style={{ marginBottom: "40px" }}>
-                      <ul style={{ display: "flex" }}>
-                        <BookKeyword>영미소설</BookKeyword>
-                        <BookKeyword>판타지소설</BookKeyword>
-                        <BookKeyword>해리포터</BookKeyword>
-                        <BookKeyword>마법주문</BookKeyword>
-                        <BookKeyword>저주</BookKeyword>
-                      </ul>
-                    </div>
-                    <h1 style={{ fontWeight: "bold", marginBottom: "10px" }}>
-                      평균 ★5.0 (12)
-                    </h1>
-                    <div style={{ display: "flex", alignItems: "center" }}>
-                      <img
-                        src={starIcon}
-                        alt=""
-                        style={{ marginRight: "5px" }}
-                      />
-                      <img
-                        src={starIcon}
-                        alt=""
-                        style={{ marginRight: "5px" }}
-                      />
-                      <img
-                        src={starIcon}
-                        alt=""
-                        style={{ marginRight: "5px" }}
-                      />
-                      <img
-                        src={starIcon}
-                        alt=""
-                        style={{ marginRight: "5px" }}
-                      />
-                      <img
-                        src={starIcon}
-                        alt=""
-                        style={{ marginRight: "5px" }}
-                      />
-                    </div>
-                  </div>
-                </li>
-                <li
-                  style={{
-                    height: "310px",
-                    display: "flex",
-                    padding: "36px 20px",
-                    borderBottom: "1px solid #A1A1A1",
-                  }}
-                >
-                  <img
-                    src={bookImg1}
-                    alt="책 표지 이미지"
-                    style={{
-                      height: "240px",
-                      width: "170px",
-                      backgroundColor: "gray",
-                      borderRadius: "5px",
-                    }}
-                  />
-                  <div style={{ padding: "1rem 0px 0px 1rem" }}>
-                    <div>
-                      <h3
-                        style={{
-                          fontSize: "20px",
-                          fontWeight: "bold",
-                          marginBottom: "8px",
-                        }}
-                      >
-                        {bookTitle}
-                      </h3>
-                      <h4
-                        style={{
-                          fontSize: "1rem",
-                          color: "gray",
-                          marginBottom: "40px",
-                        }}
-                      >
-                        {bookAuthor}
-                      </h4>
-                    </div>
-                    <div style={{ marginBottom: "40px" }}>
-                      <ul style={{ display: "flex" }}>
-                        <BookKeyword>영미소설</BookKeyword>
-                        <BookKeyword>판타지소설</BookKeyword>
-                        <BookKeyword>해리포터</BookKeyword>
-                        <BookKeyword>마법주문</BookKeyword>
-                        <BookKeyword>저주</BookKeyword>
-                      </ul>
-                    </div>
-                    <h1 style={{ fontWeight: "bold", marginBottom: "10px" }}>
-                      평균 ★5.0 (12)
-                    </h1>
-                    <div style={{ display: "flex", alignItems: "center" }}>
-                      <img
-                        src={starIcon}
-                        alt=""
-                        style={{ marginRight: "5px" }}
-                      />
-                      <img
-                        src={starIcon}
-                        alt=""
-                        style={{ marginRight: "5px" }}
-                      />
-                      <img
-                        src={starIcon}
-                        alt=""
-                        style={{ marginRight: "5px" }}
-                      />
-                      <img
-                        src={starIcon}
-                        alt=""
-                        style={{ marginRight: "5px" }}
-                      />
-                      <img
-                        src={starIcon}
-                        alt=""
-                        style={{ marginRight: "5px" }}
-                      />
-                    </div>
-                  </div>
-                </li>
-              </ul> */}
-              <CardUIWrap>
-                <li>
-                  <img src="" alt="" style={{height:"240px", width:"170px", borderRadius:"5px", backgroundColor:"gray", marginBottom:"10px"}}/>
-                  <h2 style={{fontWeight:"bold", marginBottom:"5px"}}>{bookTitle}</h2>
-                  <h3 style={{marginBottom:"10px"}}>{bookAuthor}</h3>
-                  {/* 별 컴포넌트 */}
-                </li>
-                
-                
-                
-              </CardUIWrap>
+                    {/* 별 컴포넌트 */}
+                  </li>
+                </CardUIWrap>
+              )}
             </div>
           </section>
         </ContentsWrap>
@@ -1040,6 +411,9 @@ const BookKeyword = styled.li`
   margin-right: 10px;
 `;
 
+const ListUIWrap = styled.ul`
+`;
+
 const CardUIWrap = styled.ul`
   padding: 36px 20px;
   display: grid;
@@ -1047,3 +421,4 @@ const CardUIWrap = styled.ul`
   grid-gap: 10px;
 
 `;
+
