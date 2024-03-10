@@ -950,9 +950,9 @@ const SearchResult = () => {
               </ul> */}
               <CardUIWrap>
                 <li>
-                  <img src="" alt="" style={{height:"240px", width:"170px"}}/>
-                  <h2>{bookTitle}</h2>
-                  <h3>{bookAuthor}</h3>
+                  <img src="" alt="" style={{height:"240px", width:"170px", borderRadius:"5px", backgroundColor:"gray", marginBottom:"10px"}}/>
+                  <h2 style={{fontWeight:"bold", marginBottom:"5px"}}>{bookTitle}</h2>
+                  <h3 style={{marginBottom:"10px"}}>{bookAuthor}</h3>
                   {/* 별 컴포넌트 */}
                 </li>
                 
