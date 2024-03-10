@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import Slider from 'react-slick';
 import axios from 'axios';
 
 // SERVICE
@@ -14,8 +15,18 @@ import BookListSlide from '../components/BookListSlide';
 
 // STYLES
 import '../styles/BookList.css';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 const BookList = () => {
+	var settings = {
+		dots: true,
+		infinite: true,
+		speed: 500,
+		slidesToShow: 1,
+		slidesToScroll: 1,
+	};
+
 	// 대분류
 	let { title } = useParams();
 	const [bigCategory, setBigCategory] = useState('');
@@ -23,19 +34,6 @@ const BookList = () => {
 	// 중분류
 	const [midCategory, setMidCategory] = useState([]);
 	const [resMidBookList, setResMidBookList] = useState([]);
-
-	// 중분류에 따른 책 리스트
-	const [midCategoryList0, setMidCategoryList0] = useState([]);
-	const [midCategoryList1, setMidCategoryList1] = useState([]);
-	const [midCategoryList2, setMidCategoryList2] = useState([]);
-	const [midCategoryList3, setMidCategoryList3] = useState([]);
-	const [midCategoryList4, setMidCategoryList4] = useState([]);
-	const [midCategoryList5, setMidCategoryList5] = useState([]);
-	const [midCategoryList6, setMidCategoryList6] = useState([]);
-	const [midCategoryList7, setMidCategoryList7] = useState([]);
-	const [midCategoryList8, setMidCategoryList8] = useState([]);
-
-	const bookList = [];
 
 	// 초기에 랜더링될 때 한 번만 실행
 	useEffect(() => {
@@ -77,9 +75,12 @@ const BookList = () => {
 										title={list.categoryName}
 									/>
 								</div>
+
 								<div className="bookList_slide_wrapper">
+									<BookListSlide list={list.bookList} />
+
 									{/* 중분류에 해당하는 책 리스트 데이터 바인딩 */}
-									{list.bookList.map((item) => {
+									{/* {list.bookList.map((item) => {
 										return (
 											<BookListSlide
 												key={item.isbn}
@@ -89,7 +90,7 @@ const BookList = () => {
 												imageUrl={item.imageUrl}
 											/>
 										);
-									})}
+									})} */}
 								</div>
 							</div>
 						);

@@ -12,10 +12,21 @@
 	width: 200px;
 	font-family: 'Pretendard-Regular';
 	font-weight: 700;
+	/* display: grid;
+	grid-template-columns: repeat(8, 1fr); */
+	width: 100%;
 }
 
 .slide {
-	display: flex;
 	justify-content: space-around;
 	margin-top: 20px;
+	width: 500px;
+}
+
+.swiper-container .swiper {
+	padding: 0;
+}
+
+#my-swiper .swiper {
+	padding-left: 0;
 }
