@@ -7,7 +7,7 @@ import HashTag from '../components/HashTag';
 //STYLES
 import '../styles/BookDetailCard.css';
 
-const BookDetailCard = ({ title, author, imageUrl }) => {
+const BookDetailCard = ({ title, author, imageUrl, isbn }) => {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const bookTitle = searchParams.get('title');
 	// console.log('title:', bookTitle);
@@ -18,7 +18,7 @@ const BookDetailCard = ({ title, author, imageUrl }) => {
 
 	return (
 		<>
-			<Link to={'/book-detail'}>
+			<Link to={`/book-detail?isbn=${isbn}`}>
 				<div className="bookCard_container">
 					<div className="bookCard_wrapper">
 						<div className="bookCard_left_wrapper">
