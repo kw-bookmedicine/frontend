@@ -1,4 +1,8 @@
-import React, { useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import { useParams, useSearchParams } from 'react-router-dom';
+
+// SERVICE
+import api from '../services/api';
 
 // COMPONENTS
 import Header from '../components/Header';
@@ -11,13 +15,32 @@ import Footer from '../components/Footer';
 
 // STYLES
 import '../styles/BookDetail.css';
-import { Link } from 'react-router-dom';
 
 const BookDetail = () => {
 	const scrollRef = useRef([]);
 	const handleScroll = (ref) => {
 		ref.scrollIntoView({ behavior: 'smooth' });
 	};
+
+	const [searchParams, setSearchParams] = useSearchParams();
+	const [bookInfo, setBookInfo] = useState([]);
+	const [bookKeywordList, setBookKeywordList] = useState([]);
+
+	const getIsbn = () => {
+		let isbn = searchParams.get('isbn');
+		console.log(isbn);
+
+		api.get(`/api/book/detail?isbn=${isbn}`).then((res) => {
+			console.log(res.data.title);
+			console.log(res.data);
+			setBookInfo(res.data);
+			setBookKeywordList(res.data.bookKeywordList);
+		});
+	};
+
+	useEffect(() => {
+		getIsbn();
+	}, []);
 
 	return (
 		<>
@@ -26,13 +49,19 @@ const BookDetail = () => {
 				<section className="bookSummary">
 					<div className="bookSummary_wrapper">
 						<div className="summary_left_wrapper">
-							<div className="summary_left_img"></div>
+							<div>
+								<img
+									className="summary_left_img"
+									src={bookInfo.imageUrl}
+									alt={`${bookInfo.title}썸네일`}
+								/>
+							</div>
 						</div>
 						<div className="summary_right_wrapper">
 							<div className="summary_right_up_wrapper">
 								<div className="right_up_left_wrapper">
-									<div className="up_left_book_title">해리포터와 불의 잔</div>
-									<div className="up_left_book_author">J. K. 롤링 </div>
+									<div className="up_left_book_title">{bookInfo.title}</div>
+									<div className="up_left_book_author">{bookInfo.author}</div>
 								</div>
 								<div className="right_up_right_wrapper">
 									<div className="up_right_exp">
@@ -41,10 +70,9 @@ const BookDetail = () => {
 								</div>
 							</div>
 							<div className="summary_left_mid_wrapper">
-								<HashTag text={'#마법학교'} />
-								<HashTag text={'#판타지'} />
-								<HashTag text={'#해리포터'} />
-								<HashTag text={'#소설원작'} />
+								{bookKeywordList.map((item) => {
+									return <HashTag key={item.name} text={item.name} />;
+								})}
 							</div>
 							<div className="summary_left_bottom_wrapper">
 								<nav className="left_bottom_text_wrapper">
@@ -88,7 +116,8 @@ const BookDetail = () => {
 					>
 						<div className="bookInfo_title">책 정보</div>
 						<div className="bookInfo_content">
-							<p className="content_bold">
+							<p className="content_normal">{bookInfo.content}</p>
+							{/* <p className="content_bold">
 								해리 포터 세대의, 해리 포터 세대를 위한, 해리 포터 세대에 의한
 								새 번역!‘ 21세기 대표 아이콘’에 걸맞은 완성도 높은 작품으로
 								재탄생하다!
@@ -139,7 +168,7 @@ const BookDetail = () => {
 								말투의 미세한 뉘앙스까지 점검했다. 『해리 포터』의 세계에 처음
 								발을 들여놓는 독자는 물론, 그동안 『해리 포터』의 세계를 즐겨
 								찾아왔던 독자 모두에게 완성도 높은 만족과 감동을 선사할 것이다.
-							</p>
+							</p> */}
 						</div>
 					</div>
 				</section>
