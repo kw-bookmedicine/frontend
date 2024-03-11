@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 //COMPONENTS
 import HashTag from '../components/HashTag';
@@ -8,14 +8,6 @@ import HashTag from '../components/HashTag';
 import '../styles/BookDetailCard.css';
 
 const BookDetailCard = ({ title, author, imageUrl, isbn, bookKeywordList }) => {
-	const [searchParams, setSearchParams] = useSearchParams();
-	const bookTitle = searchParams.get('title');
-	// console.log('title:', bookTitle);
-
-	// useEffect(() => {
-	// 	setSearchParams({ who: 'bb' });
-	// });
-
 	return (
 		<>
 			<Link to={`/book-detail?isbn=${isbn}`}>
@@ -38,9 +30,14 @@ const BookDetailCard = ({ title, author, imageUrl, isbn, bookKeywordList }) => {
 								<div className="right_up_author">{author}</div>
 							</div>
 							<div className="bookCard_right_bottom_wrapper">
-								{bookKeywordList.map((keyword) => {
-									// console.log(keyword.name);
-									return <HashTag text={keyword.name} type="sm-category" />;
+								{bookKeywordList.map((keyword, idx) => {
+									return (
+										<HashTag
+											key={`${isbn}keyword-${idx}`}
+											text={keyword.name}
+											type="sm-category"
+										/>
+									);
 								})}
 							</div>
 						</div>

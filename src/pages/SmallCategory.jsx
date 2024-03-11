@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
 // COMPONENTS
 import Header from '../components/Header';
-import Footer from '../components/Footer';
-import Btn from '../components/Button';
 import Card from '../components/BookDetailCard';
 
 // STYLES
@@ -28,11 +26,8 @@ const SmallCategory = () => {
 			)
 			.then((res) => {
 				setSmCategoryBookList(res.data);
-				console.log(res.data);
 			});
 	}, []);
-
-	const [searchParams, setSearchParams] = useSearchParams();
 
 	return (
 		<>
@@ -48,7 +43,6 @@ const SmallCategory = () => {
 				<div className="smCategory_card_wrapper">
 					<div className="smCategory_card_slide">
 						{smCategoryBookList.map((data) => {
-							// console.log(data);
 							return (
 								<Card
 									isbn={data.isbn}
@@ -57,26 +51,10 @@ const SmallCategory = () => {
 									key={data.isbn}
 									imageUrl={data.imageUrl}
 									bookKeywordList={data.bookKeywordList}
-									// onClick={() => {
-									// 	setSearchParams({
-									// 		title: data[title],
-									// 		author: data[author],
-									// 	});
-									// }}
 								/>
 							);
 						})}
 					</div>
-					{/* <div className="smCategory_card_slide">
-						<Card />
-						<Card />
-						<Card />
-					</div>
-					<div className="smCategory_card_slide">
-						<Card />
-						<Card />
-						<Card />
-					</div> */}
 				</div>
 			</div>
 		</>
