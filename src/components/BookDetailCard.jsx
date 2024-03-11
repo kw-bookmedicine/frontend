@@ -7,7 +7,7 @@ import HashTag from '../components/HashTag';
 //STYLES
 import '../styles/BookDetailCard.css';
 
-const BookDetailCard = ({ title, author, imageUrl, isbn }) => {
+const BookDetailCard = ({ title, author, imageUrl, isbn, bookKeywordList }) => {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const bookTitle = searchParams.get('title');
 	// console.log('title:', bookTitle);
@@ -38,10 +38,10 @@ const BookDetailCard = ({ title, author, imageUrl, isbn }) => {
 								<div className="right_up_author">{author}</div>
 							</div>
 							<div className="bookCard_right_bottom_wrapper">
-								<HashTag text={'행복'} type="sm-category" />
-								<HashTag text={'해피니스'} type="sm-category" />
-								<HashTag text={'클로버'} type="sm-category" />
-								<HashTag text={'해쉬태그4'} type="sm-category" />
+								{bookKeywordList.map((keyword) => {
+									// console.log(keyword.name);
+									return <HashTag text={keyword.name} type="sm-category" />;
+								})}
 							</div>
 						</div>
 					</div>

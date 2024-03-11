@@ -56,6 +56,7 @@ const SmallCategory = () => {
 									author={data.author}
 									key={data.isbn}
 									imageUrl={data.imageUrl}
+									bookKeywordList={data.bookKeywordList}
 									// onClick={() => {
 									// 	setSearchParams({
 									// 		title: data[title],
