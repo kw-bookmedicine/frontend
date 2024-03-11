@@ -22,6 +22,7 @@ const BookDetailCard = ({ title, author, imageUrl, isbn, bookKeywordList }) => {
 								/>
 							</div>
 						</div>
+
 						<div className="bookCard_right_wrapper">
 							<div className="bookCard_right_up_wrapper">
 								<div className="right_up_title" title={title}>
@@ -29,6 +30,7 @@ const BookDetailCard = ({ title, author, imageUrl, isbn, bookKeywordList }) => {
 								</div>
 								<div className="right_up_author">{author}</div>
 							</div>
+
 							<div className="bookCard_right_bottom_wrapper">
 								{bookKeywordList.map((keyword, idx) => {
 									return (
