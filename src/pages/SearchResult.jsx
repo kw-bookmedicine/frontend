@@ -1,46 +1,112 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Header from "../components/Header";
 import styled from "styled-components";
 import closeIcon from "../assets/closeIconRound.svg";
 import starIcon from "../assets/icons8-별-30 (1).png";
 import api from "./../services/api";
+import Pagination from "../components/Pagination";
+import SearchBox from "../components/SearchBox";
 
 const SearchResult = () => {
-  const { title } = useParams();
-  const [viewMode, setViewMode] = useState(true);
-  const [books, setBooks] = useState([]);
-  const [size, setSize] = useState(10);
-  let searchResultsCount = 1234;
-  searchResultsCount = searchResultsCount.toLocaleString();
-  let searchResultsKeywordCount = 123;
-  let reviewCount = 123;
+  const navigate = useNavigate();
+  const { title } = useParams(); // path로 책 제목 가져오기
+  const [viewMode, setViewMode] = useState(true); // 책 뷰 선택(리스트/카드)
+  const [books, setBooks] = useState([]); // 책 정보
+  const [currentPage, setCurrentPage] = useState(1); // 현재 페이지
+  const [booksPerPage, setBooksPerPage] = useState(10); // 페이지당 책 수
+  const [loading, setLoading] = useState(false); // 로딩
+
+  const [input, setInput] = useState(""); // 검색 데이터
+  const [searchType, setSearchType] = useState("title"); // 검색 유형 상태
+  const [searchData, setSearchData] = useState([]); // 검색 결과 데이터
+  const [isShow, setIsShow] = useState(false); // 검색창 모달창
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      fetchBooks(input);
+    }, 100);
+
+    // cleanup 함수를 반환하여 컴포넌트가 언마운트될 때 타이머를 해제합니다.
+    return () => clearTimeout(timer);
+  }, [input]);
+
+  const fetchBooks = async (searchInput) => {
+    if (input.trim() === "") return; // 빈 문자열일 때 API 호출 방지
+
+    let endpoint = "";
+    if (searchType === "title") {
+      endpoint = `/api/search/book?title=${searchInput}&target=modal`;
+    }
+    if (searchType === "author") {
+      endpoint = `/api/search/book?author=${searchInput}&target=modal`;
+    }
+    if (searchType === "keyword") {
+      endpoint = `/api/search/keyword?name=${searchInput}&target=modal`;
+    }
+
+    try {
+      const response = await api.get(endpoint);
+      console.log("test", searchType, response.data);
+      setSearchData(response.data);
+    } catch (error) {
+      console.error("Failed to fetch books:", error);
+    }
+  };
+
+  const searchBook = (evt) => {
+    if (evt.key === "Enter") {
+      fetchBooks(input);
+      if (input.length > 0) navigate(`/search/result/${input}`);
+      setIsShow(false);
+    }
+  };
+
+  // 현재 책들 정보
+  const indexOfLastBook = currentPage * booksPerPage;
+  const indexOfFirstBook = indexOfLastBook - booksPerPage;
+  console.log(indexOfFirstBook, indexOfLastBook);
+  const currentBooks = books.slice(indexOfFirstBook, indexOfLastBook);
+
+  // 페이지 변경
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  console.log(books.length);
+  console.log(currentBooks);
 
   useEffect(() => {
     const getSearchResults = async () => {
+      setLoading(true);
       try {
         const response = await api.get(
-          `/api/search/book?title=${title}&target=page&page=0&size=${size}`
+          // `/api/search/book?title=${title}&target=page&page=${currentPage-1}&size=${booksPerPage}`
+          `/api/search/book?title=${title}&target=page&page=0&size=999`
         );
-        console.log(response.data)
+        console.log(response.data);
         setBooks(response.data);
+        setLoading(false);
       } catch (error) {
         console.error("책 데이터 GET 요청 실패", error);
       }
     };
     getSearchResults();
-  }, [size]);
+  }, [title]);
 
-   const handleSizeChange = (event) => {
-     setSize(event.target.value);
-   };
+  let searchResultsCount = books.length;
+  searchResultsCount = searchResultsCount.toLocaleString();
+  let searchResultsKeywordCount = 123;
+  let reviewCount = 123;
+
+  const handleSizeChange = (event) => {
+    setBooksPerPage(event.target.value);
+  };
 
   return (
     <>
       <Header />
-      <Main>
+      <Main onClick={() => setIsShow(false)}>
         {/* 검색창 컴포넌트 만들어야함 */}
-        <SearchInputWrap>
+        {/* <SearchInputWrap>
           <SelectMenu>
             <option value="title" selected>
               제목
@@ -49,7 +115,17 @@ const SearchResult = () => {
             <option value="keyword">키워드</option>
           </SelectMenu>
           <SearchInput type="text" placeholder="검색어를 입력하세요" />
-        </SearchInputWrap>
+        </SearchInputWrap> */}
+        <SearchBox
+          input={input}
+          setInput={setInput}
+          searchType={searchType}
+          setSearchType={setSearchType}
+          isShow={isShow}
+          setIsShow={setIsShow}
+          searchBook={searchBook}
+          searchData={searchData}
+        />
 
         <section id="search-title" style={{ marginBottom: "80px" }}>
           <h1 style={{ fontSize: "30px", fontWeight: "bold" }}>
@@ -125,7 +201,7 @@ const SearchResult = () => {
                       marginLeft: "10px",
                     }}
                     onChange={handleSizeChange}
-                    value={size}
+                    value={booksPerPage}
                   >
                     <option value="10" selected>
                       10개씩 보기
@@ -200,7 +276,8 @@ const SearchResult = () => {
             <div>
               {viewMode ? (
                 <ListUIWrap>
-                  {books.map((book, index) => (
+                  {/* {books.map((book, index) => ( */}
+                  {currentBooks.map((book, index) => (
                     <Link to={`/book-detail/${book.title}`}>
                       <li
                         key={index}
@@ -219,7 +296,8 @@ const SearchResult = () => {
                             width: "170px",
                             backgroundColor: "gray",
                             borderRadius: "5px",
-                            objectFit: "cover",
+                            // objectFit: "cover",
+                            border: "1px solid #c0c0c0",
                           }}
                         />
                         <div style={{ padding: "1rem 0px 0px 1rem" }}>
@@ -245,12 +323,27 @@ const SearchResult = () => {
                           </div>
                           <div style={{ marginBottom: "40px" }}>
                             <ul style={{ display: "flex", flexWrap: "wrap" }}>
-                              <BookKeyword>
+                              <BookKeyword
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  navigate(
+                                    `/search/result/${book.middleCategoryName}`
+                                  );
+                                }}
+                              >
                                 {book.middleCategoryName}
                               </BookKeyword>
                               {book.bookKeywordList.map((keyword, index) => {
                                 return (
-                                  <BookKeyword key={index}>
+                                  <BookKeyword
+                                    key={index}
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      navigate(
+                                        `/search/result/${keyword.name}`
+                                      );
+                                    }}
+                                  >
                                     {keyword.name}
                                   </BookKeyword>
                                 );
@@ -304,7 +397,8 @@ const SearchResult = () => {
                 </ListUIWrap>
               ) : (
                 <CardUIWrap>
-                  {books.map((book, index) => (
+                  {/* {books.map((book, index) => ( */}
+                  {currentBooks.map((book, index) => (
                     <Link to={`/book-detail/${book.title}`}>
                       <li key={index} style={{ width: "170px" }}>
                         <div
@@ -323,22 +417,18 @@ const SearchResult = () => {
                             style={{
                               width: "100%",
                               height: "100%",
-                              objectFit: "cover",
+                              // objectFit: "cover",
                               border: "1px solid #c0c0c0",
                             }}
                           />
                         </div>
-                        <BookTitle>
-                          {book.title}
-                        </BookTitle>
+                        <BookTitle>{book.title}</BookTitle>
                         <h3 style={{ color: "#6B6B6B", marginBottom: "10px" }}>
                           {book.author}
                         </h3>
                         <h1 style={{ marginBottom: "10px" }}>
                           평균 ★{book.rating}{" "}
-                          <span style={{ color: "gray" }}>
-                            ({reviewCount})
-                          </span>
+                          <span style={{ color: "gray" }}>({reviewCount})</span>
                         </h1>
                         <div
                           style={{
@@ -384,6 +474,12 @@ const SearchResult = () => {
                 </CardUIWrap>
               )}
             </div>
+            <Pagination
+              booksPerPage={booksPerPage}
+              totalBooks={books.length}
+              paginate={paginate}
+              bookTitle={title}
+            />
           </section>
         </ContentsWrap>
       </Main>
@@ -418,6 +514,9 @@ const SelectMenu = styled.select`
   border: none;
   /* padding-left: 10px; */
   text-align: center;
+  &:focus {
+    outline: none;
+  }
 `;
 
 const SearchInput = styled.input`

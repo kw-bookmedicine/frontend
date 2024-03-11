@@ -4,7 +4,7 @@ import axios from "axios";
 
 // COMPONENTS
 import Header from "../components/Header";
-import SearchResultList from "../components/SearchResultList";
+import SearchResultListModal from "../components/SearchResultListModal";
 
 // STYLES
 import "../styles/SearchStyles.css";
@@ -19,8 +19,8 @@ import bookImg8 from "../assets/category-book-언어.jpg";
 import bookImg9 from "../assets/category-book-문학.png";
 import bookImg10 from "../assets/category-book-역사.jpg";
 import { LoginContext } from "../contexts/LoginContextProvider";
-import SearchResultListModal from './../components/SearchResultListModal';
 import api from "../services/api";
+
 
 const Search = () => {
   const baseURL = "https://api.bookpharmacy.store/api";
