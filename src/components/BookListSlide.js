@@ -45,11 +45,13 @@ const BookListSlide = ({
 						<div className={styles['slide']}>
 							{list.map((item) => {
 								return (
-									<SwiperSlide>
+									<SwiperSlide key={item.isbn}>
 										<BookCard
+											key={item.isbn}
 											title={item.title}
 											author={item.author}
 											img={item.imageUrl}
+											isbn={item.isbn}
 										/>
 									</SwiperSlide>
 								);
