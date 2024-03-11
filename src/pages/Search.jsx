@@ -203,6 +203,7 @@ const Search = () => {
 
    const handleSelectChange = (e) => {
      setSearchType(e.target.value);
+     setInput("");
    };
 
   return (
