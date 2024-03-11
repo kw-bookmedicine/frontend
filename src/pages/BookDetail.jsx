@@ -28,11 +28,11 @@ const BookDetail = () => {
 
 	const getIsbn = () => {
 		let isbn = searchParams.get('isbn');
-		console.log(isbn);
+		// console.log(isbn);
 
 		api.get(`/api/book/detail?isbn=${isbn}`).then((res) => {
-			console.log(res.data.title);
-			console.log(res.data);
+			// console.log(res.data.title);
+			// console.log(res.data);
 			setBookInfo(res.data);
 			setBookKeywordList(res.data.bookKeywordList);
 		});

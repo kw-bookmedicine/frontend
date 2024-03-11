@@ -50,6 +50,7 @@ const BookListSlide = ({
 											title={item.title}
 											author={item.author}
 											img={item.imageUrl}
+											isbn={item.isbn}
 										/>
 									</SwiperSlide>
 								);
