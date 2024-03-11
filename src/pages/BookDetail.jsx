@@ -12,6 +12,9 @@ import Review from '../components/Review';
 import Title from '../components/ArrowTitle';
 import BookCard from '../components/BookCard';
 import Footer from '../components/Footer';
+import ModalPortal from '../components/Modal/Portal';
+import ExpModal from '../components/Modal/Experience';
+import MyListModal from '../components/Modal/MyListModal';
 
 // STYLES
 import '../styles/BookDetail.css';
@@ -20,6 +23,12 @@ const BookDetail = () => {
 	const scrollRef = useRef([]);
 	const handleScroll = (ref) => {
 		ref.scrollIntoView({ behavior: 'smooth' });
+	};
+
+	const [modalOn, setModalOn] = useState(false);
+
+	const handleModal = () => {
+		setModalOn(!modalOn);
 	};
 
 	const [searchParams, setSearchParams] = useSearchParams();
@@ -65,8 +74,16 @@ const BookDetail = () => {
 								</div>
 								<div className="right_up_right_wrapper">
 									<div className="up_right_exp">
-										<Btn text={'경험 추가하기'} type="exp" />
+										{/* <Btn
+											text={'경험 추가하기'}
+											type="exp"
+											onClick={handleModal}
+										/> */}
+										<div onClick={handleModal}>경험추가하기</div>
 									</div>
+									<ModalPortal>
+										{modalOn && <ExpModal onClose={handleModal} />}
+									</ModalPortal>
 								</div>
 							</div>
 							<div className="summary_left_mid_wrapper">

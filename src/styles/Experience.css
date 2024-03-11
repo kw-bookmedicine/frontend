@@ -1,0 +1,117 @@
+.expModal_overlay {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background: rgba(0, 0, 0, 0.2);
+	z-index: 9999;
+}
+
+.expModal_wrapper {
+	width: 690px;
+	height: 600px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 30px 30px;
+	border-radius: 15px;
+	background-color: #fff;
+	position: absolute;
+	top: 53%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.expModal_title_wrapper {
+	display: flex;
+	width: 630px;
+	justify-content: space-between;
+
+	/* Font */
+	font-family: var(--basic-font);
+	font-style: normal;
+	font-weight: 600;
+	font-size: 24px;
+	line-height: 0px;
+}
+
+.expModal_title_wrapper .close_btn {
+	cursor: pointer;
+
+	/* Font */
+	font-family: var(--basic-font);
+	font-style: normal;
+	font-weight: 200;
+	font-size: 24px;
+	line-height: 0px;
+	color: #575757;
+}
+
+.expModal_content_wrapper {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 660px;
+	height: 570px;
+	margin-top: 20px;
+}
+
+.bookInfo_content_wrapper {
+	width: 100%;
+}
+
+.inputReview_wrapper {
+	display: flex;
+	flex-direction: column;
+	margin-top: 35px;
+}
+
+.inputReview_title {
+	/* Font */
+	font-family: var(--basic-font);
+	font-style: normal;
+	font-weight: 600;
+	font-size: 18px;
+	line-height: 21px;
+}
+
+.inputReview_box {
+	width: 640px;
+	height: 125px;
+	border: 1px solid #868686;
+	border-radius: 15px;
+	margin-top: 15px;
+
+	/* Font */
+	font-family: var(--basic-font);
+	font-style: normal;
+	font-weight: 700;
+	font-size: 14px;
+	line-height: 0px;
+}
+
+.expModal_button_wrapper {
+	display: flex;
+	justify-content: space-around;
+	width: 100%;
+	margin-top: 40px;
+}
+
+.review_btn,
+.later_btn {
+	width: 300px;
+	height: 60px;
+	background-color: #c8edf2;
+	border-radius: 10px;
+
+	/* Font */
+	text-align: center;
+	font-family: var(--basic-font);
+	font-size: 20px;
+	font-weight: 600;
+	font-style: normal;
+	line-height: 0px;
+}
