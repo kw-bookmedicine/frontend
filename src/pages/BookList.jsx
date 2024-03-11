@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import Slider from 'react-slick';
 import axios from 'axios';
 
 // SERVICE
@@ -14,8 +15,18 @@ import BookListSlide from '../components/BookListSlide';
 
 // STYLES
 import '../styles/BookList.css';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 const BookList = () => {
+	var settings = {
+		dots: true,
+		infinite: true,
+		speed: 500,
+		slidesToShow: 1,
+		slidesToScroll: 1,
+	};
+
 	// 대분류
 	let { title } = useParams();
 	const [bigCategory, setBigCategory] = useState('');
@@ -24,44 +35,19 @@ const BookList = () => {
 	const [midCategory, setMidCategory] = useState([]);
 	const [resMidBookList, setResMidBookList] = useState([]);
 
-	// 중분류에 따른 책 리스트
-	const [midCategoryList0, setMidCategoryList0] = useState([]);
-	const [midCategoryList1, setMidCategoryList1] = useState([]);
-	const [midCategoryList2, setMidCategoryList2] = useState([]);
-	const [midCategoryList3, setMidCategoryList3] = useState([]);
-	const [midCategoryList4, setMidCategoryList4] = useState([]);
-	const [midCategoryList5, setMidCategoryList5] = useState([]);
-	const [midCategoryList6, setMidCategoryList6] = useState([]);
-	const [midCategoryList7, setMidCategoryList7] = useState([]);
-	const [midCategoryList8, setMidCategoryList8] = useState([]);
-
-	const bookList = [];
-
 	// 초기에 랜더링될 때 한 번만 실행
 	useEffect(() => {
 		// 대분류 지정
 		setBigCategory(title);
 
 		api.get('/api/category/big').then((res) => {
-			// console.log(res.data[title]);
 			setMidCategory(res.data[title]);
 		});
 
 		api.get(`/api/book/list/big?name=${title}`).then((res) => {
-			res.data.map((list, idx) => {
-				// console.log(list);
-				// console.log(idx);
-				// bookList.concat(list);
-				// resMidBookList.length === 0
-				// 	? setResMidBookList(list)
-				// 	: setResMidBookList[idx](list);
+			res.data.map(() => {
 				setResMidBookList(res.data);
 			});
-			setMidCategoryList0(res.data[0].bookList);
-			setMidCategoryList1(res.data[1].bookList);
-			setMidCategoryList2(res.data[2].bookList);
-			setMidCategoryList3(res.data[3].bookList);
-			setMidCategoryList4(res.data[4].bookList);
 		});
 	}, []);
 
@@ -79,8 +65,8 @@ const BookList = () => {
 					/>
 
 					{resMidBookList.map((list, idx) => {
-						// console.log(list.categoryName);
 						return (
+							// 중분류 타이틀 렌더링
 							<div className="bookList_wrapper" key={idx}>
 								<div className="bookList_title_wrapper">
 									<Title
@@ -89,9 +75,12 @@ const BookList = () => {
 										title={list.categoryName}
 									/>
 								</div>
+
 								<div className="bookList_slide_wrapper">
-									{list.bookList.map((item) => {
-										// console.log(item);
+									<BookListSlide list={list.bookList} />
+
+									{/* 중분류에 해당하는 책 리스트 데이터 바인딩 */}
+									{/* {list.bookList.map((item) => {
 										return (
 											<BookListSlide
 												key={item.isbn}
@@ -101,101 +90,11 @@ const BookList = () => {
 												imageUrl={item.imageUrl}
 											/>
 										);
-									})}
+									})} */}
 								</div>
 							</div>
 						);
 					})}
-
-					{/* <div className="bookList_wrapper">
-						<div className="bookList_title_wrapper">
-							<Title
-								key={midCategory[0]}
-								bigCategory={bigCategory}
-								title={midCategory[0]}
-							/>
-						</div>
-						<div className="bookList_slide_wrapper">
-							{midCategoryList0.map((item) => {
-								// console.log(resMidBookList);
-								return (
-									<BookListSlide
-										key={item.isbn}
-										title={item.title}
-										author={item.author}
-										bigCategory={bigCategory}
-										imageUrl={item.imageUrl}
-									/>
-								);
-							})}
-						</div>
-					</div>
-					<div className="bookList_wrapper">
-						<div className="bookList_title_wrapper">
-							<Title
-								key={midCategory[1]}
-								bigCategory={bigCategory}
-								title={midCategory[1]}
-							/>
-						</div>
-						<div className="bookList_slide_wrapper">
-							{midCategoryList1.map((item) => {
-								return (
-									<BookListSlide
-										key={item.isbn}
-										title={item.title}
-										author={item.author}
-										bigCategory={bigCategory}
-										imageUrl={item.imageUrl}
-									/>
-								);
-							})}
-						</div>
-					</div>
-					<div className="bookList_wrapper">
-						<div className="bookList_title_wrapper">
-							<Title
-								key={midCategory[2]}
-								bigCategory={bigCategory}
-								title={midCategory[2]}
-							/>
-						</div>
-						<div className="bookList_slide_wrapper">
-							{midCategoryList2.map((item) => {
-								return (
-									<BookListSlide
-										key={item.isbn}
-										title={item.title}
-										author={item.author}
-										bigCategory={bigCategory}
-										imageUrl={item.imageUrl}
-									/>
-								);
-							})}
-						</div>
-					</div>
-					<div className="bookList_wrapper">
-						<div className="bookList_title_wrapper">
-							<Title
-								key={midCategory[3]}
-								bigCategory={bigCategory}
-								title={midCategory[3]}
-							/>
-						</div>
-						<div className="bookList_slide_wrapper">
-							{midCategoryList3.map((item) => {
-								return (
-									<BookListSlide
-										key={item.isbn}
-										title={item.title}
-										author={item.author}
-										bigCategory={bigCategory}
-										imageUrl={item.imageUrl}
-									/>
-								);
-							})}
-						</div>
-					</div> */}
 				</div>
 
 				<Footer />

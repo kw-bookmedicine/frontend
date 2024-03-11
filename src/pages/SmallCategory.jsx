@@ -51,6 +51,7 @@ const SmallCategory = () => {
 							// console.log(data);
 							return (
 								<Card
+									isbn={data.isbn}
 									title={data.title}
 									author={data.author}
 									key={data.isbn}
