@@ -29,9 +29,7 @@ import LoginFindResult from './pages/IdFindResult';
 import PasswordFind from './pages/PasswordFind';
 import PasswordFindResult from './pages/PasswordFindResult';
 import IdFind from './pages/IdFind';
-import LoginContextProvider, {
-	LoginContext,
-} from './contexts/LoginContextProvider';
+import LoginContextProvider from './contexts/LoginContextProvider';
 import SearchResult from './pages/SearchResult';
 
 function App() {
