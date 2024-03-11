@@ -1,19 +1,39 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Header from "../components/Header";
 import styled from "styled-components";
 import closeIcon from "../assets/closeIconRound.svg";
 import starIcon from "../assets/icons8-별-30 (1).png";
-import bookImg1 from "../assets/category-book-총류.jpg";
+import api from "./../services/api";
 
 const SearchResult = () => {
   const { title } = useParams();
   const [viewMode, setViewMode] = useState(true);
+  const [books, setBooks] = useState([]);
+  const [size, setSize] = useState(10);
   let searchResultsCount = 1234;
   searchResultsCount = searchResultsCount.toLocaleString();
   let searchResultsKeywordCount = 123;
-  let bookTitle = "해리포터와 저주받은 아이";
-  let bookAuthor = "J.K. 롤링· 문학수첩";
+  let reviewCount = 123;
+
+  useEffect(() => {
+    const getSearchResults = async () => {
+      try {
+        const response = await api.get(
+          `/api/search/book?title=${title}&target=page&page=0&size=${size}`
+        );
+        console.log(response.data)
+        setBooks(response.data);
+      } catch (error) {
+        console.error("책 데이터 GET 요청 실패", error);
+      }
+    };
+    getSearchResults();
+  }, [size]);
+
+   const handleSizeChange = (event) => {
+     setSize(event.target.value);
+   };
 
   return (
     <>
@@ -82,9 +102,9 @@ const SearchResult = () => {
                     name=""
                     id=""
                     style={{
-                      width: "120px",
+                      width: "130px",
                       border: "1px solid #C0C0C0 ",
-                      padding: "10px",
+                      padding: "0px 10px",
                       borderRadius: "5px",
                       // marginRight: "10px",
                     }}
@@ -98,22 +118,20 @@ const SearchResult = () => {
                     name=""
                     id=""
                     style={{
-                      width: "120px",
+                      width: "130px",
                       border: "1px solid #C0C0C0 ",
-                      padding: "10px",
+                      padding: "0px 10px",
                       borderRadius: "5px",
                       marginLeft: "10px",
                     }}
+                    onChange={handleSizeChange}
+                    value={size}
                   >
-                    <option value="" selected>
+                    <option value="10" selected>
                       10개씩 보기
                     </option>
-                    <option value="" selected>
-                      50개씩 보기
-                    </option>
-                    <option value="" selected>
-                      100개씩 보기
-                    </option>
+                    <option value="50">50개씩 보기</option>
+                    <option value="100">100개씩 보기</option>
                   </select>
                   <div
                     style={{
@@ -182,152 +200,187 @@ const SearchResult = () => {
             <div>
               {viewMode ? (
                 <ListUIWrap>
-                  <li
-                    style={{
-                      height: "310px",
-                      display: "flex",
-                      padding: "36px 20px",
-                      borderBottom: "1px solid #A1A1A1",
-                    }}
-                  >
-                    <img
-                      src={bookImg1}
-                      alt="책 표지 이미지"
-                      style={{
-                        height: "240px",
-                        width: "170px",
-                        backgroundColor: "gray",
-                        borderRadius: "5px",
-                      }}
-                    />
-                    <div style={{ padding: "1rem 0px 0px 1rem" }}>
-                      <div>
-                        <h3
+                  {books.map((book, index) => (
+                    <Link to={`/book-detail/${book.title}`}>
+                      <li
+                        key={index}
+                        style={{
+                          height: "310px",
+                          display: "flex",
+                          padding: "36px 20px",
+                          borderBottom: "1px solid #A1A1A1",
+                        }}
+                      >
+                        <img
+                          src={book.imageUrl}
+                          alt="책 표지 이미지"
                           style={{
-                            fontSize: "20px",
-                            fontWeight: "bold",
-                            marginBottom: "8px",
+                            height: "240px",
+                            width: "170px",
+                            backgroundColor: "gray",
+                            borderRadius: "5px",
+                            objectFit: "cover",
                           }}
-                        >
-                          {bookTitle}
-                        </h3>
-                        <h4
-                          style={{
-                            fontSize: "1rem",
-                            color: "gray",
-                            marginBottom: "40px",
-                          }}
-                        >
-                          {bookAuthor}
-                        </h4>
-                      </div>
-                      <div style={{ marginBottom: "40px" }}>
-                        <ul style={{ display: "flex" }}>
-                          <BookKeyword>영미소설</BookKeyword>
-                          <BookKeyword>판타지소설</BookKeyword>
-                          <BookKeyword>해리포터</BookKeyword>
-                          <BookKeyword>마법주문</BookKeyword>
-                          <BookKeyword>저주</BookKeyword>
-                        </ul>
-                      </div>
-                      <h1 style={{ fontWeight: "bold", marginBottom: "10px" }}>
-                        평균 ★5.0 <span style={{ color: "gray" }}>(12)</span>
-                      </h1>
-                      <div style={{ display: "flex", alignItems: "center" }}>
-                        <img
-                          src={starIcon}
-                          alt=""
-                          style={{ marginRight: "5px" }}
                         />
-                        <img
-                          src={starIcon}
-                          alt=""
-                          style={{ marginRight: "5px" }}
-                        />
-                        <img
-                          src={starIcon}
-                          alt=""
-                          style={{ marginRight: "5px" }}
-                        />
-                        <img
-                          src={starIcon}
-                          alt=""
-                          style={{ marginRight: "5px" }}
-                        />
-                        <img
-                          src={starIcon}
-                          alt=""
-                          style={{ marginRight: "5px" }}
-                        />
-                      </div>
-                    </div>
-                  </li>
+                        <div style={{ padding: "1rem 0px 0px 1rem" }}>
+                          <div>
+                            <h3
+                              style={{
+                                fontSize: "20px",
+                                fontWeight: "bold",
+                                marginBottom: "8px",
+                              }}
+                            >
+                              {book.title}
+                            </h3>
+                            <h4
+                              style={{
+                                fontSize: "1rem",
+                                color: "gray",
+                                marginBottom: "40px",
+                              }}
+                            >
+                              {book.author}
+                            </h4>
+                          </div>
+                          <div style={{ marginBottom: "40px" }}>
+                            <ul style={{ display: "flex", flexWrap: "wrap" }}>
+                              <BookKeyword>
+                                {book.middleCategoryName}
+                              </BookKeyword>
+                              {book.bookKeywordList.map((keyword, index) => {
+                                return (
+                                  <BookKeyword key={index}>
+                                    {keyword.name}
+                                  </BookKeyword>
+                                );
+                              })}
+                            </ul>
+                          </div>
+                          <h1
+                            style={{
+                              fontWeight: "bold",
+                              marginBottom: "10px",
+                            }}
+                          >
+                            평균 ★{book.rating}{" "}
+                            <span style={{ color: "gray" }}>
+                              ({reviewCount})
+                            </span>
+                          </h1>
+                          <div
+                            style={{ display: "flex", alignItems: "center" }}
+                          >
+                            <img
+                              src={starIcon}
+                              alt=""
+                              style={{ marginRight: "5px" }}
+                            />
+                            <img
+                              src={starIcon}
+                              alt=""
+                              style={{ marginRight: "5px" }}
+                            />
+                            <img
+                              src={starIcon}
+                              alt=""
+                              style={{ marginRight: "5px" }}
+                            />
+                            <img
+                              src={starIcon}
+                              alt=""
+                              style={{ marginRight: "5px" }}
+                            />
+                            <img
+                              src={starIcon}
+                              alt=""
+                              style={{ marginRight: "5px" }}
+                            />
+                          </div>
+                        </div>
+                      </li>
+                    </Link>
+                  ))}
                 </ListUIWrap>
               ) : (
                 <CardUIWrap>
-                  <li style={{ width: "170px" }}>
-                    <img
-                      src={bookImg1}
-                      alt="책이미지"
-                      style={{
-                        height: "240px",
-                        width: "170px",
-                        borderRadius: "5px",
-                        backgroundColor: "gray",
-                        marginBottom: "10px",
-                      }}
-                    />
-                    <h2
-                      style={{
-                        fontSize: "20px",
-                        fontWeight: "bold",
-                        marginBottom: "5px",
-                      }}
-                    >
-                      {bookTitle}
-                    </h2>
-                    <h3 style={{ color: "#6B6B6B", marginBottom: "10px" }}>
-                      {bookAuthor}
-                    </h3>
-                    <h1 style={{ marginBottom: "10px" }}>
-                      평균 ★5.0 <span style={{ color: "gray" }}>(12)</span>
-                    </h1>
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        marginBottom: "40px",
-                      }}
-                    >
-                      <img
-                        src={starIcon}
-                        alt=""
-                        style={{ width: "20px", marginRight: "5px" }}
-                      />
-                      <img
-                        src={starIcon}
-                        alt=""
-                        style={{ width: "20px", marginRight: "5px" }}
-                      />
-                      <img
-                        src={starIcon}
-                        alt=""
-                        style={{ width: "20px", marginRight: "5px" }}
-                      />
-                      <img
-                        src={starIcon}
-                        alt=""
-                        style={{ width: "20px", marginRight: "5px" }}
-                      />
-                      <img
-                        src={starIcon}
-                        alt=""
-                        style={{ width: "20px", marginRight: "5px" }}
-                      />
-                    </div>
+                  {books.map((book, index) => (
+                    <Link to={`/book-detail/${book.title}`}>
+                      <li key={index} style={{ width: "170px" }}>
+                        <div
+                          style={{
+                            height: "240px",
+                            width: "170px",
+                            borderRadius: "5px",
+                            backgroundColor: "gray",
+                            marginBottom: "10px",
+                            display: "inline-block",
+                          }}
+                        >
+                          <img
+                            src={book.imageUrl}
+                            alt="책 표지 이미지"
+                            style={{
+                              width: "100%",
+                              height: "100%",
+                              objectFit: "cover",
+                              border: "1px solid #c0c0c0",
+                            }}
+                          />
+                        </div>
+                        <BookTitle>
+                          {book.title}
+                        </BookTitle>
+                        <h3 style={{ color: "#6B6B6B", marginBottom: "10px" }}>
+                          {book.author}
+                        </h3>
+                        <h1 style={{ marginBottom: "10px" }}>
+                          평균 ★{book.rating}{" "}
+                          <span style={{ color: "gray" }}>
+                            ({reviewCount})
+                          </span>
+                        </h1>
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            marginBottom: "40px",
+                          }}
+                        >
+                          <img
+                            src={starIcon}
+                            alt=""
+                            style={{
+                              width: "20px",
+                              marginRight: "5px",
+                            }}
+                          />
+                          <img
+                            src={starIcon}
+                            alt=""
+                            style={{ width: "20px", marginRight: "5px" }}
+                          />
+                          <img
+                            src={starIcon}
+                            alt=""
+                            style={{ width: "20px", marginRight: "5px" }}
+                          />
+                          <img
+                            src={starIcon}
+                            alt=""
+                            style={{ width: "20px", marginRight: "5px" }}
+                          />
+                          <img
+                            src={starIcon}
+                            alt=""
+                            style={{ width: "20px", marginRight: "5px" }}
+                          />
+                        </div>
 
-                    {/* 별 컴포넌트 */}
-                  </li>
+                        {/* 별 컴포넌트 */}
+                      </li>
+                    </Link>
+                  ))}
                 </CardUIWrap>
               )}
             </div>
@@ -411,14 +464,22 @@ const BookKeyword = styled.li`
   margin-right: 10px;
 `;
 
-const ListUIWrap = styled.ul`
-`;
+const ListUIWrap = styled.ul``;
 
 const CardUIWrap = styled.ul`
   padding: 36px 20px;
   display: grid;
-  grid-template-columns: repeat(5,1fr);
+  grid-template-columns: repeat(5, 1fr);
   grid-gap: 10px;
-
 `;
 
+const BookTitle = styled.h2`
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2; /* 원하는 라인 수 */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 5px;
+`;
