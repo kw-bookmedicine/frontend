@@ -50,6 +50,7 @@ const SearchResultList = ({ book, type, updateBook }) => {
 							</ul>
 						);
 					}
+					return null;
 				})}
 			</div>
 		</>
