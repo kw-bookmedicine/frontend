@@ -21,32 +21,30 @@ const BookDetailCard = ({
 		if (type === 'expModal') {
 			return (
 				<>
-					<Link to={`/book-detail?isbn=${isbn}`}>
-						<div className="expModal_bookCard_container">
-							<div className="expModal_bookCard_wrapper">
-								<div className="expModal_bookCard_left_wrapper">
-									<div className="expModal_left_img_wrapper">
-										<img
-											className="expModal_img_wrapper_thumbnail"
-											src={imageUrl}
-											alt="썸네일"
-										/>
-									</div>
-								</div>
-
-								<div className="expModal_bookCard_right_wrapper">
-									<div className="expModal_bookCard_right_up_wrapper">
-										<div className="expModal_right_up_title" title={title}>
-											{title}
-										</div>
-										<div className="expModal_right_up_author">{author}</div>
-									</div>
-
-									<div className="expModal_bookCard_right_bottom_wrapper"></div>
+					<div className="expModal_bookCard_container">
+						<div className="expModal_bookCard_wrapper">
+							<div className="expModal_bookCard_left_wrapper">
+								<div className="expModal_left_img_wrapper">
+									<img
+										className="expModal_img_wrapper_thumbnail"
+										src={imageUrl}
+										alt="썸네일"
+									/>
 								</div>
 							</div>
+
+							<div className="expModal_bookCard_right_wrapper">
+								<div className="expModal_bookCard_right_up_wrapper">
+									<div className="expModal_right_up_title" title={title}>
+										{title}
+									</div>
+									<div className="expModal_right_up_author">{author}</div>
+								</div>
+
+								<div className="expModal_bookCard_right_bottom_wrapper"></div>
+							</div>
 						</div>
-					</Link>
+					</div>
 				</>
 			);
 		} else {

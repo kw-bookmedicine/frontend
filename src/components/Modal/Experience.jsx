@@ -1,4 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
+
+// SERVICE
+import api from '../../services/api';
 
 // COMPONENTS
 import BookInfoCard from '../BookDetailCard';
@@ -12,6 +16,21 @@ const Experience = ({ onClose }) => {
 		onClose?.();
 	};
 
+	const [bookInfo, setBookInfo] = useState([]);
+	const [searchParams, setSearchParams] = useSearchParams();
+
+	const getIsbn = () => {
+		let isbn = searchParams.get('isbn');
+
+		api.get(`/api/book/detail?isbn=${isbn}`).then((res) => {
+			setBookInfo(res.data);
+		});
+	};
+
+	useEffect(() => {
+		getIsbn();
+	}, []);
+
 	return (
 		<>
 			<div className="expModal_overlay">
@@ -24,11 +43,23 @@ const Experience = ({ onClose }) => {
 					</div>
 					<div className="expModal_content_wrapper">
 						<div className="bookInfo_content_wrapper">
-							<BookInfoCard type="expModal" title={'해리포터'} />
+							<BookInfoCard
+								type="expModal"
+								title={bookInfo.title}
+								author={bookInfo.author}
+								imageUrl={bookInfo.imageUrl}
+								isbn={bookInfo.isbn}
+							/>
 						</div>
 						<div className="inputReview_wrapper">
 							<div className="inputReview_title">리뷰작성</div>
-							<input type="text" className="inputReview_box" />
+							<textarea
+								name="contents"
+								rows="10"
+								cols="50"
+								type="text"
+								className="inputReview_box"
+							/>
 						</div>
 						<div className="expModal_button_wrapper">
 							<button className="review_btn">리뷰 남기기</button>

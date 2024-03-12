@@ -82,15 +82,39 @@
 	width: 640px;
 	height: 125px;
 	border: 1px solid #868686;
-	border-radius: 15px;
+	border-radius: 5px;
 	margin-top: 15px;
+	padding: 10px 10px;
+	resize: none;
+	overflow: auto;
 
 	/* Font */
 	font-family: var(--basic-font);
 	font-style: normal;
 	font-weight: 700;
 	font-size: 14px;
-	line-height: 0px;
+	line-height: 1.5em;
+}
+
+.inputReview_box::-webkit-scrollbar {
+	width: 10px;
+}
+
+.inputReview_box::-webkit-scrollbar-button {
+	display: none;
+}
+
+.inputReview_box::-webkit-scrollbar-thumb {
+	background-color: #67b6c1;
+	border-radius: 20px;
+	background-clip: padding-box;
+	border: 2px solid transparent;
+}
+
+.inputReview_box::-webkit-scrollbar-track {
+	background-color: #fff;
+	border-radius: 20px;
+	box-shadow: inset 0px 0px 5px #fff;
 }
 
 .expModal_button_wrapper {
