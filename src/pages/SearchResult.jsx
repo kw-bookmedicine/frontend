@@ -278,7 +278,7 @@ const SearchResult = () => {
                 <ListUIWrap>
                   {/* {books.map((book, index) => ( */}
                   {currentBooks.map((book, index) => (
-                    <Link to={`/book-detail/${book.title}`}>
+                    <Link to={`/book-detail/${book.isbn}`}>
                       <li
                         key={index}
                         style={{

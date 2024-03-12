@@ -5,10 +5,6 @@ import { Link } from 'react-router-dom';
 const SearchResultListModal = ({ book, type, updateBook, addInput }) => {
   let listType = ["myBook"].includes(type) ? type : "search";
 
-  const updateBookTitle = (pickTitle) => {
-    updateBook(pickTitle);
-  };
-
   return (
     <>
       <div className={`${listType}-modal-container`}>
@@ -20,12 +16,13 @@ const SearchResultListModal = ({ book, type, updateBook, addInput }) => {
           let author = item && item.author;
           let thumbnail = item && item.imageUrl;
           let keyword = item && item.name;
+          let isbn = item && item.isbn;
 
           // 책 제목 && 작가 UI
           if (title !== undefined) {
             return (
-              <ul key={item.id} className={`${listType}-result-container`}>
-                <Link to={`/book-detial/${title}`}>
+              <ul key={item.isbn} className={`${listType}-result-container`}>
+                <Link to={`/book-detial/${isbn}`}>
                   <li className={`${listType}-result-list`}>
                     <img src={thumbnail} alt="" />
                     <div className={`${listType}-result-item`}>
@@ -53,6 +50,7 @@ const SearchResultListModal = ({ book, type, updateBook, addInput }) => {
               </p>
             );
           }
+          return null;
         })}
       </div>
     </>

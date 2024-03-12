@@ -112,17 +112,17 @@ const SearchInputWrap = styled.div`
   width: 100%;
   height: 60px;
   box-shadow: 0px 2px 4px #00000033;
-  padding: 10px 0px 10px 1rem;
+  padding: 10px 0px 10px 16px;
   border-radius: 5px;
   border: 1px solid #b0b0b0;
   display: flex;
-  align-items: center;
+  /* align-items: center; */
   font-size: 20px;
   /* margin-bottom: 40px; */
 `;
 
 const SelectMenu = styled.select`
-  width: 140px;
+  min-width: 140px;
   font-size: 20px;
   border: none;
   /* padding-left: 10px; */
