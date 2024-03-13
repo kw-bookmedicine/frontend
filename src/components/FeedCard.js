@@ -3,7 +3,7 @@ import React from 'react';
 //STYLES
 import '../styles/FeedCard.css';
 
-const FeedCard = ({ book_name, book_author, user_nickname }) => {
+const FeedCard = ({ title, author, nickname, imgUrl }) => {
 	return (
 		<>
 			<div className="FeedCardContainer">
@@ -16,10 +16,12 @@ const FeedCard = ({ book_name, book_author, user_nickname }) => {
 						</div>
 
 						<div className="review_book_wrapper">
-							<div className="feed_book_img"></div>
+							<div className="feed_book_img_wrapper">
+								<img className="feed_book_img" src={imgUrl} alt="" />
+							</div>
 							<div className="feed_book_text_wrapper">
-								<div className="feed_book_title">서시</div>
-								<div className="feed_book_author">윤동주</div>
+								<div className="feed_book_title">{title}</div>
+								<div className="feed_book_author">{author}</div>
 							</div>
 						</div>
 					</div>
