@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useForm, rules } from 'react-hook-form';
 
+// SERVICE
+import api from '../services/api';
+
 // ASSETS
 import banner from '../assets/Login-Banner.png';
 
@@ -274,6 +277,9 @@ const Signup2 = () => {
 	const [emailDomain, setEmailDomain] = useState('');
 	const [isInputEnabled, setIsInputEnabled] = useState(false);
 
+	// 직업 정보
+	const [job, setJob] = useState('');
+
 	// 모든 것을 작성해야 가입하기 버튼 클릭 활성화
 	const [isButtonEnabled, setIsButtonEnabled] = useState(true);
 
@@ -323,6 +329,11 @@ const Signup2 = () => {
 		setBirthDate(e.target.value);
 	};
 
+	const handleJobChange = (e) => {
+		// console.log(e.target.value);
+		setJob(e.target.value);
+	};
+
 	const handleGenderButtonClick = (gender) => {
 		if (gender === 'male') {
 			setIsMaleClicked(true);
@@ -358,7 +369,27 @@ const Signup2 = () => {
 		// setEmailDomain이 변경될 때마다 실행
 		setEmail(`${emailUsername}@${emailDomain}`);
 	}, [emailUsername, emailDomain]);
-	console.log(emailDomain);
+	// console.log(emailDomain);
+
+	const signUpData = {
+		username: id,
+		password: pwd,
+		name: name,
+		nickname: nickname,
+		email: email,
+		gender: gender,
+		occupation: job,
+	};
+
+	const postSignup = () => {
+		api
+			.post('/signup', signUpData, {
+				withCredentials: true,
+			})
+			.then((res) => {
+				console.log(res.data);
+			});
+	};
 
 	return (
 		<LoginContainer>
@@ -541,7 +572,7 @@ const Signup2 = () => {
 
 				<InputWrap>
 					<p>직업 선택</p>
-					<JobSelect name="" id="">
+					<JobSelect name="job" id="" onChange={handleJobChange}>
 						<option value="0" selected>
 							선택 없음
 						</option>
@@ -554,8 +585,8 @@ const Signup2 = () => {
 					</JobSelect>
 				</InputWrap>
 
-				<LoginButton isButtonEnabled={isButtonEnabled}>
-					<Link to={`/signup/2`}>네, 동의합니다</Link>
+				<LoginButton isButtonEnabled={isButtonEnabled} onClick={postSignup}>
+					{/* <Link to={`/signup/2`}>네, 동의합니다</Link> */}
 				</LoginButton>
 			</LoginContent>
 		</LoginContainer>
