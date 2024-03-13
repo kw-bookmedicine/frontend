@@ -9,7 +9,7 @@
 .FeedCardContainer {
 	position: static;
 	box-sizing: border-box;
-	width: 310px;
+	width: 340px;
 	height: 280px;
 	/* border-radius: 10px;
 	background: linear-gradient(111deg, #cafadf 0%, #d5e0ff 100%);
@@ -20,11 +20,12 @@
 
 	/* Drop Shadow */
 	box-shadow: 2px 2px 4px 0px rgba(119, 119, 119, 0.25);
+	margin-top: 20px;
 }
 
 .feed_up_wrapper {
 	display: flex;
-	width: 310px;
+	width: 340px;
 	height: 240px;
 }
 
@@ -55,7 +56,7 @@
 .review_book_wrapper {
 	position: absolute;
 	display: flex;
-	width: 310px;
+	width: 340px;
 	height: 115px;
 	background: rgba(255, 255, 255, 0.35);
 	margin-top: 160px;
@@ -64,12 +65,19 @@
 	z-index: 1;
 }
 
+.feed_book_img_wrapper {
+	width: 74px;
+	height: 106px;
+	background: #6f6f6f;
+	border-radius: 5px;
+}
+
 .feed_book_img {
 	width: 74px;
 	height: 106px;
 	flex-shrink: 0;
 	border-radius: 5px;
-	background: #6f6f6f;
+	object-fit: fill;
 }
 
 .feed_book_text_wrapper {
@@ -166,7 +174,7 @@
 	position: absolute;
 	z-index: 2;
 	display: flex;
-	width: 311px;
+	width: 341px;
 	height: 40px;
 	padding: 4px 0;
 	align-items: center;
