@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+// SERVICES
+import api from '../services/api';
+
 // COMPONENTS
 import Header from '../components/Header';
 import FeedGrid from '../components/FeedGrid';
@@ -11,11 +14,11 @@ import '../styles/Feed.css';
 
 const Feed = () => {
 	const [dogArr, setDogArr] = useState([]);
+	const [feedArr, setFeedArr] = useState([]);
 	const [page, setPage] = useState(0);
 	const [isLoading, setIsLoading] = useState(false);
 
 	// Intersection Observer 설정
-
 	const handleObserver = (entries) => {
 		// console.log(entries);
 		const target = entries[0];
@@ -39,21 +42,44 @@ const Feed = () => {
 	// page 변경 감지에 따른 API호출
 	useEffect(() => {
 		fetchData();
-		// console.log(page);
+		console.log(page);
 	}, [page]);
+
+	let feedFetchData = { page: { page }, size: 9 };
 
 	// API를 호출하는 부분
 	const fetchData = async () => {
 		setIsLoading(true);
 		try {
-			const API_URL = `https://api.thedogapi.com/v1/images/search?size=small&format=json&has_breeds=true&order=ASC&page=${page}&limit=10`;
-			const response = await axios.get(API_URL);
-			const newData = response.data.map((dogImg) => ({
-				id: dogImg.id,
-				dogUrl: dogImg.url,
+			// api.get('/api/feeds/all', feedFetchData).then((res) => {
+			// 	// console.log(res.data.content);
+			// 	setFeedArr(res.data.content);
+			// 	setFeedArr((prevData) => [...prevData, ...res.data.content]);
+			// });
+			const API_URL =
+				'https://port-0-backend-book-pharmacy-umnqdut2blqqhv7sd.sel5.cloudtype.app/api/feeds/all?page=0&size=9';
+
+			const response = await axios.get(API_URL, feedFetchData);
+			// .then((res) => {
+			// 	// console.log(res.data.content);
+			// 	setFeedArr(res.data.content);
+			// });
+
+			// const newData = response.data.map((dogImg) => ({
+			// 	id: dogImg.id,
+			// 	dogUrl: dogImg.url,
+			// }));
+
+			const newData = response.data.content.map((item) => ({
+				title: item.bookTitle,
+				author: item.bookAuthor,
+				comment: item.comment,
+				image: item.imgUrl,
+				nickName: item.clientNickname,
 			}));
-			// 불러온 데이터를 배열에 추가
-			setDogArr((prevData) => [...prevData, ...newData]);
+
+			// //불러온 데이터를 배열에 추가
+			setFeedArr((prevData) => [...prevData, ...newData]);
 		} catch (error) {
 			console.log(error);
 		}
@@ -68,18 +94,20 @@ const Feed = () => {
 					<div className="feed_title">추천 피드</div>
 				</div>
 				<div className="feed_content_wrapper">
-					{dogArr.map((item, idx) => {
+					{feedArr.map((item, idx) => {
 						return (
 							<FeedCard
 								key={`${idx}-item.id`}
-								title={item.id}
-								author={item.id}
-								imgUrl={item.dogUrl}
+								title={item.title}
+								author={item.author}
+								comment={item.comment}
+								imgUrl={item.image}
+								nickname={item.nickName}
 							/>
 						);
 					})}
-					<div id="observer" style={{ height: '10px' }}></div>
 				</div>
+				<div id="observer" style={{ height: '10px' }}></div>
 			</div>
 		</>
 	);

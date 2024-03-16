@@ -10,7 +10,7 @@
 	margin: 0 auto;
 	max-width: 1440px;
 	padding: 24px;
-	height: 100vh;
+	/* height: 108vh; */
 	display: flex;
 	flex-direction: column;
 }
@@ -34,7 +34,7 @@
 	display: grid;
 	grid-template-columns: repeat(4, 1fr);
 	width: 1440px;
-	height: 500px;
+	/* height: 860px; */
 	-ms-flex-align: center;
 	align-items: center;
 	margin-left: auto;
