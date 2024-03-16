@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import '../styles/SearchResultList.css';
 
+// 구글 책 검색
 const SearchResultList = ({ book, type, updateBook }) => {
 	let listType = ['myBook'].includes(type) ? type : 'search';
 	// console.log('book: ',book);
@@ -49,6 +50,7 @@ const SearchResultList = ({ book, type, updateBook }) => {
 							</ul>
 						);
 					}
+					return null;
 				})}
 			</div>
 		</>

@@ -11,8 +11,12 @@
 # production
 /build
 
+localhost-key.pem
+localhost.pem
+
 # misc
 .DS_Store
+.env
 .env.local
 .env.development
 .env.development.local

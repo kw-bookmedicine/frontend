@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import Slider from 'react-slick';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import axios from 'axios';
 
 // COMPONENTS
@@ -7,23 +9,57 @@ import BookCard from './BookCard';
 
 // STYLES
 import styles from '../styles/BookListSlide.module.css';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import { set } from 'react-hook-form';
 
-const BookListSlide = ({ bigCategory, midCategoryTitle, author }) => {
+const BookListSlide = ({
+	list,
+	bigCategory,
+	midCategoryTitle,
+	title,
+	author,
+	imageUrl,
+}) => {
+	var settings = {
+		dots: true,
+		infinite: false,
+		speed: 500,
+		slidesToShow: 1,
+		slidesToScroll: 1,
+	};
+
 	return (
 		<>
-			<div className={styles['container']}>
-				<Title bigCategory={bigCategory} title={midCategoryTitle} />
-				<div className={styles['slide']}>
-					<BookCard title={'책 제목'} author={author} />
-					<BookCard title={'책 제목'} author={author} />
-					<BookCard title={'책 제목'} author={'저자'} />
-					<BookCard title={'책 제목'} author={'저자'} />
-					<BookCard title={'책 제목'} author={'저자'} />
-					<BookCard title={'책 제목'} author={'저자'} />
-					<BookCard title={'책 제목'} author={'저자'} />
-					<BookCard title={'책 제목'} author={'저자'} />
+			<section className={styles['swiper-container']}>
+				<div className={styles['container']}>
+					<Swiper
+						spaceBetween={20}
+						slidesPerView={7}
+						slidesOffsetBefore={0}
+						id={'my-swiper'}
+					>
+						<div className={styles['slide']}>
+							{list.map((item) => {
+								return (
+									<SwiperSlide key={item.isbn}>
+										<BookCard
+											key={item.isbn}
+											title={item.title}
+											author={item.author}
+											img={item.imageUrl}
+											isbn={item.isbn}
+										/>
+									</SwiperSlide>
+								);
+							})}
+						</div>
+					</Swiper>
 				</div>
-			</div>
+			</section>
 		</>
 	);
 };

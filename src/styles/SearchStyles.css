@@ -26,11 +26,20 @@
   border-radius: 0.5rem;
 }
 
-.search-button {
+/* .search-button {
   width: 32px;
   height: 32px;
   background: url("../assets/search-icon.svg");
   margin-top: 4px;
+} */
+
+.search-select {
+  border: none;
+  font-size: large;
+}
+
+.search-select:focus {
+  outline: none;
 }
 
 .search-input {
@@ -49,8 +58,8 @@
   width: 50px;
   height: 40px;
   font-size: 1.5rem;
-  position: relative;
-  right: 0;
+  position: absolute;
+  right: 70px;
   background-color: #fff;
 }
 
