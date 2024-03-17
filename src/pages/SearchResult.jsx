@@ -490,7 +490,7 @@ const SearchResult = () => {
 export default SearchResult;
 
 const Main = styled.main`
-  padding: 48px 52px 0px 52px;
+  padding-top: 48px;
   max-width: 1440px;
   margin: 0 auto;
 `;
