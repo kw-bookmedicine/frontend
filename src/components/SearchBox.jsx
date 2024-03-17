@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
-import SearchResultListModal from './SearchResultListModal';
+import React, { useState } from "react";
+import SearchResultListModal from "./SearchResultListModal";
 
 // style
 import "../styles/SearchStyles.css";
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const SearchBox = ({
   input,
@@ -15,8 +15,6 @@ const SearchBox = ({
   setIsShow,
   searchData,
 }) => {
-
-  
   return (
     <section
       className="search-wrapper"
@@ -37,7 +35,10 @@ const SearchBox = ({
               /> */}
           <SelectMenu
             value={searchType}
-            onChange={(e) => setSearchType(e.target.value)}
+            onChange={(e) => {
+              setSearchType(e.target.value);
+              setInput("");
+            }}
             name=""
             id=""
             // className="search-select"
