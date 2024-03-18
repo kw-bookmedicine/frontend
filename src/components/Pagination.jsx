@@ -4,10 +4,10 @@ import styled from "styled-components";
 
 const Pagination = ({ booksPerPage, totalBooks, paginate, bookTitle }) => {
   const pageNumbers = [];
-  console.log(totalBooks, booksPerPage);
+  // console.log(totalBooks, booksPerPage);
   for (let i = 1; i <= Math.ceil(totalBooks / booksPerPage); i++) {
     pageNumbers.push(i);
-    console.log(pageNumbers);
+    // console.log(pageNumbers);
   }
 
   return (

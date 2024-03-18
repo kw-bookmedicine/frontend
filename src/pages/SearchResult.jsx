@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Header from "../components/Header";
 import styled from "styled-components";
@@ -7,6 +7,7 @@ import starIcon from "../assets/icons8-별-30 (1).png";
 import api from "./../services/api";
 import Pagination from "../components/Pagination";
 import SearchBox from "../components/SearchBox";
+import Pill from "../components/Pill";
 
 const SearchResult = () => {
   const navigate = useNavigate();
@@ -21,6 +22,12 @@ const SearchResult = () => {
   const [searchType, setSearchType] = useState("title"); // 검색 유형 상태
   const [searchData, setSearchData] = useState([]); // 검색 결과 데이터
   const [isShow, setIsShow] = useState(false); // 검색창 모달창
+  const inputRef = useRef(null);
+
+  const [selectedKeywords, setSelectedKeywords] = useState([]);
+  const [selectedKeywordSet, setSelectedKeywordSet] = useState(new Set());
+
+
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -65,14 +72,14 @@ const SearchResult = () => {
   // 현재 책들 정보
   const indexOfLastBook = currentPage * booksPerPage;
   const indexOfFirstBook = indexOfLastBook - booksPerPage;
-  console.log(indexOfFirstBook, indexOfLastBook);
+  // console.log(indexOfFirstBook, indexOfLastBook);
   const currentBooks = books.slice(indexOfFirstBook, indexOfLastBook);
 
   // 페이지 변경
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  console.log(books.length);
-  console.log(currentBooks);
+  // console.log(books.length);
+  // console.log(currentBooks);
 
   useEffect(() => {
     const getSearchResults = async () => {
@@ -82,7 +89,7 @@ const SearchResult = () => {
           // `/api/search/book?title=${title}&target=page&page=${currentPage-1}&size=${booksPerPage}`
           `/api/search/book?title=${title}&target=page&page=0&size=999`
         );
-        console.log(response.data);
+        // console.log(response.data);
         setBooks(response.data);
         setLoading(false);
       } catch (error) {
@@ -100,6 +107,27 @@ const SearchResult = () => {
   const handleSizeChange = (event) => {
     setBooksPerPage(event.target.value);
   };
+
+  const handleSelectKeyword = (keyword) => {
+    setSelectedKeywords([...selectedKeywords, keyword]);
+    setSelectedKeywordSet(new Set([...selectedKeywordSet, keyword]))
+    setInput("");
+    setSearchData([]);
+    inputRef.current.focus();
+  }
+
+  const handleRemoveKeyword = (keyword) => {
+    const updatedKeywords = selectedKeywords.filter((selectedKeyword) =>
+      selectedKeyword !== keyword
+    );
+    setSelectedKeywords(updatedKeywords);
+
+    const updatedKeywordSet = new Set(selectedKeywordSet);
+    updatedKeywordSet.delete(keyword);
+    setSelectedKeywordSet(updatedKeywordSet);
+  }
+  
+
 
   return (
     <>
@@ -125,6 +153,11 @@ const SearchResult = () => {
           setIsShow={setIsShow}
           searchBook={searchBook}
           searchData={searchData}
+          handleSelectKeyword={handleSelectKeyword}
+          selectedKeyword={selectedKeywords}
+          selectedKeywordSet={selectedKeywordSet}
+          handleRemoveKeyword={handleRemoveKeyword}
+          inputRef={inputRef}
         />
 
         <section id="search-title" style={{ marginBottom: "80px" }}>
@@ -185,10 +218,11 @@ const SearchResult = () => {
                       // marginRight: "10px",
                     }}
                   >
-                    <option value="" selected>
+                    {/* <option value="" selected> */}
+                    <option value="popular">
                       인기순
                     </option>
-                    <option value="">평점순</option>
+                    <option value="ranked">평점순</option>
                   </select>
                   <select
                     name=""
@@ -203,7 +237,8 @@ const SearchResult = () => {
                     onChange={handleSizeChange}
                     value={booksPerPage}
                   >
-                    <option value="10" selected>
+                    {/* <option value="10" selected> */}
+                    <option value="10">
                       10개씩 보기
                     </option>
                     <option value="50">50개씩 보기</option>
@@ -278,9 +313,8 @@ const SearchResult = () => {
                 <ListUIWrap>
                   {/* {books.map((book, index) => ( */}
                   {currentBooks.map((book, index) => (
-                    <Link to={`/book-detail/${book.isbn}`}>
+                    <Link key={index} to={`/book-detail/${book.isbn}`}>
                       <li
-                        key={index}
                         style={{
                           height: "310px",
                           display: "flex",

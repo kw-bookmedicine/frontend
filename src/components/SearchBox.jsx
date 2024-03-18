@@ -4,6 +4,7 @@ import SearchResultListModal from "./SearchResultListModal";
 // style
 import "../styles/SearchStyles.css";
 import styled from "styled-components";
+import Pill from "./Pill";
 
 const SearchBox = ({
   input,
@@ -14,6 +15,11 @@ const SearchBox = ({
   isShow,
   setIsShow,
   searchData,
+  handleSelectKeyword,
+  selectedKeyword,
+  selectedKeywordSet,
+  handleRemoveKeyword,
+  inputRef,
 }) => {
   return (
     <section
@@ -34,6 +40,7 @@ const SearchBox = ({
                 name="search-button"
               /> */}
           <SelectMenu
+            // defaultValue="title"
             value={searchType}
             onChange={(e) => {
               setSearchType(e.target.value);
@@ -43,7 +50,8 @@ const SearchBox = ({
             id=""
             // className="search-select"
           >
-            <option value="title" selected>
+            {/* <option value="title" selected> */}
+            <option value="title">
               책제목
             </option>
             <option value="author">작가</option>
@@ -51,7 +59,20 @@ const SearchBox = ({
           </SelectMenu>
           {searchType === "keyword" ? (
             <>
+              {selectedKeyword.map((keyword, index) => {
+                return (
+                  <Pill
+                    key={index}
+                    text={keyword}
+                    onClick={() => {
+                      handleRemoveKeyword(keyword);
+                      console.log("123");
+                    }}
+                  />
+                );
+              })}
               <SearchInput
+                ref={inputRef}
                 type="text"
                 placeholder="검색어를 입력하세요"
                 // className="search-input"
@@ -97,7 +118,8 @@ const SearchBox = ({
         // />
         <SearchResultListModal
           book={searchData}
-          addInput={setInput}
+          addInput={handleSelectKeyword}
+          selectedKeywordSet={selectedKeywordSet}
           onClick={(e) => {
             e.stopPropagation();
           }}
@@ -117,7 +139,7 @@ const SearchInputWrap = styled.div`
   border-radius: 5px;
   border: 1px solid #b0b0b0;
   display: flex;
-  /* align-items: center; */
+  align-items: center;
   font-size: 20px;
   /* margin-bottom: 40px; */
 `;
@@ -126,7 +148,8 @@ const SelectMenu = styled.select`
   min-width: 140px;
   font-size: 20px;
   border: none;
-  /* padding-left: 10px; */
+  /* border-right: 1px solid #c0c0c0; */
+  /* padding-r: 10px; */
   text-align: center;
   &:focus {
     outline: none;
@@ -135,11 +158,12 @@ const SelectMenu = styled.select`
 
 const SearchInput = styled.input`
   border: none;
-  border-left: 1px solid #c0c0c0;
-  margin-left: 1rem;
+  /* border-left: 1px solid #c0c0c0; */
+  /* margin-left: 1rem; */
   padding-left: 1rem;
   font-size: 20px;
-  width: 100%;
+  /* width: 100%; */
+  flex: 1;
   &:focus {
     outline: none;
   }

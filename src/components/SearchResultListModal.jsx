@@ -1,8 +1,15 @@
-import React from 'react'
+import React from "react";
 import "../styles/SearchResultList.css";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
+import styled from "styled-components";
 
-const SearchResultListModal = ({ book, type, updateBook, addInput }) => {
+const SearchResultListModal = ({
+  book,
+  type,
+  updateBook,
+  addInput,
+  selectedKeywordSet,
+}) => {
   let listType = ["myBook"].includes(type) ? type : "search";
 
   return (
@@ -41,13 +48,22 @@ const SearchResultListModal = ({ book, type, updateBook, addInput }) => {
 
           // 키워드 UI
           if (keyword !== undefined) {
-            return (
-              <p
+            
+            return !selectedKeywordSet.has(keyword) ? (
+              <KeywordItem
                 style={{ fontSize: "20px", marginBottom: "10px" }}
-                onClick={()=>addInput(`#${keyword}`)}
+                onClick={() => addInput(keyword)}
               >
                 {keyword}
-              </p>
+              </KeywordItem>
+            ) : (
+              // <p
+              //   style={{ fontSize: "20px", marginBottom: "10px"}}
+              //   onClick={() => addInput(keyword)}
+              // >
+              //   {keyword}
+              // </p>
+              <></>
             );
           }
           return null;
@@ -55,10 +71,19 @@ const SearchResultListModal = ({ book, type, updateBook, addInput }) => {
       </div>
     </>
   );
-}
+};
 
 SearchResultListModal.defaultProps = {
   type: "search",
 };
 
-export default SearchResultListModal
+export default SearchResultListModal;
+
+const KeywordItem = styled.p`
+  font-size: 20px;
+  margin-bottom: 10px;
+  &:hover {
+    background-color: #d6d6d6;
+    border-radius: 4px;
+  }
+`;
