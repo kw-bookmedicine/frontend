@@ -66,7 +66,6 @@ const SearchBox = ({
                     text={keyword}
                     onClick={() => {
                       handleRemoveKeyword(keyword);
-                      console.log("123");
                     }}
                   />
                 );

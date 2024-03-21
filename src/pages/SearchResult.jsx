@@ -7,7 +7,6 @@ import starIcon from "../assets/icons8-별-30 (1).png";
 import api from "./../services/api";
 import Pagination from "../components/Pagination";
 import SearchBox from "../components/SearchBox";
-import Pill from "../components/Pill";
 
 const SearchResult = () => {
   const navigate = useNavigate();
@@ -16,7 +15,7 @@ const SearchResult = () => {
   const [books, setBooks] = useState([]); // 책 정보
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지
   const [booksPerPage, setBooksPerPage] = useState(10); // 페이지당 책 수
-  const [loading, setLoading] = useState(false); // 로딩
+  const [loading, setLoading] = useState(false); // 로딩 상태
 
   const [input, setInput] = useState(""); // 검색 데이터
   const [searchType, setSearchType] = useState("title"); // 검색 유형 상태
@@ -27,7 +26,7 @@ const SearchResult = () => {
   const [selectedKeywords, setSelectedKeywords] = useState([]);
   const [selectedKeywordSet, setSelectedKeywordSet] = useState(new Set());
 
-
+  const [totalBooksOfKeywords, setTotalBooksOfKeywords] = useState([]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -64,10 +63,17 @@ const SearchResult = () => {
   const searchBook = (evt) => {
     if (evt.key === "Enter") {
       fetchBooks(input);
-      if (input.length > 0) navigate(`/search/result/${input}`);
-      setIsShow(false);
+      if (input.length > 0 && selectedKeywords.length === 0) navigate(`/search/result/${input}`);
+      if (selectedKeywords.length > 0) navigate(`/search/result/${selectedKeywords.join(' ')} ${input}`);
+      if(input.length === 0 && searchType !== "keyword") alert("검색 키워드가 없습니다!")
+      if (searchType === "keyword" && selectedKeywords.length === 0) alert("키워드를 선택하여 검색해주세요!")
+        setIsShow(false);
     }
   };
+
+  // 키워드로 어떻게 담지?
+
+ 
 
   // 현재 책들 정보
   const indexOfLastBook = currentPage * booksPerPage;
@@ -77,9 +83,6 @@ const SearchResult = () => {
 
   // 페이지 변경
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
-  // console.log(books.length);
-  // console.log(currentBooks);
 
   useEffect(() => {
     const getSearchResults = async () => {
@@ -98,52 +101,47 @@ const SearchResult = () => {
     };
     getSearchResults();
   }, [title]);
-
+  
   let searchResultsCount = books.length;
   searchResultsCount = searchResultsCount.toLocaleString();
   let searchResultsKeywordCount = 123;
   let reviewCount = 123;
 
+  // 10개, 50개, 100개에 따른 한페이지에 보여주는 책의 수
   const handleSizeChange = (event) => {
     setBooksPerPage(event.target.value);
   };
 
+  // 키워드 선택
   const handleSelectKeyword = (keyword) => {
     setSelectedKeywords([...selectedKeywords, keyword]);
-    setSelectedKeywordSet(new Set([...selectedKeywordSet, keyword]))
+    setSelectedKeywordSet(new Set([...selectedKeywordSet, keyword]));
     setInput("");
     setSearchData([]);
     inputRef.current.focus();
-  }
+  };
 
+  // 키워드 삭제
   const handleRemoveKeyword = (keyword) => {
-    const updatedKeywords = selectedKeywords.filter((selectedKeyword) =>
-      selectedKeyword !== keyword
+    const updatedKeywords = selectedKeywords.filter(
+      (selectedKeyword) => selectedKeyword !== keyword
     );
     setSelectedKeywords(updatedKeywords);
 
     const updatedKeywordSet = new Set(selectedKeywordSet);
     updatedKeywordSet.delete(keyword);
     setSelectedKeywordSet(updatedKeywordSet);
-  }
-  
+  };
 
+  // 아래 키 기능
+
+  // 요청했던 책에 대한 키워드
 
   return (
     <>
       <Header />
       <Main onClick={() => setIsShow(false)}>
         {/* 검색창 컴포넌트 만들어야함 */}
-        {/* <SearchInputWrap>
-          <SelectMenu>
-            <option value="title" selected>
-              제목
-            </option>
-            <option value="author">저자</option>
-            <option value="keyword">키워드</option>
-          </SelectMenu>
-          <SearchInput type="text" placeholder="검색어를 입력하세요" />
-        </SearchInputWrap> */}
         <SearchBox
           input={input}
           setInput={setInput}
@@ -160,22 +158,39 @@ const SearchResult = () => {
           inputRef={inputRef}
         />
 
-        <section id="search-title" style={{ marginBottom: "80px" }}>
-          <h1 style={{ fontSize: "30px", fontWeight: "bold" }}>
+        <SearchTitle id="search-title">
+          <Title>
             <span style={{ color: "#67B6C1" }}>"{title}"</span> 에 대한
             <span style={{ color: "#67B6C1" }}>
               {" "}
               {searchResultsCount} 개의 검색 결과
             </span>
-          </h1>
-        </section>
+          </Title>
+        </SearchTitle>
 
         <ContentsWrap>
           <aside>
-            <ContentTitle style={{ marginBottom: "20px" }}>
-              키워드 검색
-            </ContentTitle>
-            <input
+            <ContentTitle>키워드 검색</ContentTitle>
+            {/* <select name="" id="">
+              {books.map((book) => {
+                book.bookKeywordList.map((keyword, index) => {
+                  return (
+                    <option key={index} value={keyword.name}>
+                      {keyword.name}
+                    </option>
+                  );
+                });
+              })}
+            </select> */}
+            <select name="select-keyword" id="">
+              {books.flatMap((book) =>
+                book.bookKeywordList.map((keyword) => (
+                  <option value={keyword.name}>{keyword.name}</option>
+                ))
+              )}
+            </select>
+
+            <Input
               type="text"
               placeholder="키워드 추가"
               style={{
@@ -201,9 +216,7 @@ const SearchResult = () => {
             >
               <ContentTitle>
                 전체{" "}
-                <span style={{ color: "#67B6C1" }}>
-                  {searchResultsKeywordCount}건
-                </span>
+                <span style={{ color: "#67B6C1" }}>{searchResultsCount}건</span>
               </ContentTitle>
               <div>
                 <div style={{ display: "flex" }}>
@@ -219,9 +232,7 @@ const SearchResult = () => {
                     }}
                   >
                     {/* <option value="" selected> */}
-                    <option value="popular">
-                      인기순
-                    </option>
+                    <option value="popular">인기순</option>
                     <option value="ranked">평점순</option>
                   </select>
                   <select
@@ -233,14 +244,13 @@ const SearchResult = () => {
                       padding: "0px 10px",
                       borderRadius: "5px",
                       marginLeft: "10px",
+                      marginRight: "10px",
                     }}
                     onChange={handleSizeChange}
                     value={booksPerPage}
                   >
                     {/* <option value="10" selected> */}
-                    <option value="10">
-                      10개씩 보기
-                    </option>
+                    <option value="10">10개씩 보기</option>
                     <option value="50">50개씩 보기</option>
                     <option value="100">100개씩 보기</option>
                   </select>
@@ -248,16 +258,16 @@ const SearchResult = () => {
                     style={{
                       display: "flex",
                       width: "75px",
-                      border: "1px solid #C0C0C0",
+                      border: "1.5px solid #C0C0C0",
                       borderRadius: "5px",
-                      marginLeft: "10px",
+                      // marginLeft: "10px",
                     }}
                   >
                     <button
                       onClick={() => setViewMode(true)}
                       style={{
                         padding: "10px",
-                        backgroundColor: "white",
+                        backgroundColor: viewMode ? "#d0d0d0" : "white",
                         borderRight: "1px solid #C0C0C0",
                       }}
                     >
@@ -270,7 +280,8 @@ const SearchResult = () => {
                       onClick={() => setViewMode(false)}
                       style={{
                         padding: "10px",
-                        backgroundColor: "white",
+                        width: "100%",
+                        backgroundColor: viewMode ? "white" : "#d0d0d0",
                       }}
                     >
                       <img
@@ -513,6 +524,7 @@ const SearchResult = () => {
               totalBooks={books.length}
               paginate={paginate}
               bookTitle={title}
+              currentPage={currentPage}
             />
           </section>
         </ContentsWrap>
@@ -528,6 +540,21 @@ const Main = styled.main`
   max-width: 1440px;
   margin: 0 auto;
 `;
+
+const SearchTitle = styled.section`
+  margin-bottom: 80px;
+`;
+
+const Title = styled.h1`
+  font-size: 30px;
+  font-weight: bold;
+
+  span {
+    color: #67b6c1;
+  }
+`;
+
+
 
 const SearchInputWrap = styled.div`
   width: 100%;
@@ -572,7 +599,16 @@ const ContentsWrap = styled.div`
 const ContentTitle = styled.h2`
   font-size: 20px;
   font-weight: bold;
+  margin-bottom: 20px;
 `;
+
+const Input = styled.input`
+  border-radius: 10px;
+  border: 1px solid #6b6565;
+  padding: 8px 8px 8px 12px;
+  font-size: 1rem;
+`;
+
 
 const SearchKeyword = styled.li`
   display: flex;
