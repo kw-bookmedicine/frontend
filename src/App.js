@@ -20,6 +20,9 @@ import SmallCategory from './pages/SmallCategory';
 import Edit from './pages/Edit';
 import UserInfo from './pages/UserInfo';
 
+// 처방전 관련 페이지들
+import Counseling from './pages/Counseling';
+
 // STYLE
 import GlobalStyles from './styles/GlobalStyles';
 import './App.css';
@@ -57,6 +60,8 @@ function App() {
 						<Route path="/myfeed" element={<MyFeed />} />
 						<Route path="/edit" element={<Edit />} />
 						<Route path="/edit/:page" element={<UserInfo />} />
+
+						<Route path="/counseling" element={<Counseling />} />
 
 						<Route element={<LoginLayout />}>
 							<Route path="/id-find" element={<IdFind />} />
