@@ -27,7 +27,7 @@ const Header = () => {
 							<Link to={'/main'}>HOME</Link>
 						</li>
 						<li>
-							<Link to={'/feed'}>FEED</Link>
+							<Link to={'/counseling'}>고민상담</Link>
 						</li>
 						<li>
 							<Link to={'/search'}>SEARCH</Link>
