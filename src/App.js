@@ -23,6 +23,7 @@ import UserInfo from './pages/UserInfo';
 // 처방전 관련 페이지들
 import Counseling from './pages/Counseling';
 import WorryDetail from './pages/WorryDetail';
+import PrescriptionWrite from './pages/PrescriptionWrite';
 
 // STYLE
 import GlobalStyles from './styles/GlobalStyles';
@@ -64,6 +65,7 @@ function App() {
 
 						<Route path="/counseling" element={<Counseling />} />
 						<Route path="/worry/detail" element={<WorryDetail />} />
+						<Route path="/prescription/write" element={<PrescriptionWrite />} />
 
 						<Route element={<LoginLayout />}>
 							<Route path="/id-find" element={<IdFind />} />
