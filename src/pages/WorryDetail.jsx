@@ -16,16 +16,27 @@ const WorryDetail = () => {
 				<Title />
 				<div className="worry_detail_title_wrapper">
 					<div className="wd_user_wrapper">
-						<div className="wd_user_img"></div>
-						<div className="wd_user_info_wrapper">
-							<div className="wd_user_name">이름없는 새</div>
-							<div className="wd_user_date">2024.00.00</div>
+						<div className="wd_user_left_wrapper">
+							<div className="wd_user_img"></div>
+							<div className="wd_user_info_wrapper">
+								<div className="wd_user_name">이름없는 새</div>
+								<div className="wd_user_date">2024.00.00</div>
+							</div>
+						</div>
+						<div className="wd_user_right_wrapper">
+							<button className="prscr_btn">처방하기</button>
 						</div>
 					</div>
-					<div className="wd_title_text_wrapper"></div>
+					<div className="wd_title_text_wrapper">
+						새로운 곳에 적응하기 힘들어요!
+					</div>
 				</div>
 				<div className="worry_detail_content_wrapper">
-					<div className="wd_content_detail_wrapper"></div>
+					<div className="wd_content_detail_wrapper">
+						<span className="wd_content_detail_title">상세 고민 내용</span>
+						<div className="wd_content_detail_text">아바바</div>
+					</div>
+					<div className="worry_detail_prscr_wrapper"></div>
 				</div>
 			</div>
 

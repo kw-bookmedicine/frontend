@@ -6,7 +6,7 @@ import Footer from '../components/Footer';
 import CnsFeed from '../components/Prescription/CounselingView';
 
 // STYLES
-import '../styles/Counseling.css';
+import '../styles/Counseling/Counseling.css';
 
 const Counseling = () => {
 	return (
@@ -24,7 +24,6 @@ const Counseling = () => {
 					</div>
 				</div>
 				<div className="counseling_feed_wrapper">
-					<div className="view_feed">안녕</div>
 					<CnsFeed />
 				</div>
 			</div>
