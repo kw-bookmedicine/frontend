@@ -19,7 +19,7 @@ const CounselingView = () => {
 					<div className="user_cns_text">새로운 곳에 적응하기 힘들어요</div>
 				</div>
 				<div className="cns_to_prscr_btn">
-					<Link to={'/worry'}>
+					<Link to={'/worry/detail'}>
 						<button className="convert_prscr">진단서 보기</button>
 					</Link>
 				</div>
