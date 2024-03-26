@@ -16,7 +16,7 @@ const SearchResultListModal = ({
     <>
       <div className={`${listType}-modal-container`}>
         {book.map((item) => {
-          console.log(item);
+          // console.log(item);
           // 작가에서 누구 지음 이걸 빼주도록 하기 -> 작가 이름을 어떻게 필터링 처리를 할까?
 
           let title = item && item.title;

@@ -55,7 +55,7 @@ const SearchResult = () => {
 
     try {
       const response = await api.get(endpoint);
-      console.log("test", searchType, response.data);
+      // console.log("test", searchType, response.data);
       setSearchData(response.data);
     } catch (error) {
       console.error("Failed to fetch books:", error);
