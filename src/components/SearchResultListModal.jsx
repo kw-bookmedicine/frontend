@@ -29,7 +29,7 @@ const SearchResultListModal = ({
           if (title !== undefined) {
             return (
               <ul key={item.isbn} className={`${listType}-result-container`}>
-                <Link to={`/book-detial/${isbn}`}>
+                <Link to={`/book-detail?isbn=${isbn}`}>
                   <li className={`${listType}-result-list`}>
                     <img src={thumbnail} alt="" />
                     <div className={`${listType}-result-item`}>
