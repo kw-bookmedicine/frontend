@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 // COMPONENTS
 import Header from '../components/Header';
 import Title from '../components/Prescription/ProcessTitle';
-import SearchResultListModal from '../components/SearchResultListModal';
-import ModalPortal from '../components/Modal/Portal';
 import SearchBookModal from '../components/Modal/SearchBook';
 
 // ASSETS
@@ -15,8 +14,6 @@ import '../styles/Counseling/PrescriptionWrite.css';
 
 const PrescriptionWrite = () => {
 	const [input, setInput] = useState('');
-	const [searchData, setSearchData] = useState([]); // 검색 결과 데이터
-	const [categories, setCategories] = useState([]); // 카테고리 데이터
 	const [isShow, setIsShow] = useState(false); // 검색창 모달창
 	const [searchType, setSearchType] = useState('title'); // 검색 유형 상태
 
@@ -34,15 +31,21 @@ const PrescriptionWrite = () => {
 	};
 
 	const [modalOn, setModalOn] = useState(false);
+	const [modalIsClick, setModalIsClick] = useState(false);
 
 	const handleModal = () => {
 		setModalOn(!modalOn);
 	};
 
+	const handleModalIsClick = (modalIsClick) => {
+		console.log(modalIsClick);
+		setModalIsClick(modalIsClick);
+	};
+
 	return (
 		<>
 			<Header />
-			<Title type={'process'} />
+			<Title type={'process'} value={'30'} />
 			<div className="prescription_info_container">
 				<div className="prscr_left_wrapper">
 					<img
@@ -81,9 +84,23 @@ const PrescriptionWrite = () => {
 						) : null}
 						{modalOn && input.length === 0 ? handleModal(false) : null}
 					</div>
-					{modalOn && <SearchBookModal onClose={handleModal} />}
+					{modalOn && (
+						<SearchBookModal
+							onClose={handleModal}
+							isClick={handleModalIsClick}
+							author={input}
+						/>
+					)}
 				</div>
 			</div>
+			{modalIsClick && input.length > 0 ? (
+				<div className="prescription_btn_container">
+					<button className="prscr_cancel_btn">취소하기</button>
+					<Link to={'/prescription/write/2'}>
+						<button className="prscr_apply_btn">처방전 작성하기</button>
+					</Link>
+				</div>
+			) : null}
 		</>
 	);
 };

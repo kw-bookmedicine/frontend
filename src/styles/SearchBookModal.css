@@ -1,4 +1,6 @@
 .searchBook_modal_container {
+	display: flex;
+	align-items: center;
 	width: 690px;
 	height: 330px;
 	background-color: #fff;

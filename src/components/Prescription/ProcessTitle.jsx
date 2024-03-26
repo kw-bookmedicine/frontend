@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 // STYLES
 import '../../styles/Counseling/ProcessTitle.css';
 
-const ProcessTitle = ({ type }) => {
+const ProcessTitle = ({ type, value }) => {
 	const renderTitle = (type) => {
 		if (type === 'normal') {
 			return (
@@ -26,8 +26,13 @@ const ProcessTitle = ({ type }) => {
 							작성 중...
 						</div>
 						<div className="progress_bar_wrapper">
-							<progress id="progress" value="50" min="0" max="100"></progress>
-							<p id="progress_text">50%</p>
+							<progress
+								id="progress"
+								value={value}
+								min="0"
+								max="100"
+							></progress>
+							<p id="progress_text">{value}%</p>
 						</div>
 					</div>
 				</>

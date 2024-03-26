@@ -17,6 +17,7 @@
 .prscr_left_wrapper {
 	margin-right: 70px;
 	margin-left: 40px;
+	margin-bottom: 50px;
 	height: 100%;
 	display: flex;
 	align-items: center;
@@ -73,4 +74,67 @@
 	background-color: #fff;
 	color: #454545;
 	font-weight: 700;
+}
+
+/* @keyframes move {
+	from {
+		bottom: -500px;
+	}
+	to {
+		bottom: -450px;
+	}
+}
+
+.prescription_btn_container {
+	position: absolute;
+	width: 100%;
+	height: 400px;
+	background-color: #be8d8d;
+	animation-name: move;
+	animation-duration: 3s;
+	animation-iteration-count: 1;
+}
+
+.prescription_button_wrapper {
+	width: 100%;
+	height: 400px;
+	background-color: #fff;
+} */
+
+.prescription_btn_container {
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+	width: 100%;
+	height: 400px;
+	background-color: #fff;
+	padding: 0 340px;
+}
+
+.prscr_cancel_btn {
+	width: 280px;
+	height: 45px;
+	border-radius: 11px;
+	background-color: #ffdadf;
+	font-family: var(--basic-font);
+	font-weight: 600;
+	font-style: normal;
+	font-size: 20px;
+	line-height: 24px;
+}
+
+.prscr_apply_btn {
+	width: 280px;
+	height: 45px;
+	border-radius: 11px;
+	background-color: #c8edf2;
+	font-family: var(--basic-font);
+	font-weight: 600;
+	font-style: normal;
+	font-size: 20px;
+	line-height: 24px;
+}
+
+.prscr_apply_btn:hover {
+	background-color: #67b6c1;
 }
