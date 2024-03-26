@@ -269,7 +269,10 @@ const SearchResult = () => {
               {viewMode ? (
                 <ListUIWrap>
                   {currentBooks.map((book, index) => (
-                    <Link key={index} to={`/book-detail/${book.isbn}`}>
+                    <Link
+                      key={index}
+                      to={`/book-detail?isbn=${book.isbn}`}
+                    >
                       <li
                         style={{
                           height: "310px",
