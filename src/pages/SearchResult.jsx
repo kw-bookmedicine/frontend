@@ -28,10 +28,7 @@ const SearchResult = () => {
   const [selectedKeywords, setSelectedKeywords] = useState([]);
   const [selectedKeywordSet, setSelectedKeywordSet] = useState(new Set());
 
-
   const [searchedSelectedKeywords, setSearchedSelectedKeywords] = useState([]);
-  
-
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -80,18 +77,7 @@ const SearchResult = () => {
     }
   };
 
-  // 키워드로 어떻게 담지?
-
-  // const { searchedSelectedKeywords,removeKeyword } = useSearchedSelectedKeywords();
-  // console.log(searchedSelectedKeywords)
-
-  // 현재 책들 정보
-  // const filteredBooks = books.filter(
-  //   (book) =>
-  //     book.bookKeywordList.some((keyword) =>
-  //       searchedSelectedKeywords.includes(keyword.name)
-  //     ) || searchedSelectedKeywords.includes(book.middleCategoryName)
-  // );
+  // 키워드로 책 필터링
   const filteredBooks = books.filter((book) =>
     searchedSelectedKeywords.every(
       (keyword) =>
@@ -100,8 +86,6 @@ const SearchResult = () => {
         ) || keyword === book.middleCategoryName
     )
   );
-
-  console.log("Filtered Books: ", filteredBooks);
 
   const indexOfLastBook = currentPage * booksPerPage;
   const indexOfFirstBook = indexOfLastBook - booksPerPage;
@@ -270,27 +254,6 @@ const SearchResult = () => {
               }}
             >
               <ul style={{ display: "flex" }}>
-                {/* <SearchKeyword>
-                    저주
-                    <button
-                      style={{
-                        backgroundColor: "#c8edf2",
-                        borderRadius: "999px",
-                        lineHeight: "5px",
-                      }}
-                    >
-                      <img src={closeIcon} alt="" />
-                    </button>
-                  </SearchKeyword>
-                  <Pill
-                    // key={index}
-                    // text={keyword}
-                    text={"저주"}
-                    onClick={() => {
-                      handleRemoveKeyword("저주");
-                    }}
-                  /> */}
-                {/* {selectedKeywords.map((keyword, index) => ( */}
                 {searchedSelectedKeywords.map((keyword, index) => (
                   <Pill
                     key={index}
@@ -305,7 +268,6 @@ const SearchResult = () => {
             <div>
               {viewMode ? (
                 <ListUIWrap>
-                  {/* {books.map((book, index) => ( */}
                   {currentBooks.map((book, index) => (
                     <Link key={index} to={`/book-detail/${book.isbn}`}>
                       <li
@@ -425,7 +387,6 @@ const SearchResult = () => {
                 </ListUIWrap>
               ) : (
                 <CardUIWrap>
-                  {/* {books.map((book, index) => ( */}
                   {currentBooks.map((book, index) => (
                     <Link to={`/book-detail/${book.title}`}>
                       <li key={index} style={{ width: "170px" }}>
@@ -525,11 +486,10 @@ const KeywordSearchBox = ({
 }) => {
   const [totalBooksOfKeywords, setTotalBooksOfKeywords] = useState([]); // 전체 키워드
   const [isShowModal, setIsShowModal] = useState(false); // 모달 상태
-   const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
   // 모달과 모달을 열기 위한 버튼에 대한 참조 생성
   const modalRef = useRef(null);
   const buttonRef = useRef(null);
-
 
   useEffect(() => {
     setTotalBooksOfKeywords([]); // 키워드 초기화
@@ -571,7 +531,6 @@ const KeywordSearchBox = ({
     }
   };
 
- 
   const availableKeywords = totalBooksOfKeywords.filter(
     (keyword) =>
       // 선택된 키워드 포함 x, 입력된 문자 포함
@@ -627,7 +586,7 @@ const ModalStyled = styled.div`
   border-radius: 10px;
   padding: 10px;
   margin-top: 4px;
-  
+
   li {
     padding: 5px;
   }
