@@ -10,13 +10,14 @@
 	flex-direction: column;
 	align-items: center;
 	width: 100%;
-	height: 110px;
+	height: 200px;
 }
 
 .cns_category_title {
 	width: 100%;
 	font-family: var(--basic-font);
-	font-size: 20px;
+	font-size: 24px;
+	line-height: 29px;
 	font-style: normal;
 	font-weight: 700;
 	height: auto;
@@ -28,10 +29,32 @@
 
 .cns_category_content_wrapper {
 	display: grid;
-	grid-template-columns: repeat(5, 1fr);
+	grid-template-columns: repeat(10, 1fr);
 	margin: 0 40px;
 	height: auto;
-	gap: 90px;
+	gap: 70px;
+}
+
+.cns_category {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	cursor: pointer;
+}
+
+.cns_category_img {
+	width: 50px;
+	height: 50px;
+	object-fit: contain;
+}
+
+.cns_category_text {
+	margin-top: 8px;
+	font-family: var(--basic-font);
+	font-size: 18px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 21px;
 }
 
 .counseling_feed_wrapper {
@@ -39,7 +62,7 @@
 	flex-direction: column;
 	align-items: center;
 	width: 100%;
-	margin-top: 30px;
+	margin-top: 80px;
 	justify-content: center;
-	height: 60vh;
+	/* height: 60vh; */
 }
