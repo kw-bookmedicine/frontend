@@ -24,6 +24,7 @@ import UserInfo from './pages/UserInfo';
 import Counseling from './pages/Counseling';
 import WorryDetail from './pages/WorryDetail';
 import PrescriptionWrite from './pages/PrescriptionWrite';
+import PrescriptionWriteStep2 from './pages/PrescriptionWriteStep2';
 
 // STYLE
 import GlobalStyles from './styles/GlobalStyles';
@@ -66,6 +67,10 @@ function App() {
 						<Route path="/counseling" element={<Counseling />} />
 						<Route path="/worry/detail" element={<WorryDetail />} />
 						<Route path="/prescription/write" element={<PrescriptionWrite />} />
+						<Route
+							path="/prescription/write/2"
+							element={<PrescriptionWriteStep2 />}
+						/>
 
 						<Route element={<LoginLayout />}>
 							<Route path="/id-find" element={<IdFind />} />
