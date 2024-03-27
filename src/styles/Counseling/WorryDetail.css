@@ -125,7 +125,17 @@
 }
 
 .wd_prscr_list_wrapper {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
 	overflow-y: scroll;
+	width: 102%;
+	column-gap: 30px;
+	justify-items: center;
+	row-gap: 44px;
+}
+
+.wd_prscr_list_wrapper::-webkit-scrollbar {
+	visibility: hidden;
 }
 
 .prscr_btn {
