@@ -1,0 +1,166 @@
+.prscrCard_container {
+	width: 310px;
+	height: 420px;
+	border: 5px solid #a4d6dd;
+	border-radius: 15px;
+	padding: 9px;
+}
+
+.prscrCard_top_wrapper {
+	position: sticky;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	height: 150px;
+}
+
+.prscr_vector_icon {
+	position: absolute;
+	left: 3px;
+	width: 39px;
+	height: 39px;
+	object-fit: contain;
+}
+
+.prscrCard_title_wrapper {
+	display: flex;
+	width: 100%;
+	height: 40px;
+	flex-direction: column;
+	align-items: center;
+	margin-top: 39px;
+	text-align: center;
+}
+
+.prscrCard_title {
+	color: #00a2bc;
+	font-family: 'SangSangAnt';
+	font-size: 35px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: 29px;
+}
+
+.prscrCard_user_name_wrapper {
+	display: flex;
+	justify-content: space-between;
+	margin-top: 24px;
+	width: 232px;
+	height: 20px;
+	font-family: 'HakgyoansimWoojuR';
+	font-size: 16px;
+	line-height: 19px;
+	border-bottom: 1px solid #000000;
+}
+
+.prscrCard_user_name {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 86%;
+}
+
+.prscrCard_mid_wrapper {
+	position: sticky;
+	margin-top: 8px;
+	width: 100%;
+	height: 200px;
+	display: flex;
+	justify-content: center;
+}
+
+#prscrCard_mid_title {
+	width: 50px;
+	top: -12px;
+	left: 60px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 4px;
+	background-color: #fff;
+	position: absolute;
+	z-index: 1;
+	color: #67b6c1;
+	font-family: 'HakgyoansimWoojuR';
+	font-size: 14px;
+	line-height: 17px;
+}
+
+.prscrCard_bookInfo_wrapper {
+	display: flex;
+	padding: 20px 15px;
+	width: 233px;
+	height: 176px;
+	border: #a4d6dd 2px solid;
+	border-radius: 15px;
+}
+
+.bookInfo_left_wrapper {
+	display: flex;
+	align-items: center;
+	width: 105px;
+}
+
+.bookInfo_img {
+	width: 90px;
+	height: 130px;
+	object-fit: cover;
+	border-radius: 5px;
+}
+
+.bookInfo_right_wrapper {
+	position: sticky;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	padding-top: 10px;
+	padding-left: 14px;
+}
+
+.prscrCard_bookInfo_title {
+	width: 100%;
+	font-family: var(--basic-font);
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: 18px;
+}
+
+.prscrCard_bookInfo_author,
+.prscrCard_bookInfo_date {
+	width: 100%;
+	color: #868686;
+	font-family: var(--basic-font);
+	font-size: 11px;
+	font-weight: 400;
+	font-style: normal;
+	line-height: 13px;
+	margin-top: 5px;
+}
+
+.pharmacy_icon_group {
+	position: absolute;
+	bottom: -15px;
+	right: -5px;
+	width: 60px;
+	height: 60px;
+	object-fit: contain;
+}
+
+.prscrCard_bottom_wrapper {
+	display: flex;
+	width: 100%;
+	height: 40px;
+	justify-content: center;
+	align-items: center;
+}
+
+.prscrCard_update_date {
+	font-family: 'HakgyoansimWoojuR';
+	font-weight: 500;
+	font-style: bold;
+	font-size: 17px;
+	line-height: 20px;
+	color: #00a2bc;
+}
