@@ -22,9 +22,9 @@ import UserInfo from "./pages/UserInfo";
 
 // 처방전 관련 페이지들
 import Counseling from "./pages/Counseling";
-import WorryDetail from './pages/WorryDetail';
-import PrescriptionWrite from './pages/PrescriptionWrite';
-import PrescriptionWriteStep2 from './pages/PrescriptionWriteStep2';
+import WorryDetail from "./pages/WorryDetail";
+import PrescriptionWrite from "./pages/PrescriptionWrite";
+import PrescriptionWriteStep2 from "./pages/PrescriptionWriteStep2";
 
 // STYLE
 import GlobalStyles from "./styles/GlobalStyles";
@@ -37,6 +37,7 @@ import PasswordFindResult from "./pages/PasswordFindResult";
 import IdFind from "./pages/IdFind";
 import LoginContextProvider from "./contexts/LoginContextProvider";
 import SearchResult from "./pages/SearchResult";
+import MyWorry from "./pages/MyWorry";
 
 function App() {
   // 브라우저 새로고침 스크롤 이벤트
@@ -61,16 +62,17 @@ function App() {
             <Route path="/search/result/:title" element={<SearchResult />} />
             <Route path="/mypage" element={<Mypage />} />
             <Route path="/myfeed" element={<MyFeed />} />
+            <Route path="/myworry" element={<MyWorry />} />
             <Route path="/edit" element={<Edit />} />
             <Route path="/edit/:page" element={<UserInfo />} />
 
             <Route path="/counseling" element={<Counseling />} />
-						<Route path="/worry/detail" element={<WorryDetail />} />
-						<Route path="/prescription/write" element={<PrescriptionWrite />} />
-						<Route
-							path="/prescription/write/2"
-							element={<PrescriptionWriteStep2 />}
-						/>
+            <Route path="/worry/detail" element={<WorryDetail />} />
+            <Route path="/prescription/write" element={<PrescriptionWrite />} />
+            <Route
+              path="/prescription/write/2"
+              element={<PrescriptionWriteStep2 />}
+            />
 
             <Route element={<LoginLayout />}>
               <Route path="/id-find" element={<IdFind />} />
