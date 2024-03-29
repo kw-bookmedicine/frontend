@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, NavLink } from 'react-router-dom';
 
 // COMPONENTS
 import Btn from '../components/Button';
@@ -15,6 +15,11 @@ const Header = () => {
 		// window.location.replace('http://localhost:3000/');
 	};
 
+	const activeStyle = {
+		color: '#000',
+		fontWeight: 700,
+	};
+
 	return (
 		<div className="head">
 			<header>
@@ -24,16 +29,44 @@ const Header = () => {
 				<nav className="header_list_wrapper">
 					<ul className="header_list">
 						<li>
-							<Link to={'/main'}>HOME</Link>
+							<NavLink
+								style={({ isActive }) => (isActive ? activeStyle : {})}
+								to={'/main'}
+							>
+								HOME
+							</NavLink>
 						</li>
 						<li>
-							<Link to={'/counseling'}>고민상담</Link>
+							<NavLink
+								style={({ isActive }) => (isActive ? activeStyle : {})}
+								to={'/simplePrscr'}
+							>
+								한 줄 처방
+							</NavLink>
 						</li>
 						<li>
-							<Link to={'/search'}>SEARCH</Link>
+							<NavLink
+								style={({ isActive }) => (isActive ? activeStyle : {})}
+								to={'/counseling'}
+							>
+								고민상담
+							</NavLink>
 						</li>
 						<li>
-							<Link to={'/mypage'}>MYPAGE</Link>
+							<NavLink
+								style={({ isActive }) => (isActive ? activeStyle : {})}
+								to={'/search'}
+							>
+								SEARCH
+							</NavLink>
+						</li>
+						<li>
+							<NavLink
+								style={({ isActive }) => (isActive ? activeStyle : {})}
+								to={'/mypage'}
+							>
+								MYPAGE
+							</NavLink>
 						</li>
 					</ul>
 				</nav>
