@@ -35,8 +35,25 @@
 	margin-bottom: 50px;
 	height: 100%;
 	display: flex;
+	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+}
+
+.search_res_no_btn {
+	width: 200px;
+	height: 40px;
+	margin-top: 30px;
+	padding: 4px;
+	text-align: center;
+	font-family: var(--basic-font);
+	font-weight: 400;
+	font-style: normal;
+	font-size: 20px;
+	color: #454545;
+	background-color: #fff;
+	border: 3px solid #67b6c1;
+	border-radius: 15px;
 }
 
 .prscr_right_wrapper {
@@ -51,8 +68,8 @@
 .prscr_searchBar_wrapper {
 	position: sticky;
 	z-index: 1;
-	width: 690px;
-	height: 50px;
+	width: 85%;
+	/* height: 50px; */
 	display: flex;
 	align-items: center;
 	padding: 12px 12px;
@@ -91,6 +108,37 @@
 	background-color: #fff;
 	color: #454545;
 	font-weight: 700;
+}
+
+.prscr_search_res_wrapper {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	height: 100%;
+	margin-top: 50px;
+}
+
+.prscr_search_res_wrapper > p,
+button {
+	font-family: var(--basic-font);
+	font-style: normal;
+}
+
+.search_res_bookTitle {
+	font-size: 24px;
+	font-weight: 600;
+	line-height: 29px;
+	color: #454545;
+	margin-bottom: 20px;
+}
+
+.search_res_bookAuthor,
+.search_res_bookCompany {
+	font-size: 20px;
+	font-weight: 600;
+	line-height: 24px;
+	color: #868686;
+	margin-bottom: 10px;
 }
 
 /* @keyframes move {

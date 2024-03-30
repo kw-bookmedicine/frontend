@@ -30,7 +30,7 @@
 	top: 70px;
 	display: flex;
 	align-items: center;
-	width: 690px;
+	width: 755px;
 	height: 330px;
 	background-color: #fff;
 	border-radius: 5px;
@@ -41,7 +41,7 @@
 
 .searchBook_modal_container_false {
 	position: absolute;
-	width: 690px;
+	width: 755px;
 	height: 330px;
 	z-index: -1;
 	top: 5px;

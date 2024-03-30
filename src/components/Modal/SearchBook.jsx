@@ -9,12 +9,10 @@ import api from '../../services/api';
 import '../../styles/SearchBookModal.css';
 
 const SearchBook = ({ onClose, author, isClick, active }) => {
-	// const [searchData, setSearchData] = useState([]);
-
 	// 검색 결과 선택 여부
-	const handleModalIsClick = () => {
+	const handleModalIsClick = async () => {
 		onClose();
-		isClick(true);
+		isClick();
 	};
 
 	// 검색 리스트 가져오기

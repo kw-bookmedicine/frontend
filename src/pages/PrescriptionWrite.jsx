@@ -19,19 +19,21 @@ const PrescriptionWrite = () => {
 
 	// 모달창을 클릭한 여부
 	const [modalIsClick, setModalIsClick] = useState(false);
-	const [searchData, setSearchData] = useState(0);
+	let [searchData, setSearchData] = useState(0);
 
-	const handleModalClose = () => {
+	const handleModalClose = async () => {
 		setIsShow(false);
 	};
 
-	const handleModalShow = () => {
+	const handleModalShow = async () => {
 		setIsShow(true);
 	};
 
-	const handleModalIsClick = () => {
+	const handleModalIsClick = async () => {
 		setModalIsClick(true);
-		setSearchData(1);
+		setSearchData(searchData + 1);
+		searchData = searchData + 1;
+		// console.log(searchData);
 	};
 
 	const handleObserver = (e) => {
@@ -40,6 +42,16 @@ const PrescriptionWrite = () => {
 			console.log('target');
 			// console.log(viewTarget);
 		});
+	};
+
+	const view = () => {
+		if (searchData > 0) {
+			if (isShow === false) {
+				console.log('안 나옴');
+			} else {
+				console.log('나옴');
+			}
+		}
 	};
 
 	useEffect(() => {
@@ -75,6 +87,9 @@ const PrescriptionWrite = () => {
 								alt="로딩 썸네일"
 								className="prscr_img_wrapper"
 							/>
+							{/* <button type="submit" className="search_res_no_btn">
+								찾는 책이 없어요
+							</button> */}
 						</div>
 						<div className="prscr_right_wrapper">
 							<div className="prscr_searchBar_wrapper">
@@ -104,7 +119,6 @@ const PrescriptionWrite = () => {
 										X
 									</button>
 								) : null}
-								{isShow && input.length === 0 ? handleModalClose() : null}
 							</div>
 							{isShow && input.length > 0 ? (
 								<SearchBookModal
@@ -122,6 +136,8 @@ const PrescriptionWrite = () => {
 								/>
 							)}
 
+							{view()}
+
 							{isShow === false && modalIsClick && searchData > 0 ? (
 								<div className="prscr_search_res_wrapper">
 									<p className="search_res_bookTitle">책 제목</p>
@@ -129,16 +145,6 @@ const PrescriptionWrite = () => {
 									<p className="search_res_bookCompany">출판사</p>
 								</div>
 							) : null}
-
-							{/* {isShow && modalIsClick ? (
-								handleModalClose ? (
-									<div className="prscr_search_res_wrapper">
-										<p className="search_res_bookTitle">책 제목</p>
-										<p className="search_res_bookAuthor">저자</p>
-										<p className="search_res_bookCompany">출판사</p>
-									</div>
-								) : null
-							) : null} */}
 						</div>
 					</div>
 				</section>
@@ -152,15 +158,6 @@ const PrescriptionWrite = () => {
 					<button className="prscr_apply_btn">처방전 작성하기</button>
 				</Link>
 			</div>
-
-			{/* {modalIsClick && input.length > 0 ? (
-				<div className="prescription_btn_container">
-					<button className="prscr_cancel_btn">취소하기</button>
-					<Link to={'/prescription/write/2'}>
-						<button className="prscr_apply_btn">처방전 작성하기</button>
-					</Link>
-				</div>
-			) : null} */}
 		</>
 	);
 };
