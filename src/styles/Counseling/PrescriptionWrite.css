@@ -1,10 +1,25 @@
-.prescription_info_container {
+.prescription_content_container {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	height: 200vh;
+}
+
+.prescription_content_up_container {
 	width: 100%;
 	height: 580px;
 	display: flex;
-	align-items: center;
+	flex-direction: column;
+	/* align-items: center; */
 	background-color: #d3e7f6;
 	padding: 30px 120px;
+}
+
+.prscr_bookInfo_wrapper {
+	position: sticky;
+	display: flex;
+	width: 100%;
+	height: fit-content;
 }
 
 .prscr_img_wrapper {
@@ -29,11 +44,13 @@
 	height: 100%;
 	display: flex;
 	flex-direction: column;
-	padding-top: 60px;
+	padding-top: 25px;
 	justify-content: flex-start;
 }
 
-.prscr_search_wrapper {
+.prscr_searchBar_wrapper {
+	position: sticky;
+	z-index: 1;
 	width: 690px;
 	height: 50px;
 	display: flex;
@@ -101,6 +118,14 @@
 	background-color: #fff;
 } */
 
+.prescription_content_bottom_container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	height: 120vh;
+}
+
 .prescription_btn_container {
 	display: flex;
 	align-items: center;
@@ -108,7 +133,8 @@
 	width: 100%;
 	height: 400px;
 	background-color: #fff;
-	padding: 0 340px;
+	/* padding: 0 340px; */
+	/* animation: show 2.5s ease-out; */
 }
 
 .prscr_cancel_btn {
@@ -137,4 +163,33 @@
 
 .prscr_apply_btn:hover {
 	background-color: #67b6c1;
+}
+
+@keyframes show {
+	from {
+		transform: translateY(50px);
+	}
+	to {
+		transform: translateY(-200px);
+	}
+}
+
+#test_text {
+	width: 80%;
+	height: 100vh;
+	background-color: red;
+	margin-top: 80px;
+	font-family: var(--basic-font);
+	font-size: 50px;
+	font-weight: 700;
+	text-align: center;
+	opacity: 1;
+	/* transition: all 0.5s ease-in-out; */
+}
+
+.visible {
+	opacity: 0.5;
+	/* transform: scale(2); */
+	/* transition: all 0.5s ease-in-out; */
+	/* animation: show 1.5s ease-in-out; */
 }

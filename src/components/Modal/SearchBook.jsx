@@ -8,19 +8,13 @@ import api from '../../services/api';
 // STYLE
 import '../../styles/SearchBookModal.css';
 
-const SearchBook = ({ onClose, author, isClick }) => {
+const SearchBook = ({ onClose, author, isClick, active }) => {
 	// const [searchData, setSearchData] = useState([]);
-	const [modalIsClick, setModalIsClick] = useState(false);
-
-	// 모달 창 닫는 함수
-	const handleClose = () => {
-		onClose?.();
-	};
 
 	// 검색 결과 선택 여부
 	const handleModalIsClick = () => {
-		// console.log(modalIsClick);
-		isClick?.(true);
+		onClose();
+		isClick(true);
 	};
 
 	// 검색 리스트 가져오기
@@ -39,7 +33,7 @@ const SearchBook = ({ onClose, author, isClick }) => {
 	return (
 		<>
 			<div
-				className="searchBook_modal_container"
+				className={`searchBook_modal_container_${active}`}
 				onClick={handleModalIsClick}
 			></div>
 		</>
