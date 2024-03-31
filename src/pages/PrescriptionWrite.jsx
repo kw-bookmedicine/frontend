@@ -36,42 +36,39 @@ const PrescriptionWrite = () => {
 		// console.log(searchData);
 	};
 
-	const handleObserver = (e) => {
-		// 요소 감시 중 해당하는 요소가 화면에 등장했을 때, 여기 코드 실행
-		e.forEach((viewTarget) => {
-			console.log('target');
-			// console.log(viewTarget);
-		});
-	};
-
-	const view = () => {
-		if (searchData > 0) {
-			if (isShow === false) {
-				console.log('안 나옴');
-			} else {
-				console.log('나옴');
-			}
-		}
-	};
-
 	useEffect(() => {
 		const observer = new IntersectionObserver(
 			(items) => {
 				items.forEach((item) => {
 					if (item.isIntersecting) {
 						// console.log(item.target, 'is visible!');
-						item.target.classList.add('visible');
+						if (modalIsClick === true) {
+							chTarget.classList.add('visible');
+							chTarget.classList.remove('no');
+						} else {
+							chTarget.classList.add('visible');
+							chTarget.classList.remove('no');
+						}
 					} else {
-						// item.target.classList.remove('visible');
+						if (modalIsClick === false) {
+							// chTarget.classList.add('no');
+							// chTarget.classList.remove('visible');
+							chTarget.classList.add('visible');
+						} else {
+							chTarget.classList.add('no');
+							chTarget.classList.remove('visible');
+						}
 					}
 				});
 			},
-			{ threshold: 0 },
+			{
+				threshold: 0.05,
+			},
 		);
 		// 특정 dom 요소가 화면에 등장하는 지 여부를 감시함.
-		const box = document.getElementById('test_text');
+		const box = document.getElementById('observe_target');
+		const chTarget = document.getElementById('prscr_write_box');
 		observer.observe(box);
-		// box.forEach((item) => observer.observe(item));
 	});
 
 	return (
@@ -120,6 +117,14 @@ const PrescriptionWrite = () => {
 									</button>
 								) : null}
 							</div>
+
+							{/* 처음에 모달 클릭되었을 때 책 정보 나타나는 에러 방지 */}
+							{isShow === false && modalIsClick === true
+								? input.length > 0
+									? null
+									: setModalIsClick(false)
+								: null}
+
 							{isShow && input.length > 0 ? (
 								<SearchBookModal
 									onClose={handleModalClose}
@@ -136,8 +141,6 @@ const PrescriptionWrite = () => {
 								/>
 							)}
 
-							{view()}
-
 							{isShow === false && modalIsClick && searchData > 0 ? (
 								<div className="prscr_search_res_wrapper">
 									<p className="search_res_bookTitle">책 제목</p>
@@ -148,8 +151,14 @@ const PrescriptionWrite = () => {
 						</div>
 					</div>
 				</section>
-				<section className="prescription_content_bottom_container">
-					<div id="test_text"></div>
+				<section
+					className="prescription_content_bottom_container"
+					id="observe_target"
+				>
+					<div id="prscr_write_box">
+						<p>처방사유</p>
+						<textarea type="text" placeholder="처방사유를 작성하세요" />
+					</div>
 				</section>
 			</div>
 			<div className="prescription_btn_container">
