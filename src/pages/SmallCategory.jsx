@@ -53,7 +53,7 @@ const SmallCategory = () => {
 									author={data.author}
 									key={data.isbn}
 									imageUrl={
-										data.imageUrl === '' ? { loading_thumbnail } : data.imageUrl
+										data.imageUrl === '' ? loading_thumbnail : data.imageUrl
 									}
 									bookKeywordList={data.bookKeywordList}
 								/>
