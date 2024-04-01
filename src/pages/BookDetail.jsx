@@ -1,6 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 
+// ASSETS
+import loading_thumbnail from '../assets/loading_thumbnail_x4.png';
+
 // SERVICE
 import api from '../services/api';
 
@@ -58,13 +61,14 @@ const BookDetail = () => {
 				<section className="bookSummary">
 					<div className="bookSummary_wrapper">
 						<div className="summary_left_wrapper">
-							<div>
-								<img
-									className="summary_left_img"
-									src={bookInfo.imageUrl}
-									alt={`${bookInfo.title}썸네일`}
-								/>
-							</div>
+							<img
+								className="summary_left_img"
+								src={
+									bookInfo.imageUrl === ''
+										? loading_thumbnail
+										: bookInfo.imageUrl
+								}
+							/>
 						</div>
 						<div className="summary_right_wrapper">
 							<div className="summary_right_up_wrapper">
