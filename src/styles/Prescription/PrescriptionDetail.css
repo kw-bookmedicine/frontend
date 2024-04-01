@@ -146,6 +146,7 @@
 }
 
 .other_list_wrapper {
+	width: 100%;
 	display: grid;
 	align-self: center;
 	grid-template-columns: repeat(3, 0.8fr);
