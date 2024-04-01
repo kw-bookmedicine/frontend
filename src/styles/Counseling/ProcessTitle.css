@@ -1,4 +1,7 @@
-.process_normal_title_wrapper {
+.process_normal_title_wrapper,
+.process_detail_title_wrapper {
+	position: sticky;
+	background-color: #fff;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -10,16 +13,18 @@
 	padding: 34px 0;
 }
 
-.process_normal_title {
+.process_normal_title,
+.process_detail_title {
 	font-family: var(--basic-font);
 	font-style: normal;
-	font-weight: 600;
+	font-weight: 1000;
 	font-size: 24px;
 	line-height: 29px;
 	margin-bottom: 30px;
 }
 
-.process_normal_subTitle {
+.process_normal_subTitle,
+.process_detail_subTitle {
 	font-family: var(--basic-font);
 	font-style: normal;
 	font-weight: 600;
@@ -28,11 +33,14 @@
 }
 
 #normal_nickname,
-#process_nickname {
+#process_nickname,
+#detail_from_nickname,
+#detail_target_nickname {
 	color: #00a2bc;
 }
 
 .process_title_wrapper {
+	position: sticky;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
