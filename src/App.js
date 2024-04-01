@@ -21,11 +21,11 @@ import UserInfo from './pages/UserInfo';
 
 // 처방전 관련 페이지들
 import Counseling from './pages/Counseling';
+import MyWorry from './pages/MyWorry';
 import WorryDetail from './pages/WorryDetail';
 import PrescriptionWrite from './pages/PrescriptionWrite';
 import PrescriptionWriteStep2 from './pages/PrescriptionWriteStep2';
 import PrescriptionDetail from './pages/Prescription/PrescriptionDetail';
-import MyWorry from './pages/MyWorry';
 
 // STYLE
 import GlobalStyles from './styles/GlobalStyles';
@@ -47,7 +47,7 @@ function App() {
 		};
 	}, []);
 
-	return (
+	https: return (
 		<BrowserRouter>
 			<LoginContextProvider>
 				<div className="App">
