@@ -13,7 +13,6 @@ import Login from './pages/Login';
 import Join from './pages/Join';
 import Signup2 from './pages/Signup2';
 import Signup3 from './pages/Signup3';
-import FindUserInfo from './pages/FindUserInfo';
 import Registration from './pages/Registration';
 import BookList from './pages/BookList';
 import SmallCategory from './pages/SmallCategory';
@@ -26,6 +25,7 @@ import WorryDetail from './pages/WorryDetail';
 import PrescriptionWrite from './pages/PrescriptionWrite';
 import PrescriptionWriteStep2 from './pages/PrescriptionWriteStep2';
 import PrescriptionDetail from './pages/Prescription/PrescriptionDetail';
+import MyWorry from './pages/MyWorry';
 
 // STYLE
 import GlobalStyles from './styles/GlobalStyles';
@@ -47,7 +47,7 @@ function App() {
 		};
 	}, []);
 
-	https: return (
+	return (
 		<BrowserRouter>
 			<LoginContextProvider>
 				<div className="App">
@@ -81,6 +81,7 @@ function App() {
 							path="/prescription/detail"
 							element={<PrescriptionDetail />}
 						/>
+						<Route path="/myworry" element={<MyWorry />} />
 
 						{/* 회원가입 및 로그인 */}
 						<Route element={<LoginLayout />}>
