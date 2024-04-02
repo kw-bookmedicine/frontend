@@ -38,6 +38,7 @@ import IdFind from "./pages/IdFind";
 import LoginContextProvider from "./contexts/LoginContextProvider";
 import SearchResult from "./pages/SearchResult";
 import MyWorry from "./pages/MyWorry";
+import WorryWrite from "./pages/WorryWrite";
 
 function App() {
   // 브라우저 새로고침 스크롤 이벤트
@@ -47,7 +48,7 @@ function App() {
     };
   }, []);
 
-  https: return (
+  return (
     <BrowserRouter>
       <LoginContextProvider>
         <div className="App">
@@ -66,6 +67,8 @@ function App() {
             <Route path="/edit" element={<Edit />} />
             <Route path="/edit/:page" element={<UserInfo />} />
 
+            
+            <Route path="/worry/write" element={<WorryWrite />} />
             <Route path="/counseling" element={<Counseling />} />
             <Route path="/worry/detail" element={<WorryDetail />} />
             <Route path="/prescription/write" element={<PrescriptionWrite />} />
