@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react';
-import Slider from 'react-slick';
+import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import axios from 'axios';
+
+// ASSETS
+import loading_thumbnail from '../assets/loading_thumbnail_x4.png';
 
 // COMPONENTS
-import Title from './ArrowTitle';
 import BookCard from './BookCard';
 
 // STYLES
@@ -14,24 +14,8 @@ import 'slick-carousel/slick/slick-theme.css';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import { set } from 'react-hook-form';
 
-const BookListSlide = ({
-	list,
-	bigCategory,
-	midCategoryTitle,
-	title,
-	author,
-	imageUrl,
-}) => {
-	var settings = {
-		dots: true,
-		infinite: false,
-		speed: 500,
-		slidesToShow: 1,
-		slidesToScroll: 1,
-	};
-
+const BookListSlide = ({ list }) => {
 	return (
 		<>
 			<section className={styles['swiper-container']}>
@@ -50,7 +34,9 @@ const BookListSlide = ({
 											key={item.isbn}
 											title={item.title}
 											author={item.author}
-											img={item.imageUrl}
+											img={
+												item.imageUrl === '' ? loading_thumbnail : item.imageUrl
+											}
 											isbn={item.isbn}
 										/>
 									</SwiperSlide>

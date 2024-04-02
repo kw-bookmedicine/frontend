@@ -6,8 +6,8 @@ import api from '../services/api';
 
 // COMPONENTS
 import Header from '../components/Header';
-import FeedGrid from '../components/FeedGrid';
 import FeedCard from '../components/FeedCard';
+import PrescriptionCard from '../components/Prescription/PrescriptionCard';
 
 // STYLES
 import '../styles/Feed.css';
@@ -56,10 +56,11 @@ const Feed = () => {
 			// 	setFeedArr(res.data.content);
 			// 	setFeedArr((prevData) => [...prevData, ...res.data.content]);
 			// });
-			const API_URL =
-				'https://port-0-backend-book-pharmacy-umnqdut2blqqhv7sd.sel5.cloudtype.app/api/feeds/all?page=0&size=9';
 
-			const response = await axios.get(API_URL, feedFetchData);
+			const response = await api.get(
+				'/api/feeds/all?page=0&size=9',
+				feedFetchData,
+			);
 			// .then((res) => {
 			// 	// console.log(res.data.content);
 			// 	setFeedArr(res.data.content);
@@ -94,16 +95,18 @@ const Feed = () => {
 					<div className="feed_title">추천 피드</div>
 				</div>
 				<div className="feed_content_wrapper">
+					<PrescriptionCard />
 					{feedArr.map((item, idx) => {
 						return (
-							<FeedCard
-								key={`${idx}-item.id`}
-								title={item.title}
-								author={item.author}
-								comment={item.comment}
-								imgUrl={item.image}
-								nickname={item.nickName}
-							/>
+							// <FeedCard
+							// 	key={`${idx}-item.id`}
+							// 	title={item.title}
+							// 	author={item.author}
+							// 	comment={item.comment}
+							// 	imgUrl={item.image}
+							// 	nickname={item.nickName}
+							// />
+							<PrescriptionCard />
 						);
 					})}
 				</div>
