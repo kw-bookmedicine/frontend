@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Header from "../components/Header";
 import styled from "styled-components";
 
@@ -8,16 +8,20 @@ import styled from "styled-components";
 import ProcessTitle from "../components/Prescription/ProcessTitle";
 
 // mission
-// UI 구현 -> 버튼 클릭 추가
+// UI 구현 -> 버튼 클릭 추가 -> 같은 field 라서 다음질문에서 선택이 된 것을 볼 수 있는데 질문마다 다른 field로 차후 변경될테니 버그는 아님
+
 // 스크롤 이벤트 추가
 // 애니메이션 추가
 // 진행바 수정
 // 로딩 후 화면 전환 추가
 
 const WorryWrite = () => {
-  const [currentStep, setCurrentStep] = useState(0);
-  const [userResponses, setUserResponses] = useState([]);
+  const [currentStep, setCurrentStep] = useState(0); // 현재 질문 단계
+  const [userResponses, setUserResponses] = useState([]); // 사용자의 답변 저장
   const [isCompleted, setIsCompleted] = useState(false); // 질문 완료 여부
+  const [showAnswers, setShowAnswers] = useState(true); // 질문 애니메이션
+
+
 
   const [userSelections, setUserSelections] = useState({
     worry: "",
@@ -29,9 +33,21 @@ const WorryWrite = () => {
     serviceDate: "",
   });
 
-  // 경제, 건강, 자녀/양육, 취업/진로, 공부/자기계발, 관계/소통, 소설/에세이, 철학, 역사, 과학, 사회, 취미
+  // 스크롤을 적용할 요소를 위한 ref 생성
+  const scrollContainerRef = useRef(null);
 
-  const [questions,setQuestions] = useState([
+
+  const scrollToBottom = () => {
+    scrollContainerRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [currentStep]); // 새로운 질문지일때 스크롤 자동 내림
+  // useEffect를 사용한 이유는 렌더링이 다 된 이후에 작동하기 위함
+
+
+  const [questions, setQuestions] = useState([
     {
       field: "worry",
       question: "현재 가지고 있는 고민은 무엇인가요?",
@@ -89,18 +105,18 @@ const WorryWrite = () => {
       ],
       selected: false,
     },
-    //  {
-    //    field: "space",
-    //    question: "에어컨 사용 공간은 어디인가요?",
-    //    options: [
-    //      "가정집",
-    //      "아파트, 빌라, 주택 등",
-    //      "사무공간",
-    //      "상업공간",
-    //      "물류창고",
-    //      "기타",
-    //    ],
-    //  },
+     {
+       field: "space",
+       question: "에어컨 사용 공간은 어디인가요?",
+       options: [
+         "가정집",
+         "아파트, 빌라, 주택 등",
+         "사무공간",
+         "상업공간",
+         "물류창고",
+         "기타",
+       ],
+     },
     //  {
     //    field: "type",
     //    question: "에어컨 종류를 선택해주세요.",
@@ -153,19 +169,18 @@ const WorryWrite = () => {
                 </PrevQuestionMessageWrapper>
                 <PrevAnswerMessageWrapper>
                   <PrevAnswerMessage>
-                    <HightLigint style={{ fontWeight: "bold" }}>
-                      {ur.response}
-                    </HightLigint>
-                    에 대해서 고민이 있어
+                    <HightLigint>{ur.response}</HightLigint>에 대해서 고민이
+                    있어
                   </PrevAnswerMessage>
                 </PrevAnswerMessageWrapper>
               </div>
             ))}
             {!isCompleted && (
               <>
-                <MessageContainer>
-                  <Content>{questions[currentStep].question}</Content>
-                  <Answers>
+                <MessageContainer ref={scrollContainerRef}>
+                  <Question>{questions[currentStep].question}</Question>
+                  
+                  <Answers show={showAnswers}>
                     {questions[currentStep].options.map((option, index) => (
                       <Answer
                         key={index}
@@ -270,7 +285,7 @@ const MessageContainer = styled.div`
   border-radius: 4px 16px 16px;
 `;
 
-const Content = styled.p`
+const Question = styled.p`
   font-size: 20px;
   font-weight: bold;
   margin-bottom: 20px;
@@ -278,9 +293,11 @@ const Content = styled.p`
 
 const Answers = styled.ul`
   width: 100%;
-  max-height: 340px;
+  max-height: ${(props) =>
+  props.show ? "340px" : "0"}; // 조건부로 maxHeight 값을 변경
   overflow-y: auto;
   margin-bottom: 20px;
+  transition: max-height 0.5s ease-out; // 부드러운 애니메이션 효과를 위해 transition 추가
 `;
 
 const Answer = styled.li`
