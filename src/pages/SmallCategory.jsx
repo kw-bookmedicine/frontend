@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
+
+// ASSETS
+import loading_thumbnail from '../assets/loading_thumbnail_x4.png';
+
+// SERVICE
+import api from '../services/api';
 
 // COMPONENTS
 import Header from '../components/Header';
@@ -20,10 +25,8 @@ const SmallCategory = () => {
 		setChoiceCategory(category);
 
 		// 중분류에 해당하는 책 목록 가져오기
-		axios
-			.get(
-				`https://port-0-backend-book-pharmacy-umnqdut2blqqhv7sd.sel5.cloudtype.app/api/book/list/middle?name=${category}&page=0&size=30&sort=string`,
-			)
+		api
+			.get(`/api/book/list/middle?name=${category}&page=0&size=30&sort=string`)
 			.then((res) => {
 				setSmCategoryBookList(res.data);
 			});
@@ -49,7 +52,9 @@ const SmallCategory = () => {
 									title={data.title}
 									author={data.author}
 									key={data.isbn}
-									imageUrl={data.imageUrl}
+									imageUrl={
+										data.imageUrl === '' ? loading_thumbnail : data.imageUrl
+									}
 									bookKeywordList={data.bookKeywordList}
 								/>
 							);

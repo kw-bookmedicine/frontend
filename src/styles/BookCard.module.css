@@ -35,6 +35,7 @@
 }
 
 .book_title {
+	width: 100%;
 	margin-top: 16px;
 	color: #000;
 	font-family: 'Pretendard-Regular';
@@ -42,9 +43,14 @@
 	font-style: normal;
 	font-weight: 700;
 	line-height: normal;
+
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .book_author {
+	width: 100%;
 	margin-top: 8px;
 	color: #000;
 	font-family: 'Pretendard-Regular';
@@ -52,4 +58,8 @@
 	font-style: normal;
 	font-weight: 500;
 	line-height: normal;
+
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }

@@ -1,6 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+// ASSETS
+import loading_thumbnail from '../assets/loading_thumbnail_x4.png';
+
 //COMPONENTS
 import HashTag from '../components/HashTag';
 
@@ -16,6 +19,7 @@ const BookDetailCard = ({
 	type,
 }) => {
 	let cardType = ['expModal'].includes(type) ? type : '';
+	// let image = imageUrl === ' ' ? console.log(imageUrl) : console.log(imageUrl);
 
 	const renderCard = (type) => {
 		if (type === 'expModal') {
@@ -27,8 +31,8 @@ const BookDetailCard = ({
 								<div className="expModal_left_img_wrapper">
 									<img
 										className="expModal_img_wrapper_thumbnail"
-										src={imageUrl}
-										alt="썸네일"
+										src={imageUrl === '' ? loading_thumbnail : imageUrl}
+										// alt="썸네일"
 									/>
 								</div>
 							</div>
@@ -57,8 +61,8 @@ const BookDetailCard = ({
 									<div className="left_img_wrapper">
 										<img
 											className="img_wrapper_thumbnail"
-											src={imageUrl}
-											alt="썸네일"
+											src={imageUrl === '' ? loading_thumbnail : imageUrl}
+											// alt="썸네일"
 										/>
 									</div>
 								</div>
