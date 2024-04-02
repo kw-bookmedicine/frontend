@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 
+// SERVICE
+import api from '../services/api';
+
 // COMPONENTS
 import Btn from '../components/Button';
 
@@ -9,9 +12,9 @@ import '../styles/Header.css';
 
 const Header = () => {
 	const logout = () => {
-		let token = localStorage.getItem('token');
-		console.log('logout!');
-		localStorage.clear();
+		api.get('/logout').then((res) => {
+			console.log(res.data);
+		});
 		// window.location.replace('http://localhost:3000/');
 	};
 
@@ -57,7 +60,8 @@ const Header = () => {
 						<li>
 							<NavLink
 								style={({ isActive }) => (isActive ? activeStyle : {})}
-								to={'/simplePrscr'}
+								// to={'/simplePrscr'}
+								to={'/feed'}
 							>
 								한 줄 처방
 							</NavLink>
@@ -110,6 +114,7 @@ const Header = () => {
 					<Btn
 						onClick={() => {
 							logout();
+							// window.location.replace('/');
 						}}
 						text={'로그아웃'}
 						type="logout"
