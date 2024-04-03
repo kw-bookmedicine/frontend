@@ -5,20 +5,33 @@ import { Link } from "react-router-dom";
 import "../../styles/Counseling/ProcessTitle.css";
 
 const ProcessTitle = ({ type, value }) => {
-  const renderTitle = (type) => {
-    if (type === "normal") {
-      return (
-        <>
-          <div className={`process_${type}_title_wrapper`}>
-            <div className={`process_${type}_title`}>진단서</div>
-            <div className={`process_${type}_subTitle`}>
-              <span id={`${type}_nickname`}>이름 없는 새</span> 님의 진단서
-            </div>
-          </div>
-        </>
-      );
-    } else {
-      return (
+	const renderTitle = (type) => {
+		if (type === 'normal') {
+			return (
+				<>
+					<div className={`process_${type}_title_wrapper`}>
+						<div className={`process_${type}_title`}>진단서</div>
+						<div className={`process_${type}_subTitle`}>
+							<span id={`${type}_nickname`}>이름 없는 새</span> 님의 진단서
+						</div>
+					</div>
+				</>
+			);
+		} else if (type === 'detail') {
+			return (
+				<>
+					<div className={`process_${type}_title_wrapper`}>
+						<div className={`process_${type}_title`}>처방전</div>
+						<div className={`process_${type}_subTitle`}>
+							<span id={`${type}_from_nickname`}>유저1</span> 님이 처방한{' '}
+							<span id={`${type}_target_nickname`}>이름 없는 새</span> 님의
+							진단서
+						</div>
+					</div>
+				</>
+			);
+		} else {
+			return (
         <>
           <div className="process_title_wrapper">
             {type === "Counseling" ? (
@@ -41,8 +54,8 @@ const ProcessTitle = ({ type, value }) => {
           </div>
         </>
       );
-    }
-  };
+		}
+	};
 
   return <>{renderTitle(type)}</>;
 };
