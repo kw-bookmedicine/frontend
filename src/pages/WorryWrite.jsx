@@ -19,12 +19,11 @@ const WorryWrite = () => {
   const [currentStep, setCurrentStep] = useState(0); // 현재 질문 단계
   const [userResponses, setUserResponses] = useState([]); // 사용자의 답변 저장
   const [isCompleted, setIsCompleted] = useState(false); // 질문 완료 여부
-  const [showAnswers, setShowAnswers] = useState(true); // 질문 애니메이션
-
-
 
   const [userSelections, setUserSelections] = useState({
-    worry: "",
+    category: "",
+    worry1: "",
+    worry2: "",
     space: "",
     type: "",
     brand: "",
@@ -44,12 +43,12 @@ const WorryWrite = () => {
   useEffect(() => {
     scrollToBottom();
   }, [currentStep]); // 새로운 질문지일때 스크롤 자동 내림
-  // useEffect를 사용한 이유는 렌더링이 다 된 이후에 작동하기 위함
+  // useEffect를 사용한 이유는 렌더링이 다 된 이후에 작동하기
 
 
   const [questions, setQuestions] = useState([
     {
-      field: "worry",
+      field: "category",
       question: "현재 가지고 있는 고민은 무엇인가요?",
       options: [
         "경제",
@@ -68,7 +67,7 @@ const WorryWrite = () => {
       selected: false,
     },
     {
-      field: "worry",
+      field: "worry1",
       question: "현재 가지고 있는 고민은 무엇인가요?",
       options: [
         "경제",
@@ -87,7 +86,7 @@ const WorryWrite = () => {
       selected: false,
     },
     {
-      field: "worry",
+      field: "worry2",
       question: "현재 가지고 있는 고민은 무엇인가요?",
       options: [
         "경제",
@@ -105,24 +104,7 @@ const WorryWrite = () => {
       ],
       selected: false,
     },
-     {
-       field: "space",
-       question: "에어컨 사용 공간은 어디인가요?",
-       options: [
-         "가정집",
-         "아파트, 빌라, 주택 등",
-         "사무공간",
-         "상업공간",
-         "물류창고",
-         "기타",
-       ],
-     },
-    //  {
-    //    field: "type",
-    //    question: "에어컨 종류를 선택해주세요.",
-    //    options: ["2 in 1", "벽걸이형", "스탠드형", "천장형", "냉난방기 겸용"],
-    //  },
-    // 필요하다면 더 많은 질문 추가
+    // 질문 추가
   ]);
 
   const handleNextStep = () => {
@@ -178,9 +160,8 @@ const WorryWrite = () => {
             {!isCompleted && (
               <>
                 <MessageContainer ref={scrollContainerRef}>
-                  <Question>{questions[currentStep].question}</Question>
-                  
-                  <Answers show={showAnswers}>
+                  <Content>{questions[currentStep].question}</Content>
+                  <Answers>
                     {questions[currentStep].options.map((option, index) => (
                       <Answer
                         key={index}
@@ -268,7 +249,7 @@ const HightLigint = styled.span`
 `
 
 const PrevAnswerMessage = styled.div`
-  background-color: white;
+  background-color: #A4D6DD;
   padding: 20px;
   border-radius: 16px 4px 16px 16px;
 `;
@@ -285,7 +266,7 @@ const MessageContainer = styled.div`
   border-radius: 4px 16px 16px;
 `;
 
-const Question = styled.p`
+const Content = styled.p`
   font-size: 20px;
   font-weight: bold;
   margin-bottom: 20px;
@@ -293,11 +274,9 @@ const Question = styled.p`
 
 const Answers = styled.ul`
   width: 100%;
-  max-height: ${(props) =>
-  props.show ? "340px" : "0"}; // 조건부로 maxHeight 값을 변경
+  max-height: 340px;
   overflow-y: auto;
   margin-bottom: 20px;
-  transition: max-height 0.5s ease-out; // 부드러운 애니메이션 효과를 위해 transition 추가
 `;
 
 const Answer = styled.li`
