@@ -143,10 +143,10 @@
 	margin-top: 20px;
 	color: #000;
 	font-family: var(--basic-font);
-	font-size: 16px;
+	font-size: 20px;
 	font-style: normal;
 	font-weight: 500;
-	line-height: normal;
+	line-height: 29px;
 }
 
 .bookComment_wrapper {
