@@ -82,7 +82,7 @@ const BookDetail = () => {
 											type="exp"
 											onClick={handleModal}
 										/> */}
-										<div onClick={handleModal}>경험추가하기</div>
+										{/* <div onClick={handleModal}>경험추가하기</div> */}
 									</div>
 									<ModalPortal>
 										{modalOn && <ExpModal onClose={handleModal} />}
