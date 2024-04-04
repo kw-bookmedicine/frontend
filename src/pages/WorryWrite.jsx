@@ -20,6 +20,8 @@ const WorryWrite = () => {
   const [userResponses, setUserResponses] = useState([]); // 사용자의 답변 저장
   const [isCompleted, setIsCompleted] = useState(false); // 질문 완료 여부
 
+  const [showOptions, setShowOptions] = useState(false); // 답변 옵션과 버튼을 보여줄지 여부를 결정하는 새 상태
+
   const [userSelections, setUserSelections] = useState({
     category: "",
     worry1: "",
@@ -35,16 +37,21 @@ const WorryWrite = () => {
   // 스크롤을 적용할 요소를 위한 ref 생성
   const scrollContainerRef = useRef(null);
 
-
   const scrollToBottom = () => {
     scrollContainerRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   useEffect(() => {
+    // 현재 단계의 질문이 렌더링된 후 0.5초를 기다렸다가 옵션과 버튼을 보여주도록 설정
+    setShowOptions(false); // 새로운 질문이 로드될 때마다 옵션을 숨깁니다.
+    const timer = setTimeout(() => {
+      setShowOptions(true);
+    }, 1000); // 0.5초 후에 상태 업데이트
     scrollToBottom();
+
+    return () => clearTimeout(timer);
   }, [currentStep]); // 새로운 질문지일때 스크롤 자동 내림
   // useEffect를 사용한 이유는 렌더링이 다 된 이후에 작동하기
-
 
   const [questions, setQuestions] = useState([
     {
@@ -137,10 +144,12 @@ const WorryWrite = () => {
     }));
   };
 
+  const processValue = Math.floor((currentStep / questions.length) * 100);
+
   return (
     <>
       <Header />
-      <ProcessTitle type={"Counseling"} value={"60"} />
+      <ProcessTitle type={"Counseling"} value={processValue} />
       <Body id="app-body">
         <div className="form-container">
           <div className="request-chat-form">
@@ -195,7 +204,7 @@ const WorryWrite = () => {
 
 export default WorryWrite;
 
-const OptionButton = ({clicked}) => {
+const OptionButton = ({ clicked }) => {
   return (
     <StyledOptionButton>
       <svg
@@ -218,11 +227,12 @@ const OptionButton = ({clicked}) => {
       </svg>
     </StyledOptionButton>
   );
-}
+};
 
 const Body = styled.div`
   padding: 40px 160px 180px;
   background-color: #dce9ec;
+  min-height: 700px;
   height: 100%;
 `;
 
@@ -246,10 +256,10 @@ const PrevAnswerMessageWrapper = styled.div`
 
 const HightLigint = styled.span`
   font-weight: bold;
-`
+`;
 
 const PrevAnswerMessage = styled.div`
-  background-color: #A4D6DD;
+  background-color: #a4d6dd;
   padding: 20px;
   border-radius: 16px 4px 16px 16px;
 `;
@@ -298,6 +308,6 @@ const Button = styled.button`
 `;
 
 const StyledOptionButton = styled.div`
-  margin-left:10px;
-  margin-right:10px;
-`
+  margin-left: 10px;
+  margin-right: 10px;
+`;
