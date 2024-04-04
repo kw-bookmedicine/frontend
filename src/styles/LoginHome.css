@@ -35,11 +35,8 @@
   height: 252px;
   /* background-color:#FFDADF; */
   background: linear-gradient(92deg, #d5e0ff 0%, #ffdadf 100%);
-  /* background: url("../../public/images/login-home/login-home-banner.png") no-repeat; */
   font-size: 24px;
   font-weight: 700;
-
-  /* flex-direction: column; */
   cursor: pointer;
 }
 
@@ -60,6 +57,7 @@
   font-weight: 700;
   word-wrap: break-word;
   margin-bottom: 8px;
+  white-space: nowrap;
 }
 
 .LoginHome-banner-contents h4 {
@@ -67,6 +65,7 @@
   font-size: 14px;
   font-weight: 500;
   word-wrap: break-word;
+  white-space: nowrap;
 }
 
 /* 배너 밑의 전체 컨텐츠 */
