@@ -1,62 +1,70 @@
 @font-face {
-    font-family: 'KCC-eunyoung';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/KCC-eunyoung-Regular.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+  font-family: "KCC-eunyoung";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/KCC-eunyoung-Regular.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
 
 @font-face {
-    font-family: 'Chosunilbo_myungjo';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/Chosunilbo_myungjo.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+  font-family: "Chosunilbo_myungjo";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/Chosunilbo_myungjo.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
 
 @font-face {
-    font-family: 'Pretendard-Regular';
-    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
-    font-weight: 400;
-    font-style: normal;
+  font-family: "Pretendard-Regular";
+  src: url("https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff")
+    format("woff");
+  font-weight: 400;
+  font-style: normal;
 }
 
 /* 로그인 홈 페이지 크기 설정 */
 .LoginHome-container {
   max-width: 1440px;
   margin: 0 auto;
-  font-family: 'Pretendard-Regular';
+  font-family: "Pretendard-Regular";
   box-sizing: border-box;
 }
 
 /* 배너 */
-.LoginHome-banner {
+.LoginHome-banner-container {
   height: 252px;
   /* background-color:#FFDADF; */
-  /* background: linear-gradient(92deg, #d5e0ff 0%, #ffdadf 100%); */
-  background: url("../assets/main-banner.png");
-  /* font-size: 24px;
+  background: linear-gradient(92deg, #d5e0ff 0%, #ffdadf 100%);
+  /* background: url("../../public/images/login-home/login-home-banner.png") no-repeat; */
+  font-size: 24px;
   font-weight: 700;
-  display: flex;
-  justify-content: center;
-  flex-direction: column; */
+
+  /* flex-direction: column; */
   cursor: pointer;
 }
 
 /* 배너 내용 위치 */
 .LoginHome-banner-contents {
-  padding-left: 40px;
+  max-width: 1440px;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto;
+  padding: 0px 40px;
 }
 
-.LoginHome-banner-contents h2 {
+.LoginHome-banner-title h1 {
   color: black;
   font-size: 36px;
   font-weight: 700;
   word-wrap: break-word;
-  margin-bottom: 4px;
+  margin-bottom: 8px;
 }
 
-.LoginHome-banner-contents p {
+.LoginHome-banner-contents h4 {
   color: black;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
   word-wrap: break-word;
 }
@@ -111,7 +119,7 @@
 .LoginHome-today-item-contents-text {
   display: flex;
   line-height: 27px;
-  font-family: 'Chosunilbo_myungjo';
+  font-family: "Chosunilbo_myungjo";
   height: 53px;
 }
 
@@ -127,15 +135,15 @@
 }
 
 .LoginHome-today-item-contents-text-hightlight::after {
-  position: absolute; 
+  position: absolute;
   content: "";
   display: block;
   width: 60px;
   height: 1px;
-  background: black; 
-  left: 50%; 
-  bottom: 0px; 
-  transform: translateX(-50%); 
+  background: black;
+  left: 50%;
+  bottom: 0px;
+  transform: translateX(-50%);
 }
 
 .LoginHome-today-item-contents > img {
@@ -173,8 +181,6 @@
   padding-top: 24px;
   text-align: center;
 }
-
-
 
 /* 다른사람들의 후기 전체 크기 설정 */
 
