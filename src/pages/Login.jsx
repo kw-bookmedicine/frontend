@@ -106,89 +106,95 @@ export default function Login() {
 	}, [idValid, pwdValid]);
 
 	return (
-		<LoginContainer>
-			<ImageContent />
-			<LoginContent>
-				<Title>Login</Title>
+    <LoginContainer>
+      <ImageContent />
+      <LoginContent>
+        <Title>Login</Title>
 
-				<InputWrap>
-					<Input
-						type="text"
-						name="id"
-						placeholder="아이디"
-						value={id}
-						onChange={handleInputChange}
-					/>
-					{id.length > 0 && (
-						<InputDelete onClick={() => handleDeleteButtonClick('Id')}>
-							X
-						</InputDelete>
-					)}
-				</InputWrap>
-				<ErrorMessageWrap>
-					{!idValid && id.length > 0 && (
-						<div>
-							<p>4글자 이상 입력해주세요.</p>
-						</div>
-					)}
-				</ErrorMessageWrap>
+        <InputWrap>
+          <Input
+            type="text"
+            name="id"
+            placeholder="아이디"
+            value={id}
+            onChange={handleInputChange}
+          />
+          {id.length > 0 && (
+            <InputDelete
+              onClick={() => handleDeleteButtonClick("Id")}
+              tabIndex="-1"
+            >
+              X
+            </InputDelete>
+          )}
+        </InputWrap>
+        <ErrorMessageWrap>
+          {!idValid && id.length > 0 && (
+            <div>
+              <p>4글자 이상 입력해주세요.</p>
+            </div>
+          )}
+        </ErrorMessageWrap>
 
-				<InputWrap>
-					<Input
-						type="password"
-						name="password"
-						placeholder="비밀번호"
-						value={pwd}
-						onChange={handleInputChange}
-					/>
-					{pwd.length > 0 && (
-						<InputDelete onClick={() => handleDeleteButtonClick('password')}>
-							X
-						</InputDelete>
-					)}
-				</InputWrap>
-				<ErrorMessageWrap>
-					{!pwdValid && pwd.length > 0 && (
-						<div>
-							<p>영문, 숫자, 특수문자 포함 8자 이상 입력해주세요.</p>
-						</div>
-					)}
-				</ErrorMessageWrap>
+        <InputWrap>
+          <Input
+            type="password"
+            name="password"
+            placeholder="비밀번호"
+            value={pwd}
+            onChange={handleInputChange}
+          />
+          {pwd.length > 0 && (
+            <InputDelete
+              onClick={() => handleDeleteButtonClick("password")}
+              tabIndex="-1"
+            >
+              X
+            </InputDelete>
+          )}
+        </InputWrap>
+        <ErrorMessageWrap>
+          {!pwdValid && pwd.length > 0 && (
+            <div>
+              <p>영문, 숫자, 특수문자 포함 8자 이상 입력해주세요.</p>
+            </div>
+          )}
+        </ErrorMessageWrap>
 
-				{/* <LoginButton disabled={notAllow}>로그인</LoginButton> */}
+        {/* <LoginButton disabled={notAllow}>로그인</LoginButton> */}
 
-				<LoginButton
-					onClick={() => {
-						postLogin();
-					}}
-				>
-					로그인
-				</LoginButton>
-				<LoginSubMenu>
-					<LoginSubMenuItem>
-						<Link to={'/signup'}>회원가입</Link>
-					</LoginSubMenuItem>
-					<LoginSubMenuItem>
-						<Link to={'/id-find'}>아이디 찾기</Link>
-					</LoginSubMenuItem>
-					<LoginSubMenuItem>
-						<Link to={'/password-find'}>비밀번호 찾기</Link>
-					</LoginSubMenuItem>
-				</LoginSubMenu>
-				<Or>
-					<p>or</p>
-				</Or>
-				<SnsList>
-					<button>
-						<img src={kakaoIcon} alt="" />
-					</button>
-					<button>
-						<img src={naverIcon} alt="" onClick={getOauth} />
-					</button>
-				</SnsList>
-			</LoginContent>
-		</LoginContainer>
-	);
+        <LoginButton
+          onClick={() => {
+            postLogin();
+          }}
+        >
+          로그인
+        </LoginButton>
+        <LoginSubMenu>
+          <LoginSubMenuItem>
+            <Link to={"/signup"}>회원가입</Link>
+          </LoginSubMenuItem>
+          <LoginSubMenuItem>
+            <Link to={"/id-find"}>아이디 찾기</Link>
+          </LoginSubMenuItem>
+          <LoginSubMenuItem>
+            <Link to={"/password-find"}>비밀번호 찾기</Link>
+          </LoginSubMenuItem>
+        </LoginSubMenu>
+        <Or>
+          <p>or</p>
+        </Or>
+        <SnsList>
+          <button>
+            <img src={kakaoIcon} alt="" />
+          </button>
+          <button>
+            <img src={naverIcon} alt="" onClick={getOauth} />
+          </button>
+        </SnsList>
+      </LoginContent>
+    </LoginContainer>
+  );
 }
 
 const LoginContainer = styled.div`
