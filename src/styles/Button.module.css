@@ -1,11 +1,22 @@
+@font-face {
+	font-family: 'Pretendard-Regular';
+	src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff')
+		format('woff');
+	font-weight: 400;
+	font-style: normal;
+}
+
 :root {
 	--fontSize-sm: 0.875rem;
 	--fontSize-md: 1.25rem;
 	--fontSize-lg: 2rem;
 
 	--border-sm: 33px;
+
+	--basic-font: 'Pretendard-Regular';
 }
 
+/* 헤더 로그인, 로그아웃 버튼 */
 .Btn-login,
 .Btn-logout {
 	width: 79px;
@@ -52,6 +63,22 @@
 	box-shadow: 2px 2px 4px 0px rgba(119, 119, 119, 0.25);
 }
 
+/* 로그인 페이지 로그인 버튼 */
+.Btn-postLogin {
+	width: 100%;
+	height: 74px;
+	border-radius: 10px;
+	background: #c8edf2;
+
+	/* Font */
+	font-family: var(--basic-font);
+	font-style: normal;
+	font-weight: 600;
+	font-size: 32px;
+	line-height: 38px;
+	color: #525252;
+}
+
 /* 경험 추가하기 버튼 */
 .Btn-exp {
 	width: 140px;
@@ -65,9 +92,166 @@
 	/* Font */
 	color: #000;
 	text-align: center;
-	font-family: Pretendard;
+	font-family: 'Pretendard-Regular';
 	font-size: 18px;
 	font-style: normal;
 	font-weight: 700;
 	line-height: normal;
+}
+
+/* 마이페이지 수정하기 버튼 */
+.Btn-edit {
+	width: 58px;
+	height: 29px;
+	border-radius: 5px;
+	border: 1.5px solid #a4d6dd;
+	background: #fff;
+
+	/* Drop Shadow */
+	box-shadow: 2px 2px 4px 0px rgba(119, 119, 119, 0.25);
+
+	/* Font */
+	color: #646464;
+	font-family: var(--basic-font);
+	/* font-family: 'Pretendard-Regular'; */
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+}
+
+.Btn-edit:hover {
+	background: #a4d6dd;
+
+	/* Drop Shadow */
+	box-shadow: 2px 2px 4px 0px rgba(119, 119, 119, 0.25);
+}
+
+.Btn-rank {
+	width: 94px;
+	height: 35px;
+	flex-shrink: 0;
+	border-radius: 10px;
+	background: #d9d9d9;
+
+	color: #000;
+	font-family: var(--basic-font);
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+}
+
+/* 마이페이지 로그아웃 버튼 */
+.Btn-logout2 {
+	width: 180px;
+	height: 65px;
+	border-radius: 15px;
+	border: 3px solid #a4d6dd;
+	background: #fff;
+
+	/* Font */
+	color: #000;
+	font-family: var(--basic-font);
+	font-size: 24px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+}
+
+.Btn-logout2:hover {
+	width: 180px;
+	height: 65px;
+	border-radius: 15px;
+	background: #a4d6dd;
+
+	/* Font */
+	color: #000;
+	font-family: var(--basic-font);
+	font-size: 24px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+
+	/* Drop Shadow */
+	box-shadow: 2px 2px 4px 0px rgba(119, 119, 119, 0.25);
+}
+
+/* 마이페이지 회원탈퇴 버튼 */
+.Btn-withdraw {
+	width: 180px;
+	height: 65px;
+	border-radius: 15px;
+	border: 1px solid #000;
+	background: #fff;
+
+	/* Font */
+	color: #000;
+	font-family: var(--basic-font);
+	font-size: 24px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+}
+
+.Btn-withdraw:hover {
+	/* Drop Shadow */
+	box-shadow: 2px 2px 4px 0px rgba(119, 119, 119, 0.5);
+	/* text-shadow: 2px 2px 2px rgba(119, 119, 119, 0.5); */
+}
+
+.Btn-edit2 {
+	width: 133px;
+	height: 40px;
+	border-radius: 10px;
+	border: 1px solid #000;
+	background: #fff;
+
+	/* Font */
+	color: #000;
+	font-family: var(--basic-font);
+	font-size: 20px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+}
+
+.Btn-edit2:hover {
+	margin: 0;
+	border: none;
+	cursor: pointer;
+	text-align: center;
+
+	/* Font */
+	font-style: normal;
+	font-weight: 400;
+	font-family: var(--basic-font);
+	line-height: normal;
+	padding: 7px 10px;
+	/* background: #a4d6de; */
+	background: #d5e0ff;
+
+	/* Drop Shadow */
+	box-shadow: 2px 2px 4px 0px rgba(119, 119, 119, 0.25);
+}
+
+/* 마이페이지 닉네임, 비밀번호, 직업 수정 버튼 */
+.Btn-editConfirm {
+	width: 1000px;
+	height: 40px;
+	border-radius: 10px;
+	background: #d3e7f6;
+
+	/* Font */
+	color: #000;
+	font-family: var(--basic-font);
+	font-size: 20px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+}
+
+.Btn-editConfirm:hover {
+	/* Drop Shadow */
+	box-shadow: 2px 2px 4px 0px rgba(119, 119, 119, 0.25);
 }

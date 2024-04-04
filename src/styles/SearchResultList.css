@@ -1,0 +1,103 @@
+.search-modal-container {
+	/* display: none; */
+	/* overflow-y: scroll; */
+	position: absolute;
+	z-index: 10;
+	box-sizing: border-box;
+	border-radius: 16px;
+	width: 1440px;
+	padding: 29px 29px;
+	/* border: 1px solid #000; */
+	margin-top: 10px;
+	background-color: #fff;
+	box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.75);
+}
+
+.search-result-list {
+	display: flex;
+	width: 100%;
+	/* background-color: green; */
+	display: flex;
+	/* border: 1px solid #333; */
+	margin-bottom: 20px;
+	/* gap: 20px; */
+	height: 90px;
+}
+
+.search-result-list img {
+	width: 70px;
+	background-color: rgb(192, 192, 192);
+	border: 1px solid #d6d6d6;
+}
+
+.search-result-container:hover {
+  background-color: #d6d6d6;
+}
+
+.search-result-item {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	padding: 10px;
+}
+
+.search-result-item-title {
+	font-size: 16px;
+}
+
+.search-result-item-author {
+	color: #595959;
+}
+
+/* 내 복용내역 내에 있는 검색창 */
+
+.myBook-modal-container {
+	/* display: none; */
+	overflow-y: scroll;
+	position: absolute;
+	z-index: 10;
+	box-sizing: border-box;
+	border-radius: 16px;
+	width: 500px;
+	height: 450px;
+	padding: 29px 29px 39px;
+	/* border: 1px solid #000; */
+	margin-top: 88px;
+	background-color: #fff;
+	box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.75);
+}
+
+.myBook-result-list {
+	display: flex;
+	width: 100%;
+	/* background-color: green; */
+	display: flex;
+	/* border: 1px solid #333; */
+	margin-bottom: 20px;
+	/* gap: 20px; */
+	height: 90px;
+}
+
+.myBook-result-list:hover {
+	background-color: #d6d6d6;
+}
+
+.myBook-result-list img {
+	border: 1px solid #d6d6d6;
+}
+
+.myBook-result-item {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	padding: 10px;
+}
+
+.myBook-result-item-title {
+	font-family: var(--basic-font);
+	font-size: 16px;
+}
+
+.myBook-result-item-author {
+	color: #595959;
+}

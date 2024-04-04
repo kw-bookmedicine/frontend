@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 // COMPONENTS
@@ -23,18 +23,21 @@ import 'swiper/css/bundle';
 
 const featSlider = [
 	{
+		id: 'feature-1',
 		title: '약국처럼 독서도',
 		description: '오늘의 감정에 따라 마음을\n치유할 수 있어요!',
 		color: '#F3FDFF',
 		icon: '/icon/book.png',
 	},
 	{
+		id: 'feature-2',
 		title: '다른 사람은 어떨까?',
 		description: '다른 사용자들의 이용후기를\n열람할 수 있어요!',
 		color: '#D5E0FF',
 		icon: '/icon/other.png',
 	},
 	{
+		id: 'feature-3',
 		title: '다양한 도서들',
 		description: '매일매일 다양한 도서들을\n즐겨보아요!',
 		color: '#D6FFF7',
@@ -91,6 +94,14 @@ const Home = () => {
 		);
 	};
 
+	// 초기에 렌더링될 때 토큰 여부 (자동로그인) 검사
+	useEffect(() => {
+		if (localStorage.getItem('token') !== null) {
+			console.log('자동로그인');
+			window.location.replace('http://localhost:3000/main');
+		}
+	}, []);
+
 	return (
 		<>
 			<section className="home">
@@ -143,7 +154,10 @@ const Home = () => {
 									slidesPerView={2}
 								>
 									{featSlider.map((data) => (
-										<SwiperSlide className="feature_swiper_slider">
+										<SwiperSlide
+											className="feature_swiper_slider"
+											key={data.id}
+										>
 											<div
 												style={{ backgroundColor: `${data.color}` }}
 												className="feature_card"

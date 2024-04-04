@@ -1,0 +1,94 @@
+.process_normal_title_wrapper,
+.process_detail_title_wrapper {
+	position: sticky;
+	background-color: #fff;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	height: 150px;
+	border-bottom: 0.5px solid #dfdfdf;
+	box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+	z-index: 1;
+	padding: 34px 0;
+}
+
+.process_normal_title,
+.process_detail_title {
+	font-family: var(--basic-font);
+	font-style: normal;
+	font-weight: 1000;
+	font-size: 24px;
+	line-height: 29px;
+	margin-bottom: 30px;
+}
+
+.process_normal_subTitle,
+.process_detail_subTitle {
+	font-family: var(--basic-font);
+	font-style: normal;
+	font-weight: 600;
+	font-size: 20px;
+	line-height: 24px;
+}
+
+#normal_nickname,
+#process_nickname,
+#detail_from_nickname,
+#detail_target_nickname {
+	color: #00a2bc;
+}
+
+.process_title_wrapper {
+	position: sticky;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	width: 100%;
+	height: 150px;
+	border-bottom: 0.5px solid #dfdfdf;
+	box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+	z-index: 1;
+	padding: 45px 160px;
+}
+
+.process_title {
+	font-family: var(--basic-font);
+	font-style: normal;
+	font-weight: 600;
+	font-size: 24px;
+	line-height: 29px;
+	margin-bottom: 15px;
+}
+
+.progress_bar_wrapper {
+	display: flex;
+	align-items: center;
+}
+
+#progress {
+	appearance: none;
+	width: 95%;
+	height: 12px;
+	margin-right: 32px;
+}
+
+/* process bar 배경 */
+#progress::-webkit-progress-bar {
+	background: #ececec;
+	border-radius: 5px;
+}
+
+/* process의 진행 bar */
+#progress::-webkit-progress-value {
+	border-radius: 5px;
+	background: #a4c4dd;
+}
+
+#progress_text {
+	color: #c0c0c0;
+	font-family: var(--basic-font);
+	font-size: 18px;
+	font-weight: 500;
+	font-style: normal;
+}

@@ -16,7 +16,7 @@
 	width: 100%;
 	z-index: 100;
 	background-color: hsla(0, 0%, 100%, 0.9);
-	/* top: 0; */
+	top: 0;
 }
 
 .home_header {

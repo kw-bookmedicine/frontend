@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import Slider from 'react-slick';
 import axios from 'axios';
+
+// SERVICE
+import api from '../services/api';
 
 // COMPONENTS
 import Header from '../components/Header';
@@ -11,34 +15,39 @@ import BookListSlide from '../components/BookListSlide';
 
 // STYLES
 import '../styles/BookList.css';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 const BookList = () => {
+	var settings = {
+		dots: true,
+		infinite: true,
+		speed: 500,
+		slidesToShow: 1,
+		slidesToScroll: 1,
+	};
+
 	// 대분류
 	let { title } = useParams();
 	const [bigCategory, setBigCategory] = useState('');
 
 	// 중분류
 	const [midCategory, setMidCategory] = useState([]);
-	// const [smallCategory, setCategory] = useState(category[title]);
+	const [resMidBookList, setResMidBookList] = useState([]);
 
 	// 초기에 랜더링될 때 한 번만 실행
 	useEffect(() => {
 		// 대분류 지정
 		setBigCategory(title);
 
-		// {
-		// 	smallCategory.map((e) => {
-		// 		console.log(e);
-		// 	});
-		// }
-		// setCategory(category[title]);
-		// console.log(smallCategory);
+		api.get('/api/category/big').then((res) => {
+			setMidCategory(res.data[title]);
+		});
 
-		// 중분류 가져오기
-
-		axios.get('https://koreanjson.com/users').then((res) => {
-			setMidCategory(res.data);
-			console.log(res.data);
+		api.get(`/api/book/list/big?name=${title}`).then((res) => {
+			res.data.map(() => {
+				setResMidBookList(res.data);
+			});
 		});
 	}, []);
 
@@ -48,14 +57,44 @@ const BookList = () => {
 				<div className="bookList_inner">
 					<Header />
 					<div className="bookList_title">{bigCategory}</div>
-					<Title title={`${bigCategory} 전체보기`} type={'shadow'} />
-					<div className="bookList_wrapper">
-						<BookListSlide title={bigCategory} />
-						{midCategory.map((e) => {
-							// key 값 중분류에 맞게 변경해야됨.
-							return <BookListSlide key={e.id} title={e.id} />;
-						})}
-					</div>
+					<Title
+						key={bigCategory}
+						bigCategory={bigCategory}
+						title={`${bigCategory} 전체보기`}
+						type={'shadow'}
+					/>
+
+					{resMidBookList.map((list, idx) => {
+						return (
+							// 중분류 타이틀 렌더링
+							<div className="bookList_wrapper" key={idx}>
+								<div className="bookList_title_wrapper">
+									<Title
+										key={list[idx]}
+										bigCategory={bigCategory}
+										title={list.categoryName}
+									/>
+								</div>
+
+								<div className="bookList_slide_wrapper">
+									<BookListSlide list={list.bookList} />
+
+									{/* 중분류에 해당하는 책 리스트 데이터 바인딩 */}
+									{/* {list.bookList.map((item) => {
+										return (
+											<BookListSlide
+												key={item.isbn}
+												title={item.title}
+												author={item.author}
+												bigCategory={bigCategory}
+												imageUrl={item.imageUrl}
+											/>
+										);
+									})} */}
+								</div>
+							</div>
+						);
+					})}
 				</div>
 
 				<Footer />

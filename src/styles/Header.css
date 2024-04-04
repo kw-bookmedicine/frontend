@@ -33,7 +33,7 @@
 .header_list > li {
 	margin: 0 40px;
 	color: #000;
-	font-family: 'Pretendard-Regular';
+	font-family: var(--basic-font);
 	font-size: 16px;
 	font-style: normal;
 	font-weight: 400;

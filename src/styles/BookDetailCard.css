@@ -1,0 +1,171 @@
+.bookCard_container {
+	width: 430px;
+	height: 200px;
+	background: #f3fdff;
+	margin: 10px;
+	cursor: pointer;
+
+	/* Drop Shadow */
+	box-shadow: 6px 6px 30px rgba(119, 119, 119, 0.466667);
+	border-radius: 15px;
+}
+
+.bookCard_container:hover {
+	background: #a4d6dd;
+}
+
+.bookCard_wrapper {
+	display: flex;
+	align-items: center;
+	padding: 14px 10px;
+}
+
+.bookCard_left_wrapper {
+	padding-left: 5px;
+}
+
+/* .left_img_wrapper {
+	width: 120px;
+	height: 170px;
+	background: #a1a1a1;
+
+	box-shadow: 2px 2px 4px rgba(119, 119, 119, 0.25);
+	border: solid #a1a1a1;
+	border-radius: 5px;
+} */
+
+.img_wrapper_thumbnail {
+	width: 120px;
+	height: 170px;
+	border-radius: 5px;
+}
+
+.bookCard_right_wrapper {
+	height: 170px;
+	display: flex;
+	flex-direction: column;
+	margin-left: 20px;
+}
+
+.bookCard_right_up_wrapper {
+	display: flex;
+	flex-direction: column;
+}
+
+.right_up_title {
+	width: 260px;
+
+	/* Font */
+	font-family: var(--basic-font);
+	font-style: normal;
+	font-weight: 700;
+	font-size: 18px;
+	line-height: 21px;
+	color: #000;
+
+	/* 말 줄임 */
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.right_up_author {
+	font-family: var(--basic-font);
+	font-style: normal;
+	font-weight: 500;
+	font-size: 16px;
+	line-height: 19px;
+	color: #000;
+}
+
+.bookCard_right_bottom_wrapper {
+	width: 260px;
+	height: 130px;
+	padding-top: 60px;
+	overflow: auto;
+}
+
+/* 경험 추가하기 모달창 */
+
+.expModal_bookCard_container {
+	width: 639px;
+	height: 200px;
+	background: #ffffff;
+	margin: 10px;
+
+	/* Drop Shadow */
+	/* box-shadow: 6px 6px 30px rgba(119, 119, 119, 0.466667); */
+	box-shadow: 0px 1px 13px rgba(119, 119, 119, 0.466667);
+	border-radius: 15px;
+}
+
+/* .expModal_bookCard_container:hover {
+	background: #a4d6dd;
+} */
+
+.expModal_bookCard_wrapper {
+	display: flex;
+	align-items: center;
+	padding: 14px 10px;
+}
+
+.expModal_bookCard_left_wrapper {
+	padding-left: 5px;
+}
+
+.expModal_left_img_wrapper {
+	height: 170px;
+	box-shadow: 2px 2px 4px rgba(119, 119, 119, 0.25);
+	border-radius: 5px;
+}
+
+.expModal_img_wrapper_thumbnail {
+	width: 120px;
+	height: 170px;
+	border-radius: 5px;
+}
+
+.expModal_bookCard_right_wrapper {
+	height: 170px;
+	display: flex;
+	flex-direction: column;
+	margin-left: 20px;
+}
+
+.expModal_bookCard_right_up_wrapper {
+	display: flex;
+	flex-direction: column;
+}
+
+.expModal_right_up_title {
+	width: 260px;
+
+	/* Font */
+	font-family: var(--basic-font);
+	font-style: normal;
+	font-weight: 700;
+	font-size: 18px;
+	line-height: 21px;
+	color: #000;
+
+	/* 말 줄임 */
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.expModal_right_up_author {
+	font-family: var(--basic-font);
+	font-style: normal;
+	font-weight: 500;
+	font-size: 16px;
+	line-height: 29px;
+	color: #868686;
+}
+
+.expModal_bookCard_right_bottom_wrapper {
+	width: 260px;
+	height: 130px;
+	padding-top: 60px;
+	overflow: auto;
+}
