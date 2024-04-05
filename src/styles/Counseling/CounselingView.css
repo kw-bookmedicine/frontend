@@ -9,6 +9,11 @@
 
 	/* Drop Shadow */
 	box-shadow: 4px 4px 18px 0px rgba(119, 119, 119, 0.25);
+	transition: all 0.2s ease-in-out;
+}
+
+.cnsView_container:hover {
+	transform: scaleX(1.1);
 }
 
 .cns_user_wrapper {
