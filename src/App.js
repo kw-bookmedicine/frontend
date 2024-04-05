@@ -22,23 +22,23 @@ import UserInfo from './pages/UserInfo';
 // 처방전 관련 페이지들
 import Counseling from './pages/Counseling';
 import MyWorry from './pages/MyWorry';
-import WorryWrite from "./pages/WorryWrite";
+import WorryWrite from './pages/WorryWrite';
 import WorryDetail from './pages/WorryDetail';
 import PrescriptionWrite from './pages/PrescriptionWrite';
 import PrescriptionWriteStep2 from './pages/PrescriptionWriteStep2';
 import PrescriptionDetail from './pages/Prescription/PrescriptionDetail';
 
 // STYLE
-import GlobalStyles from "./styles/GlobalStyles";
-import "./App.css";
-import ScrollTop from "./components/ScrollTop";
-import LoginLayout from "./components/LoginLayout";
-import LoginFindResult from "./pages/IdFindResult";
-import PasswordFind from "./pages/PasswordFind";
-import PasswordFindResult from "./pages/PasswordFindResult";
-import IdFind from "./pages/IdFind";
-import LoginContextProvider from "./contexts/LoginContextProvider";
-import SearchResult from "./pages/SearchResult";
+import GlobalStyles from './styles/GlobalStyles';
+import './App.css';
+import ScrollTop from './components/ScrollTop';
+import LoginLayout from './components/LoginLayout';
+import LoginFindResult from './pages/IdFindResult';
+import PasswordFind from './pages/PasswordFind';
+import PasswordFindResult from './pages/PasswordFindResult';
+import IdFind from './pages/IdFind';
+import LoginContextProvider from './contexts/LoginContextProvider';
+import SearchResult from './pages/SearchResult';
 
 function App() {
 	// 브라우저 새로고침 스크롤 이벤트
@@ -48,33 +48,33 @@ function App() {
 		};
 	}, []);
 
-  return (
-    <BrowserRouter>
-      <LoginContextProvider>
-        <div className="App">
-          <GlobalStyles />
-          <ScrollTop />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/logout" element={<Home />} />
-            <Route path="/main" element={<Main />} />
-            <Route path="/feed" element={<Feed />} />
-            <Route path="/search" element={<Search />} />
-            <Route path="/search/result/:title" element={<SearchResult />} />
-            <Route path="/mypage" element={<Mypage />} />
-            <Route path="/myfeed" element={<MyFeed />} />
-            <Route path="/myworry" element={<MyWorry />} />
-            <Route path="/edit" element={<Edit />} />
-            <Route path="/edit/:page" element={<UserInfo />} />
+	return (
+		<BrowserRouter>
+			<LoginContextProvider>
+				<div className="App">
+					<GlobalStyles />
+					<ScrollTop />
+					<Routes>
+						<Route path="/" element={<Home />} />
+						<Route path="/logout" element={<Home />} />
+						<Route path="/main" element={<Main />} />
+						<Route path="/feed" element={<Feed />} />
+						<Route path="/search" element={<Search />} />
+						<Route path="/search/result/:title" element={<SearchResult />} />
+						<Route path="/mypage" element={<Mypage />} />
+						<Route path="/myfeed" element={<MyFeed />} />
+						<Route path="/myworry" element={<MyWorry />} />
+						<Route path="/edit" element={<Edit />} />
+						<Route path="/edit/:page" element={<UserInfo />} />
 
-            <Route path="/worry/write" element={<WorryWrite />} />
-            <Route path="/counseling" element={<Counseling />} />
-            <Route path="/worry/detail" element={<WorryDetail />} />
-            <Route path="/prescription/write" element={<PrescriptionWrite />} />
-            <Route
-              path="/prescription/write/2"
-              element={<PrescriptionWriteStep2 />}
-            />
+						<Route path="/worry/write" element={<WorryWrite />} />
+						<Route path="/counseling" element={<Counseling />} />
+						<Route path="/worry/detail" element={<WorryDetail />} />
+						<Route path="/prescription/write" element={<PrescriptionWrite />} />
+						<Route
+							path="/prescription/write/2"
+							element={<PrescriptionWriteStep2 />}
+						/>
 
 						{/* 마이페이지 */}
 						<Route path="/mypage" element={<Mypage />} />
@@ -86,10 +86,10 @@ function App() {
 						<Route path="/counseling" element={<Counseling />} />
 						<Route path="/worry/detail" element={<WorryDetail />} />
 						<Route path="/prescription/write" element={<PrescriptionWrite />} />
-						<Route
+						{/* <Route
 							path="/prescription/write/2"
 							element={<PrescriptionWriteStep2 />}
-						/>
+						/> */}
 						<Route
 							path="/prescription/detail"
 							element={<PrescriptionDetail />}
