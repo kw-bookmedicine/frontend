@@ -1,4 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 // COMPONENTS
 import Header from '../components/Header';
@@ -8,29 +10,69 @@ import CnsFeed from '../components/Prescription/CounselingView';
 import '../styles/Counseling/Counseling.css';
 
 const Counseling = () => {
-	// useEffect(() => {
-	// 	const observer = new IntersectionObserver(
-	// 		(items) => {
-	// 			items.forEach((item) => {
-	// 				if (item.isIntersecting) {
-	// 					console.log('visible!');
-	// 					item.target.classList.add('visible');
-	// 				} else {
-	// 					console.log('no');
-	// 					item.target.classList.remove('visible');
-	// 				}
-	// 			});
-	// 		},
-	// 		{ threshold: 0.5 },
-	// 	);
+	const [page, setPage] = useState(0);
+	const [isLoading, setIsLoading] = useState(false);
+	const [testArr, setTestArr] = useState([]);
 
-	// 	// const target = document.getElementById('cn_target');
-	// 	const items = document.querySelectorAll('.cnsFeed_card_wrapper');
-	// 	items.forEach((item) => {
-	// 		console.log(item);
-	// 		observer.observe(item);
-	// 	});
-	// }, []);
+	useEffect(() => {
+		console.log('로드');
+
+		const API_URL =
+			'https://api.thedogapi.com/v1/images/search?size=small&format=json&has_breeds=true&order=ASC&page=0&limit=10';
+		axios.get(API_URL).then((res) => {
+			setTestArr(res.data);
+		});
+	}, []);
+
+	// page 변경 감지에 따른 API호출
+	useEffect(() => {
+		fetchData();
+	}, [page]);
+
+	// 타겟을 만날 때마다 API 호출
+	const fetchData = async () => {
+		// 로딩 시작
+		setIsLoading(true);
+
+		try {
+			const API_URL = `https://api.thedogapi.com/v1/images/search?size=small&format=json&has_breeds=true&order=ASC&page=${page}&limit=10`;
+			const response = await axios.get(API_URL).then((res) => {
+				if (res.data.end) {
+					console.log('데이터 없음');
+				}
+				setTestArr((prevData) => [...prevData, ...res.data]);
+			});
+		} catch (error) {
+			console.log(error);
+		} finally {
+			// 로딩 종료
+			setIsLoading(false);
+		}
+	};
+
+	useEffect(() => {
+		const handleObserver = (entries) => {
+			const target = entries[0];
+			// if (target.isIntersecting) {
+			// 	console.log(entries);
+			// }
+			if (target.isIntersecting && !isLoading) {
+				// console.log(entries);
+				// console.log(target);
+				console.log('visible');
+				setPage((prevPage) => prevPage + 1);
+			}
+		};
+
+		const observer = new IntersectionObserver(handleObserver, {
+			threshold: 0.5,
+		});
+
+		const target = document.getElementById('cn_target');
+		if (target) {
+			observer.observe(target);
+		}
+	}, []);
 
 	return (
 		<>
@@ -122,13 +164,20 @@ const Counseling = () => {
 					</div>
 				</div>
 				<div className="counseling_feed_wrapper">
-					<div id="cnsFeed_card_wrapper">
+					{/* <div className="cnsFeed_card_wrapper">
 						<CnsFeed />
-					</div>
-					<div className="cnsFeed_card_wrapper">
-						<CnsFeed />
-					</div>
-					<div className="cnsFeed_card_wrapper">
+					</div> */}
+
+					{testArr.map((item, idx) => {
+						// console.log(item.id);
+						return (
+							<div className="cnsFeed_card_wrapper" key={item.id + idx}>
+								<CnsFeed key={item.id + idx} text={item.id} />
+							</div>
+						);
+					})}
+
+					{/* <div className="cnsFeed_card_wrapper">
 						<CnsFeed />
 					</div>
 					<div className="cnsFeed_card_wrapper">
@@ -155,8 +204,9 @@ const Counseling = () => {
 					</div>
 					<div className="cnsFeed_card_wrapper">
 						<CnsFeed />
-					</div>
+					</div> */}
 				</div>
+				{isLoading && <p>Loading...</p>}
 				<div id="cn_target"></div>
 			</div>
 		</>
