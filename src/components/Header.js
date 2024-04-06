@@ -82,15 +82,6 @@ const Header = () => {
 						</li>
 						<li>
 							<NavLink
-								style={({ isActive }) => (isActive ? activeStyle : {})}
-								to={'/worry/write'}
-							>
-								{' '}
-								처방하기
-							</NavLink>
-						</li>
-						<li>
-							<NavLink
 								style={({ isActive }) =>
 									isActive
 										? activeStyle
