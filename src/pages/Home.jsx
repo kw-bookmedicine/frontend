@@ -94,14 +94,6 @@ const Home = () => {
 		);
 	};
 
-	// 초기에 렌더링될 때 토큰 여부 (자동로그인) 검사
-	useEffect(() => {
-		if (localStorage.getItem('token') !== null) {
-			console.log('자동로그인');
-			window.location.replace('http://localhost:3000/main');
-		}
-	}, []);
-
 	return (
 		<>
 			<section className="home">
