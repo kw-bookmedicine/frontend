@@ -73,7 +73,8 @@ const BookDetail = () => {
 							<div className="summary_right_up_wrapper">
 								<div className="right_up_left_wrapper">
 									<div className="up_left_book_title">{bookInfo.title}</div>
-									<div className="up_left_book_author">{bookInfo.author}</div>
+									<p>{bookInfo.author}</p>
+									<p>{bookInfo.publicYear}</p>
 								</div>
 								<div className="right_up_right_wrapper">
 									<div className="up_right_exp">
@@ -82,14 +83,16 @@ const BookDetail = () => {
 											type="exp"
 											onClick={handleModal}
 										/> */}
-										<div onClick={handleModal}>경험추가하기</div>
+										<div className="prscr_add_btn" onClick={handleModal}>
+											한 줄 처방하기
+										</div>
 									</div>
 									<ModalPortal>
 										{modalOn && <ExpModal onClose={handleModal} />}
 									</ModalPortal>
 								</div>
 							</div>
-							<div className="summary_left_mid_wrapper">
+							<div className="summary_right_mid_wrapper">
 								{bookKeywordList.map((item) => {
 									return <HashTag key={item.name} text={item.name} />;
 								})}
@@ -147,7 +150,7 @@ const BookDetail = () => {
 							scrollRef.current[1] = el;
 						}}
 					>
-						<Title title={'한 줄 리뷰'} />
+						<Title title={'한 줄 처방'} />
 						<div className="bookComment_container">
 							<Review
 								nickname={'닉네임'}
