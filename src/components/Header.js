@@ -43,85 +43,89 @@ const Header = () => {
 
 	return (
 		<div className="head">
-			<header>
-				<div className="head_logo">
-					<Link to={'/'}>LOGO</Link>
-				</div>
-				<nav className="header_list_wrapper">
-					<ul className="header_list">
-						<li>
-							<NavLink
-								style={({ isActive }) => (isActive ? activeStyle : {})}
-								to={'/main'}
-							>
-								HOME
-							</NavLink>
-						</li>
-						<li>
-							<NavLink
-								style={({ isActive }) => (isActive ? activeStyle : {})}
-								// to={'/simplePrscr'}
-								to={'/feed'}
-							>
-								한 줄 처방
-							</NavLink>
-						</li>
-						<li>
-							<NavLink
-								style={({ isActive }) =>
-									isActive
-										? activeStyle
-										: prscrLocation.includes(location.pathname)
-										? activeStyle
-										: {}
-								}
-								to={'/counseling'}
-							>
-								고민상담
-							</NavLink>
-						</li>
-						<li>
-							<NavLink
-								style={({ isActive }) =>
-									isActive
-										? activeStyle
-										: bookLocation.includes(location.pathname)
-										? activeStyle
-										: {}
-								}
-								to={'/search'}
-							>
-								검색하기
-							</NavLink>
-						</li>
-						<li>
-							<NavLink
-								style={({ isActive }) =>
-									isActive
-										? activeStyle
-										: myLocation.includes(location.pathname)
-										? activeStyle
-										: {}
-								}
-								to={'/mypage'}
-							>
-								MYPAGE
-							</NavLink>
-						</li>
-					</ul>
-				</nav>
-				<div className="head_btn__logout">
-					<Btn
-						onClick={() => {
-							logout();
-							// window.location.replace('/');
-						}}
-						text={'로그아웃'}
-						type="logout"
-						id="home-header-btn"
+			<div className="head_logo">
+				<Link to={'/'}>
+					<img
+						src="/header_logo.png"
+						alt="책국 로고"
+						className="header_logo_img"
 					/>
-				</div>
-			</header>
+				</Link>
+			</div>
+			<nav className="header_list_wrapper">
+				<ul className="header_list">
+					<li>
+						<NavLink
+							style={({ isActive }) => (isActive ? activeStyle : {})}
+							to={'/main'}
+						>
+							HOME
+						</NavLink>
+					</li>
+					<li>
+						<NavLink
+							style={({ isActive }) => (isActive ? activeStyle : {})}
+							// to={'/simplePrscr'}
+							to={'/feed'}
+						>
+							한 줄 처방
+						</NavLink>
+					</li>
+					<li>
+						<NavLink
+							style={({ isActive }) =>
+								isActive
+									? activeStyle
+									: prscrLocation.includes(location.pathname)
+									? activeStyle
+									: {}
+							}
+							to={'/counseling'}
+						>
+							고민상담
+						</NavLink>
+					</li>
+					<li>
+						<NavLink
+							style={({ isActive }) =>
+								isActive
+									? activeStyle
+									: bookLocation.includes(location.pathname)
+									? activeStyle
+									: {}
+							}
+							to={'/search'}
+						>
+							SEARCH
+						</NavLink>
+					</li>
+					<li>
+						<NavLink
+							style={({ isActive }) =>
+								isActive
+									? activeStyle
+									: myLocation.includes(location.pathname)
+									? activeStyle
+									: {}
+							}
+							to={'/mypage'}
+						>
+							MYPAGE
+						</NavLink>
+					</li>
+				</ul>
+			</nav>
+			<div className="head_btn__logout">
+				<Btn
+					onClick={() => {
+						logout();
+						// window.location.replace('/');
+					}}
+					text={'로그아웃'}
+					type="logout"
+					id="home-header-btn"
+				/>
+			</div>
 		</div>
 	);
 };
