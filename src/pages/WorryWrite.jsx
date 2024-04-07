@@ -1,18 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import Header from "../components/Header";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 // ASSET
 
 // COMPONENTS
 import ProcessTitle from "../components/Prescription/ProcessTitle";
 
-// mission
-// UI 구현 -> 버튼 클릭 추가 -> 같은 field 라서 다음질문에서 선택이 된 것을 볼 수 있는데 질문마다 다른 field로 차후 변경될테니 버그는 아님
-
-// 스크롤 이벤트 추가
-// 애니메이션 추가
-// 진행바 수정
+// 
 // 로딩 후 화면 전환 추가
 
 const WorryWrite = () => {
@@ -20,7 +15,8 @@ const WorryWrite = () => {
   const [userResponses, setUserResponses] = useState([]); // 사용자의 답변 저장
   const [isCompleted, setIsCompleted] = useState(false); // 질문 완료 여부
 
-  const [showOptions, setShowOptions] = useState(false); // 답변 옵션과 버튼을 보여줄지 여부를 결정하는 새 상태
+  const [showQuestion, setShowQuestion] = useState(true); // 질문 딜레이 적용
+  const [showOptions, setShowOptions] = useState(false); // 질문 옵션과 버튼을 보여줄지 여부
 
   const [userSelections, setUserSelections] = useState({
     category: "",
@@ -41,17 +37,34 @@ const WorryWrite = () => {
     scrollContainerRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  // 질문지 1초후 보이도록 적용
   useEffect(() => {
-    // 현재 단계의 질문이 렌더링된 후 0.5초를 기다렸다가 옵션과 버튼을 보여주도록 설정
-    setShowOptions(false); // 새로운 질문이 로드될 때마다 옵션을 숨깁니다.
+    setShowOptions(false); // 새로운 질문이 로드될 때마다 옵션을 숨김
     const timer = setTimeout(() => {
       setShowOptions(true);
-    }, 1000); // 0.5초 후에 상태 업데이트
-    scrollToBottom();
-
+    }, 1000);
     return () => clearTimeout(timer);
-  }, [currentStep]); // 새로운 질문지일때 스크롤 자동 내림
-  // useEffect를 사용한 이유는 렌더링이 다 된 이후에 작동하기
+  }, [currentStep]);
+
+
+  // showOptions와 currentStep 변경 시, 자동 스크롤 적용
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (showOptions) {
+        scrollToBottom();
+      }
+    }, 400);
+    return () => clearTimeout(timer);
+  }, [showOptions, currentStep]); 
+
+  //  답변 이후 0.5초 후 질문 제목 등장
+  useEffect(() => {
+    setShowQuestion(false);
+    const timer = setTimeout(() => {
+      setShowQuestion(true);
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [userResponses]);
 
   const [questions, setQuestions] = useState([
     {
@@ -75,6 +88,75 @@ const WorryWrite = () => {
     },
     {
       field: "worry1",
+      question: "현재 가지고 있는 고민은 무엇인가요?",
+      options: [
+        "경제",
+        "건강",
+        "자녀/양육",
+        "취업/진로",
+        "공부/자기계발",
+        "관계/소통",
+        "소설/에세이",
+        "철학",
+        "역사",
+        "과학",
+        "사회",
+        "취미",
+      ],
+      selected: false,
+    },
+    {
+      field: "worry2",
+      question: "현재 가지고 있는 고민은 무엇인가요?",
+      options: [
+        "경제",
+        "건강",
+        "자녀/양육",
+        "취업/진로",
+        "공부/자기계발",
+        "관계/소통",
+        "소설/에세이",
+        "철학",
+        "역사",
+        "과학",
+        "사회",
+        "취미",
+        "경제",
+        "건강",
+        "자녀/양육",
+        "취업/진로",
+        "공부/자기계발",
+        "관계/소통",
+        "소설/에세이",
+        "철학",
+        "역사",
+        "과학",
+        "사회",
+        "취미",
+      ],
+      selected: false,
+    },
+    {
+      field: "worry2",
+      question: "현재 가지고 있는 고민은 무엇인가요?",
+      options: [
+        "경제",
+        "건강",
+        "자녀/양육",
+        "취업/진로",
+        "공부/자기계발",
+        "관계/소통",
+        "소설/에세이",
+        "철학",
+        "역사",
+        "과학",
+        "사회",
+        "취미",
+      ],
+      selected: false,
+    },
+    {
+      field: "worry2",
       question: "현재 가지고 있는 고민은 무엇인가요?",
       options: [
         "경제",
@@ -150,52 +232,54 @@ const WorryWrite = () => {
     <>
       <Header />
       <ProcessTitle type={"Counseling"} value={processValue} />
+
       <Body id="app-body">
-        <div className="form-container">
-          <div className="request-chat-form">
-            {userResponses.map((ur, index) => (
-              <div key={index}>
-                <PrevQuestionMessageWrapper>
-                  {questions[ur.step].question}
-                </PrevQuestionMessageWrapper>
-                <PrevAnswerMessageWrapper>
-                  <PrevAnswerMessage>
-                    <HightLigint>{ur.response}</HightLigint>에 대해서 고민이
-                    있어
-                  </PrevAnswerMessage>
-                </PrevAnswerMessageWrapper>
-              </div>
-            ))}
-            {!isCompleted && (
-              <>
-                <MessageContainer ref={scrollContainerRef}>
-                  <Content>{questions[currentStep].question}</Content>
-                  <Answers>
-                    {questions[currentStep].options.map((option, index) => (
-                      <Answer
-                        key={index}
-                        onClick={() => handleSelectedAnswer(option)}
-                      >
-                        <OptionButton
-                          clicked={
-                            userSelections[questions[currentStep].field] ===
-                            option
-                          }
-                        />
-                        {option}
-                      </Answer>
-                    ))}
-                  </Answers>
-                  <Button
-                    disabled={!questions[currentStep].selected}
-                    onClick={() => handleNextStep()}
-                  >
-                    선택하기
-                  </Button>
-                </MessageContainer>
-              </>
-            )}
-          </div>
+        <div>
+          {userResponses.map((ur, index) => (
+            <div key={index}>
+              <PrevQuestionMessageWrapper>
+                {questions[ur.step].question}
+              </PrevQuestionMessageWrapper>
+              <PrevAnswerMessageWrapper>
+                <PrevAnswerMessage>
+                  <HightLigint>{ur.response}</HightLigint>에 대해서 고민이 있어
+                </PrevAnswerMessage>
+              </PrevAnswerMessageWrapper>
+            </div>
+          ))}
+          {!isCompleted && showQuestion && (
+            <>
+              <MessageContainer ref={scrollContainerRef}>
+                <Content>{questions[currentStep].question}</Content>
+                {showOptions && (
+                  <AnswersContainer expanded={showOptions}>
+                    <Answers>
+                      {questions[currentStep].options.map((option, index) => (
+                        <Answer
+                          key={index}
+                          onClick={() => handleSelectedAnswer(option)}
+                        >
+                          <OptionButton
+                            clicked={
+                              userSelections[questions[currentStep].field] ===
+                              option
+                            }
+                          />
+                          {option}
+                        </Answer>
+                      ))}
+                    </Answers>
+                    <Button
+                      disabled={!questions[currentStep].selected}
+                      onClick={() => handleNextStep()}
+                    >
+                      선택하기
+                    </Button>
+                  </AnswersContainer>
+                )}
+              </MessageContainer>
+            </>
+          )}
         </div>
       </Body>
     </>
@@ -229,12 +313,18 @@ const OptionButton = ({ clicked }) => {
   );
 };
 
+const fadeIn = keyframes`
+  from { opacity: 0; }
+  to { opacity: 1; }
+`;
+
 const Body = styled.div`
   padding: 40px 160px 180px;
   background-color: #dce9ec;
-  min-height: 700px;
-  min-height: 80vh;
+  /* min-height: 700px; */
+  min-height: 90vh;
   height: auto;
+  /* height: 100%; */
 `;
 
 const PrevQuestionMessageWrapper = styled.div`
@@ -253,6 +343,7 @@ const PrevAnswerMessageWrapper = styled.div`
   justify-content: end;
   font-size: 20px;
   margin-bottom: 20px;
+  animation: ${fadeIn} 1s ease-out;
 `;
 
 const HightLigint = styled.span`
@@ -275,19 +366,46 @@ const MessageContainer = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 4px 16px 16px;
+  animation: ${fadeIn} 1s ease-out;
 `;
 
 const Content = styled.p`
   font-size: 20px;
   font-weight: bold;
-  margin-bottom: 20px;
+  animation: ${fadeIn} 1.5s ease-out;
+`;
+
+const expand = keyframes`
+  from {
+    max-height: 0;
+  }
+  to {
+    max-height: 400px;
+  }
+`;
+
+const reduce = keyframes`
+  from {
+    max-height: 450px;
+  }
+  to {
+    max-height: 100px;
+  }
+`;
+
+const AnswersContainer = styled.div`
+  width: 100%;
+  animation: ${expand} 0.5s ease-out forwards;
+  /* animation: ${(props) => (props.expanded ? expand : reduce)} 0.5s ease-out */
+  /* animation: ${(props) => (props.expanded ? expand : reduce)} 5s ease-out */
 `;
 
 const Answers = styled.ul`
   width: 100%;
-  max-height: 340px;
+  max-height: 300px;
+  margin-top: 20px;
   margin-bottom: 20px;
-  
+
   // 스크롤바가 안보이지만 스크롤 가능
   overflow-y: auto;
   ::-webkit-scrollbar {
@@ -295,6 +413,7 @@ const Answers = styled.ul`
   }
   -ms-overflow-style: none; /* 인터넷 익스플로러 및 엣지(구버전)용 */
   scrollbar-width: none; /* 파이어폭스용 */
+  animation: ${fadeIn} 1.5s ease-out;
 `;
 
 const Answer = styled.li`
