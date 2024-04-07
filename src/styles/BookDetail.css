@@ -82,12 +82,19 @@
 	width: 135px;
 	height: 40px;
 	padding: 10px;
-	border: 1px solid black;
+	border: 2px solid #c8edf2;
 	border-radius: 15px;
 	cursor: pointer;
 	font-family: var(--basic-font);
 	font-style: normal;
 	font-size: 16px;
+
+	transition: 0.3s;
+}
+
+.prscr_add_btn:hover {
+	background: transparent;
+	box-shadow: inset 135px 0 0 0 #c8edf2;
 }
 
 .summary_left_mid_wrapper {
