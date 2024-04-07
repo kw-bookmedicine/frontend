@@ -233,7 +233,8 @@ const Body = styled.div`
   padding: 40px 160px 180px;
   background-color: #dce9ec;
   min-height: 700px;
-  height: 100%;
+  min-height: 80vh;
+  height: auto;
 `;
 
 const PrevQuestionMessageWrapper = styled.div`
@@ -285,8 +286,15 @@ const Content = styled.p`
 const Answers = styled.ul`
   width: 100%;
   max-height: 340px;
-  overflow-y: auto;
   margin-bottom: 20px;
+  
+  // 스크롤바가 안보이지만 스크롤 가능
+  overflow-y: auto;
+  ::-webkit-scrollbar {
+    display: none; /* 크롬, 사파리 등 WebKit 기반 브라우저용 */
+  }
+  -ms-overflow-style: none; /* 인터넷 익스플로러 및 엣지(구버전)용 */
+  scrollbar-width: none; /* 파이어폭스용 */
 `;
 
 const Answer = styled.li`
@@ -297,6 +305,7 @@ const Answer = styled.li`
   display: flex;
   align-items: center;
   margin-bottom: 4px;
+  cursor: pointer;
 `;
 
 const Button = styled.button`
