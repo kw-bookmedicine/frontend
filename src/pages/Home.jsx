@@ -8,7 +8,6 @@ import EmotionBookList from '../components/EmotionBookList';
 
 // STYLES
 import '../styles/HomeStyles.css';
-import styled from 'styled-components';
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -19,7 +18,8 @@ import { Navigation, EffectCoverflow, Autoplay } from 'swiper/modules';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
-import 'swiper/css/bundle';
+// import 'swiper/css/bundle';
+import 'swiper/css/effect-coverflow';
 
 const featSlider = [
 	{
@@ -41,6 +41,20 @@ const featSlider = [
 		title: '다양한 도서들',
 		description: '매일매일 다양한 도서들을\n즐겨보아요!',
 		color: '#D6FFF7',
+		icon: '/icon/manyBook.png',
+	},
+	{
+		id: 'feature-4',
+		title: '다양한 도서들',
+		description: '매일매일 다양한 도서들을\n즐겨보아요!',
+		color: '#fbffd6',
+		icon: '/icon/manyBook.png',
+	},
+	{
+		id: 'feature-5',
+		title: '다양한 도서들',
+		description: '매일매일 다양한 도서들을\n즐겨보아요!',
+		color: '#f7d6ff',
 		icon: '/icon/manyBook.png',
 	},
 ];
@@ -94,16 +108,26 @@ const Home = () => {
 		);
 	};
 
+	// 초기에 렌더링될 때 토큰 여부 (자동로그인) 검사
+	useEffect(() => {
+		if (localStorage.getItem('token') !== null) {
+			console.log('자동로그인');
+			window.location.replace('http://localhost:3000/main');
+		}
+	}, []);
+
 	return (
 		<>
 			<section className="home">
 				<section className="home_header_section">
 					<div className="home_header">
-						<div className="header_logo">
-							<Link to={'/'}>책국</Link>
-							<div className="header_btn"></div>
+						<div className="home_header_wrapper">
+							<div className="header_logo">
+								<Link to={'/'}>책국</Link>
+								<div className="header_btn"></div>
+							</div>
+							<Btn text={'로그인'} type="login" id="home-header-btn" />
 						</div>
-						<Btn text={'로그인'} type="login" id="home-header-btn" />
 					</div>
 				</section>
 				<section className="intro">
@@ -129,11 +153,11 @@ const Home = () => {
 							</div>
 							<div className="feature_slide">
 								<Swiper
-									className="feature_swiper"
+									className="feature_swiper swiper-wrapper"
 									modules={[Navigation, EffectCoverflow, Autoplay]}
-									navigation
+									navigation={{ clickable: true }}
 									effect={'coverflow'}
-									// grabCursor={true}
+									grabCursor={true}
 									centeredSlides={true}
 									coverflowEffect={{
 										rotate: 0,
@@ -143,11 +167,14 @@ const Home = () => {
 										slideShadows: false,
 									}}
 									loop={true}
+									loopAdditionalSlides={1}
 									slidesPerView={2}
+									initialSlide={3}
+									// slideToClickedSlide={true}
 								>
 									{featSlider.map((data) => (
 										<SwiperSlide
-											className="feature_swiper_slider"
+											className="swiper-slide feature_swiper_slider"
 											key={data.id}
 										>
 											<div
