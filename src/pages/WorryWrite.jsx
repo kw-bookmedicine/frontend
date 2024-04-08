@@ -231,7 +231,9 @@ const WorryWrite = () => {
   return (
     <>
       <Header />
-      <ProcessTitle type={"Counseling"} value={processValue} />
+      <Sticky>
+        <ProcessTitle type={"Counseling"} value={processValue} />
+      </Sticky>
 
       <Body id="app-body">
         <div>
@@ -316,6 +318,12 @@ const OptionButton = ({ clicked }) => {
 const fadeIn = keyframes`
   from { opacity: 0; }
   to { opacity: 1; }
+`;
+
+const Sticky = styled.div`
+  position: sticky;
+  top: 64px;
+  background-color: white;
 `;
 
 const Body = styled.div`
