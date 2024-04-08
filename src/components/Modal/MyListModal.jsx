@@ -80,14 +80,25 @@ const MyListModal = ({ onClose }) => {
 		}
 	};
 
+	// 모달 창 활성되면 바깥 영역 스크롤 막음
+	document.body.style.overflow = 'hidden';
+
 	// 모달 창 닫는 함수
 	const handleClose = () => {
+		document.body.style.overflow = 'auto';
 		onClose?.();
+	};
+
+	const handleOverlayClick = (event) => {
+		// 모달 창 외부를 클릭하면 모달 창을 닫음
+		if (event.target === event.currentTarget) {
+			handleClose();
+		}
 	};
 
 	return (
 		<>
-			<div className="myListModal_overlay">
+			<div className="myListModal_overlay" onClick={handleOverlayClick}>
 				<div className="myListModal_wrapper">
 					<div className="myListModal_left_wrapper">
 						{/* 검색 창 */}
