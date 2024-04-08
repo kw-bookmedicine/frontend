@@ -135,10 +135,10 @@
 .info_myInfo_text {
 	color: #000;
 	font-family: var(--basic-font);
-	font-size: 24px;
+	font-size: 20px;
 	font-style: normal;
 	font-weight: 400;
-	line-height: normal;
+	line-height: 24px;
 	margin-top: 20px;
 	padding-bottom: 10px;
 	border-bottom: 1px solid black;
