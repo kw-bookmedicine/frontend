@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 
 // COMPONENTS
@@ -18,6 +18,32 @@ const Mypage = () => {
 		setModalOn(!modalOn);
 	};
 
+	const [intro, setIntro] = useState('여기에 자기소개를 입력하세요.');
+	const [isEdit, setIsEdit] = useState(false);
+
+	const handleEditClick = () => {
+		setIsEdit(true);
+	};
+
+	const handleSubmit = (event) => {
+		event.preventDefault();
+		setIsEdit(false);
+		// 여기서는 간단하게 console에 출력하도록 했지만, 실제로는 이 정보를 서버에 전송하여 저장할 수 있습니다.
+		console.log('유저의 자기소개:', intro);
+		alert('제출되었습니다.');
+	};
+
+	const textAreaRef = useRef(null);
+
+	useEffect(() => {
+		if (isEdit) {
+			// 포커스가 설정된 후에 커서를 맨 뒤로 이동시킴
+			textAreaRef.current.focus();
+			const length = textAreaRef.current.value.length;
+			textAreaRef.current.setSelectionRange(length, length);
+		}
+	}, [isEdit]);
+
 	return (
 		<>
 			<Header />
@@ -30,25 +56,39 @@ const Mypage = () => {
 						</div>
 						<div className="user_right_wrapper">
 							<div className="right_userInfo_title_wrapper">
-								<div className="userInfo_name_text">사용자닉네임</div>
-								<Btn text={'등급'} type="rank" />
+								<p className="userInfo_name_text">사용자닉네임</p>
+
+								{!isEdit && (
+									<button
+										type="button"
+										className="userInfo_edit_btn"
+										onClick={handleEditClick}
+									>
+										수정하기
+									</button>
+								)}
+								{isEdit && (
+									<button
+										type="submit"
+										className="userInfo_edit_btn"
+										onClick={handleSubmit}
+									>
+										제출하기
+									</button>
+								)}
 							</div>
 							<div className="right_userInfo_comment_wrapper">
-								<div className="userInfo_comment">
-									나는 어디에서 왔을까? 내가 제일 좋아하는 색깔은 검정검정.나는
-									어디에서 왔을까?나는 어디에서 왔을까? 내가 제일 좋아하는
-									색깔은 검정검정.나는 어디에서 왔을까? 내가 제일 좋아하는
-									색깔은 검정검정.나는 어디에서 왔을까? 내가 제일 좋아하는
-									색깔은 검정검정.나는 어디에서 왔을까? 내가 제일 좋아하는
-									색깔은 검정검정.나는 어디에서 왔을까? 내가 제일 좋아하는
-									색깔은 검정검정.나는 어디에서 왔을까? 내가 제일 좋아하는
-									색깔은 검정검정.나는 어디에서 왔을까? 내가 제일 좋아하는
-									색깔은 검정검정.나는 어디에서 왔을까? 내가 제일 좋아하는
-									색깔은 검정검정.
-								</div>
-							</div>
-							<div className="right_userInfo_btn_wrapper">
-								<Btn text={'수정'} type="edit" />
+								<textarea
+									name="comment"
+									id="userInfo_comment"
+									cols="30"
+									rows="5"
+									value={intro}
+									onChange={(e) => setIntro(e.target.value)}
+									disabled={!isEdit}
+									autoFocus={isEdit}
+									ref={textAreaRef}
+								></textarea>
 							</div>
 						</div>
 					</div>

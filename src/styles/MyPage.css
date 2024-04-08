@@ -18,6 +18,7 @@
 }
 
 .myPage_content {
+	width: 100%;
 	max-width: 1440px;
 	margin: 0 auto;
 	position: absolute;
@@ -29,6 +30,8 @@
 	display: flex;
 	width: 1338px;
 	height: 184px;
+	width: 100%;
+	max-width: 1440px;
 }
 
 .user_left_wrapper {
@@ -54,9 +57,12 @@
 }
 
 .right_userInfo_title_wrapper {
+	width: 100%;
+	max-width: 1440px;
 	display: flex;
+	align-items: center;
+	justify-content: flex-start;
 	padding-top: 100px;
-
 	color: #000;
 	font-family: var(--basic-font);
 	font-weight: 700;
@@ -68,12 +74,43 @@
 	font-weight: 700;
 	font-size: 28px;
 	margin-right: 14px;
-	margin-bottom: 14px;
+	margin-left: 10px;
 }
 
-.right_userInfo_btn_wrapper {
+.userInfo_edit_btn {
+	width: 100px;
+	height: 100%;
+	border-radius: 10px;
+	font-size: 16px;
+	font-weight: 600;
+	background-color: white;
+	text-align: center;
+	border: 1px solid black;
+}
+
+.right_userInfo_comment_wrapper {
 	display: flex;
-	justify-content: flex-end;
+	flex-direction: column;
+	width: 100%;
+}
+
+#userInfo_comment {
+	padding: 10px;
+	margin-top: 10px;
+	font-family: var(--basic-font);
+	font-weight: 400;
+	font-style: normal;
+	font-size: 16px;
+	line-height: 19px;
+	color: #000;
+	border: none;
+	background-color: #fff;
+	resize: none;
+}
+
+#userInfo_comment:focus {
+	outline: 1px solid black;
+	border-radius: 15px;
 }
 
 .myPage_service_wrapper {
