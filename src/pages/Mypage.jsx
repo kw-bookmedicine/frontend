@@ -54,6 +54,8 @@ const Mypage = () => {
 					</div>
 					<div className="myPage_service_wrapper">
 						<div className="service_title">서비스 관리</div>
+						<div className="service_my_worry">내가 남긴 고민</div>
+						<div className="service_my_prescription">내가 남긴 처방</div>
 						<div onClick={handleModal} className="service_userReview_text">
 							복용내역
 						</div>
@@ -61,16 +63,15 @@ const Mypage = () => {
 							{modalOn && <MyListModal onClose={handleModal} />}
 						</ModalPortal>
 
-						<Link to={'/myfeed'}>
+						{/* <Link to={'/myfeed'}>
 							<div className="service_userFeed_text">내 피드</div>
-						</Link>
+						</Link> */}
 					</div>
 					<div className="myPage_info_wrapper">
 						<div className="info_title">정보 관리</div>
 						<Link to={'/edit'}>
 							<div className="info_myInfo_text">내 정보 관리</div>
 						</Link>
-						<div className="info_alert_text">알림 설정</div>
 					</div>
 					<div className="myPage_button_wrapper">
 						<Btn text={'회원탈퇴'} type="withdraw" />
