@@ -100,31 +100,29 @@
 }
 
 /* 마이페이지 수정하기 버튼 */
-.Btn-edit {
-	width: 58px;
-	height: 29px;
-	border-radius: 5px;
-	border: 1.5px solid #a4d6dd;
+.Btn-nickname,
+.Btn-password,
+.Btn-job {
+	width: 100px;
+	height: 40px;
+	border-radius: 10px;
+	border: 2.5px solid #a4d6dd;
 	background: #fff;
-
-	/* Drop Shadow */
 	box-shadow: 2px 2px 4px 0px rgba(119, 119, 119, 0.25);
-
-	/* Font */
 	color: #646464;
 	font-family: var(--basic-font);
 	/* font-family: 'Pretendard-Regular'; */
 	font-size: 16px;
 	font-style: normal;
-	font-weight: 400;
-	line-height: normal;
+	font-weight: 600;
+	line-height: 19px;
 }
 
-.Btn-edit:hover {
+.Btn-nickname:hover,
+.Btn-password:hover,
+.Btn-job:hover {
 	background: #a4d6dd;
-
-	/* Drop Shadow */
-	box-shadow: 2px 2px 4px 0px rgba(119, 119, 119, 0.25);
+	color: #000;
 }
 
 .Btn-rank {
