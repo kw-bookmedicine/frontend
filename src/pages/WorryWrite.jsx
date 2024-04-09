@@ -18,9 +18,9 @@ import ProcessTitle from "../components/Prescription/ProcessTitle";
 
 const WorryWrite = () => {
   // 아래 정보들을 useReducer로 관리하는게 좋은가?
-  const [currentStep, setCurrentStep] = useState(0); // 현재 질문 단계
-  const [userResponses, setUserResponses] = useState([]); // 사용자의 답변 저장
-  const [isCompleted, setIsCompleted] = useState(false); // 질문 완료 여부
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0); // 현재 질문 단계
+  const [userAnswers, setUserAnswers] = useState([]); // 사용자의 답변 저장
+  const [isQuestionnaireCompleted, setIsQuestionnaireCompleted] = useState(false); // 질문 완료 여부
 
   const [showQuestion, setShowQuestion] = useState(true); // 질문 딜레이 적용
   const [showOptions, setShowOptions] = useState(false); // 질문 옵션과 버튼을 보여줄지 여부
@@ -51,17 +51,17 @@ const WorryWrite = () => {
       setShowOptions(true);
     }, 1000);
     return () => clearTimeout(timer);
-  }, [currentStep]);
+  }, [currentQuestionIndex]);
 
-  // showOptions와 currentStep 변경 시, 자동 스크롤 적용
+  // showOptions와 currentQuestionIndex 변경 시, 자동 스크롤 적용
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (showOptions && currentStep >= 1) {
+      if (showOptions && currentQuestionIndex >= 1) {
         scrollToBottom();
       }
     }, 1000);
     return () => clearTimeout(timer);
-  }, [showOptions, currentStep]);
+  }, [showOptions, currentQuestionIndex]);
 
   //  답변 이후 0.5초 후 질문 제목 등장
   useEffect(() => {
@@ -70,7 +70,7 @@ const WorryWrite = () => {
       setShowQuestion(true);
     }, 500);
     return () => clearTimeout(timer);
-  }, [userResponses]);
+  }, [userAnswers]);
 
   const [questions, setQuestions] = useState([
     {
@@ -163,13 +163,13 @@ const WorryWrite = () => {
   // 다음 질문으로 이동 및 현재 userResponse 정보 업데이트
   const handleNextStep = () => {
     // 현재 field 가져오기
-    const currentField = questions[currentStep].field;
+    const currentField = questions[currentQuestionIndex].field;
     const response = userSelections[currentField];
-    setUserResponses([...userResponses, { step: currentStep, response }]); 
-    if (currentStep < questions.length - 1) {
-      setCurrentStep((prev) => prev + 1);
+    setUserAnswers([...userAnswers, { step: currentQuestionIndex, response }]); 
+    if (currentQuestionIndex < questions.length - 1) {
+      setCurrentQuestionIndex((prev) => prev + 1);
     } else {
-      setIsCompleted(true);
+      setIsQuestionnaireCompleted(true);
       // 마지막 단계 처리 로직 개선 필여
       setIsLoading(true);
       // let sum = 0;
@@ -185,12 +185,12 @@ const WorryWrite = () => {
 
   // 질문에 대한 상태 업데이트
   const handleSelectedAnswer = (selectedOption) => {
-    const question = questions[currentStep];
+    const question = questions[currentQuestionIndex];
 
     // selected 속성이 있는 경우에만 질문 상태를 업데이트
     if ("selected" in question) {
       const updatedQuestions = questions.map((item, index) =>
-        index === currentStep ? { ...item, selected: true } : item
+        index === currentQuestionIndex ? { ...item, selected: true } : item
       );
       setQuestions(updatedQuestions);
     }
@@ -201,7 +201,7 @@ const WorryWrite = () => {
 
   // 선택된 답변 userSelections에 저장
   const handleInputedAnswer = (inputData) => {
-    const field = questions[currentStep].field;
+    const field = questions[currentQuestionIndex].field;
     setUserSelections((prev) => ({
       ...prev,
       [field]: inputData,
@@ -209,9 +209,9 @@ const WorryWrite = () => {
   };
 
   // 진행바 진행률 계산
-  const processValue = isCompleted
+  const processValue = isQuestionnaireCompleted
     ? 100
-    : Math.floor((currentStep / (questions.length - 1)) * 100);
+    : Math.floor((currentQuestionIndex / (questions.length - 1)) * 100);
 
   const bodyRef = useRef(null);
 
@@ -228,7 +228,7 @@ const WorryWrite = () => {
 
           <Body id="app-body">
             <div ref={bodyRef}>
-              {userResponses.map((ur, index) => (
+              {userAnswers.map((ur, index) => (
                 <div key={index}>
                   <PrevQuestionMessageWrapper>
                     {questions[ur.step].question}
@@ -242,17 +242,17 @@ const WorryWrite = () => {
                 </div>
               ))}
 
-              {!isCompleted && showQuestion && (
+              {!isQuestionnaireCompleted && showQuestion && (
                 <>
                   <MessageContainer ref={scrollContainerRef}>
-                    <Content>{questions[currentStep].question}</Content>
+                    <Content>{questions[currentQuestionIndex].question}</Content>
                     {showOptions && (
                       <>
-                        {questions[currentStep].type === "multipleChoice" && (
+                        {questions[currentQuestionIndex].type === "multipleChoice" && (
                           // 다중 선택 질문을 위한 UI
                           <AnswersContainer>
                             <Answers>
-                              {questions[currentStep].options.map(
+                              {questions[currentQuestionIndex].options.map(
                                 (option, index) => (
                                   <Answer
                                     key={index}
@@ -261,7 +261,7 @@ const WorryWrite = () => {
                                     <OptionButton
                                       clicked={
                                         userSelections[
-                                          questions[currentStep].field
+                                          questions[currentQuestionIndex].field
                                         ] === option
                                       }
                                     />
@@ -271,7 +271,7 @@ const WorryWrite = () => {
                               )}
                             </Answers>
                             <Button
-                              disabled={!questions[currentStep].selected}
+                              disabled={!questions[currentQuestionIndex].selected}
                               onClick={() => handleNextStep()}
                             >
                               선택하기
@@ -281,13 +281,13 @@ const WorryWrite = () => {
                         {/* 관련된 책 중에 읽어본 책이 있나요?
                       있다 없다 선택지를 주고 있으면 작성할 수 있게 해야하는게 좋아보여
                     */}
-                        {questions[currentStep].type === "freeText" && (
+                        {questions[currentQuestionIndex].type === "freeText" && (
                           // 자유 응답 질문을 위한 UI
                           <AnswersContainer>
                             <Input
                               placeholder="여기에 답변을 작성하세요."
                               value={
-                                userSelections[questions[currentStep].field]
+                                userSelections[questions[currentQuestionIndex].field]
                               }
                               onChange={(e) =>
                                 handleInputedAnswer(e.target.value)
@@ -295,9 +295,9 @@ const WorryWrite = () => {
                             />
                             <Button
                               disabled={
-                                questions[currentStep].minLength
-                                  ? userSelections[questions[currentStep].field]
-                                      .length < questions[currentStep].minLength
+                                questions[currentQuestionIndex].minLength
+                                  ? userSelections[questions[currentQuestionIndex].field]
+                                      .length < questions[currentQuestionIndex].minLength
                                   : false
                               }
                               onClick={() => handleNextStep()}
@@ -306,12 +306,12 @@ const WorryWrite = () => {
                             </Button>
                           </AnswersContainer>
                         )}
-                        {questions[currentStep].type === "normal" && (
+                        {questions[currentQuestionIndex].type === "normal" && (
                           <>
                             {" "}
                             <AnswersContainer>
                               정보 요약
-                              {userResponses.map((e, index) => {
+                              {userAnswers.map((e, index) => {
                                 return <div key={index}>{e.response}</div>;
                               })}
                             </AnswersContainer>
