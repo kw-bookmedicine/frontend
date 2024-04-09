@@ -7,8 +7,10 @@ import styled, { keyframes } from "styled-components";
 // COMPONENTS
 import ProcessTitle from "../components/Prescription/ProcessTitle";
 
-// 
+// 화면이 크기가 줄어들지 않게 고정하기
 // 로딩 후 화면 전환 추가
+// 사용자에게 받은 정보를 보여주는 임의 페이지로 라우팅하기
+
 
 const WorryWrite = () => {
   const [currentStep, setCurrentStep] = useState(0); // 현재 질문 단계
@@ -19,15 +21,13 @@ const WorryWrite = () => {
   const [showOptions, setShowOptions] = useState(false); // 질문 옵션과 버튼을 보여줄지 여부
 
   const [userSelections, setUserSelections] = useState({
-    category: "",
-    worry1: "",
-    worry2: "",
-    space: "",
-    type: "",
-    brand: "",
-    angleInstallation: "",
-    pipingType: "",
-    serviceDate: "",
+    readingFrequency: "",
+    keywordConcern: "",
+    primaryConcern: "",
+    secondaryConcern: "",
+    relatedBooksRead: "", // 검색 컴포넌트 있으면 좋을듯
+    detailedConcern: "",
+    summary: "",
   });
 
   // 스크롤을 적용할 요소를 위한 ref 생성
@@ -35,6 +35,7 @@ const WorryWrite = () => {
 
   const scrollToBottom = () => {
     scrollContainerRef.current?.scrollIntoView({ behavior: "smooth" });
+    console.log("scroll")
   };
 
   // 질문지 1초후 보이도록 적용
@@ -50,10 +51,10 @@ const WorryWrite = () => {
   // showOptions와 currentStep 변경 시, 자동 스크롤 적용
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (showOptions) {
+      if (showOptions && currentStep >=1 ) {
         scrollToBottom();
       }
-    }, 400);
+    }, 1000);
     return () => clearTimeout(timer);
   }, [showOptions, currentStep]); 
 
@@ -68,26 +69,14 @@ const WorryWrite = () => {
 
   const [questions, setQuestions] = useState([
     {
-      field: "category",
-      question: "현재 가지고 있는 고민은 무엇인가요?",
-      options: [
-        "경제",
-        "건강",
-        "자녀/양육",
-        "취업/진로",
-        "공부/자기계발",
-        "관계/소통",
-        "소설/에세이",
-        "철학",
-        "역사",
-        "과학",
-        "사회",
-        "취미",
-      ],
+      field: "readingFrequency",
+      question: "한달에 책을 얼마나 자주 읽으시나요?",
+      options: ["1권", "2권", "3권", "4권 이상", "0권"],
       selected: false,
+      type: "multipleChoice",
     },
     {
-      field: "worry1",
+      field: "keywordConcern",
       question: "현재 가지고 있는 고민은 무엇인가요?",
       options: [
         "경제",
@@ -104,23 +93,12 @@ const WorryWrite = () => {
         "취미",
       ],
       selected: false,
+      type: "multipleChoice",
     },
     {
-      field: "worry2",
-      question: "현재 가지고 있는 고민은 무엇인가요?",
+      field: "primaryConcern",
+      question: "고민 키워드에 대한 질문",
       options: [
-        "경제",
-        "건강",
-        "자녀/양육",
-        "취업/진로",
-        "공부/자기계발",
-        "관계/소통",
-        "소설/에세이",
-        "철학",
-        "역사",
-        "과학",
-        "사회",
-        "취미",
         "경제",
         "건강",
         "자녀/양육",
@@ -135,10 +113,11 @@ const WorryWrite = () => {
         "취미",
       ],
       selected: false,
+      type: "multipleChoice",
     },
     {
-      field: "worry2",
-      question: "현재 가지고 있는 고민은 무엇인가요?",
+      field: "secondaryConcern",
+      question: "고민 키워드에 대한 질문",
       options: [
         "경제",
         "건강",
@@ -154,44 +133,23 @@ const WorryWrite = () => {
         "취미",
       ],
       selected: false,
+      type: "multipleChoice",
     },
     {
-      field: "worry2",
-      question: "현재 가지고 있는 고민은 무엇인가요?",
-      options: [
-        "경제",
-        "건강",
-        "자녀/양육",
-        "취업/진로",
-        "공부/자기계발",
-        "관계/소통",
-        "소설/에세이",
-        "철학",
-        "역사",
-        "과학",
-        "사회",
-        "취미",
-      ],
-      selected: false,
+      field: "relatedBooksRead",
+      question: "관련된 책중에 읽어본 책 있으면 적어주세요",
+      type: "freeText",
     },
     {
-      field: "worry2",
-      question: "현재 가지고 있는 고민은 무엇인가요?",
-      options: [
-        "경제",
-        "건강",
-        "자녀/양육",
-        "취업/진로",
-        "공부/자기계발",
-        "관계/소통",
-        "소설/에세이",
-        "철학",
-        "역사",
-        "과학",
-        "사회",
-        "취미",
-      ],
-      selected: false,
+      field: "detailedConcern",
+      question: "고민에 대해서 자세하게 작성해주세요(최소 100자 이상)",
+      minLength: 100,
+      type: "freeText",
+    },
+    {
+      field: "summary",
+      question: "선택하신 정보들 입니다.",
+      type: "normal"
     },
     // 질문 추가
   ]);
@@ -226,7 +184,21 @@ const WorryWrite = () => {
     }));
   };
 
-  const processValue = Math.floor((currentStep / questions.length) * 100);
+  const handleInputedAnswer = (inputData) => {
+    // 유저가 선택한 답변 저장
+    const field = questions[currentStep].field;
+    setUserSelections((prev) => ({
+      ...prev,
+      [field]: inputData,
+    }));
+  }
+
+  // 진행바 진행률 계산
+  const processValue = isCompleted
+    ? 100
+    : Math.floor((currentStep / (questions.length - 1)) * 100);
+
+  const bodyRef = useRef(null);
 
   return (
     <>
@@ -236,7 +208,7 @@ const WorryWrite = () => {
       </Sticky>
 
       <Body id="app-body">
-        <div>
+        <div ref={bodyRef}>
           {userResponses.map((ur, index) => (
             <div key={index}>
               <PrevQuestionMessageWrapper>
@@ -244,40 +216,82 @@ const WorryWrite = () => {
               </PrevQuestionMessageWrapper>
               <PrevAnswerMessageWrapper>
                 <PrevAnswerMessage>
-                  <HightLigint>{ur.response}</HightLigint>에 대해서 고민이 있어
+                  {/* <HightLigint>{ur.response}</HightLigint>에 대해서 고민이 있어 */}
+                  <HightLigint>{ur.response}</HightLigint>
                 </PrevAnswerMessage>
               </PrevAnswerMessageWrapper>
             </div>
           ))}
+
           {!isCompleted && showQuestion && (
             <>
               <MessageContainer ref={scrollContainerRef}>
                 <Content>{questions[currentStep].question}</Content>
                 {showOptions && (
-                  <AnswersContainer expanded={showOptions}>
-                    <Answers>
-                      {questions[currentStep].options.map((option, index) => (
-                        <Answer
-                          key={index}
-                          onClick={() => handleSelectedAnswer(option)}
+                  <>
+                    {questions[currentStep].type === "multipleChoice" && (
+                      // 다중 선택 질문을 위한 UI
+                      <AnswersContainer>
+                        <Answers>
+                          {questions[currentStep].options.map(
+                            (option, index) => (
+                              <Answer
+                                key={index}
+                                onClick={() => handleSelectedAnswer(option)}
+                              >
+                                <OptionButton
+                                  clicked={
+                                    userSelections[
+                                      questions[currentStep].field
+                                    ] === option
+                                  }
+                                />
+                                {option}
+                              </Answer>
+                            )
+                          )}
+                        </Answers>
+                        <Button
+                          disabled={!questions[currentStep].selected}
+                          onClick={() => handleNextStep()}
                         >
-                          <OptionButton
-                            clicked={
-                              userSelections[questions[currentStep].field] ===
-                              option
-                            }
-                          />
-                          {option}
-                        </Answer>
-                      ))}
-                    </Answers>
-                    <Button
-                      disabled={!questions[currentStep].selected}
-                      onClick={() => handleNextStep()}
-                    >
-                      선택하기
-                    </Button>
-                  </AnswersContainer>
+                          선택하기
+                        </Button>
+                      </AnswersContainer>
+                    )}
+                    {/* 관련된 책 중에 읽어본 책이 있나요?
+                      있다 없다 선택지를 주고 있으면 작성할 수 있게 해야하는게 좋아보여
+                    */}
+                    {questions[currentStep].type === "freeText" && (
+                      // 자유 응답 질문을 위한 UI
+                      <AnswersContainer>
+                        <Input
+                          placeholder="여기에 답변을 작성하세요."
+                          value={userSelections[questions[currentStep].field]}
+                          onChange={(e) => handleInputedAnswer(e.target.value)}
+                        />
+                        <Button
+                          disabled={
+                            questions[currentStep].minLength
+                              ? userSelections[questions[currentStep].field]
+                                  .length < questions[currentStep].minLength
+                              : false
+                          }
+                          onClick={() => handleNextStep()}
+                        >
+                          제출하기
+                        </Button>
+                      </AnswersContainer>
+                    )}
+                    {questions[currentStep].type === "normal" && (
+                      <AnswersContainer>
+                        정보 요약
+                        {userResponses.map((e, index) => {
+                          return <div key={index}>{e.response}</div>;
+                        })}
+                      </AnswersContainer>
+                    )}
+                  </>
                 )}
               </MessageContainer>
             </>
@@ -359,20 +373,22 @@ const HightLigint = styled.span`
 `;
 
 const PrevAnswerMessage = styled.div`
+  max-width: 80%;
   background-color: #a4d6dd;
   padding: 20px;
   border-radius: 16px 4px 16px 16px;
 `;
 
 const MessageContainer = styled.div`
-  width: 340px;
+  width: 400px;
+  /* width:100%; */
   padding: 20px;
   height: 100%;
   background-color: white;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  /* align-items: center; */
   border-radius: 4px 16px 16px;
   animation: ${fadeIn} 1s ease-out;
 `;
@@ -405,7 +421,6 @@ const AnswersContainer = styled.div`
   width: 100%;
   animation: ${expand} 0.5s ease-out forwards;
   /* animation: ${(props) => (props.expanded ? expand : reduce)} 0.5s ease-out */
-  /* animation: ${(props) => (props.expanded ? expand : reduce)} 5s ease-out */
 `;
 
 const Answers = styled.ul`
@@ -441,6 +456,30 @@ const Button = styled.button`
   background-color: #c8edf2;
   border-radius: 10px;
   font-size: 20px;
+`;
+
+const Input = styled.textarea`
+  width: 100%;
+  height: 100px;
+  border-radius: 4px;
+  font-size: 16px;
+  font-family: var(--basic-font);
+  color: #323232;
+  border: 2px solid #e1e1e1e1;
+  padding: 0.75rem;
+  &:focus {
+    outline: none;
+    border: 2px solid #c8edf2;
+  }
+  resize: none;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  overflow-y: auto;
+  ::-webkit-scrollbar {
+    display: none
+  }
+  -ms-overflow-style:none;
+  scrollbar-width:none;
 `;
 
 const StyledOptionButton = styled.div`
