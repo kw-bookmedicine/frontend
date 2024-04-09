@@ -10,15 +10,21 @@ import ProcessTitle from "../components/Prescription/ProcessTitle";
 // 화면이 크기가 줄어들지 않게 고정하기
 // 로딩 후 화면 전환 추가
 // 사용자에게 받은 정보를 보여주는 임의 페이지로 라우팅하기
+// 수정할 수 있게 스크롤 이벤트 추가
+
+// 1. 컴포넌트
+// 2. 변수를 어떻게 관리하는게 좋을까?
 
 
 const WorryWrite = () => {
+  // 아래 정보들을 useReducer로 관리하는게 좋은가?
   const [currentStep, setCurrentStep] = useState(0); // 현재 질문 단계
   const [userResponses, setUserResponses] = useState([]); // 사용자의 답변 저장
   const [isCompleted, setIsCompleted] = useState(false); // 질문 완료 여부
 
   const [showQuestion, setShowQuestion] = useState(true); // 질문 딜레이 적용
   const [showOptions, setShowOptions] = useState(false); // 질문 옵션과 버튼을 보여줄지 여부
+  const [isLoading, setIsLoading] = useState(false);
 
   const [userSelections, setUserSelections] = useState({
     readingFrequency: "",
@@ -35,7 +41,7 @@ const WorryWrite = () => {
 
   const scrollToBottom = () => {
     scrollContainerRef.current?.scrollIntoView({ behavior: "smooth" });
-    console.log("scroll")
+    console.log("scroll");
   };
 
   // 질문지 1초후 보이도록 적용
@@ -47,16 +53,15 @@ const WorryWrite = () => {
     return () => clearTimeout(timer);
   }, [currentStep]);
 
-
   // showOptions와 currentStep 변경 시, 자동 스크롤 적용
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (showOptions && currentStep >=1 ) {
+      if (showOptions && currentStep >= 1) {
         scrollToBottom();
       }
     }, 1000);
     return () => clearTimeout(timer);
-  }, [showOptions, currentStep]); 
+  }, [showOptions, currentStep]);
 
   //  답변 이후 0.5초 후 질문 제목 등장
   useEffect(() => {
@@ -149,49 +154,59 @@ const WorryWrite = () => {
     {
       field: "summary",
       question: "선택하신 정보들 입니다.",
-      type: "normal"
+      type: "normal",
     },
     // 질문 추가
   ]);
 
+
+  // 다음 질문으로 이동 및 현재 userResponse 정보 업데이트
   const handleNextStep = () => {
     // 현재 field 가져오기
     const currentField = questions[currentStep].field;
     const response = userSelections[currentField];
-    setUserResponses([...userResponses, { step: currentStep, response }]);
+    setUserResponses([...userResponses, { step: currentStep, response }]); 
     if (currentStep < questions.length - 1) {
       setCurrentStep((prev) => prev + 1);
     } else {
       setIsCompleted(true);
+      // 마지막 단계 처리 로직 개선 필여
+      setIsLoading(true);
+      // let sum = 0;
+      // for (let i = 0; i < 999999999999; i++){
+      //   sum += i;
+      // }
+      // setIsLoading(false);
+
     }
   };
 
-  const handleSelectedAnswer = (selectedOption) => {
-    const updatedQuestions = questions.map((item, index) => {
-      // 선택된 객체의 상태 변경
-      if (index === currentStep) {
-        return { ...item, selected: true };
-      }
-      return item;
-    });
-    setQuestions(updatedQuestions);
 
-    // 유저가 선택한 답변 저장
-    const field = questions[currentStep].field;
-    setUserSelections((prev) => ({
-      ...prev,
-      [field]: selectedOption,
-    }));
+
+  // 질문에 대한 상태 업데이트
+  const handleSelectedAnswer = (selectedOption) => {
+    const question = questions[currentStep];
+
+    // selected 속성이 있는 경우에만 질문 상태를 업데이트
+    if ("selected" in question) {
+      const updatedQuestions = questions.map((item, index) =>
+        index === currentStep ? { ...item, selected: true } : item
+      );
+      setQuestions(updatedQuestions);
+    }
+
+    // 모든 경우에 사용자 선택을 저장
+    handleInputedAnswer(selectedOption);
   };
 
+  // 선택된 답변 userSelections에 저장
   const handleInputedAnswer = (inputData) => {
-    // 유저가 선택한 답변 저장
     const field = questions[currentStep].field;
     setUserSelections((prev) => ({
       ...prev,
       [field]: inputData,
     }));
-  }
+  };
 
   // 진행바 진행률 계산
   const processValue = isCompleted
@@ -202,102 +217,119 @@ const WorryWrite = () => {
 
   return (
     <>
-      <Header />
-      <Sticky>
-        <ProcessTitle type={"Counseling"} value={processValue} />
-      </Sticky>
+      {isLoading ? (
+        <Loading>Loading...</Loading>
+      ) : (
+        <>
+          <Header />
+          <Sticky>
+            <ProcessTitle type={"Counseling"} value={processValue} />
+          </Sticky>
 
-      <Body id="app-body">
-        <div ref={bodyRef}>
-          {userResponses.map((ur, index) => (
-            <div key={index}>
-              <PrevQuestionMessageWrapper>
-                {questions[ur.step].question}
-              </PrevQuestionMessageWrapper>
-              <PrevAnswerMessageWrapper>
-                <PrevAnswerMessage>
-                  {/* <HightLigint>{ur.response}</HightLigint>에 대해서 고민이 있어 */}
-                  <HightLigint>{ur.response}</HightLigint>
-                </PrevAnswerMessage>
-              </PrevAnswerMessageWrapper>
-            </div>
-          ))}
+          <Body id="app-body">
+            <div ref={bodyRef}>
+              {userResponses.map((ur, index) => (
+                <div key={index}>
+                  <PrevQuestionMessageWrapper>
+                    {questions[ur.step].question}
+                  </PrevQuestionMessageWrapper>
+                  <PrevAnswerMessageWrapper>
+                    <PrevAnswerMessage>
+                      {/* <HightLigint>{ur.response}</HightLigint>에 대해서 고민이 있어 */}
+                      <HightLigint>{ur.response}</HightLigint>
+                    </PrevAnswerMessage>
+                  </PrevAnswerMessageWrapper>
+                </div>
+              ))}
 
-          {!isCompleted && showQuestion && (
-            <>
-              <MessageContainer ref={scrollContainerRef}>
-                <Content>{questions[currentStep].question}</Content>
-                {showOptions && (
-                  <>
-                    {questions[currentStep].type === "multipleChoice" && (
-                      // 다중 선택 질문을 위한 UI
-                      <AnswersContainer>
-                        <Answers>
-                          {questions[currentStep].options.map(
-                            (option, index) => (
-                              <Answer
-                                key={index}
-                                onClick={() => handleSelectedAnswer(option)}
-                              >
-                                <OptionButton
-                                  clicked={
-                                    userSelections[
-                                      questions[currentStep].field
-                                    ] === option
-                                  }
-                                />
-                                {option}
-                              </Answer>
-                            )
-                          )}
-                        </Answers>
-                        <Button
-                          disabled={!questions[currentStep].selected}
-                          onClick={() => handleNextStep()}
-                        >
-                          선택하기
-                        </Button>
-                      </AnswersContainer>
-                    )}
-                    {/* 관련된 책 중에 읽어본 책이 있나요?
+              {!isCompleted && showQuestion && (
+                <>
+                  <MessageContainer ref={scrollContainerRef}>
+                    <Content>{questions[currentStep].question}</Content>
+                    {showOptions && (
+                      <>
+                        {questions[currentStep].type === "multipleChoice" && (
+                          // 다중 선택 질문을 위한 UI
+                          <AnswersContainer>
+                            <Answers>
+                              {questions[currentStep].options.map(
+                                (option, index) => (
+                                  <Answer
+                                    key={index}
+                                    onClick={() => handleSelectedAnswer(option)}
+                                  >
+                                    <OptionButton
+                                      clicked={
+                                        userSelections[
+                                          questions[currentStep].field
+                                        ] === option
+                                      }
+                                    />
+                                    {option}
+                                  </Answer>
+                                )
+                              )}
+                            </Answers>
+                            <Button
+                              disabled={!questions[currentStep].selected}
+                              onClick={() => handleNextStep()}
+                            >
+                              선택하기
+                            </Button>
+                          </AnswersContainer>
+                        )}
+                        {/* 관련된 책 중에 읽어본 책이 있나요?
                       있다 없다 선택지를 주고 있으면 작성할 수 있게 해야하는게 좋아보여
                     */}
-                    {questions[currentStep].type === "freeText" && (
-                      // 자유 응답 질문을 위한 UI
-                      <AnswersContainer>
-                        <Input
-                          placeholder="여기에 답변을 작성하세요."
-                          value={userSelections[questions[currentStep].field]}
-                          onChange={(e) => handleInputedAnswer(e.target.value)}
-                        />
-                        <Button
-                          disabled={
-                            questions[currentStep].minLength
-                              ? userSelections[questions[currentStep].field]
-                                  .length < questions[currentStep].minLength
-                              : false
-                          }
-                          onClick={() => handleNextStep()}
-                        >
-                          제출하기
-                        </Button>
-                      </AnswersContainer>
+                        {questions[currentStep].type === "freeText" && (
+                          // 자유 응답 질문을 위한 UI
+                          <AnswersContainer>
+                            <Input
+                              placeholder="여기에 답변을 작성하세요."
+                              value={
+                                userSelections[questions[currentStep].field]
+                              }
+                              onChange={(e) =>
+                                handleInputedAnswer(e.target.value)
+                              }
+                            />
+                            <Button
+                              disabled={
+                                questions[currentStep].minLength
+                                  ? userSelections[questions[currentStep].field]
+                                      .length < questions[currentStep].minLength
+                                  : false
+                              }
+                              onClick={() => handleNextStep()}
+                            >
+                              제출하기
+                            </Button>
+                          </AnswersContainer>
+                        )}
+                        {questions[currentStep].type === "normal" && (
+                          <>
+                            {" "}
+                            <AnswersContainer>
+                              정보 요약
+                              {userResponses.map((e, index) => {
+                                return <div key={index}>{e.response}</div>;
+                              })}
+                            </AnswersContainer>
+                            <Button onClick={() => handleNextStep()}>
+                              {" "}
+                              제출하기
+                            </Button>
+                          </>
+                        )}
+                      </>
                     )}
-                    {questions[currentStep].type === "normal" && (
-                      <AnswersContainer>
-                        정보 요약
-                        {userResponses.map((e, index) => {
-                          return <div key={index}>{e.response}</div>;
-                        })}
-                      </AnswersContainer>
-                    )}
-                  </>
-                )}
-              </MessageContainer>
-            </>
-          )}
-        </div>
-      </Body>
+                  </MessageContainer>
+                </>
+              )}
+            </div>
+          </Body>
+        </>
+      )}
     </>
   );
 };
@@ -338,6 +370,14 @@ const Sticky = styled.div`
   position: sticky;
   top: 64px;
   background-color: white;
+`;
+
+const Loading = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
 `;
 
 const Body = styled.div`
