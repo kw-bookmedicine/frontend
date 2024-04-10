@@ -2,15 +2,14 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 // Assets
-import rightArrow from '../assets/rightArrow.png';
-import banner from '../assets/Login-Banner.png';
+import rightArrow from '../../assets/rightArrow.png';
+import banner from '../../assets/Login-Banner.png';
 
 // COMPONENTS
-import JoinBtn from '../components/JoinButton';
 
 // STYLES
 import { styled } from 'styled-components';
-import '../styles/JoinStyles.css';
+import '../../styles/JoinStyles.css';
 
 const LoginContainer = styled.div`
 	display: flex;
@@ -40,7 +39,7 @@ const LoginContent = styled.div`
 	overflow-y: auto;
 `;
 
-const Join = () => {
+const Signup1 = () => {
 	const [isActived, setIsActived] = useState(false);
 	const [isActived2, setIsActived2] = useState(false);
 	const clickHandler = () => {
@@ -440,7 +439,7 @@ const Join = () => {
 							</button>
 						</div>
 						<button className="arrow">
-							<Link to={'/signup/1'}>
+							<Link to={'/signup/2'}>
 								<img src={rightArrow} alt="다음 페이지로" />
 							</Link>
 						</button>
@@ -820,7 +819,7 @@ const Join = () => {
 							</button>
 						</div>
 						<button className="arrow">
-							<Link to={'/join2'}>
+							<Link to={'/Signup12'}>
 								<img src={rightArrow} alt="다음 페이지로" />
 							</Link>
 						</button>
@@ -831,4 +830,4 @@ const Join = () => {
 	);
 };
 
-export default Join;
+export default Signup1;
