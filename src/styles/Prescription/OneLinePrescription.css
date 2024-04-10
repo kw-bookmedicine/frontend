@@ -43,7 +43,8 @@
 	height: 70px;
 	min-width: 1296px;
 	max-width: 1440px;
-	margin: 12px auto;
+	padding-top: 20px;
+	margin: 40px auto;
 }
 
 .OneLinePrscr_card_container {

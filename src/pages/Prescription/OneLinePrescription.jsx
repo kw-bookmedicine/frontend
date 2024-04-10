@@ -23,6 +23,13 @@ const OneLinePrescription = () => {
 		}
 	};
 
+	const [cardClick, setCardClick] = useState(false);
+
+	const handleCardClick = (res) => {
+		// setCardClick(!cardClick);
+		console.log(res);
+	};
+
 	return (
 		<>
 			<Header />
@@ -58,7 +65,12 @@ const OneLinePrescription = () => {
 							</form>
 						</div>
 						<div className="OneLinePrscr_card_container">
-							<PrescriptionCard />
+							<PrescriptionCard
+								onClick={() => {
+									console.log('click');
+								}}
+								isClick={cardClick}
+							/>
 							<PrescriptionCard />
 							<PrescriptionCard />
 							<PrescriptionCard />
