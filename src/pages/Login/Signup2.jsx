@@ -1,394 +1,372 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useForm, rules } from 'react-hook-form';
+import React, { useEffect, useState } from "react";
+import { useForm, rules } from "react-hook-form";
+import { Link, useNavigate } from "react-router-dom";
 
 // SERVICE
-import api from '../../services/api';
+import api from "../../services/api";
 
 // ASSETS
-import banner from '../../assets/Login-Banner.png';
+import banner from "../../assets/Login-Banner.png";
 
 // STYLE
-import { styled } from 'styled-components';
-import '../../styles/Signup2.css';
+import { styled } from "styled-components";
+import "../../styles/Signup2.css";
 
 const Signup2 = () => {
-	// 유저에 대한 데이터를 객체로 담기
+  // 유저에 대한 데이터를 객체로 담기
 
-	const {
-		watch,
-		control,
-		setValue,
-		handleSubmit,
-		setError,
-		clearErrors,
-		formState: { errors },
-	} = useForm({
-		mode: 'onChange',
-		defaultValues: {
-			id: '',
-			pwd: '',
-			passwordMismatch: '',
-			term: false,
-		},
-	});
+  const {
+    watch,
+    control,
+    setValue,
+    handleSubmit,
+    setError,
+    clearErrors,
+    formState: { errors },
+  } = useForm({
+    mode: "onChange",
+    defaultValues: {
+      id: "",
+      pwd: "",
+      passwordMismatch: "",
+      term: false,
+    },
+  });
 
-	useEffect(() => {
-		if (
-			watch('password') !== watch('passwordConfirm') &&
-			watch('passwordConfirm')
-		) {
-			setError('passwordConfirm', {
-				type: 'password-mismatch',
-				message: '비밀번호가 일치하지 않습니다',
-			});
-		} else {
-			clearErrors('passwordConfirm');
-		}
-	}, [watch('password'), watch('passwordConfirm'), setError, clearErrors]);
+  useEffect(() => {
+    if (
+      watch("password") !== watch("passwordConfirm") &&
+      watch("passwordConfirm")
+    ) {
+      setError("passwordConfirm", {
+        type: "password-mismatch",
+        message: "비밀번호가 일치하지 않습니다",
+      });
+    } else {
+      clearErrors("passwordConfirm");
+    }
+  }, [watch("password"), watch("passwordConfirm"), setError, clearErrors]);
 
-	// 아이디 및 아이디 중복 확인
-	const [id, setId] = useState('');
-	const [isIdAvailable, setIsIdAvailable] = useState(true);
+  // 아이디 및 아이디 중복 확인
+  const [id, setId] = useState("");
+  const [isIdAvailable, setIsIdAvailable] = useState(true);
 
-	// 비밀번호 및 비밀번호 확인, 일치 여부
-	const [pwd, setPwd] = useState('');
-	const [pwdConfirm, setPwdConfirm] = useState('');
-	const isSame = pwd === pwdConfirm;
+  // 비밀번호 및 비밀번호 확인, 일치 여부
+  const [pwd, setPwd] = useState("");
+  const [pwdConfirm, setPwdConfirm] = useState("");
+  const isSame = pwd === pwdConfirm;
 
-	// 이름인데 필요한가? 어디에 활용하는거지?
-	const [name, setName] = useState('');
+  // 이름인데 필요한가? 어디에 활용하는거지?
+  const [name, setName] = useState("");
 
-	// 닉네임 및 닉네임 중복 확인
-	const [nickname, setNickname] = useState('');
-	const [isNicknameAvailable, setIsNicknameAvailable] = useState(true);
+  // 닉네임 및 닉네임 중복 확인
+  const [nickname, setNickname] = useState("");
+  const [isNicknameAvailable, setIsNicknameAvailable] = useState(true);
 
-	// 생년월일, 성별, 성별 버튼 클릭 판단
-	const [birthDate, setBirthDate] = useState('');
-	const [gender, setGender] = useState('');
-	const [isMaleClicked, setIsMaleClicked] = useState(false);
-	const [isFemaleClicked, setIsFemaleClicked] = useState(false);
+  // 생년월일, 성별, 성별 버튼 클릭 판단
+  const [birthDate, setBirthDate] = useState("");
+  const [gender, setGender] = useState("");
+  const [isMaleClicked, setIsMaleClicked] = useState(false);
+  const [isFemaleClicked, setIsFemaleClicked] = useState(false);
 
-	// 이메일 및 이메일 유저이름과 도메인
-	const [email, setEmail] = useState('');
-	const [emailUsername, setEmailUsername] = useState('');
-	const [emailDomain, setEmailDomain] = useState('');
-	const [isInputEnabled, setIsInputEnabled] = useState(false);
+  // 이메일 및 이메일 유저이름과 도메인
+  const [email, setEmail] = useState("");
+  const [emailUsername, setEmailUsername] = useState("");
+  const [emailDomain, setEmailDomain] = useState("");
+  const [isInputEnabled, setIsInputEnabled] = useState(false);
 
-	// 직업 정보
-	const [job, setJob] = useState('');
+  // 직업 정보
+  const [job, setJob] = useState("");
 
-	// 모든 것을 작성해야 가입하기 버튼 클릭 활성화
-	const [isButtonEnabled, setIsButtonEnabled] = useState(true);
+  // 모든 것을 작성해야 가입하기 버튼 클릭 활성화
+  const [isButtonEnabled, setIsButtonEnabled] = useState(false);
 
-	// 입력 이벤트
-	const handleInputChange = (e) => {
-		if (e.target.name === 'id') {
-			setId(e.target.value);
-		} else if (e.target.name === 'password') {
-			setPwd(e.target.value);
-		} else if (e.target.name === 'passwordConfirm') {
-			setPwdConfirm(e.target.value);
-		} else if (e.target.name === 'name') {
-			setName(e.target.value);
-		} else if (e.target.name === 'nickname') {
-			setNickname(e.target.value);
-		} else if (e.target.name === 'birthDate') {
-			setBirthDate(e.target.value);
-		} else if (e.target.name === 'gender') {
-			setGender(e.target.value);
-		} else if (e.target.name === 'email') {
-			setEmail(e.target.value);
-		}
-	};
+  const navigate = useNavigate();
 
-	// 입력의 X 버튼 이벤트
-	const handleDeleteButtonClick = (inputType) => {
-		if (inputType === 'id') {
-			setId('');
-		} else if (inputType === 'password') {
-			setPwd('');
-		} else if (inputType === 'passwordConfirm') {
-			setPwdConfirm('');
-		} else if (inputType === 'name') {
-			setName('');
-		} else if (inputType === 'nickname') {
-			setNickname('');
-		} else if (inputType === 'birthDate') {
-			setBirthDate('');
-		} else if (inputType === 'gender') {
-			setGender('');
-		} else if (inputType === 'email') {
-			setEmail('');
-		}
-	};
+  // 입력 이벤트
+  const handleInputChange = (e) => {
+    if (e.target.name === "id") {
+      setId(e.target.value);
+    } else if (e.target.name === "password") {
+      setPwd(e.target.value);
+    } else if (e.target.name === "passwordConfirm") {
+      setPwdConfirm(e.target.value);
+    } else if (e.target.name === "name") {
+      setName(e.target.value);
+    } else if (e.target.name === "nickname") {
+      setNickname(e.target.value);
+    } else if (e.target.name === "birthDate") {
+      setBirthDate(e.target.value);
+    } else if (e.target.name === "gender") {
+      setGender(e.target.value);
+    } else if (e.target.name === "email") {
+      setEmail(e.target.value);
+    }
+  };
 
-	const handleBirthDateChange = (e) => {
-		setBirthDate(e.target.value);
-	};
+  // 입력의 X 버튼 이벤트
+  // const handleDeleteButtonClick = (inputType) => {
+  //   if (inputType === "id") {
+  //     setId("");
+  //   } else if (inputType === "password") {
+  //     setPwd("");
+  //   } else if (inputType === "passwordConfirm") {
+  //     setPwdConfirm("");
+  //   } else if (inputType === "name") {
+  //     setName("");
+  //   } else if (inputType === "nickname") {
+  //     setNickname("");
+  //   } else if (inputType === "birthDate") {
+  //     setBirthDate("");
+  //   } else if (inputType === "gender") {
+  //     setGender("");
+  //   } else if (inputType === "email") {
+  //     setEmail("");
+  //   }
+  // };
 
-	const handleJobChange = (e) => {
-		// console.log(e.target.value);
-		setJob(e.target.value);
-	};
+  const handleBirthDateChange = (e) => {
+    setBirthDate(e.target.value);
+  };
 
-	const handleGenderButtonClick = (gender) => {
-		if (gender === 'male') {
-			setIsMaleClicked(true);
-			setIsFemaleClicked(false);
-		} else if (gender === 'female') {
-			setIsMaleClicked(false);
-			setIsFemaleClicked(true);
-		}
-	};
+  const handleJobChange = (e) => {
+    setJob(e.target.value);
+  };
 
-	const handleEmailDirectInput = (e) => {
-		const input = e.target.value;
-		setEmailUsername(input);
-	};
+  const handleGenderButtonClick = (gender) => {
+    if (gender === "male") {
+      setIsMaleClicked(true);
+      setIsFemaleClicked(false);
+    } else if (gender === "female") {
+      setIsMaleClicked(false);
+      setIsFemaleClicked(true);
+    }
+  };
 
-	const handleEmailDomain = (e) => {
-		const input = e.target.value;
-		setEmailDomain(input);
-	};
+  const handleEmailDirectInput = (e) => {
+    const input = e.target.value;
+    setEmailUsername(input);
+  };
 
-	const handleSelectedEmailDomain = (e) => {
-		const selectedDomain = e.target.value;
-		if (selectedDomain !== 'type') {
-			setEmailDomain(selectedDomain);
-			setIsInputEnabled(true);
-		} else {
-			setEmailDomain('');
-			setIsInputEnabled(false);
-		}
-	};
+  const handleEmailDomain = (e) => {
+    const input = e.target.value;
+    setEmailDomain(input);
+  };
 
-	useEffect(() => {
-		// setEmailDomain이 변경될 때마다 실행
-		setEmail(`${emailUsername}@${emailDomain}`);
-	}, [emailUsername, emailDomain]);
-	// console.log(emailDomain);
+  const handleSelectedEmailDomain = (e) => {
+    const selectedDomain = e.target.value;
+    if (selectedDomain !== "type") {
+      setEmailDomain(selectedDomain);
+      setIsInputEnabled(true);
+    } else {
+      setEmailDomain("");
+      setIsInputEnabled(false);
+    }
+  };
 
-	const signUpData = {
-		username: id,
-		password: pwd,
-		name: name,
-		nickname: nickname,
-		email: email,
-		gender: gender,
-		occupation: job,
-	};
+  useEffect(() => {
+    // setEmailDomain이 변경될 때마다 실행
+    setEmail(`${emailUsername}@${emailDomain}`);
+  }, [emailUsername, emailDomain]);
 
-	const postSignup = () => {
-		api
-			.post('/signup', signUpData, {
-				withCredentials: true,
-			})
-			.then((res) => {
-				console.log(res.data);
-			});
-	};
+  const signUpData = {
+    username: id,
+    password: pwd,
+    name: name,
+    nickname: nickname,
+    email: email,
+    gender: gender,
+    occupation: job,
+  };
 
-	return (
-		<LoginContainer>
-			<ImageContent></ImageContent>
-			<LoginContent>
-				<div className="signup2Title_wrapper">
-					<Title>책국 회원가입</Title>
-					<div className="signup2_step_wrapper">
-						<div className="signup2_circle-1">1</div>
-						<div className="signup2_circleToLine" />
-						<div className="signup2_circle-2">2</div>
-						<div className="signup2_circleToLine2" />
-						<div className="signup2_circle-3">3</div>
-					</div>
-				</div>
+  const postSignup = () => {
+    api
+      .post("/signup", signUpData, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        console.log(res.data);
+      });
+  };
 
-				<InputWrap2>
-					<Input
-						type="text"
-						name="id"
-						placeholder="아이디"
-						value={id}
-						onChange={handleInputChange}
-					/>
-					<InputDelete
-						showDeleteButton={id.length > 0}
-						onClick={() => handleDeleteButtonClick('id')}
-					>
-						X
-					</InputDelete>
-					<VerifyButton>중복 확인</VerifyButton>
-				</InputWrap2>
+  return (
+    <LoginContainer>
+      <ImageContent></ImageContent>
+      <LoginContent>
+        <div className="signup2Title_wrapper">
+          <Title>책국 회원가입</Title>
+          <div className="signup2_step_wrapper">
+            <div className="signup2_circle-1">1</div>
+            <div className="signup2_circleToLine" />
+            <div className="signup2_circle-2">2</div>
+            <div className="signup2_circleToLine2" />
+            <div className="signup2_circle-3">3</div>
+          </div>
+        </div>
 
-				<InputWrap>
-					<Input
-						type="password"
-						name="password"
-						placeholder="비밀번호"
-						value={pwd}
-						control={control}
-						label="비밀번호"
-						maxLength="15"
-						onChange={handleInputChange}
-					/>
-					<InputDelete
-						showDeleteButton={pwd.length > 0}
-						onClick={() => handleDeleteButtonClick('password')}
-					>
-						X
-					</InputDelete>
-				</InputWrap>
-				<InputWrap>
-					<Input
-						type="password"
-						name="passwordConfirm"
-						placeholder="비밀번호 확인"
-						value={pwdConfirm}
-						onChange={handleInputChange}
-					/>
-					<InputDelete
-						showDeleteButton={pwdConfirm.length > 0}
-						onClick={() => handleDeleteButtonClick('passwordConfirm')}
-					>
-						X
-					</InputDelete>
-					{pwdConfirm !== '' && !isSame && (
-						<ErrorMessageWrap>비밀번호가 일치하지 않습니다.</ErrorMessageWrap>
-					)}
-				</InputWrap>
+        <InputWrap2>
+          <Input
+            type="text"
+            name="id"
+            placeholder="아이디"
+            value={id}
+            onChange={handleInputChange}
+          />
+          <VerifyButton>중복 확인</VerifyButton>
+        </InputWrap2>
 
-				<InputWrap>
-					<Input
-						type="text"
-						name="name"
-						placeholder="이름"
-						value={name}
-						onChange={handleInputChange}
-					/>
-					<InputDelete
-						showDeleteButton={name.length > 0}
-						onClick={() => handleDeleteButtonClick('name')}
-					>
-						X
-					</InputDelete>
-				</InputWrap>
+        <InputWrap>
+          <Input
+            type="password"
+            name="password"
+            placeholder="비밀번호"
+            value={pwd}
+            control={control}
+            label="비밀번호"
+            maxLength="15"
+            onChange={handleInputChange}
+          />
+        </InputWrap>
+        <InputWrap>
+          <Input
+            type="password"
+            name="passwordConfirm"
+            placeholder="비밀번호 확인"
+            value={pwdConfirm}
+            onChange={handleInputChange}
+          />
 
-				<InputWrap2>
-					<Input
-						type="text"
-						name="nickname"
-						placeholder="닉네임 입력"
-						value={nickname}
-						onChange={handleInputChange}
-					/>
-					<InputDelete
-						showDeleteButton={nickname.length > 0}
-						onClick={() => handleDeleteButtonClick('nickname')}
-					>
-						X
-					</InputDelete>
-					<VerifyButton>중복 확인</VerifyButton>
-				</InputWrap2>
-				<InputWrap2>
-					<BirthInput>
-						<p>생년월일</p>
-						<input
-							type="date"
-							max="9999-12-31"
-							value={birthDate}
-							onChange={handleBirthDateChange}
-						/>
-					</BirthInput>
-					<GenderInput>
-						<p>성별</p>
-						<GenderWrap>
-							<form>
-								<button
-									type="button"
-									value="male"
-									onClick={() => handleGenderButtonClick('male')}
-									style={{
-										backgroundColor: isMaleClicked ? '#D9D9D9' : '#fff',
-										color: isMaleClicked ? 'black' : '#D9D9D9',
-									}}
-								>
-									남성
-								</button>
-								<button
-									type="button"
-									value="female"
-									onClick={() => handleGenderButtonClick('female')}
-									style={{
-										backgroundColor: isFemaleClicked ? '#D9D9D9' : '#fff',
-										color: isFemaleClicked ? 'black' : '#D9D9D9',
-									}}
-								>
-									여성
-								</button>
-							</form>
-						</GenderWrap>
-					</GenderInput>
-				</InputWrap2>
+          {pwdConfirm !== "" && !isSame && (
+            <ErrorMessageWrap>비밀번호가 일치하지 않습니다.</ErrorMessageWrap>
+          )}
+        </InputWrap>
 
-				<InputWrap2>
-					<EmailWrap>
-						<input
-							type="text"
-							placeholder="이메일 입력"
-							value={emailUsername}
-							onChange={handleEmailDirectInput}
-						/>
-						<AtSymbol>@</AtSymbol>
-						<input
-							type="text"
-							value={emailDomain}
-							onChange={handleEmailDomain}
-							disabled={isInputEnabled}
-						/>
-						<EmailSelect name="" id="" onChange={handleSelectedEmailDomain}>
-							<option value="type" selected>
-								직접 입력
-							</option>
-							<option value="naver.com">naver.com</option>
-							<option value="google.com">google.com</option>
-							<option value="hanmail.net">hanmail.net</option>
-							<option value="nate.com">nate.com</option>
-							<option value="kakao.com">kakao.com</option>
-						</EmailSelect>
-					</EmailWrap>
-					<EmailVerifyButton>인증하기</EmailVerifyButton>
-				</InputWrap2>
+        <InputWrap>
+          <Input
+            type="text"
+            name="name"
+            placeholder="이름"
+            value={name}
+            onChange={handleInputChange}
+          />
+        </InputWrap>
 
-				<InputWrap>
-					<HalfWidthInput
-						type="text"
-						placeholder="인증번호 입력"
-					></HalfWidthInput>
-					<VerifyButton>인증</VerifyButton>
-				</InputWrap>
+        <InputWrap2>
+          <Input
+            type="text"
+            name="nickname"
+            placeholder="닉네임 입력"
+            value={nickname}
+            onChange={handleInputChange}
+          />
 
-				<InputWrap>
-					<p>직업 선택</p>
-					<JobSelect name="job" id="" onChange={handleJobChange}>
-						<option value="0" selected>
-							선택 없음
-						</option>
-						<option value="학생">학생</option>
-						<option value="직장인">직장인</option>
-						<option value="전문직">전문직</option>
-						<option value="자영업">자영업</option>
-						<option value="프리랜서">프리랜서</option>
-						<option value="무직">무직</option>
-					</JobSelect>
-				</InputWrap>
+          <VerifyButton>중복 확인</VerifyButton>
+        </InputWrap2>
+        <InputWrap2>
+          <BirthInput>
+            <p>생년월일</p>
+            <input
+              type="date"
+              max="9999-12-31"
+              value={birthDate}
+              onChange={handleBirthDateChange}
+            />
+          </BirthInput>
+          <GenderInput>
+            <p>성별</p>
+            <GenderWrap>
+              <form>
+                <button
+                  type="button"
+                  value="male"
+                  onClick={() => handleGenderButtonClick("male")}
+                  style={{
+                    backgroundColor: isMaleClicked ? "#D9D9D9" : "#fff",
+                    color: isMaleClicked ? "black" : "#D9D9D9",
+                  }}
+                >
+                  남성
+                </button>
+                <button
+                  type="button"
+                  value="female"
+                  onClick={() => handleGenderButtonClick("female")}
+                  style={{
+                    backgroundColor: isFemaleClicked ? "#D9D9D9" : "#fff",
+                    color: isFemaleClicked ? "black" : "#D9D9D9",
+                  }}
+                >
+                  여성
+                </button>
+              </form>
+            </GenderWrap>
+          </GenderInput>
+        </InputWrap2>
 
-				<LoginButton isButtonEnabled={isButtonEnabled} onClick={postSignup}>
-					{/* <Link to={`/signup/2`}>네, 동의합니다</Link> */}
-				</LoginButton>
-			</LoginContent>
-		</LoginContainer>
-	);
+        <InputWrap2>
+          <EmailWrap>
+            <input
+              type="text"
+              placeholder="이메일 입력"
+              value={emailUsername}
+              onChange={handleEmailDirectInput}
+            />
+            <AtSymbol>@</AtSymbol>
+            <input
+              type="text"
+              value={emailDomain}
+              onChange={handleEmailDomain}
+              disabled={isInputEnabled}
+            />
+            <EmailSelect name="" id="" onChange={handleSelectedEmailDomain}>
+              <option value="type" selected>
+                직접 입력
+              </option>
+              <option value="naver.com">naver.com</option>
+              <option value="google.com">google.com</option>
+              <option value="hanmail.net">hanmail.net</option>
+              <option value="nate.com">nate.com</option>
+              <option value="kakao.com">kakao.com</option>
+            </EmailSelect>
+          </EmailWrap>
+          <EmailVerifyButton>인증하기</EmailVerifyButton>
+        </InputWrap2>
+
+        <InputWrap>
+          <HalfWidthInput
+            type="text"
+            placeholder="인증번호 입력"
+          ></HalfWidthInput>
+          <VerifyButton>인증</VerifyButton>
+        </InputWrap>
+
+        <InputWrap>
+          <p>직업 선택</p>
+          <JobSelect name="job" id="" onChange={handleJobChange}>
+            <option value="0" selected>
+              선택 없음
+            </option>
+            <option value="학생">학생</option>
+            <option value="직장인">직장인</option>
+            <option value="전문직">전문직</option>
+            <option value="자영업">자영업</option>
+            <option value="프리랜서">프리랜서</option>
+            <option value="무직">무직</option>
+          </JobSelect>
+        </InputWrap>
+
+        <LoginButton
+          disabled={isButtonEnabled}
+          onClick={() => {
+            postSignup();
+            navigate("/signup/3");
+          }}
+        >
+          가입하기
+        </LoginButton>
+      </LoginContent>
+    </LoginContainer>
+  );
 };
 
 export default Signup2;
@@ -452,18 +430,18 @@ const ErrorMessageWrap = styled.div`
   margin-top: 5px;
 `;
 
-const InputDelete = styled.button`
-  position: absolute; /* X 버튼을 absolute로 설정 */
-  right: 27%; /* 오른쪽 여백 조절 */
-  top: 50%; /* 세로 중앙 정렬을 위해 50%로 설정 */
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  font-family: var(--basic-font);
-  font-size: 20px;
-  cursor: pointer;
-  display: ${({ showDeleteButton }) => (showDeleteButton ? "block" : "none")};
-`;
+// const InputDelete = styled.button`
+//   position: absolute; /* X 버튼을 absolute로 설정 */
+//   right: 27%; /* 오른쪽 여백 조절 */
+//   top: 50%; /* 세로 중앙 정렬을 위해 50%로 설정 */
+//   transform: translateY(-50%);
+//   background: none;
+//   border: none;
+//   font-family: var(--basic-font);
+//   font-size: 20px;
+//   cursor: pointer;
+//   display: ${({ showDeleteButton }) => (showDeleteButton ? "block" : "none")};
+// `;
 
 const Input = styled.input`
   box-sizing: border-box;
@@ -488,8 +466,6 @@ const LoginButton = styled.button`
   border: none;
   border-radius: 4px;
   margin-top: 10px;
-  cursor: ${({ isButtonEnabled }) =>
-    isButtonEnabled ? "pointer" : "not-allowed"};
 `;
 
 const BirthInput = styled.div`

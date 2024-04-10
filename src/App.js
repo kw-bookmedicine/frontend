@@ -16,7 +16,7 @@ import UserInfo from './pages/UserInfo';
 
 // 로그인 관련 페이지들
 import Login from "./pages/Login/Login";
-import Join from "./pages/Login/Join";
+import Join from "./pages/Login/Signup1";
 import Signup2 from "./pages/Login/Signup2";
 import Signup3 from "./pages/Login/Signup3";
 import Registration from './pages/Registration';
@@ -44,6 +44,7 @@ import ScrollTop from './components/ScrollTop';
 import LoginLayout from './components/LoginLayout';
 
 import SearchResult from './pages/SearchResult';
+import Signup1 from './pages/Login/Signup1';
 
 
 function App() {
@@ -55,78 +56,78 @@ function App() {
 	}, []);
 
 	return (
-		<BrowserRouter>
-			<LoginContextProvider>
-				<div className="App">
-					<GlobalStyles />
-					<ScrollTop />
-					<Routes>
-						<Route path="/" element={<Home />} />
-						<Route path="/logout" element={<Home />} />
-						<Route path="/main" element={<Main />} />
-						<Route path="/feed" element={<Feed />} />
-						<Route path="/search" element={<Search />} />
-						<Route path="/search/result/:title" element={<SearchResult />} />
-						<Route path="/mypage" element={<Mypage />} />
-						<Route path="/myfeed" element={<MyFeed />} />
-						<Route path="/myworry" element={<MyWorry />} />
-						<Route path="/edit" element={<Edit />} />
-						<Route path="/edit/:page" element={<UserInfo />} />
-						<Route path="/worry/write" element={<WorryWrite />} />
-						<Route path="/counseling" element={<Counseling />} />
-						<Route path="/worry/detail" element={<WorryDetail />} />
-						<Route path="/prescription/write" element={<PrescriptionWrite />} />
-						<Route
-							path="/prescription/write/2"
-							element={<PrescriptionWriteStep2 />}
-						/>
-						{/* 마이페이지 */}
-						<Route path="/mypage" element={<Mypage />} />
-						<Route path="/myfeed" element={<MyFeed />} />
-						<Route path="/edit" element={<Edit />} />
-						<Route path="/edit/:page" element={<UserInfo />} />
-						{/* 처방전 관련 */}
-						<Route path="/counseling" element={<Counseling />} />
-						<Route path="/worry/detail" element={<WorryDetail />} />
-						<Route
-							path="/oneline/prescription"
-							element={<OneLinePrescription />}
-						/>{' '}
-						<Route path="/prescription/write" element={<PrescriptionWrite />} />
-						{/* <Route
+    <BrowserRouter>
+      <LoginContextProvider>
+        <div className="App">
+          <GlobalStyles />
+          <ScrollTop />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/logout" element={<Home />} />
+            <Route path="/main" element={<Main />} />
+            <Route path="/feed" element={<Feed />} />
+            <Route path="/search" element={<Search />} />
+            <Route path="/search/result/:title" element={<SearchResult />} />
+            <Route path="/mypage" element={<Mypage />} />
+            <Route path="/myfeed" element={<MyFeed />} />
+            <Route path="/myworry" element={<MyWorry />} />
+            <Route path="/edit" element={<Edit />} />
+            <Route path="/edit/:page" element={<UserInfo />} />
+            <Route path="/worry/write" element={<WorryWrite />} />
+            <Route path="/counseling" element={<Counseling />} />
+            <Route path="/worry/detail" element={<WorryDetail />} />
+            <Route path="/prescription/write" element={<PrescriptionWrite />} />
+            <Route
+              path="/prescription/write/2"
+              element={<PrescriptionWriteStep2 />}
+            />
+            {/* 마이페이지 */}
+            <Route path="/mypage" element={<Mypage />} />
+            <Route path="/myfeed" element={<MyFeed />} />
+            <Route path="/edit" element={<Edit />} />
+            <Route path="/edit/:page" element={<UserInfo />} />
+            {/* 처방전 관련 */}
+            <Route path="/counseling" element={<Counseling />} />
+            <Route path="/worry/detail" element={<WorryDetail />} />
+            <Route
+              path="/oneline/prescription"
+              element={<OneLinePrescription />}
+            />{" "}
+            <Route path="/prescription/write" element={<PrescriptionWrite />} />
+            {/* <Route
 							path="/prescription/write/2"
 							element={<PrescriptionWriteStep2 />}
 						/> */}
-						<Route
-							path="/prescription/detail"
-							element={<PrescriptionDetail />}
-						/>
-						<Route path="/myworry" element={<MyWorry />} />
-						{/* 회원가입 및 로그인 */}
-						<Route element={<LoginLayout />}>
-							<Route path="/id-find" element={<IdFind />} />
-							<Route path="/id-find-result" element={<LoginFindResult />} />
-							<Route path="/password-find" element={<PasswordFind />} />
-							<Route
-								path="/password-find-result"
-								element={<PasswordFindResult />}
-							/>
-						</Route>
-						<Route path="/test" element={<Registration />} />
-						<Route path="/login" element={<Login />} />
-						<Route path="/signup" element={<Join />} />
-						<Route path="/signup/1" element={<Signup2 />} />
-						<Route path="/signup/2" element={<Signup3 />} />
-						<Route path="/test" element={<Registration />} />
-						{/* 책 정보 */}
-						<Route path="/book-detail" element={<BookDetail />} />
-						<Route path="/book/list/:title" element={<BookList />} />
-						<Route path="/book/:title/:category" element={<SmallCategory />} />
-					</Routes>
-				</div>
-			</LoginContextProvider>
-		</BrowserRouter>
-	);
+            <Route
+              path="/prescription/detail"
+              element={<PrescriptionDetail />}
+            />
+            <Route path="/myworry" element={<MyWorry />} />
+            {/* 회원가입 및 로그인 */}
+            <Route element={<LoginLayout />}>
+              <Route path="/id-find" element={<IdFind />} />
+              <Route path="/id-find-result" element={<LoginFindResult />} />
+              <Route path="/password-find" element={<PasswordFind />} />
+              <Route
+                path="/password-find-result"
+                element={<PasswordFindResult />}
+              />
+            </Route>
+            <Route path="/test" element={<Registration />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup/1" element={<Signup1 />} />
+            <Route path="/signup/2" element={<Signup2 />} />
+            <Route path="/signup/3" element={<Signup3 />} />
+            <Route path="/test" element={<Registration />} />
+            {/* 책 정보 */}
+            <Route path="/book-detail" element={<BookDetail />} />
+            <Route path="/book/list/:title" element={<BookList />} />
+            <Route path="/book/:title/:category" element={<SmallCategory />} />
+          </Routes>
+        </div>
+      </LoginContextProvider>
+    </BrowserRouter>
+  );
 }
 
 export default App;
