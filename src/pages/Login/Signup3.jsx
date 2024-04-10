@@ -1,24 +1,24 @@
 import React, { useState, useRef } from 'react';
 
 // COMPONENTS
-import Footer from '../components/Footer';
-import Btn from '../components/Button';
+import Footer from '../../components/Footer';
+import Btn from '../../components/Button';
 
 // ASSETS
-import general from '../assets/interest_category_general.png';
-import philosophy from '../assets/interest_category_philosophy.png';
-import religion from '../assets/interest_category_religion.png';
-import social from '../assets/interest_category_social-science.png';
-import natural from '../assets/interest_category_natural-science.png';
-import tech from '../assets/interest_category_tech.png';
-import art from '../assets/interest_category_art.png';
-import language from '../assets/interest_category_language.png';
-import literature from '../assets/interest_category_literature.png';
-import history from '../assets/interest_category_history.png';
+import general from '../../assets/interest_category_general.png';
+import philosophy from '../../assets/interest_category_philosophy.png';
+import religion from '../../assets/interest_category_religion.png';
+import social from '../../assets/interest_category_social-science.png';
+import natural from '../../assets/interest_category_natural-science.png';
+import tech from '../../assets/interest_category_tech.png';
+import art from '../../assets/interest_category_art.png';
+import language from '../../assets/interest_category_language.png';
+import literature from '../../assets/interest_category_literature.png';
+import history from '../../assets/interest_category_history.png';
 
 // STYLE
 import { styled } from 'styled-components';
-import '../styles/Signup3.css';
+import '../../styles/Signup3.css';
 
 const categoryList = ['general', 'philosophy', 'religion'];
 

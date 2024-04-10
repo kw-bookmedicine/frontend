@@ -9,15 +9,23 @@ import MyFeed from './pages/MyFeed';
 import Search from './pages/Search';
 import Mypage from './pages/Mypage';
 import BookDetail from './pages/BookDetail';
-import Login from './pages/Login';
-import Join from './pages/Join';
-import Signup2 from './pages/Signup2';
-import Signup3 from './pages/Signup3';
-import Registration from './pages/Registration';
 import BookList from './pages/BookList';
 import SmallCategory from './pages/SmallCategory';
 import Edit from './pages/Edit';
 import UserInfo from './pages/UserInfo';
+
+// 로그인 관련 페이지들
+import Login from "./pages/Login/Login";
+import Join from "./pages/Login/Join";
+import Signup2 from "./pages/Login/Signup2";
+import Signup3 from "./pages/Login/Signup3";
+import Registration from './pages/Registration';
+import LoginFindResult from "./pages/Login/IdFindResult";
+import PasswordFind from "./pages/Login/PasswordFind";
+import PasswordFindResult from "./pages/Login/PasswordFindResult";
+import IdFind from "./pages/Login/IdFind";
+import LoginContextProvider from "./contexts/LoginContextProvider";
+
 
 // 처방전 관련 페이지들
 import Counseling from './pages/Counseling';
@@ -34,12 +42,9 @@ import GlobalStyles from './styles/GlobalStyles';
 import './App.css';
 import ScrollTop from './components/ScrollTop';
 import LoginLayout from './components/LoginLayout';
-import LoginFindResult from './pages/IdFindResult';
-import PasswordFind from './pages/PasswordFind';
-import PasswordFindResult from './pages/PasswordFindResult';
-import IdFind from './pages/IdFind';
-import LoginContextProvider from './contexts/LoginContextProvider';
+
 import SearchResult from './pages/SearchResult';
+
 
 function App() {
 	// 브라우저 새로고침 스크롤 이벤트

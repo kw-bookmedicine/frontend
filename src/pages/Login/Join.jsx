@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 // Assets
-import rightArrow from '../assets/rightArrow.png';
-import banner from '../assets/Login-Banner.png';
+import rightArrow from '../../assets/rightArrow.png';
+import banner from '../../assets/Login-Banner.png';
 
 // COMPONENTS
-import JoinBtn from '../components/JoinButton';
+import JoinBtn from '../../components/JoinButton';
 
 // STYLES
 import { styled } from 'styled-components';
-import '../styles/JoinStyles.css';
+import '../../styles/JoinStyles.css';
 
 const LoginContainer = styled.div`
 	display: flex;

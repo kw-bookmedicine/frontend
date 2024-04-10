@@ -3,14 +3,14 @@ import { Link } from 'react-router-dom';
 import { useForm, rules } from 'react-hook-form';
 
 // SERVICE
-import api from '../services/api';
+import api from '../../services/api';
 
 // ASSETS
-import banner from '../assets/Login-Banner.png';
+import banner from '../../assets/Login-Banner.png';
 
 // STYLE
 import { styled } from 'styled-components';
-import '../styles/Signup2.css';
+import '../../styles/Signup2.css';
 
 const LoginContainer = styled.div`
 	display: flex;

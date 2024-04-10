@@ -3,20 +3,20 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 // SERVICE
-import api from '../services/api';
+import api from '../../services/api';
 
 // COMPONENTS
-import Btn from '../components/Button';
+import Btn from '../../components/Button';
 
 // ASSETS
-import kakaoIcon from '../assets/kakao-icon.jpg';
-import naverIcon from '../assets/naver-icon.jpg';
-import banner from '../assets/Login-Banner.png';
+import kakaoIcon from '../../assets/kakao-icon.jpg';
+import naverIcon from '../../assets/naver-icon.jpg';
+import banner from '../../assets/Login-Banner.png';
 
 // STYLE
 import { styled } from 'styled-components';
-import { login } from '../services/login';
-import { LoginContext } from '../contexts/LoginContextProvider';
+import { login } from '../../services/login';
+import { LoginContext } from '../../contexts/LoginContextProvider';
 
 export default function Login() {
 	const { setUserId, setUserPwd } = useContext(LoginContext);

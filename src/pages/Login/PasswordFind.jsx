@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import Input from "../components/Input/Input";
+import Input from "../../components/Input/Input";
 
 const PasswordFind = () => {
   let navigate = useNavigate();
