@@ -15,7 +15,7 @@ const Header = () => {
 		api.get('/logout').then((res) => {
 			console.log(res.data);
 		});
-		// window.location.replace('http://localhost:3000/');
+		window.location.replace('http://localhost:3000/');
 	};
 
 	// 현재 url 주소 불러옴
