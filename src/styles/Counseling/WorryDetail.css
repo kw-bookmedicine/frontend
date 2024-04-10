@@ -107,31 +107,35 @@
 	flex-direction: column;
 	position: relative;
 	top: -20px;
-	width: 1120px;
+	width: 100%;
+	max-width: 1440px;
+	min-width: 1000px;
 	height: 750px;
-	padding: 40px;
+	padding: 40px 150px;
 	margin-top: 10px;
-	background-color: #fff;
-	border-radius: 20px;
-	box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.4);
+	/* background-color: #fff; */
+	/* border-radius: 20px; */
+	/* box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.4); */
 }
 
 .wd_prscr_list_title {
 	font-family: var(--basic-font);
-	font-weight: 600;
-	font-size: 20px;
-	line-height: 24px;
+	font-weight: 700;
+	font-size: 24px;
+	line-height: 29px;
 	margin-bottom: 30px;
 }
 
 .wd_prscr_list_wrapper {
 	display: grid;
-	grid-template-columns: repeat(3, 1fr);
+	width: 104%;
+	height: 690px;
 	overflow-y: scroll;
-	width: 102%;
-	column-gap: 30px;
-	justify-items: center;
-	row-gap: 44px;
+	grid-row-gap: 40px;
+	/* padding: 20px 0; */
+	/* grid-template-columns: repeat(1, 1fr); */
+	align-self: center;
+	justify-content: center;
 }
 
 .wd_prscr_list_wrapper::-webkit-scrollbar {
