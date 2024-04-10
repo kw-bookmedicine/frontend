@@ -12,208 +12,6 @@ import banner from '../../assets/Login-Banner.png';
 import { styled } from 'styled-components';
 import '../../styles/Signup2.css';
 
-const LoginContainer = styled.div`
-	display: flex;
-	height: 100vh;
-	color: black;
-`;
-
-const ImageContent = styled.div`
-	flex: 1;
-	max-width: 50%;
-	box-sizing: border-box;
-	background: url(${banner});
-	background-size: cover;
-	background-repeat: no-repeat;
-	background-position: center;
-`;
-
-const LoginContent = styled.div`
-	flex: 1;
-	max-width: 50%;
-	box-sizing: border-box;
-	height: 100%;
-	background: #fff;
-	padding: 80px 90px;
-	overflow-y: auto;
-	/* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
-`;
-
-const Title = styled.h1`
-	font-family: var(--basic-font);
-	font-size: 40px;
-	font-weight: 700;
-`;
-
-const InputWrap = styled.div`
-	margin-bottom: 20px;
-	position: relative;
-	p {
-		font-family: var(--basic-font);
-		font-size: 20px;
-		font-weight: 300;
-	}
-`;
-
-const InputWrap2 = styled.div`
-	display: flex;
-	position: relative;
-	margin-bottom: 20px;
-	p {
-		font-family: var(--basic-font);
-		font-size: 20px;
-		font-weight: 300;
-	}
-`;
-
-const ErrorMessageWrap = styled.div`
-	color: red;
-	margin-top: 5px;
-`;
-
-const InputDelete = styled.button`
-	position: absolute; /* X 버튼을 absolute로 설정 */
-	right: 27%; /* 오른쪽 여백 조절 */
-	top: 50%; /* 세로 중앙 정렬을 위해 50%로 설정 */
-	transform: translateY(-50%);
-	background: none;
-	border: none;
-	font-family: var(--basic-font);
-	font-size: 20px;
-	cursor: pointer;
-	display: ${({ showDeleteButton }) => (showDeleteButton ? 'block' : 'none')};
-`;
-
-const Input = styled.input`
-	box-sizing: border-box;
-	width: 75%;
-	height: 56px;
-	padding: 8px 12px;
-	border: 1px solid #ccc;
-	border-radius: 4px;
-	font-family: var(--basic-font);
-	font-size: 20px;
-`;
-
-const LoginButton = styled.button`
-	width: 100%;
-	height: 75px;
-	background: #888888;
-	color: #fff;
-	font-family: var(--basic-font);
-	font-size: 32px;
-	font-weight: 400;
-	padding: 10px;
-	border: none;
-	border-radius: 4px;
-	margin-top: 10px;
-	cursor: ${({ isButtonEnabled }) =>
-		isButtonEnabled ? 'pointer' : 'not-allowed'};
-`;
-
-const BirthInput = styled.div`
-	width: 50%;
-
-	input {
-		font-family: var(--basic-font);
-		font-size: 20px;
-		margin-top: 10px;
-		width: 90%;
-		height: 40px;
-		border: 1px solid #ccc;
-		padding: 0px 10px;
-	}
-`;
-
-const GenderInput = styled.div`
-	width: 50%;
-	p {
-		margin-left: 20px;
-	}
-`;
-
-const GenderWrap = styled.div`
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	form {
-		width: 100%;
-	}
-	button {
-		margin: 10px 20px 0px;
-		/* padding: 10px 20px; */
-		font-family: var(--basic-font);
-		font-size: 20px;
-		border: 1px solid #d9d9d9;
-		color: black;
-		border-radius: 4px;
-		height: 40px;
-		width: 95px;
-	}
-`;
-
-const EmailWrap = styled.div`
-	display: flex;
-	align-items: center;
-	input {
-		width: 50%;
-		height: 56px;
-		border: 1px solid #d9d9d9;
-		border-radius: 4px;
-		font-family: var(--basic-font);
-		font-size: 20px;
-		padding: 10px;
-		margin-right: 10px;
-	}
-`;
-
-const AtSymbol = styled.p`
-	width: auto;
-	line-height: 56px;
-	text-align: center;
-	margin-right: 10px;
-`;
-
-const EmailSelect = styled.select`
-	width: 50%;
-	height: 56px;
-	border: 1px solid #d9d9d9;
-	border-radius: 4px;
-	font-family: var(--basic-font);
-	font-size: 20px;
-	padding: 10px;
-`;
-
-const EmailVerifyButton = styled.button`
-	width: 20%;
-	height: 56px;
-	background: #d9d9d9;
-	color: black;
-	font-family: var(--basic-font);
-	font-size: 20px;
-	/* font-weight: bold; */
-	border: none;
-	border-radius: 4px;
-	margin-left: 25px;
-`;
-
-const HalfWidthInput = styled(Input)`
-	width: 34%;
-`;
-
-const VerifyButton = styled(EmailVerifyButton)`
-	width: 15%;
-`;
-
-const JobSelect = styled.select`
-	margin-top: 10px;
-	height: 30px;
-	border: 1px solid #d9d9d9;
-	border-radius: 4px;
-	font-family: var(--basic-font);
-	font-size: 20px;
-`;
-
 const Signup2 = () => {
 	// 유저에 대한 데이터를 객체로 담기
 
@@ -594,3 +392,205 @@ const Signup2 = () => {
 };
 
 export default Signup2;
+
+const LoginContainer = styled.div`
+  display: flex;
+  height: 100vh;
+  color: black;
+`;
+
+const ImageContent = styled.div`
+  flex: 1;
+  max-width: 50%;
+  box-sizing: border-box;
+  background: url(${banner});
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+`;
+
+const LoginContent = styled.div`
+  flex: 1;
+  max-width: 50%;
+  box-sizing: border-box;
+  height: 100%;
+  background: #fff;
+  padding: 80px 90px;
+  overflow-y: auto;
+  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+`;
+
+const Title = styled.h1`
+  font-family: var(--basic-font);
+  font-size: 40px;
+  font-weight: 700;
+`;
+
+const InputWrap = styled.div`
+  margin-bottom: 20px;
+  position: relative;
+  p {
+    font-family: var(--basic-font);
+    font-size: 20px;
+    font-weight: 300;
+  }
+`;
+
+const InputWrap2 = styled.div`
+  display: flex;
+  position: relative;
+  margin-bottom: 20px;
+  p {
+    font-family: var(--basic-font);
+    font-size: 20px;
+    font-weight: 300;
+  }
+`;
+
+const ErrorMessageWrap = styled.div`
+  color: red;
+  margin-top: 5px;
+`;
+
+const InputDelete = styled.button`
+  position: absolute; /* X 버튼을 absolute로 설정 */
+  right: 27%; /* 오른쪽 여백 조절 */
+  top: 50%; /* 세로 중앙 정렬을 위해 50%로 설정 */
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-family: var(--basic-font);
+  font-size: 20px;
+  cursor: pointer;
+  display: ${({ showDeleteButton }) => (showDeleteButton ? "block" : "none")};
+`;
+
+const Input = styled.input`
+  box-sizing: border-box;
+  width: 75%;
+  height: 56px;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-family: var(--basic-font);
+  font-size: 20px;
+`;
+
+const LoginButton = styled.button`
+  width: 100%;
+  height: 75px;
+  background: #888888;
+  color: #fff;
+  font-family: var(--basic-font);
+  font-size: 32px;
+  font-weight: 400;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  margin-top: 10px;
+  cursor: ${({ isButtonEnabled }) =>
+    isButtonEnabled ? "pointer" : "not-allowed"};
+`;
+
+const BirthInput = styled.div`
+  width: 50%;
+
+  input {
+    font-family: var(--basic-font);
+    font-size: 20px;
+    margin-top: 10px;
+    width: 90%;
+    height: 40px;
+    border: 1px solid #ccc;
+    padding: 0px 10px;
+  }
+`;
+
+const GenderInput = styled.div`
+  width: 50%;
+  p {
+    margin-left: 20px;
+  }
+`;
+
+const GenderWrap = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  form {
+    width: 100%;
+  }
+  button {
+    margin: 10px 20px 0px;
+    /* padding: 10px 20px; */
+    font-family: var(--basic-font);
+    font-size: 20px;
+    border: 1px solid #d9d9d9;
+    color: black;
+    border-radius: 4px;
+    height: 40px;
+    width: 95px;
+  }
+`;
+
+const EmailWrap = styled.div`
+  display: flex;
+  align-items: center;
+  input {
+    width: 50%;
+    height: 56px;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    font-family: var(--basic-font);
+    font-size: 20px;
+    padding: 10px;
+    margin-right: 10px;
+  }
+`;
+
+const AtSymbol = styled.p`
+  width: auto;
+  line-height: 56px;
+  text-align: center;
+  margin-right: 10px;
+`;
+
+const EmailSelect = styled.select`
+  width: 50%;
+  height: 56px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  font-family: var(--basic-font);
+  font-size: 20px;
+  padding: 10px;
+`;
+
+const EmailVerifyButton = styled.button`
+  width: 20%;
+  height: 56px;
+  background: #d9d9d9;
+  color: black;
+  font-family: var(--basic-font);
+  font-size: 20px;
+  /* font-weight: bold; */
+  border: none;
+  border-radius: 4px;
+  margin-left: 25px;
+`;
+
+const HalfWidthInput = styled(Input)`
+  width: 34%;
+`;
+
+const VerifyButton = styled(EmailVerifyButton)`
+  width: 15%;
+`;
+
+const JobSelect = styled.select`
+  margin-top: 10px;
+  height: 30px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  font-family: var(--basic-font);
+  font-size: 20px;
+`;
