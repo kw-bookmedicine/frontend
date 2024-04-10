@@ -1,7 +1,10 @@
+import React from 'react';
+
 // COMPONENTS
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Btn from '../components/Button';
+import DropDown from '../components/DropDown';
 
 // STYLES
 import '../styles/Edit.css';
@@ -54,8 +57,10 @@ const Edit = () => {
 						<div className="user_job_wrapper">
 							<div className="input_title">직업정보</div>
 							<div className="job_input_wrapper">
-								<div className="job_text">학생</div>
-								<Btn text={'수정하기'} type="job" />
+								<DropDown DropDownTitle={'학생'} />
+
+								{/* <Btn text={'수정하기'} type="job" /> */}
+								<button id="job_submit_btn">수정하기</button>
 							</div>
 						</div>
 						<div className="user_gender_wrapper">

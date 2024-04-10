@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 // COMPONENTS
 import Header from '../components/Header';
 import Title from '../components/Prescription/ProcessTitle';
-import PrescriptionCard from '../components/Prescription/PrescriptionCard';
+import WidePrscrCard from '../components/Prescription/WidePrescriptionCard';
 
 // STYLE
 import '../styles/Counseling/WorryDetail.css';
@@ -41,10 +41,9 @@ const WorryDetail = () => {
 					<div className="worry_detail_prscr_wrapper">
 						<div className="wd_prscr_list_title">처방전 확인하기</div>
 						<div className="wd_prscr_list_wrapper">
-							<PrescriptionCard />
-							<PrescriptionCard />
-							<PrescriptionCard />
-							<PrescriptionCard />
+							<WidePrscrCard />
+							<WidePrscrCard />
+							<WidePrscrCard />
 						</div>
 					</div>
 					<Link to={`/prescription/write?prscrId=123`}>
