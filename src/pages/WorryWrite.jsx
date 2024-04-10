@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useReducer, useRef, useState } from "react";
 import Header from "../components/Header";
 import styled, { keyframes } from "styled-components";
 
@@ -15,18 +15,64 @@ import ProcessTitle from "../components/Prescription/ProcessTitle";
 // 1. 컴포넌트
 // 2. 변수를 어떻게 관리하는게 좋을까?
 
+// 액션 타입 정의
+const ActionTypes = {
+  SET_CURRENT_QUESTION_INDEX: "SET_CURRENT_QUESTION_INDEX",
+  SET_USER_ANSWERS: "SET_USER_ANSWERS",
+  SET_IS_QUESTIONNAIRE_COMPLETED: "SET_IS_QUESTIONNAIRE_COMPLETED",
+  SET_SHOW_QUESTION: "SET_SHOW_QUESTION",
+  SET_SHOW_OPTIONS: "SET_SHOW_OPTIONS",
+  SET_IS_LOADING: "SET_IS_LOADING",
+  SET_USER_SELECTIONS: "SET_USER_SELECTIONS",
+  SET_QUESTIONS: "SET_QUESTIONS",
+};
 
-const WorryWrite = () => {
-  // 아래 정보들을 useReducer로 관리하는게 좋은가?
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0); // 현재 질문 단계
-  const [userAnswers, setUserAnswers] = useState([]); // 사용자의 답변 저장
-  const [isQuestionnaireCompleted, setIsQuestionnaireCompleted] = useState(false); // 질문 완료 여부
+// 액션 생성자
+const actionCreators = {
+  setCurrentQuestionIndex: (index) => ({
+    type: ActionTypes.SET_CURRENT_QUESTION_INDEX,
+    payload: index,
+  }),
+  setUserAnswers: (answers) => ({
+    type: ActionTypes.SET_USER_ANSWERS,
+    payload: answers,
+  }),
+  setIsQuestionnaireCompleted: (isCompleted) => ({
+    type: ActionTypes.SET_IS_QUESTIONNAIRE_COMPLETED,
+    payload: isCompleted,
+  }),
+  setShowQuestion: (show) => ({
+    type: ActionTypes.SET_SHOW_QUESTION,
+    payload: show,
+  }),
+  setShowOptions: (show) => ({
+    type: ActionTypes.SET_SHOW_OPTIONS,
+    payload: show,
+  }),
+  setIsLoading: (isLoading) => ({
+    type: ActionTypes.SET_IS_LOADING,
+    payload: isLoading,
+  }),
+  setUserSelections: (selections) => ({
+    type: ActionTypes.SET_USER_SELECTIONS,
+    payload: selections,
+  }),
+  setQuestions: (questions) => ({
+    type: ActionTypes.SET_QUESTIONS,
+    payload: questions,
+  }),
+};
 
-  const [showQuestion, setShowQuestion] = useState(true); // 질문 딜레이 적용
-  const [showOptions, setShowOptions] = useState(false); // 질문 옵션과 버튼을 보여줄지 여부
-  const [isLoading, setIsLoading] = useState(false);
-
-  const [userSelections, setUserSelections] = useState({
+// 초기 상태
+const initialState = {
+  currentQuestionIndex: 0, // 현재 질문 단계
+  userAnswers: [], // 사용자의 답변 저장
+  isQuestionnaireCompleted: false, // 질문 완료 여부
+  showQuestion: true, // 질문 딜레이 적용(애니메이션)
+  showOptions: false, // 질문 옵션과 버튼을 보여줄지 여부(애니메이션)
+  isLoading: false, // 로딩
+  
+  userSelections: { // 사용자의 답변
     readingFrequency: "",
     keywordConcern: "",
     primaryConcern: "",
@@ -34,45 +80,8 @@ const WorryWrite = () => {
     relatedBooksRead: "", // 검색 컴포넌트 있으면 좋을듯
     detailedConcern: "",
     summary: "",
-  });
-
-  // 스크롤을 적용할 요소를 위한 ref 생성
-  const scrollContainerRef = useRef(null);
-
-  const scrollToBottom = () => {
-    scrollContainerRef.current?.scrollIntoView({ behavior: "smooth" });
-    console.log("scroll");
-  };
-
-  // 질문지 1초후 보이도록 적용
-  useEffect(() => {
-    setShowOptions(false); // 새로운 질문이 로드될 때마다 옵션을 숨김
-    const timer = setTimeout(() => {
-      setShowOptions(true);
-    }, 1000);
-    return () => clearTimeout(timer);
-  }, [currentQuestionIndex]);
-
-  // showOptions와 currentQuestionIndex 변경 시, 자동 스크롤 적용
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (showOptions && currentQuestionIndex >= 1) {
-        scrollToBottom();
-      }
-    }, 1000);
-    return () => clearTimeout(timer);
-  }, [showOptions, currentQuestionIndex]);
-
-  //  답변 이후 0.5초 후 질문 제목 등장
-  useEffect(() => {
-    setShowQuestion(false);
-    const timer = setTimeout(() => {
-      setShowQuestion(true);
-    }, 500);
-    return () => clearTimeout(timer);
-  }, [userAnswers]);
-
-  const [questions, setQuestions] = useState([
+  },
+  questions: [ // 질문 리스트
     {
       field: "readingFrequency",
       question: "한달에 책을 얼마나 자주 읽으시나요?",
@@ -156,32 +165,105 @@ const WorryWrite = () => {
       question: "선택하신 정보들 입니다.",
       type: "normal",
     },
-    // 질문 추가
-  ]);
+  ],
+};
 
+// 리듀서 함수
+const reducer = (state, action) => {
+  switch (action.type) {
+    case ActionTypes.SET_CURRENT_QUESTION_INDEX:
+      return { ...state, currentQuestionIndex: action.payload };
+    case ActionTypes.SET_USER_ANSWERS:
+      return { ...state, userAnswers: action.payload };
+    case ActionTypes.SET_IS_QUESTIONNAIRE_COMPLETED:
+      return { ...state, isQuestionnaireCompleted: action.payload };
+    case ActionTypes.SET_SHOW_QUESTION:
+      return { ...state, showQuestion: action.payload };
+    case ActionTypes.SET_SHOW_OPTIONS:
+      return { ...state, showOptions: action.payload };
+    case ActionTypes.SET_IS_LOADING:
+      return { ...state, isLoading: action.payload };
+    case ActionTypes.SET_USER_SELECTIONS:
+      return {
+        ...state,
+        userSelections: { ...state.userSelections, ...action.payload },
+      };
+    case ActionTypes.SET_QUESTIONS:
+      return { ...state, questions: action.payload };
+    default:
+      return state;
+  }
+};
+
+const WorryWrite = () => {
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const {
+    currentQuestionIndex,
+    userAnswers,
+    isQuestionnaireCompleted,
+    showQuestion,
+    showOptions,
+    isLoading,
+    userSelections,
+    questions,
+  } = state;
+
+  // 스크롤을 적용할 요소를 위한 ref 생성
+  const scrollContainerRef = useRef(null);
+
+  const scrollToBottom = () => {
+    scrollContainerRef.current?.scrollIntoView({ behavior: "smooth" });
+    console.log("scroll");
+  };
+
+  // 질문지 1초후 보이도록 적용
+  useEffect(() => {
+    dispatch(actionCreators.setShowOptions(false)); // 새로운 질문이 로드될 때마다 옵션을 숨김
+    const timer = setTimeout(() => {
+      dispatch(actionCreators.setShowOptions(true));
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, [currentQuestionIndex]);
+
+  // showOptions와 currentQuestionIndex 변경 시, 자동 스크롤 적용
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (showOptions && currentQuestionIndex >= 1) {
+        scrollToBottom();
+      }
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, [showOptions, currentQuestionIndex]);
+
+  //  답변 이후 0.5초 후 질문 제목 등장
+  useEffect(() => {
+    dispatch(actionCreators.setShowQuestion(false));
+    const timer = setTimeout(() => {
+      dispatch(actionCreators.setShowQuestion(true));
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [userAnswers]);
 
   // 다음 질문으로 이동 및 현재 userResponse 정보 업데이트
   const handleNextStep = () => {
     // 현재 field 가져오기
     const currentField = questions[currentQuestionIndex].field;
     const response = userSelections[currentField];
-    setUserAnswers([...userAnswers, { step: currentQuestionIndex, response }]); 
+    dispatch(
+      actionCreators.setUserAnswers([
+        ...userAnswers,
+        { step: currentQuestionIndex, response },
+      ])
+    );
     if (currentQuestionIndex < questions.length - 1) {
-      setCurrentQuestionIndex((prev) => prev + 1);
+      dispatch(
+        actionCreators.setCurrentQuestionIndex(currentQuestionIndex + 1)
+      );
     } else {
-      setIsQuestionnaireCompleted(true);
-      // 마지막 단계 처리 로직 개선 필여
-      setIsLoading(true);
-      // let sum = 0;
-      // for (let i = 0; i < 999999999999; i++){
-      //   sum += i;
-      // }
-      // setIsLoading(false);
-
+      dispatch(actionCreators.setIsQuestionnaireCompleted(true));
+      dispatch(actionCreators.setIsLoading(true));
     }
   };
-
-
 
   // 질문에 대한 상태 업데이트
   const handleSelectedAnswer = (selectedOption) => {
@@ -192,7 +274,8 @@ const WorryWrite = () => {
       const updatedQuestions = questions.map((item, index) =>
         index === currentQuestionIndex ? { ...item, selected: true } : item
       );
-      setQuestions(updatedQuestions);
+      dispatch(actionCreators.setQuestions(updatedQuestions));
+      // setQuestions(updatedQuestions);
     }
 
     // 모든 경우에 사용자 선택을 저장
@@ -202,10 +285,7 @@ const WorryWrite = () => {
   // 선택된 답변 userSelections에 저장
   const handleInputedAnswer = (inputData) => {
     const field = questions[currentQuestionIndex].field;
-    setUserSelections((prev) => ({
-      ...prev,
-      [field]: inputData,
-    }));
+    dispatch(actionCreators.setUserSelections({ [field]: inputData }));
   };
 
   // 진행바 진행률 계산
@@ -214,6 +294,13 @@ const WorryWrite = () => {
     : Math.floor((currentQuestionIndex / (questions.length - 1)) * 100);
 
   const bodyRef = useRef(null);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      dispatch(actionCreators.setIsLoading(false));
+    }, 3000)
+    return () => clearTimeout(timer);
+  },[isLoading])
 
   return (
     <>
@@ -235,7 +322,6 @@ const WorryWrite = () => {
                   </PrevQuestionMessageWrapper>
                   <PrevAnswerMessageWrapper>
                     <PrevAnswerMessage>
-                      {/* <HightLigint>{ur.response}</HightLigint>에 대해서 고민이 있어 */}
                       <HightLigint>{ur.response}</HightLigint>
                     </PrevAnswerMessage>
                   </PrevAnswerMessageWrapper>
@@ -245,81 +331,39 @@ const WorryWrite = () => {
               {!isQuestionnaireCompleted && showQuestion && (
                 <>
                   <MessageContainer ref={scrollContainerRef}>
-                    <Content>{questions[currentQuestionIndex].question}</Content>
+                    <Content>
+                      {questions[currentQuestionIndex].question}
+                    </Content>
                     {showOptions && (
                       <>
-                        {questions[currentQuestionIndex].type === "multipleChoice" && (
+                        {questions[currentQuestionIndex].type ===
+                          "multipleChoice" && (
                           // 다중 선택 질문을 위한 UI
-                          <AnswersContainer>
-                            <Answers>
-                              {questions[currentQuestionIndex].options.map(
-                                (option, index) => (
-                                  <Answer
-                                    key={index}
-                                    onClick={() => handleSelectedAnswer(option)}
-                                  >
-                                    <OptionButton
-                                      clicked={
-                                        userSelections[
-                                          questions[currentQuestionIndex].field
-                                        ] === option
-                                      }
-                                    />
-                                    {option}
-                                  </Answer>
-                                )
-                              )}
-                            </Answers>
-                            <Button
-                              disabled={!questions[currentQuestionIndex].selected}
-                              onClick={() => handleNextStep()}
-                            >
-                              선택하기
-                            </Button>
-                          </AnswersContainer>
+                          <SelectOptions
+                            question={questions[currentQuestionIndex]}
+                            handleSelectedAnswer={handleSelectedAnswer}
+                            userSelections={userSelections}
+                            handleNextStep={handleNextStep}
+                          />
                         )}
                         {/* 관련된 책 중에 읽어본 책이 있나요?
                       있다 없다 선택지를 주고 있으면 작성할 수 있게 해야하는게 좋아보여
                     */}
-                        {questions[currentQuestionIndex].type === "freeText" && (
+                        {questions[currentQuestionIndex].type ===
+                          "freeText" && (
                           // 자유 응답 질문을 위한 UI
-                          <AnswersContainer>
-                            <Input
-                              placeholder="여기에 답변을 작성하세요."
-                              value={
-                                userSelections[questions[currentQuestionIndex].field]
-                              }
-                              onChange={(e) =>
-                                handleInputedAnswer(e.target.value)
-                              }
-                            />
-                            <Button
-                              disabled={
-                                questions[currentQuestionIndex].minLength
-                                  ? userSelections[questions[currentQuestionIndex].field]
-                                      .length < questions[currentQuestionIndex].minLength
-                                  : false
-                              }
-                              onClick={() => handleNextStep()}
-                            >
-                              제출하기
-                            </Button>
-                          </AnswersContainer>
+                          <FreeTextAnswer
+                            question={questions[currentQuestionIndex]}
+                            userSelections={userSelections}
+                            handleInputedAnswer={handleInputedAnswer}
+                            handleNextStep={handleNextStep}
+                          />
                         )}
                         {questions[currentQuestionIndex].type === "normal" && (
-                          <>
-                            {" "}
-                            <AnswersContainer>
-                              정보 요약
-                              {userAnswers.map((e, index) => {
-                                return <div key={index}>{e.response}</div>;
-                              })}
-                            </AnswersContainer>
-                            <Button onClick={() => handleNextStep()}>
-                              {" "}
-                              제출하기
-                            </Button>
-                          </>
+                          <NormalQuestion
+                            userAnswers={userAnswers}
+                            handleNextStep={handleNextStep}
+                          />
                         )}
                       </>
                     )}
@@ -335,6 +379,67 @@ const WorryWrite = () => {
 };
 
 export default WorryWrite;
+
+// 답변 선택 옵션 컴포넌트
+const SelectOptions = ({
+  question,
+  handleSelectedAnswer,
+  userSelections,
+  handleNextStep,
+}) => (
+  <AnswersContainer>
+    <Answers>
+      {question.options.map((option, index) => (
+        <Answer key={index} onClick={() => handleSelectedAnswer(option)}>
+          <OptionButton clicked={userSelections[question.field] === option} />
+          {option}
+        </Answer>
+      ))}
+    </Answers>
+    <Button disabled={!question.selected} onClick={handleNextStep}>
+      선택하기
+    </Button>
+  </AnswersContainer>
+);
+
+// 자유 형식의 답변 컴포넌트
+const FreeTextAnswer = ({
+  question,
+  userSelections,
+  handleInputedAnswer,
+  handleNextStep,
+}) => (
+  <AnswersContainer>
+    <Input
+      placeholder="여기에 답변을 작성하세요."
+      value={userSelections[question.field]}
+      onChange={(e) => handleInputedAnswer(e.target.value)}
+    />
+    <Button
+      disabled={
+        question.minLength
+          ? userSelections[question.field].length < question.minLength
+          : false
+      }
+      onClick={handleNextStep}
+    >
+      제출하기
+    </Button>
+  </AnswersContainer>
+);
+
+// 정규 질문 타입에 대한 컴포넌트
+const NormalQuestion = ({ userAnswers, handleNextStep }) => (
+  <>
+    <AnswersContainer>
+      정보 요약
+      {userAnswers.map((e, index) => (
+        <div key={index}>{e.response}</div>
+      ))}
+    </AnswersContainer>
+    <Button onClick={handleNextStep}>제출하기</Button>
+  </>
+);
 
 const OptionButton = ({ clicked }) => {
   return (
@@ -460,7 +565,8 @@ const reduce = keyframes`
 const AnswersContainer = styled.div`
   width: 100%;
   animation: ${expand} 0.5s ease-out forwards;
-  /* animation: ${(props) => (props.expanded ? expand : reduce)} 0.5s ease-out */
+  /* animation: ${(props) =>
+    props.expanded ? expand : reduce} 0.5s ease-out */
 `;
 
 const Answers = styled.ul`
@@ -516,10 +622,10 @@ const Input = styled.textarea`
   margin-bottom: 10px;
   overflow-y: auto;
   ::-webkit-scrollbar {
-    display: none
+    display: none;
   }
-  -ms-overflow-style:none;
-  scrollbar-width:none;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 `;
 
 const StyledOptionButton = styled.div`
