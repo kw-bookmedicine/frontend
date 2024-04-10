@@ -66,7 +66,7 @@ const Header = () => {
 						<NavLink
 							style={({ isActive }) => (isActive ? activeStyle : {})}
 							// to={'/simplePrscr'}
-							to={'/feed'}
+							to={'/oneline/prescription'}
 						>
 							한 줄 처방
 						</NavLink>
