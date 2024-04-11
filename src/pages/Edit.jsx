@@ -1,4 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import swal from 'sweetalert';
+
+// SERVICE
+import api from '../services/api';
 
 // COMPONENTS
 import Header from '../components/Header';
@@ -10,6 +14,25 @@ import DropDown from '../components/DropDown';
 import '../styles/Edit.css';
 
 const Edit = () => {
+	const [nickname, setNickname] = useState('');
+	const [userId, setUserId] = useState('');
+	const getUserData = () => {
+		api.get('/client', { withCredentials: true }).then((res) => {
+			console.log(res.data);
+			// console.log(res.data.nickname);
+
+			res.data.nickname === null
+				? setNickname('닉네임을 설정해주세요')
+				: setNickname(nickname);
+
+			setUserId(res.data.loginId);
+		});
+	};
+
+	useEffect(() => {
+		getUserData();
+	}, []);
+
 	return (
 		<>
 			<Header />
@@ -25,14 +48,14 @@ const Edit = () => {
 						<div className="user_nickname_wrapper">
 							<div className="input_title">닉네임</div>
 							<div className="nickname_input_wrapper">
-								<div className="nickname_text">꿈꾸는 소나무</div>
+								<div className="nickname_text">{nickname}</div>
 								<Btn text={'수정하기'} type="nickname" />
 							</div>
 						</div>
 						<div className="user_id_wrapper">
 							<div className="input_title">아이디</div>
 							<div className="id_input_wrapper">
-								<div className="id_text">askdjfkjeio</div>
+								<div className="id_text">{userId}</div>
 							</div>
 						</div>
 						<div className="user_password_wrapper">
@@ -60,7 +83,18 @@ const Edit = () => {
 								<DropDown DropDownTitle={'학생'} />
 
 								{/* <Btn text={'수정하기'} type="job" /> */}
-								<button id="job_submit_btn">수정하기</button>
+								<button
+									id="job_submit_btn"
+									onClick={() => {
+										swal(
+											'제출되었습니다!',
+											'직업 정보가 변경되었습니다!',
+											'success',
+										);
+									}}
+								>
+									수정하기
+								</button>
 							</div>
 						</div>
 						<div className="user_gender_wrapper">

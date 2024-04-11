@@ -142,8 +142,8 @@
 
 /* 마이페이지 로그아웃 버튼 */
 .Btn-logout2 {
-	width: 180px;
-	height: 65px;
+	width: 140px;
+	height: 60px;
 	border-radius: 15px;
 	border: 3px solid #a4d6dd;
 	background: #fff;
@@ -151,10 +151,10 @@
 	/* Font */
 	color: #000;
 	font-family: var(--basic-font);
-	font-size: 24px;
+	font-size: 20px;
 	font-style: normal;
-	font-weight: 400;
-	line-height: normal;
+	font-weight: 500;
+	line-height: 24px;
 }
 
 .Btn-logout2:hover {
@@ -177,18 +177,16 @@
 
 /* 마이페이지 회원탈퇴 버튼 */
 .Btn-withdraw {
-	width: 180px;
-	height: 65px;
+	width: 140px;
+	height: 60px;
 	border-radius: 15px;
 	border: 1px solid #000;
 	background: #fff;
-
-	/* Font */
 	color: #000;
 	font-family: var(--basic-font);
-	font-size: 24px;
+	font-size: 20px;
 	font-style: normal;
-	font-weight: 400;
+	font-weight: 500;
 	line-height: normal;
 }
 
