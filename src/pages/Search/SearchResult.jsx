@@ -3,7 +3,6 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import Header from "../../components/Header";
 import styled from "styled-components";
 import closeIcon from "../../assets/closeIconRound.svg";
-import starIcon from "../../assets/icons8-별-30 (1).png";
 import api from "../../services/api";
 import Pagination from "../../components/Pagination";
 import SearchBox from "../../components/SearchBox";
@@ -310,6 +309,15 @@ const SearchResult = () => {
                             >
                               {book.author}
                             </h4>
+                            <h4
+                              style={{
+                                fontSize: "1rem",
+                                color: "gray",
+                                marginBottom: "40px",
+                              }}
+                            >
+                              {book.publicYear}
+                            </h4>
                           </div>
                           <div style={{ marginBottom: "40px" }}>
                             <ul style={{ display: "flex", flexWrap: "wrap" }}>
@@ -375,48 +383,6 @@ const SearchResult = () => {
                         <h3 style={{ color: "#6B6B6B", marginBottom: "10px" }}>
                           {book.author}
                         </h3>
-                        <h1 style={{ marginBottom: "10px" }}>
-                          평균 ★{book.rating}{" "}
-                          <span style={{ color: "gray" }}>({reviewCount})</span>
-                        </h1>
-                        <div
-                          style={{
-                            display: "flex",
-                            alignItems: "center",
-                            marginBottom: "40px",
-                          }}
-                        >
-                          <img
-                            src={starIcon}
-                            alt=""
-                            style={{
-                              width: "20px",
-                              marginRight: "5px",
-                            }}
-                          />
-                          <img
-                            src={starIcon}
-                            alt=""
-                            style={{ width: "20px", marginRight: "5px" }}
-                          />
-                          <img
-                            src={starIcon}
-                            alt=""
-                            style={{ width: "20px", marginRight: "5px" }}
-                          />
-                          <img
-                            src={starIcon}
-                            alt=""
-                            style={{ width: "20px", marginRight: "5px" }}
-                          />
-                          <img
-                            src={starIcon}
-                            alt=""
-                            style={{ width: "20px", marginRight: "5px" }}
-                          />
-                        </div>
-
-                        {/* 별 컴포넌트 */}
                       </li>
                     </Link>
                   ))}
