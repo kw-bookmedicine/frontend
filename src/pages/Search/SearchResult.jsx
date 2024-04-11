@@ -1,12 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import Header from "../../components/Header";
 import styled from "styled-components";
-import closeIcon from "../../assets/closeIconRound.svg";
+
+// COMPONENT
+import Header from "../../components/Header";
 import api from "../../services/api";
 import Pagination from "../../components/Pagination";
 import SearchBox from "../../components/SearchBox";
 import Pill from "../../components/Pill";
+
+// ASSET
+import closeIcon from "../../assets/closeIconRound.svg";
+import defaultBookCover from "../../assets/loading_thumbnail_x4.png"
 
 const SearchResult = () => {
   const navigate = useNavigate();
@@ -281,7 +286,7 @@ const SearchResult = () => {
                         }}
                       >
                         <img
-                          src={book.imageUrl}
+                          src={book.imageUrl || defaultBookCover}
                           alt="책 표지 이미지"
                           style={{
                             height: "240px",
@@ -372,12 +377,13 @@ const SearchResult = () => {
                           }}
                         >
                           <img
-                            src={book.imageUrl}
+                            src={book.imageUrl || defaultBookCover}
                             alt="책 표지 이미지"
                             style={{
                               width: "100%",
                               height: "100%",
                               // objectFit: "cover",
+                              borderRadius:"4px",
                               border: "1px solid #c0c0c0",
                             }}
                           />
