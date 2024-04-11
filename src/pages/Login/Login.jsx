@@ -22,7 +22,6 @@ export default function Login() {
   const { setUserId, setUserPwd } = useContext(LoginContext);
   const [id, setId] = useState("");
   const [pwd, setPwd] = useState("");
-  const router = useNavigate();
   const [notAllow, setNotAllow] = useState(true);
 
   const [idValid, setIdValid] = useState(false);
