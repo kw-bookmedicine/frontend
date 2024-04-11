@@ -15,7 +15,7 @@ const Header = () => {
 		api.get('/logout').then((res) => {
 			console.log(res.data);
 		});
-		// window.location.replace('http://localhost:3000/');
+		window.location.replace('http://localhost:3000/');
 	};
 
 	// 현재 url 주소 불러옴
@@ -66,7 +66,7 @@ const Header = () => {
 						<NavLink
 							style={({ isActive }) => (isActive ? activeStyle : {})}
 							// to={'/simplePrscr'}
-							to={'/feed'}
+							to={'/oneline/prescription'}
 						>
 							한 줄 처방
 						</NavLink>

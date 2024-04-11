@@ -1,13 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import Header from "../components/Header";
 import styled from "styled-components";
-import closeIcon from "../assets/closeIconRound.svg";
-import starIcon from "../assets/icons8-별-30 (1).png";
-import api from "./../services/api";
-import Pagination from "../components/Pagination";
-import SearchBox from "../components/SearchBox";
-import Pill from "../components/Pill";
+
+// COMPONENT
+import Header from "../../components/Header";
+import api from "../../services/api";
+import Pagination from "../../components/Pagination";
+import SearchBox from "../../components/SearchBox";
+import Pill from "../../components/Pill";
+
+// ASSET
+import closeIcon from "../../assets/closeIconRound.svg";
+import defaultBookCover from "../../assets/loading_thumbnail_not_rounded.png";
 
 const SearchResult = () => {
   const navigate = useNavigate();
@@ -174,6 +178,7 @@ const SearchResult = () => {
           inputRef={inputRef}
         />
 
+        {/* 검색 결과의 헤더 */}
         <SearchTitle id="search-title">
           <Title>
             <Highlight>"{title}"</Highlight> 에 대한
@@ -201,7 +206,7 @@ const SearchResult = () => {
                 <div style={{ display: "flex" }}>
                   <SelectStyled name="sortOption" id="sort-option-select">
                     <option value="popular">인기순</option>
-                    <option value="ranked">평점순</option>
+                    <option value="ranked">처방많은 순</option>
                   </SelectStyled>
                   <SelectStyled
                     name="itemsPerPage"
@@ -247,42 +252,41 @@ const SearchResult = () => {
             </HeaderArea>
 
             {/* 키워드 영역 */}
-            <div
-              style={{
-                padding: "15px 0px 15px 0px",
-                borderBottom: "1px solid #c4bebe",
-              }}
-            >
-              <ul style={{ display: "flex" }}>
-                {searchedSelectedKeywords.map((keyword, index) => (
-                  <Pill
-                    key={index}
-                    text={keyword}
-                    onClick={() => handleRemoveSearchedKeyword(keyword)}
-                  />
-                ))}
-              </ul>
-            </div>
+            {searchedSelectedKeywords.length !== 0 && (
+              <div
+                style={{
+                  padding: "15px 0px 15px 0px",
+                  borderBottom: "1px solid #c4bebe",
+                }}
+              >
+                <ul style={{ display: "flex" }}>
+                  {searchedSelectedKeywords.map((keyword, index) => (
+                    <Pill
+                      key={index}
+                      text={keyword}
+                      onClick={() => handleRemoveSearchedKeyword(keyword)}
+                    />
+                  ))}
+                </ul>
+              </div>
+            )}
 
             {/* 콘텐츠 영역 */}
             <div>
               {viewMode ? (
                 <ListUIWrap>
                   {currentBooks.map((book, index) => (
-                    <Link
-                      key={index}
-                      to={`/book-detail?isbn=${book.isbn}`}
+                    <li
+                      style={{
+                        height: "310px",
+                        display: "flex",
+                        padding: "36px 20px",
+                        borderBottom: "1px solid #A1A1A1",
+                      }}
                     >
-                      <li
-                        style={{
-                          height: "310px",
-                          display: "flex",
-                          padding: "36px 20px",
-                          borderBottom: "1px solid #A1A1A1",
-                        }}
-                      >
+                      <Link key={index} to={`/book-detail?isbn=${book.isbn}`}>
                         <img
-                          src={book.imageUrl}
+                          src={book.imageUrl || defaultBookCover}
                           alt="책 표지 이미지"
                           style={{
                             height: "240px",
@@ -293,106 +297,78 @@ const SearchResult = () => {
                             border: "1px solid #c0c0c0",
                           }}
                         />
-                        <div style={{ padding: "1rem 0px 0px 1rem" }}>
-                          <div>
+                      </Link>
+                      <div style={{ padding: "1rem 0px 0px 1rem" }}>
+                        <div>
+                          <Link
+                            key={index}
+                            to={`/book-detail?isbn=${book.isbn}`}
+                          >
                             <h3
                               style={{
                                 fontSize: "20px",
                                 fontWeight: "bold",
-                                marginBottom: "8px",
+                                marginBottom: "10px",
                               }}
                             >
                               {book.title}
                             </h3>
-                            <h4
-                              style={{
-                                fontSize: "1rem",
-                                color: "gray",
-                                marginBottom: "40px",
-                              }}
-                            >
-                              {book.author}
-                            </h4>
-                          </div>
-                          <div style={{ marginBottom: "40px" }}>
-                            <ul style={{ display: "flex", flexWrap: "wrap" }}>
-                              <BookKeyword
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  navigate(
-                                    `/search/result/${book.middleCategoryName}`
-                                  );
-                                }}
-                              >
-                                {book.middleCategoryName}
-                              </BookKeyword>
-                              {book.bookKeywordList.map((keyword, index) => {
-                                return (
-                                  <BookKeyword
-                                    key={index}
-                                    onClick={(e) => {
-                                      e.preventDefault();
-                                      navigate(
-                                        `/search/result/${keyword.name}`
-                                      );
-                                    }}
-                                  >
-                                    {keyword.name}
-                                  </BookKeyword>
-                                );
-                              })}
-                            </ul>
-                          </div>
-                          <h1
+                          </Link>
+                          <h4
                             style={{
-                              fontWeight: "bold",
+                              fontSize: "1rem",
+                              color: "gray",
                               marginBottom: "10px",
                             }}
                           >
-                            평균 ★{book.rating}{" "}
-                            <span style={{ color: "gray" }}>
-                              ({reviewCount})
-                            </span>
-                          </h1>
-                          <div
-                            style={{ display: "flex", alignItems: "center" }}
+                            {book.author}
+                          </h4>
+                          <h4
+                            style={{
+                              fontSize: "1rem",
+                              color: "gray",
+                              marginBottom: "40px",
+                            }}
                           >
-                            <img
-                              src={starIcon}
-                              alt=""
-                              style={{ marginRight: "5px" }}
-                            />
-                            <img
-                              src={starIcon}
-                              alt=""
-                              style={{ marginRight: "5px" }}
-                            />
-                            <img
-                              src={starIcon}
-                              alt=""
-                              style={{ marginRight: "5px" }}
-                            />
-                            <img
-                              src={starIcon}
-                              alt=""
-                              style={{ marginRight: "5px" }}
-                            />
-                            <img
-                              src={starIcon}
-                              alt=""
-                              style={{ marginRight: "5px" }}
-                            />
-                          </div>
+                            {book.publicYear}
+                          </h4>
                         </div>
-                      </li>
-                    </Link>
+                        <div style={{ marginBottom: "40px" }}>
+                          <ul style={{ display: "flex", flexWrap: "wrap" }}>
+                            <BookKeyword
+                              onClick={(e) => {
+                                e.preventDefault();
+                                navigate(
+                                  `/search/result/${book.middleCategoryName}`
+                                );
+                              }}
+                            >
+                              {book.middleCategoryName}
+                            </BookKeyword>
+                            {book.bookKeywordList.map((keyword, index) => {
+                              return (
+                                <BookKeyword
+                                  key={index}
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    navigate(`/search/result/${keyword.name}`);
+                                  }}
+                                >
+                                  {keyword.name}
+                                </BookKeyword>
+                              );
+                            })}
+                          </ul>
+                        </div>
+                      </div>
+                    </li>
                   ))}
                 </ListUIWrap>
               ) : (
                 <CardUIWrap>
                   {currentBooks.map((book, index) => (
-                    <Link to={`/book-detail/${book.title}`}>
-                      <li key={index} style={{ width: "170px" }}>
+                    <li key={index} style={{ width: "170px" }}>
+                      <Link to={`/book-detail?isbn=${book.isbn}`}>
                         <div
                           style={{
                             height: "240px",
@@ -404,73 +380,30 @@ const SearchResult = () => {
                           }}
                         >
                           <img
-                            src={book.imageUrl}
+                            src={book.imageUrl || defaultBookCover}
                             alt="책 표지 이미지"
                             style={{
                               width: "100%",
                               height: "100%",
                               // objectFit: "cover",
+                              borderRadius: "4px",
                               border: "1px solid #c0c0c0",
                             }}
                           />
                         </div>
                         <BookTitle>{book.title}</BookTitle>
-                        <h3 style={{ color: "#6B6B6B", marginBottom: "10px" }}>
-                          {book.author}
-                        </h3>
-                        <h1 style={{ marginBottom: "10px" }}>
-                          평균 ★{book.rating}{" "}
-                          <span style={{ color: "gray" }}>({reviewCount})</span>
-                        </h1>
-                        <div
-                          style={{
-                            display: "flex",
-                            alignItems: "center",
-                            marginBottom: "40px",
-                          }}
-                        >
-                          <img
-                            src={starIcon}
-                            alt=""
-                            style={{
-                              width: "20px",
-                              marginRight: "5px",
-                            }}
-                          />
-                          <img
-                            src={starIcon}
-                            alt=""
-                            style={{ width: "20px", marginRight: "5px" }}
-                          />
-                          <img
-                            src={starIcon}
-                            alt=""
-                            style={{ width: "20px", marginRight: "5px" }}
-                          />
-                          <img
-                            src={starIcon}
-                            alt=""
-                            style={{ width: "20px", marginRight: "5px" }}
-                          />
-                          <img
-                            src={starIcon}
-                            alt=""
-                            style={{ width: "20px", marginRight: "5px" }}
-                          />
-                        </div>
-
-                        {/* 별 컴포넌트 */}
-                      </li>
-                    </Link>
+                      </Link>
+                      <h3 style={{ color: "#6B6B6B", marginBottom: "10px" }}>
+                        {book.author}
+                      </h3>
+                    </li>
                   ))}
                 </CardUIWrap>
               )}
             </div>
             <Pagination
-              booksPerPage={booksPerPage}
               totalBooks={filteredBooks.length}
               paginate={paginate}
-              bookTitle={title}
               currentPage={currentPage}
             />
           </section>
@@ -536,7 +469,7 @@ const KeywordSearchBox = ({
 
   const availableKeywords = totalBooksOfKeywords.filter(
     (keyword) =>
-      // 선택된 키워드 포함 x, 입력된 문자 포함
+      // 선택된 키워드 포함 x, 입력된 문자 포함된 키워드만 저장
       !selectedKeywords.includes(keyword) &&
       keyword.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -568,11 +501,15 @@ const KeywordSearchBoxModal = ({ keywordData, onSelectKeyword }) => {
     <>
       <ModalStyled>
         <ul>
-          {keywordData.map((keyword, index) => (
-            <li key={index} onClick={() => onSelectKeyword(keyword)}>
-              {keyword}
-            </li>
-          ))}
+          {keywordData.length === 0 ? (
+            <li style={{ cursor: "text" }}>키워드가 더 이상 없습니다.</li>
+          ) : (
+            keywordData.map((keyword, index) => (
+              <li key={index} onClick={() => onSelectKeyword(keyword)}>
+                {keyword}
+              </li>
+            ))
+          )}
         </ul>
       </ModalStyled>
     </>
@@ -582,7 +519,6 @@ const KeywordSearchBoxModal = ({ keywordData, onSelectKeyword }) => {
 const ModalStyled = styled.div`
   width: 100%;
   background-color: aliceblue;
-  cursor: pointer;
   max-height: 300px;
   overflow-y: auto;
   border: 1px solid #ccc;
@@ -591,6 +527,7 @@ const ModalStyled = styled.div`
   margin-top: 4px;
 
   li {
+    cursor: pointer;
     padding: 5px;
   }
 `;

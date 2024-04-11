@@ -5,6 +5,23 @@
 	border: 5px solid #a4d6dd;
 	border-radius: 15px;
 	padding: 9px;
+	/* transition: all 0.2s ease-in-out; */
+	transition: transform 0.5s ease-in-out;
+}
+
+/* .prscrCard_container:hover {
+	transform: scale(1.05);
+	cursor: pointer;
+} */
+
+.flipped {
+	transform: rotateY(180deg);
+}
+
+.flipped .prscrCard_title,
+.flipped .prscrCard_mid_wrapper,
+.flipped .prscrCard_bottom_wrapper {
+	transform: rotateY(180deg);
 }
 
 .prscrCard_top_wrapper {
@@ -27,17 +44,18 @@
 .prscrCard_title_wrapper {
 	display: flex;
 	width: 100%;
-	height: 40px;
+	height: 90px;
 	flex-direction: column;
 	align-items: center;
-	margin-top: 39px;
+	justify-content: center;
+	margin-top: 40px;
 	text-align: center;
 }
 
 .prscrCard_title {
 	color: #00a2bc;
 	font-family: 'SangSangAnt';
-	font-size: 35px;
+	font-size: 40px;
 	font-style: normal;
 	font-weight: 500;
 	line-height: 29px;
@@ -55,13 +73,6 @@
 	border-bottom: 1px solid #000000;
 }
 
-.prscrCard_user_name {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	width: 86%;
-}
-
 .prscrCard_mid_wrapper {
 	position: sticky;
 	margin-top: 8px;
@@ -72,9 +83,9 @@
 }
 
 #prscrCard_mid_title {
-	width: 50px;
+	width: 70px;
 	top: -12px;
-	left: 60px;
+	left: 45px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -84,6 +95,7 @@
 	z-index: 1;
 	color: #67b6c1;
 	font-family: 'HakgyoansimWoojuR';
+	font-weight: 600;
 	font-size: 14px;
 	line-height: 17px;
 }
@@ -149,6 +161,16 @@
 	object-fit: contain;
 }
 
+.prscrCard_reason_wrapper {
+	width: 100%;
+	height: 100%;
+	font-family: var(--basic-font);
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: 18px;
+}
+
 .prscrCard_bottom_wrapper {
 	display: flex;
 	width: 100%;
@@ -158,10 +180,14 @@
 }
 
 .prscrCard_update_date {
+	display: flex;
 	font-family: 'HakgyoansimWoojuR';
 	font-weight: 500;
-	font-style: bold;
-	font-size: 17px;
-	line-height: 20px;
+	font-style: normal;
+	font-size: 18px;
+	line-height: 22px;
 	color: #00a2bc;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
 }
