@@ -19,7 +19,7 @@ const Signup1 = () => {
   };
   const clickHandler2 = () => {
     setIsActived2(!isActived2);
-  };
+	};
 
   return (
     <>
@@ -411,11 +411,9 @@ const Signup1 = () => {
                 네, 동의합니다.
               </button>
             </div>
-            <Link to={"/signup/2"}>
-              <button className="signUp1_btn">
-                {/* <img src={rightArrow} alt="다음 페이지로" /> */}
-                다음 단계로
-              </button>
+            <Link to={"/signup/2"} className="signUp1_btn">
+              {/* <img src={rightArrow} alt="다음 페이지로" /> */}
+              다음 단계로
             </Link>
           </div>
         </LoginContent>
