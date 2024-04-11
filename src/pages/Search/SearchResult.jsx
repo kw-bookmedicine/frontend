@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Header from "../../components/Header";
 import styled from "styled-components";
-import closeIcon from "../assets/closeIconRound.svg";
-import starIcon from "../assets/icons8-별-30 (1).png";
+import closeIcon from "../../assets/closeIconRound.svg";
+import starIcon from "../../assets/icons8-별-30 (1).png";
 import api from "../../services/api";
 import Pagination from "../../components/Pagination";
 import SearchBox from "../../components/SearchBox";
@@ -269,10 +269,7 @@ const SearchResult = () => {
               {viewMode ? (
                 <ListUIWrap>
                   {currentBooks.map((book, index) => (
-                    <Link
-                      key={index}
-                      to={`/book-detail?isbn=${book.isbn}`}
-                    >
+                    <Link key={index} to={`/book-detail?isbn=${book.isbn}`}>
                       <li
                         style={{
                           height: "310px",
@@ -299,7 +296,7 @@ const SearchResult = () => {
                               style={{
                                 fontSize: "20px",
                                 fontWeight: "bold",
-                                marginBottom: "8px",
+                                marginBottom: "10px",
                               }}
                             >
                               {book.title}
@@ -308,7 +305,7 @@ const SearchResult = () => {
                               style={{
                                 fontSize: "1rem",
                                 color: "gray",
-                                marginBottom: "40px",
+                                marginBottom: "10px",
                               }}
                             >
                               {book.author}
@@ -342,46 +339,6 @@ const SearchResult = () => {
                                 );
                               })}
                             </ul>
-                          </div>
-                          <h1
-                            style={{
-                              fontWeight: "bold",
-                              marginBottom: "10px",
-                            }}
-                          >
-                            평균 ★{book.rating}{" "}
-                            <span style={{ color: "gray" }}>
-                              ({reviewCount})
-                            </span>
-                          </h1>
-                          <div
-                            style={{ display: "flex", alignItems: "center" }}
-                          >
-                            <img
-                              src={starIcon}
-                              alt=""
-                              style={{ marginRight: "5px" }}
-                            />
-                            <img
-                              src={starIcon}
-                              alt=""
-                              style={{ marginRight: "5px" }}
-                            />
-                            <img
-                              src={starIcon}
-                              alt=""
-                              style={{ marginRight: "5px" }}
-                            />
-                            <img
-                              src={starIcon}
-                              alt=""
-                              style={{ marginRight: "5px" }}
-                            />
-                            <img
-                              src={starIcon}
-                              alt=""
-                              style={{ marginRight: "5px" }}
-                            />
                           </div>
                         </div>
                       </li>

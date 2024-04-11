@@ -7,17 +7,17 @@ import Header from "../../components/Header";
 import SearchResultListModal from "../../components/SearchResultListModal";
 
 // STYLES
-import "../styles/SearchStyles.css";
-import bookImg1 from "../assets/category-book-총류.jpg";
-import bookImg2 from "../assets/category-book-철학.jpg";
-import bookImg3 from "../assets/category-book-종교.jpg";
-import bookImg4 from "../assets/category-book-사회과학.jpg";
-import bookImg5 from "../assets/category-book-자연과학.jpg";
-import bookImg6 from "../assets/category-book-기술과학.jpg";
-import bookImg7 from "../assets/category-book-예술.jpg";
-import bookImg8 from "../assets/category-book-언어.jpg";
-import bookImg9 from "../assets/category-book-문학.png";
-import bookImg10 from "../assets/category-book-역사.jpg";
+import "../../styles/SearchStyles.css";
+import bookImg1 from "../../assets/category-book-총류.jpg";
+import bookImg2 from "../../assets/category-book-철학.jpg";
+import bookImg3 from "../../assets/category-book-종교.jpg";
+import bookImg4 from "../../assets/category-book-사회과학.jpg";
+import bookImg5 from "../../assets/category-book-자연과학.jpg";
+import bookImg6 from "../../assets/category-book-기술과학.jpg";
+import bookImg7 from "../../assets/category-book-예술.jpg";
+import bookImg8 from "../../assets/category-book-언어.jpg";
+import bookImg9 from "../../assets/category-book-문학.png";
+import bookImg10 from "../../assets/category-book-역사.jpg";
 import { LoginContext } from "../../contexts/LoginContextProvider";
 import api from "../../services/api";
 import SearchBox from "../../components/SearchBox";
