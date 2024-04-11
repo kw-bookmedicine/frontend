@@ -246,22 +246,25 @@ const SearchResult = () => {
             </HeaderArea>
 
             {/* 키워드 영역 */}
-            <div
-              style={{
-                padding: "15px 0px 15px 0px",
-                borderBottom: "1px solid #c4bebe",
-              }}
-            >
-              <ul style={{ display: "flex" }}>
-                {searchedSelectedKeywords.map((keyword, index) => (
-                  <Pill
-                    key={index}
-                    text={keyword}
-                    onClick={() => handleRemoveSearchedKeyword(keyword)}
-                  />
-                ))}
-              </ul>
-            </div>
+            {searchedSelectedKeywords.length !==
+              0 && (
+                <div
+                  style={{
+                    padding: "15px 0px 15px 0px",
+                    borderBottom: "1px solid #c4bebe",
+                  }}
+                >
+                  <ul style={{ display: "flex" }}>
+                    {searchedSelectedKeywords.map((keyword, index) => (
+                      <Pill
+                        key={index}
+                        text={keyword}
+                        onClick={() => handleRemoveSearchedKeyword(keyword)}
+                      />
+                    ))}
+                  </ul>
+                </div>
+              )}
 
             {/* 콘텐츠 영역 */}
             <div>
