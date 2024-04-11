@@ -11,7 +11,7 @@ import Pill from "../../components/Pill";
 
 // ASSET
 import closeIcon from "../../assets/closeIconRound.svg";
-import defaultBookCover from "../../assets/loading_thumbnail_x4.png"
+import defaultBookCover from "../../assets/loading_thumbnail_not_rounded.png"
 
 const SearchResult = () => {
   const navigate = useNavigate();
