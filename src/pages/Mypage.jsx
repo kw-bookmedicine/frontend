@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import swal from 'sweetalert';
 
 // SERVICE
 import api from '../services/api';
@@ -33,7 +34,7 @@ const Mypage = () => {
 		setIsEdit(false);
 		// 여기서는 간단하게 console에 출력하도록 했지만, 실제로는 이 정보를 서버에 전송하여 저장할 수 있습니다.
 		console.log('유저의 자기소개:', intro);
-		alert('제출되었습니다.');
+		swal('제출되었습니다!', '자기 소개 정보가 변경되었습니다!', 'success');
 	};
 
 	const textAreaRef = useRef(null);
