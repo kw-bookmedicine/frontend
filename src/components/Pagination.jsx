@@ -1,15 +1,23 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const Pagination = ({
-  booksPerPage,
   totalBooks,
   paginate,
   currentPage,
 }) => {
   const pageNumbers = [];
-  for (let i = 1; i <= Math.ceil(totalBooks / booksPerPage); i++) {
+  const maxPageNumberLimit = 10; // 한 번에 보여줄 최대 페이지 번호 개수
+  const totalPages = Math.ceil(totalBooks / maxPageNumberLimit);
+  let startPage = Math.max(currentPage - Math.floor(maxPageNumberLimit / 2), 1);
+  let endPage = Math.min(startPage + maxPageNumberLimit - 1, totalPages);
+
+  // 시작 페이지 재조정: 끝 페이지가 최대 페이지에 도달했지만, 시작 페이지가 아직 여유가 있는 경우
+  if (endPage - startPage + 1 < maxPageNumberLimit) {
+    startPage = Math.max(endPage - maxPageNumberLimit + 1, 1);
+  }
+
+  for (let i = startPage; i <= endPage; i++) {
     pageNumbers.push(i);
   }
 
@@ -38,9 +46,7 @@ export default Pagination;
 
 const PaginationContainer = styled.ul`
   display: flex;
-  /* justify-content: center; */
-  width: 300px;
-  overflow:hidden;
+  justify-content: center;
 `;
 
 const PageItem = styled.li`
@@ -51,8 +57,8 @@ const PageItem = styled.li`
   color: ${(props) =>
     props.isCurrent
       ? "#00A2BC"
-    : "black"}; // 현재 페이지일 때 빨간색, 아니면 검은색
-  font-weight: ${(props)=> props.isCurrent ? "bold" : "normal"};
+      : "black"};
+  font-weight: ${(props) => (props.isCurrent ? "bold" : "normal")};
 
   &:hover {
     cursor: pointer;

@@ -402,7 +402,6 @@ const SearchResult = () => {
               )}
             </div>
             <Pagination
-              booksPerPage={booksPerPage}
               totalBooks={filteredBooks.length}
               paginate={paginate}
               currentPage={currentPage}
