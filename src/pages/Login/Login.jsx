@@ -156,7 +156,7 @@ export default function Login() {
         </LoginButton>
         <LoginSubMenu>
           <LoginSubMenuItem>
-            <Link to={"/signup"}>회원가입</Link>
+            <Link to={"/signup/1"}>회원가입</Link>
           </LoginSubMenuItem>
           <LoginSubMenuItem>
             <Link to={"/id-find"}>아이디 찾기</Link>
