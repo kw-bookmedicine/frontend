@@ -3,8 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 
 // STYLE
 import styled from 'styled-components';
-import useInput from '../hooks/useInput';
-import Input from '../components/Input/Input';
+import useInput from '../../hooks/useInput';
+import Input from '../../components/Input/Input';
 
 const IdFind = () => {
 	let navigate = useNavigate();
