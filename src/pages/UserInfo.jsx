@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
+// SERVICE
+import api from '../services/api';
+
 // COMPONENTS
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -11,6 +14,25 @@ import DropDown from '../components/DropDown';
 import '../styles/UserInfo.css';
 
 const UserInfo = () => {
+	const [nickname, setNickname] = useState('');
+	const [userId, setUserId] = useState('');
+	const getUserData = () => {
+		api.get('/client', { withCredentials: true }).then((res) => {
+			console.log(res.data);
+			// console.log(res.data.nickname);
+
+			res.data.nickname === null
+				? setNickname('닉네임을 설정해주세요')
+				: setNickname(nickname);
+
+			setUserId(res.data.loginId);
+		});
+	};
+
+	useEffect(() => {
+		getUserData();
+	}, []);
+
 	const { page } = useParams();
 	let option = '';
 
@@ -31,7 +53,7 @@ const UserInfo = () => {
 					<div className="userInfo_content">
 						<div className="userInfo_before_wrapper">
 							<div className="before_title">현재 {option}</div>
-							<div className="userInfo_box">꿈꾸는 소나무</div>
+							<div className="userInfo_box">{nickname}</div>
 						</div>
 						<div className="userInfo_after_wrapper">
 							<div className="after_title">변경 {option}</div>

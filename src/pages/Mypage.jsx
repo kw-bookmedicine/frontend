@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 
+// SERVICE
+import api from '../services/api';
+
 // COMPONENTS
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -35,6 +38,8 @@ const Mypage = () => {
 
 	const textAreaRef = useRef(null);
 
+	const [nickname, setNickname] = useState('');
+
 	useEffect(() => {
 		if (isEdit) {
 			// 포커스가 설정된 후에 커서를 맨 뒤로 이동시킴
@@ -43,6 +48,21 @@ const Mypage = () => {
 			textAreaRef.current.setSelectionRange(length, length);
 		}
 	}, [isEdit]);
+
+	const getUserData = () => {
+		api.get('/client', { withCredentials: true }).then((res) => {
+			console.log(res.data);
+			// console.log(res.data.nickname);
+
+			res.data.nickname === null
+				? setNickname('사용자 닉네임')
+				: setNickname(nickname);
+		});
+	};
+
+	useEffect(() => {
+		getUserData();
+	}, []);
 
 	return (
 		<>
@@ -56,7 +76,7 @@ const Mypage = () => {
 						</div>
 						<div className="user_right_wrapper">
 							<div className="right_userInfo_title_wrapper">
-								<p className="userInfo_name_text">사용자닉네임</p>
+								<p className="userInfo_name_text">{nickname}</p>
 
 								{!isEdit && (
 									<button
