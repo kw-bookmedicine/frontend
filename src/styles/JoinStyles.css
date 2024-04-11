@@ -228,12 +228,29 @@
 	line-height: normal;
 }
 
-.arrow {
+.signUp1_btn {
+	display: block;
+	text-align: center;
+	line-height: 50px;
+	width: 100%;
+	height: 50px;
+	margin-top: 30px;
+	font-family: var(--basic-font);
+	border-radius: 5px;
+	font-size: 20px;
+	background-color: #a4d6de;
+	color: white;
+}
+
+/* .arrow {
 	margin-top: 50px;
 	float: right;
+	width: 100%;
+	height: 60px;
+
 }
 
 .arrow img {
 	width: 20px;
 	height: 30px;
-}
+} */
