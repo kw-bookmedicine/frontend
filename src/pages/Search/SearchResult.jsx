@@ -173,6 +173,7 @@ const SearchResult = () => {
           inputRef={inputRef}
         />
 
+        {/* 검색 결과의 헤더 */}
         <SearchTitle id="search-title">
           <Title>
             <Highlight>"{title}"</Highlight> 에 대한
@@ -246,25 +247,24 @@ const SearchResult = () => {
             </HeaderArea>
 
             {/* 키워드 영역 */}
-            {searchedSelectedKeywords.length !==
-              0 && (
-                <div
-                  style={{
-                    padding: "15px 0px 15px 0px",
-                    borderBottom: "1px solid #c4bebe",
-                  }}
-                >
-                  <ul style={{ display: "flex" }}>
-                    {searchedSelectedKeywords.map((keyword, index) => (
-                      <Pill
-                        key={index}
-                        text={keyword}
-                        onClick={() => handleRemoveSearchedKeyword(keyword)}
-                      />
-                    ))}
-                  </ul>
-                </div>
-              )}
+            {searchedSelectedKeywords.length !== 0 && (
+              <div
+                style={{
+                  padding: "15px 0px 15px 0px",
+                  borderBottom: "1px solid #c4bebe",
+                }}
+              >
+                <ul style={{ display: "flex" }}>
+                  {searchedSelectedKeywords.map((keyword, index) => (
+                    <Pill
+                      key={index}
+                      text={keyword}
+                      onClick={() => handleRemoveSearchedKeyword(keyword)}
+                    />
+                  ))}
+                </ul>
+              </div>
+            )}
 
             {/* 콘텐츠 영역 */}
             <div>
@@ -462,7 +462,7 @@ const KeywordSearchBox = ({
 
   const availableKeywords = totalBooksOfKeywords.filter(
     (keyword) =>
-      // 선택된 키워드 포함 x, 입력된 문자 포함
+      // 선택된 키워드 포함 x, 입력된 문자 포함된 키워드만 저장
       !selectedKeywords.includes(keyword) &&
       keyword.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -494,11 +494,15 @@ const KeywordSearchBoxModal = ({ keywordData, onSelectKeyword }) => {
     <>
       <ModalStyled>
         <ul>
-          {keywordData.map((keyword, index) => (
-            <li key={index} onClick={() => onSelectKeyword(keyword)}>
-              {keyword}
-            </li>
-          ))}
+          {keywordData.length === 0 ? (
+            <li style={{ cursor: "text" }}>키워드가 더 이상 없습니다.</li>
+          ) : (
+            keywordData.map((keyword, index) => (
+              <li key={index} onClick={() => onSelectKeyword(keyword)}>
+                {keyword}
+              </li>
+            ))
+          )}
         </ul>
       </ModalStyled>
     </>
@@ -508,7 +512,6 @@ const KeywordSearchBoxModal = ({ keywordData, onSelectKeyword }) => {
 const ModalStyled = styled.div`
   width: 100%;
   background-color: aliceblue;
-  cursor: pointer;
   max-height: 300px;
   overflow-y: auto;
   border: 1px solid #ccc;
@@ -517,6 +520,7 @@ const ModalStyled = styled.div`
   margin-top: 4px;
 
   li {
+    cursor: pointer;
     padding: 5px;
   }
 `;
