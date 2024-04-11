@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import swal from 'sweetalert';
 
 // SERVICE
 import api from '../services/api';
@@ -85,7 +86,11 @@ const Edit = () => {
 								<button
 									id="job_submit_btn"
 									onClick={() => {
-										alert('직업 정보가 변경되었습니다.');
+										swal(
+											'제출되었습니다!',
+											'직업 정보가 변경되었습니다!',
+											'success',
+										);
 									}}
 								>
 									수정하기
