@@ -6,18 +6,14 @@ const Pagination = ({
   booksPerPage,
   totalBooks,
   paginate,
-  bookTitle,
   currentPage,
 }) => {
   const pageNumbers = [];
-  // console.log(totalBooks, booksPerPage);
   for (let i = 1; i <= Math.ceil(totalBooks / booksPerPage); i++) {
     pageNumbers.push(i);
-    // console.log(pageNumbers);
   }
 
   return (
-    <nav>
       <PaginationContainer className="pagination">
         {pageNumbers.map((number) => {
           return (
@@ -35,7 +31,6 @@ const Pagination = ({
           );
         })}
       </PaginationContainer>
-    </nav>
   );
 };
 
@@ -43,7 +38,9 @@ export default Pagination;
 
 const PaginationContainer = styled.ul`
   display: flex;
-  justify-content: center;
+  /* justify-content: center; */
+  width: 300px;
+  overflow:hidden;
 `;
 
 const PageItem = styled.li`

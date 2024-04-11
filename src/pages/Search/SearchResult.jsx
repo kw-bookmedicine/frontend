@@ -405,7 +405,6 @@ const SearchResult = () => {
               booksPerPage={booksPerPage}
               totalBooks={filteredBooks.length}
               paginate={paginate}
-              bookTitle={title}
               currentPage={currentPage}
             />
           </section>
