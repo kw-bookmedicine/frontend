@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import Header from "../components/Header";
+import Header from "../../components/Header";
 import styled from "styled-components";
 import closeIcon from "../assets/closeIconRound.svg";
 import starIcon from "../assets/icons8-별-30 (1).png";
-import api from "./../services/api";
-import Pagination from "../components/Pagination";
-import SearchBox from "../components/SearchBox";
-import Pill from "../components/Pill";
+import api from "../../services/api";
+import Pagination from "../../components/Pagination";
+import SearchBox from "../../components/SearchBox";
+import Pill from "../../components/Pill";
 
 const SearchResult = () => {
   const navigate = useNavigate();

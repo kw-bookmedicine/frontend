@@ -3,8 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 // COMPONENTS
-import Header from "../components/Header";
-import SearchResultListModal from "../components/SearchResultListModal";
+import Header from "../../components/Header";
+import SearchResultListModal from "../../components/SearchResultListModal";
 
 // STYLES
 import "../styles/SearchStyles.css";
@@ -18,9 +18,9 @@ import bookImg7 from "../assets/category-book-예술.jpg";
 import bookImg8 from "../assets/category-book-언어.jpg";
 import bookImg9 from "../assets/category-book-문학.png";
 import bookImg10 from "../assets/category-book-역사.jpg";
-import { LoginContext } from "../contexts/LoginContextProvider";
-import api from "../services/api";
-import SearchBox from "../components/SearchBox";
+import { LoginContext } from "../../contexts/LoginContextProvider";
+import api from "../../services/api";
+import SearchBox from "../../components/SearchBox";
 
 
 const Search = () => {

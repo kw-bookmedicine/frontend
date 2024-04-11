@@ -6,7 +6,7 @@ import Home from './pages/Home';
 import Main from './pages/LoginHome';
 import Feed from './pages/Feed';
 import MyFeed from './pages/MyFeed';
-import Search from './pages/Search';
+import Search from './pages/Search/Search';
 import Mypage from './pages/Mypage';
 import BookDetail from './pages/BookDetail';
 import BookList from './pages/BookList';
@@ -43,7 +43,7 @@ import './App.css';
 import ScrollTop from './components/ScrollTop';
 import LoginLayout from './components/LoginLayout';
 
-import SearchResult from './pages/SearchResult';
+import SearchResult from './pages/Search/SearchResult';
 import Signup1 from './pages/Login/Signup1';
 
 
