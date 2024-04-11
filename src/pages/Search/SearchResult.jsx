@@ -364,7 +364,7 @@ const SearchResult = () => {
               ) : (
                 <CardUIWrap>
                   {currentBooks.map((book, index) => (
-                    <Link to={`/book-detail/${book.title}`}>
+                    <Link to={`/book-detail?isbn=${book.isbn}`}>
                       <li key={index} style={{ width: "170px" }}>
                         <div
                           style={{
@@ -383,7 +383,7 @@ const SearchResult = () => {
                               width: "100%",
                               height: "100%",
                               // objectFit: "cover",
-                              borderRadius:"4px",
+                              borderRadius: "4px",
                               border: "1px solid #c0c0c0",
                             }}
                           />
