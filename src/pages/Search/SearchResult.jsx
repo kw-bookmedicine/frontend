@@ -200,7 +200,7 @@ const SearchResult = () => {
                 <div style={{ display: "flex" }}>
                   <SelectStyled name="sortOption" id="sort-option-select">
                     <option value="popular">인기순</option>
-                    <option value="ranked">평점순</option>
+                    <option value="ranked">처방많은 순</option>
                   </SelectStyled>
                   <SelectStyled
                     name="itemsPerPage"
