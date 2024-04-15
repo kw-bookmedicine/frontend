@@ -36,6 +36,10 @@ const categoriesInfo = [
   { color: "#D6CABC", image: bookImg10 },
 ];
 
+// 어떤게 어떠한 역할을 하는지 한눈에 파악하기 어려움
+// 뭘 선택하든 책 제목만 넘긴다는 로직을 개선해야함
+//
+
 const Search = () => {
   const navigate = useNavigate();
   const [input, setInput] = useState(""); // 검색 데이터
@@ -162,7 +166,7 @@ const Search = () => {
   const searchBook = (evt) => {
     if (evt.key === "Enter") {
       fetchBooks(input);
-      navigate(`/search/result/${input}`);
+      navigate(`/search/result?type=${searchType}&query=${input}`);
     }
   };
 

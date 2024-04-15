@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 
 // COMPONENT
@@ -10,12 +10,13 @@ import SearchBox from "../../components/SearchBox";
 import Pill from "../../components/Pill";
 
 // ASSET
-import closeIcon from "../../assets/closeIconRound.svg";
 import defaultBookCover from "../../assets/loading_thumbnail_not_rounded.png";
 
 const SearchResult = () => {
   const navigate = useNavigate();
-  const { title } = useParams(); // path로 책 제목 가져오기
+  const [searchParams] = useSearchParams(); // URL의 쿼리 파라미터들에 접근
+  const type = searchParams.get("type"); // 'type' 쿼리 파라미터의 값을 가져옴
+  const query = searchParams.get("query"); // 'query' 쿼리 파라미터의 값을 가져옴
   const [viewMode, setViewMode] = useState(true); // 책 뷰 선택(리스트/카드)
   const [books, setBooks] = useState([]); // 책 정보
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지
@@ -59,7 +60,6 @@ const SearchResult = () => {
 
     try {
       const response = await api.get(endpoint);
-      // console.log("test", searchType, response.data);
       setSearchData(response.data);
     } catch (error) {
       console.error("Failed to fetch books:", error);
@@ -70,7 +70,7 @@ const SearchResult = () => {
     if (evt.key === "Enter") {
       fetchBooks(input);
       if (input.length > 0 && selectedKeywords.length === 0)
-        navigate(`/search/result/${input}`);
+        navigate(`/search/result?type=${searchType}&query=${input}`);
       if (selectedKeywords.length > 0)
         navigate(`/search/result/${selectedKeywords.join(" ")} ${input}`);
       if (input.length === 0 && searchType !== "keyword")
@@ -99,14 +99,20 @@ const SearchResult = () => {
   // 페이지 변경
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  // 콘텐츠 내용 API 호출
   useEffect(() => {
     const getSearchResults = async () => {
       setLoading(true);
       try {
-        const response = await api.get(
-          // `/api/search/book?title=${title}&target=page&page=${currentPage-1}&size=${booksPerPage}`
-          `/api/search/book?title=${title}&target=page&page=0&size=999`
-        );
+        let endpoint;
+        if (type === "title") {
+          endpoint = `/api/search/book?title=${query}&target=page&page=0&size=999`;
+        } else if (type === "author") {
+          endpoint = `/api/search/book?author=${query}&target=page&page=0&size=999`;
+        } else if (type === "keyword") {
+          endpoint = `/api/search/keyword?name=${query}&target=page&page=0&size=999`;
+        }
+        const response = await api.get(endpoint);
         setBooks(response.data);
         setLoading(false);
       } catch (error) {
@@ -114,11 +120,10 @@ const SearchResult = () => {
       }
     };
     getSearchResults();
-  }, [title]);
+  }, [type, query]);
 
   let searchResultsCount = books.length;
   searchResultsCount = searchResultsCount.toLocaleString();
-  let reviewCount = 123;
 
   // 10개, 50개, 100개에 따른 한페이지에 보여주는 책의 수
   const handleSizeChange = (event) => {
@@ -181,7 +186,7 @@ const SearchResult = () => {
         {/* 검색 결과의 헤더 */}
         <SearchTitle id="search-title">
           <Title>
-            <Highlight>"{title}"</Highlight> 에 대한
+            <Highlight>"{query}"</Highlight> 에 대한
             <Highlight> {searchResultsCount} 개의 검색 결과</Highlight>
           </Title>
         </SearchTitle>
@@ -224,7 +229,6 @@ const SearchResult = () => {
                       width: "75px",
                       border: "1.5px solid #C0C0C0",
                       borderRadius: "5px",
-                      // marginLeft: "10px",
                     }}
                   >
                     <ViewButton
