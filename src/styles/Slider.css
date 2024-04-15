@@ -1,65 +1,64 @@
+.loginHome-best-wrapper {
+  padding: 0px 80px;
+}
+
 .item-wrapper {
-	width: 148px;
-	height: 269px;
-	margin-right: 10px;
+  width: 148px;
+  height: 269px;
 }
 
 .item-image {
-	background-color: #d9d9d9;
-	box-sizing: border-box;
-	height: 210px;
-	border-radius: 5px;
+  background-color: #d9d9d9;
+  box-sizing: border-box;
+  height: 210px;
+  border-radius: 5px;
 }
 
 .item-detail {
-	padding-top: 16px;
+  padding-top: 16px;
 }
 
 .item-title {
-	font-size: 16px;
-	font-weight: 700;
-	margin-bottom: 4px;
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 4px;
 }
 
 .item-author {
-	font-size: 14px;
-	font-weight: 500;
+  font-size: 14px;
+  font-weight: 500;
 }
 
 .item-rank {
-	font-family: 'Pretendard';
-	position: absolute;
-	font-size: 96px;
-	font-weight: 900;
-	content: '1';
-	top: 90px;
-	left: -25px;
-	z-index: 100;
-	letter-spacing: -15px;
-	/* background-color: aqua; */
+  /* font-family: "Pretendard"; */
+  position: absolute;
+  font-size: 96px;
+  font-weight: 900;
+  content: "1";
+  top: 90px;
+  left: -25px;
+  z-index: 100;
+  letter-spacing: -5px;
 }
 
-#slider-swiper .swiper-button-prev,
-#slider-swiper .swiper-button-next {
-	color: #575757 !important;
+.loginHome-slider {
+  padding-left: 20px;
 }
 
-#slider-swiper .swiper-button-prev:after,
-#slider-swiper .swiper-button-next:after {
-	font-size: 2rem !important;
-	font-weight: 1000 !important;
-	margin-bottom: 40px;
+.loginHome-prev-button {
+  position: relative;
+  top: 210px;
+  left: -60px;
+  padding: 10px;
+  z-index: 10;
+  background-color: white;
 }
 
-#slider-swiper .swiper-button-prev:after {
-	margin-left: -25px;
-}
-
-#slider-swiper .swiper-button-next:after {
-	margin-right: -20px;
-}
-
-#slider-swiper .swiper {
-	padding-left: 30px;
-	cursor: grab;
+.loginHome-next-button {
+  position: relative;
+  top: 210px;
+  right: -1240px;
+  padding: 10px;
+  z-index: 10;
+  background-color: white;
 }
