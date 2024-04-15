@@ -5,7 +5,6 @@
 .item-wrapper {
   width: 148px;
   height: 269px;
-  margin-right: 10px;
 }
 
 .item-image {
@@ -39,11 +38,11 @@
   top: 90px;
   left: -25px;
   z-index: 100;
-  letter-spacing: -15px;
+  letter-spacing: -5px;
 }
 
 .loginHome-slider {
-	padding: 0 20px;
+  padding-left: 20px;
 }
 
 .loginHome-prev-button {
@@ -58,7 +57,7 @@
 .loginHome-next-button {
   position: relative;
   top: 210px;
-  right: -1260px;
+  right: -1240px;
   padding: 10px;
   z-index: 10;
   background-color: white;
