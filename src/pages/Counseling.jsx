@@ -19,7 +19,7 @@ const Counseling = () => {
 
 	const handleIconUrl = async () => {
 		if (!iconClick) {
-			setIconUrl('/icon/active_search_icon.svg');
+			setIconUrl('/icon/black_search_icon.svg');
 		} else {
 			setIconUrl('/icon/white_search_icon.svg');
 		}
@@ -104,7 +104,7 @@ const Counseling = () => {
 		// console.log(clickedIcon);
 		clickedIcon.style.color = 'red';
 		clickedIcon.style.fontWeight = '600';
-		clickedIcon.classList.toggle('icon-active'); //
+		clickedIcon.classList.toggle('icon-active');
 	};
 
 	return (
@@ -260,12 +260,16 @@ const Counseling = () => {
 							</form>
 						</div>
 						<div className="cnsWrite_search_right_wrapper">
-							<Link to={'/worry/write'}>
+							<Link
+								to={'/worry/write'}
+								className="cnsWrite_search_right_wrapper_link"
+							>
 								<img
-									src="/icon/write_icon.svg"
+									src="/icon/mint_write_icon.svg"
 									alt="고민 작성하기"
 									id="cnsWrite_icon"
 								/>
+								고민작성하기
 							</Link>
 						</div>
 					</div>
