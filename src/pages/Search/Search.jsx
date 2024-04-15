@@ -37,7 +37,6 @@ const categoriesInfo = [
 ];
 
 const Search = () => {
-  const baseURL = "https://api.bookpharmacy.store/api";
   const navigate = useNavigate();
   const [input, setInput] = useState(""); // 검색 데이터
   const [inputKeyword, setInputKeyword] = useState([]); // 키워드 검색 데이터
@@ -59,7 +58,7 @@ const Search = () => {
 
     const fetchCategories = async () => {
       try {
-        axios
+        api
           .post(
             "https://api.bookpharmacy.store/login",
             { username: username, password: password },
@@ -67,7 +66,7 @@ const Search = () => {
           )
           .then(async () => {
             // console.log('성공');
-            axios
+            api
               .get("https://api.bookpharmacy.store/api/category/big", {
                 withCredentials: true,
               })
@@ -89,7 +88,6 @@ const Search = () => {
         console.error("Error fetching categories:", error);
       }
     };
-
     fetchCategories();
   }, []);
 
