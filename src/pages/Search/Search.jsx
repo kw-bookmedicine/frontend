@@ -164,9 +164,29 @@ const Search = () => {
   // 검색창 엔터 및 버튼 이벤트 처리
 
   const searchBook = (evt) => {
-    if (evt.key === "Enter") {
-      fetchBooks(input);
-      navigate(`/search/result?type=${searchType}&query=${input}`);
+    if (evt.key !== "Enter") return;
+
+    if (searchType === "keyword") {
+      if (selectedKeywords.length === 0) {
+        alert("키워드를 선택하여 검색해주세요!");
+        return;
+      }
+
+      if (selectedKeywords.length > 0) {
+        navigate(
+          `/search/result?type=${searchType}&query=${selectedKeywords.join(
+            " "
+          )}`
+        );
+      }
+    } else {
+      if (input.trim() === "") {
+        alert("검색어를 입력해주세요.");
+        return;
+      }
+
+      fetchBooks(input.trim());
+      navigate(`/search/result?type=${searchType}&query=${input.trim()}`);
     }
   };
 
