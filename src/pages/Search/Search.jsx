@@ -93,30 +93,6 @@ const Search = () => {
     fetchCategories();
   }, []);
 
-  // 카테고리 아이템을 렌더링 함수
-  const renderCategoryItem = ({ title, subtitle, image, color }, index) => (
-    <Link to={`/book/list/${title}`} key={index}>
-      <div className="category-item-wrapper">
-        <div
-          className="category-grid-item"
-          style={{
-            backgroundColor: color, // 여기서 색상 적용
-          }}
-        >
-          <div className="category-grid-description">
-            <h2 className="category-grid-item-title">{title}</h2>
-            <h3 className="category-grid-item-subtitle">{subtitle}</h3>
-          </div>
-          <img
-            src={image}
-            alt="카테고리 대표 이미지"
-            className="category-grid-item-image"
-          />
-        </div>
-      </div>
-    </Link>
-  );
-
   // 함수로 추천 키워드 리스트를 생성하는 함수
   const renderKeywordList = (title, keywords) => (
     <section className="recommend-word-wrapper">
@@ -357,3 +333,27 @@ const BookCategories = ({ categories, renderCategoryItem }) => {
     </section>
   );
 };
+
+// 카테고리 아이템을 렌더링 함수
+const renderCategoryItem = ({ title, subtitle, image, color }, index) => (
+  <Link to={`/book/list/${title}`} key={index}>
+    <div className="category-item-wrapper">
+      <div
+        className="category-grid-item"
+        style={{
+          backgroundColor: color, // 여기서 색상 적용
+        }}
+      >
+        <div className="category-grid-description">
+          <h2 className="category-grid-item-title">{title}</h2>
+          <h3 className="category-grid-item-subtitle">{subtitle}</h3>
+        </div>
+        <img
+          src={image}
+          alt="카테고리 대표 이미지"
+          className="category-grid-item-image"
+        />
+      </div>
+    </div>
+  </Link>
+);
