@@ -329,7 +329,7 @@ const Search = () => {
         {renderKeywordList("사용자 추천 키워드", userRecommendedKeywords)}
 
         {/* 카테고리 */}
-        <Categoties
+        <BookCategories
           categories={categories}
           renderCategoryItem={renderCategoryItem}
         />
@@ -340,7 +340,7 @@ const Search = () => {
 
 export default Search;
 
-const Categoties = ({ categories, renderCategoryItem }) => {
+const BookCategories = ({ categories, renderCategoryItem }) => {
   return (
     <section className="category-wrapper">
       <h2 className="recommend-title">카테고리</h2>
