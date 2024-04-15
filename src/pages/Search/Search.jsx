@@ -22,6 +22,19 @@ import { LoginContext } from "../../contexts/LoginContextProvider";
 import api from "../../services/api";
 import SearchBox from "../../components/SearchBox";
 
+// 카테고리 배경 색상(10개) && 카테고리별 대표 책 이미지 정보
+const categoriesInfo = [
+  { color: "#D4F4FF", image: bookImg1 },
+  { color: "#FFF2EC", image: bookImg2 },
+  { color: "#FFE3B5", image: bookImg3 },
+  { color: "#FFF4B6", image: bookImg4 },
+  { color: "#D6D6D6", image: bookImg5 },
+  { color: "#C2E2FF", image: bookImg6 },
+  { color: "#FFCACD", image: bookImg7 },
+  { color: "#DFFFF8", image: bookImg8 },
+  { color: "#CBD4F0", image: bookImg9 },
+  { color: "#D6CABC", image: bookImg10 },
+];
 
 const Search = () => {
   const baseURL = "https://api.bookpharmacy.store/api";
@@ -38,20 +51,6 @@ const Search = () => {
 
   const { userId, userPwd } = useContext(LoginContext);
   const loginData = { username: userId, password: userPwd };
-
-  // 카테고리 배경 색상(10개) && 카테고리별 대표 책 이미지 정보
-  const categoriesInfo = [
-    { color: "#D4F4FF", image: bookImg1 },
-    { color: "#FFF2EC", image: bookImg2 },
-    { color: "#FFE3B5", image: bookImg3 },
-    { color: "#FFF4B6", image: bookImg4 },
-    { color: "#D6D6D6", image: bookImg5 },
-    { color: "#C2E2FF", image: bookImg6 },
-    { color: "#FFCACD", image: bookImg7 },
-    { color: "#DFFFF8", image: bookImg8 },
-    { color: "#CBD4F0", image: bookImg9 },
-    { color: "#D6CABC", image: bookImg10 },
-  ];
 
   // 카테고리 대분류, 중분류 GET 요청 및 요청 데이터 사용하기 쉽게 처리
   useEffect(() => {
@@ -330,25 +329,31 @@ const Search = () => {
         {renderKeywordList("사용자 추천 키워드", userRecommendedKeywords)}
 
         {/* 카테고리 */}
-        <section className="category-wrapper">
-          <h2 className="recommend-title">카테고리</h2>
-          <div className="category-items">
-            {Object.keys(categories).map((key, index) => {
-              const title = key;
-              const subtitle = categories[key].join(", ");
-              const infoIndex = index % categoriesInfo.length; // 나머지로 0~9만 접근하도록 길이제한
-              const color = categoriesInfo[infoIndex].color;
-              const image = categoriesInfo[infoIndex].image;
-              return renderCategoryItem(
-                { title, subtitle, color, image },
-                index
-              );
-            })}
-          </div>
-        </section>
+        <Categoties
+          categories={categories}
+          renderCategoryItem={renderCategoryItem}
+        />
       </section>
     </div>
   );
 };
 
 export default Search;
+
+const Categoties = ({ categories, renderCategoryItem }) => {
+  return (
+    <section className="category-wrapper">
+      <h2 className="recommend-title">카테고리</h2>
+      <div className="category-items">
+        {Object.keys(categories).map((key, index) => {
+          const title = key;
+          const subtitle = categories[key].join(", ");
+          const infoIndex = index % categoriesInfo.length; // 나머지로 0~9만 접근하도록 길이제한
+          const color = categoriesInfo[infoIndex].color;
+          const image = categoriesInfo[infoIndex].image;
+          return renderCategoryItem({ title, subtitle, color, image }, index);
+        })}
+      </div>
+    </section>
+  );
+};
