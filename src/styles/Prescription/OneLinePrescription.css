@@ -32,7 +32,7 @@
 	align-items: center;
 	width: 100%;
 	height: fit-content;
-	max-width: 1440px;
+	max-width: 1080px;
 }
 
 .OneLinePrscr_search_wrapper {
@@ -42,7 +42,7 @@
 	width: 90%;
 	height: 70px;
 	min-width: 1296px;
-	max-width: 1440px;
+	max-width: 1080px;
 	padding-top: 20px;
 	margin: 40px auto;
 }
@@ -53,7 +53,8 @@
 	row-gap: 20px;
 	column-gap: 20px;
 	min-width: 1000px;
-	max-width: 1440px;
+	max-width: 1080px;
+	height: -moz-fit-content;
 	height: fit-content;
 	align-self: center;
 	justify-items: center;
