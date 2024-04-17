@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import 'swiper/css';
 
 // ASSETS
 import loading_thumbnail from '../assets/loading_thumbnail_x4.png';
@@ -19,6 +20,7 @@ import ExpModal from '../components/Modal/Experience';
 
 // STYLES
 import '../styles/BookDetail.css';
+import { Swiper, SwiperSlide } from 'swiper/react';
 
 const BookDetail = () => {
 	const scrollRef = useRef([]);
@@ -199,41 +201,96 @@ const BookDetail = () => {
 								img={loading_thumbnail}
 							/>
 							<BookCard
-								title={'책 제목 2'}
+								title={'책 제목 1'}
 								author={'저자'}
 								img={loading_thumbnail}
 							/>
 							<BookCard
-								title={'책 제목 3'}
+								title={'책 제목 1'}
 								author={'저자'}
 								img={loading_thumbnail}
 							/>
 							<BookCard
-								title={'책 제목 4'}
+								title={'책 제목 1'}
 								author={'저자'}
 								img={loading_thumbnail}
 							/>
 							<BookCard
-								title={'책 제목 5'}
+								title={'책 제목 1'}
 								author={'저자'}
 								img={loading_thumbnail}
 							/>
 							<BookCard
-								title={'책 제목 6'}
-								author={'저자'}
-								img={loading_thumbnail}
-							/>
-							<BookCard
-								title={'책 제목 7'}
-								author={'저자'}
-								img={loading_thumbnail}
-							/>
-							<BookCard
-								title={'책 제목 8'}
+								title={'책 제목 1'}
 								author={'저자'}
 								img={loading_thumbnail}
 							/>
 						</div>
+						{/* <Swiper
+							className="BookList_container "
+							grabCursor={true}
+							centeredSlides={true}
+							slidesPerView={6}
+							loop={false}
+							initialSlide={1}
+						>
+							<SwiperSlide className="relationBookSwiper-slide swiper-wrapper">
+								<BookCard
+									title={'책 제목 1'}
+									author={'저자'}
+									img={loading_thumbnail}
+								/>
+							</SwiperSlide>
+							<SwiperSlide className="relationBookSwiper-slide swiper-wrapper">
+								<BookCard
+									title={'책 제목 2'}
+									author={'저자'}
+									img={loading_thumbnail}
+								/>
+							</SwiperSlide>
+							<SwiperSlide className="relationBookSwiper-slide swiper-wrapper">
+								<BookCard
+									title={'책 제목 3'}
+									author={'저자'}
+									img={loading_thumbnail}
+								/>
+							</SwiperSlide>
+							<SwiperSlide className="relationBookSwiper-slide swiper-wrapper">
+								<BookCard
+									title={'책 제목 4'}
+									author={'저자'}
+									img={loading_thumbnail}
+								/>
+							</SwiperSlide>
+							<SwiperSlide className="relationBookSwiper-slide swiper-wrapper">
+								<BookCard
+									title={'책 제목 5'}
+									author={'저자'}
+									img={loading_thumbnail}
+								/>
+							</SwiperSlide>
+							<SwiperSlide className="relationBookSwiper-slide swiper-wrapper">
+								<BookCard
+									title={'책 제목 6'}
+									author={'저자'}
+									img={loading_thumbnail}
+								/>
+							</SwiperSlide>
+							<SwiperSlide className="relationBookSwiper-slide swiper-wrapper">
+								<BookCard
+									title={'책 제목 7'}
+									author={'저자'}
+									img={loading_thumbnail}
+								/>
+							</SwiperSlide>
+							<SwiperSlide className="relationBookSwiper-slide swiper-wrapper">
+								<BookCard
+									title={'책 제목 8'}
+									author={'저자'}
+									img={loading_thumbnail}
+								/>
+							</SwiperSlide>
+						</Swiper> */}
 					</div>
 				</section>
 				<section className="bookDetail_footer">

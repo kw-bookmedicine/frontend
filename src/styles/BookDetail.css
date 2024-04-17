@@ -91,16 +91,17 @@
 }
 
 .summary_right_mid_wrapper {
+	display: flex;
 	position: relative;
 	width: 100%;
 	height: 200px;
-	display: flex;
+	margin-top: 20px;
 }
 
 .summary_right_bottom_wrapper {
 	width: 100%;
 	position: relative;
-	bottom: -45px;
+	bottom: -25px;
 }
 
 .right_bottom_text_wrapper {
@@ -202,22 +203,33 @@
 
 .relationBookList_wrapper {
 	/* width: 1338px; */
-	width: 100%;
-	max-width: 1080px;
+	/* width: 100%; */
+	width: 1080px;
 	height: 436px;
 	margin: 140px auto 0 auto;
 }
 
 .BookList_container {
+	display: grid;
+	grid-template-columns: repeat(6, 1fr);
+	grid-column-gap: 24px;
 	margin-top: 32px;
-	/* width: 1338px; */
-	width: 100%;
-	max-width: 1080px;
+	width: 1080px;
 	padding-right: 15px;
-	display: flex;
-	align-items: center;
-	justify-content: space-around;
+	/* display: flex; */
+	/* align-items: center; */
+	/* justify-content: space-around; */
 }
+
+/* .swiper-wrapper {
+	position: relative;
+	left: 50px;
+	width: 100%;
+}
+
+.relationBookSwiper-slide {
+	width: 100%;
+} */
 
 .bookDetail_footer {
 	margin-top: 100px;
