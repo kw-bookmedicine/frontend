@@ -1,6 +1,6 @@
 .bookDetail_content {
 	box-sizing: border-box;
-	max-width: 1440px;
+	max-width: 1080px;
 	height: 2300px;
 	display: flex;
 	flex-direction: column;
@@ -11,41 +11,25 @@
 .bookSummary_wrapper {
 	position: sticky;
 	display: flex;
-	width: 1338px;
+	width: 1080px;
 	height: 450px;
-	flex-shrink: 0;
 	margin-top: 78px;
-	padding: 24px 48px;
+	padding: 35px 48px;
 	border-radius: 20px;
 	background: #f3fdff;
-
-	/* 소설소분류 */
 	box-shadow: 6px 6px 30px 0px rgba(119, 119, 119, 0.47);
-	/* box-shadow: 2px 2px 10px 2px rgba(0, 0, 0, 0.25); */
 }
 
-.summary_left_img {
-	width: 278px;
-	height: 394px;
-	margin-right: 60px;
+.bookDt_summary_left_wrapper {
+	display: flex;
+	align-items: center;
+	width: 340px;
 }
 
-.up_left_book_title {
-	color: #000;
-	font-family: var(--basic-font);
-	font-size: 24px;
-	font-style: normal;
-	font-weight: 700;
-	line-height: normal;
-}
-
-.up_left_book_author {
-	color: #000;
-	font-family: var(--basic-font);
-	font-size: 16px;
-	font-style: normal;
-	font-weight: 400;
-	line-height: normal;
+.bookDt_summary_left_wrapper img {
+	width: 280px;
+	height: 100%;
+	margin-right: 30px;
 }
 
 .summary_right_wrapper {
@@ -61,6 +45,15 @@
 	width: 400px;
 }
 
+.right_up_left_book_title {
+	color: #000;
+	font-family: var(--basic-font);
+	font-size: 24px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: normal;
+}
+
 .right_up_left_wrapper > p {
 	color: #000;
 	font-family: var(--basic-font);
@@ -71,7 +64,7 @@
 	margin-top: 10px;
 }
 
-.up_right_exp {
+.right_up_right_exp {
 	display: flex;
 }
 
@@ -82,13 +75,13 @@
 	width: 135px;
 	height: 40px;
 	padding: 10px;
-	border: 2px solid #c8edf2;
+	border: 4px solid #c8edf2;
 	border-radius: 15px;
 	cursor: pointer;
 	font-family: var(--basic-font);
 	font-style: normal;
 	font-size: 16px;
-
+	font-weight: 600;
 	transition: 0.3s;
 }
 
@@ -97,30 +90,27 @@
 	box-shadow: inset 135px 0 0 0 #c8edf2;
 }
 
-.summary_left_mid_wrapper {
-	margin-top: 27px;
+.summary_right_mid_wrapper {
+	position: relative;
+	width: 100%;
+	height: 200px;
+	display: flex;
 }
 
-.summary_left_bottom_wrapper {
-	position: absolute;
-	top: 190px;
-	margin-top: 160px;
+.summary_right_bottom_wrapper {
+	width: 100%;
+	position: relative;
+	bottom: -45px;
 }
 
-.left_bottom_text_wrapper {
+.right_bottom_text_wrapper {
 	display: flex;
 	justify-content: space-evenly;
 	align-items: center;
-
-	width: 885px;
-	height: 64px;
-	flex-shrink: 0;
-
+	/* width: 885px; */
+	height: 50px;
 	border-radius: 15px;
-	/* background: #d3e7f6; */
 	background: #c8edf2;
-
-	/* Drop Shadow */
 	box-shadow: 2px 2px 4px 0px rgba(119, 119, 119, 0.25);
 }
 
@@ -130,10 +120,10 @@
 	color: #000;
 	text-align: center;
 	font-family: var(--basic-font);
-	font-size: 20px;
+	font-size: 18px;
 	font-style: normal;
 	font-weight: 600;
-	line-height: normal;
+	line-height: 20px;
 	cursor: pointer;
 }
 
@@ -146,8 +136,8 @@
 }
 
 .bookInfo_wrapper {
-	width: 1338px;
-	height: 536px;
+	width: 1080px;
+	height: 100%;
 	display: flex;
 	flex-direction: column;
 	margin-top: 100px;
@@ -166,7 +156,9 @@
 }
 
 .bookInfo_content {
-	width: 1338px;
+	/* width: 1338px; */
+	width: 100%;
+	max-width: 1080px;
 	margin-top: 32px;
 }
 
@@ -190,7 +182,8 @@
 }
 
 .bookComment_wrapper {
-	width: 1338px;
+	width: 100%;
+	max-width: 1080px;
 	margin-top: 100px;
 	padding-top: 70px;
 	display: flex;
@@ -208,14 +201,18 @@
 }
 
 .relationBookList_wrapper {
-	width: 1338px;
+	/* width: 1338px; */
+	width: 100%;
+	max-width: 1080px;
 	height: 436px;
 	margin: 140px auto 0 auto;
 }
 
 .BookList_container {
 	margin-top: 32px;
-	width: 1338px;
+	/* width: 1338px; */
+	width: 100%;
+	max-width: 1080px;
 	padding-right: 15px;
 	display: flex;
 	align-items: center;

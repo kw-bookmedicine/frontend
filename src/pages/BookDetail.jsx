@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 
 // ASSETS
 import loading_thumbnail from '../assets/loading_thumbnail_x4.png';
@@ -13,7 +13,6 @@ import HashTag from '../components/HashTag';
 import Review from '../components/Review';
 import Title from '../components/ArrowTitle';
 import BookCard from '../components/BookCard';
-import BookListSlide from '../components/BookListSlide';
 import Footer from '../components/Footer';
 import ModalPortal from '../components/Modal/Portal';
 import ExpModal from '../components/Modal/Experience';
@@ -43,7 +42,7 @@ const BookDetail = () => {
 
 		api.get(`/api/book/detail?isbn=${isbn}`).then((res) => {
 			// console.log(res.data.title);
-			// console.log(res.data);
+			console.log(res.data);
 			setBookInfo(res.data);
 			setBookKeywordList(res.data.bookKeywordList);
 		});
@@ -59,12 +58,11 @@ const BookDetail = () => {
 			<div className="bookDetail_content">
 				<section className="bookSummary">
 					<div className="bookSummary_wrapper">
-						<div className="summary_left_wrapper">
+						<div className="bookDt_summary_left_wrapper">
 							<img
-								className="summary_left_img"
 								src={
-									bookInfo.imageUrl === ''
-										? loading_thumbnail
+									bookInfo.imageUrl === null
+										? '/loading_thumbnail_x4.png'
 										: bookInfo.imageUrl
 								}
 							/>
@@ -72,12 +70,14 @@ const BookDetail = () => {
 						<div className="summary_right_wrapper">
 							<div className="summary_right_up_wrapper">
 								<div className="right_up_left_wrapper">
-									<div className="up_left_book_title">{bookInfo.title}</div>
+									<div className="right_up_left_book_title">
+										{bookInfo.title}
+									</div>
 									<p>{bookInfo.author}</p>
 									<p>{bookInfo.publicYear}</p>
 								</div>
 								<div className="right_up_right_wrapper">
-									<div className="up_right_exp">
+									<div className="right_up_right_exp">
 										{/* <Btn
 											text={'경험 추가하기'}
 											type="exp"
@@ -97,8 +97,8 @@ const BookDetail = () => {
 									return <HashTag key={item.name} text={item.name} />;
 								})}
 							</div>
-							<div className="summary_left_bottom_wrapper">
-								<nav className="left_bottom_text_wrapper">
+							<div className="summary_right_bottom_wrapper">
+								<nav className="right_bottom_text_wrapper">
 									<div
 										className="bottom_text_bookInfo"
 										onClick={() => {
@@ -139,7 +139,11 @@ const BookDetail = () => {
 					>
 						<div className="bookInfo_title">책 정보</div>
 						<div className="bookInfo_content">
-							<p className="content_normal">{bookInfo.content}</p>
+							<p className="content_normal">
+								{bookInfo.content === null
+									? '책 정보가 준비 중입니다.'
+									: bookInfo.content}
+							</p>
 						</div>
 					</div>
 				</section>
@@ -150,7 +154,7 @@ const BookDetail = () => {
 							scrollRef.current[1] = el;
 						}}
 					>
-						<Title title={'한 줄 처방'} />
+						<Title title={'한 줄 처방'} type="oneLine" />
 						<div className="bookComment_container">
 							<Review
 								nickname={'닉네임'}
