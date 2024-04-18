@@ -123,7 +123,9 @@ const Home = () => {
 					<div className="home_header">
 						<div className="home_header_wrapper">
 							<div className="header_logo">
-								<Link to={'/'}>책국</Link>
+								<Link to={'/'}>
+									<img src="/header_logo.png" alt="책국로고" />
+								</Link>
 								<div className="header_btn"></div>
 							</div>
 							<Btn text={'로그인'} type="login" id="home-header-btn" />
