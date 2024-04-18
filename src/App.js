@@ -29,8 +29,8 @@ import LoginContextProvider from "./contexts/LoginContextProvider";
 // 처방전 관련 페이지들
 import Counseling from "./pages/Counseling";
 import MyWorry from "./pages/MyWorry";
-import WorryWrite from "./pages/WorryWrite";
-import WorryDetail from "./pages/WorryDetail";
+import WorryWrite from "./pages/Worry/WorryWrite";
+import WorryDetail from "./pages/Worry/WorryDetail";
 import PrescriptionWrite from "./pages/PrescriptionWrite";
 import PrescriptionWriteStep2 from "./pages/PrescriptionWriteStep2";
 import PrescriptionDetail from "./pages/Prescription/PrescriptionDetail";
