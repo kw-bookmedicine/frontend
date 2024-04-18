@@ -57,7 +57,7 @@ const Mypage = () => {
 
 			res.data.nickname === null
 				? setNickname('사용자 닉네임')
-				: setNickname(nickname);
+				: setNickname(res.data.nickname);
 		});
 	};
 
@@ -78,7 +78,6 @@ const Mypage = () => {
 						<div className="user_right_wrapper">
 							<div className="right_userInfo_title_wrapper">
 								<p className="userInfo_name_text">{nickname}</p>
-
 								{!isEdit && (
 									<button
 										type="button"
