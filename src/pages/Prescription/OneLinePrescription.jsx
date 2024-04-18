@@ -17,22 +17,32 @@ const OneLinePrescription = () => {
 
 	const handleIconUrl = async () => {
 		if (!iconClick) {
-			setIconUrl('/icon/active_search_icon.svg');
+			setIconUrl('/icon/black_search_icon.svg');
 		} else {
 			setIconUrl('/icon/white_search_icon.svg');
 		}
 	};
 
 	const handleIcon = (e) => {
-		let target = '';
-		if (e.target.alt) {
-			target = e.target.alt;
-		} else {
-			target = e.target.innerText;
-		}
-		let targetIcon = document.getElementById(`${target}`);
-		// console.log(targetIcon);
-		targetIcon.classList.toggle('icon-active');
+		// 모든 아이콘 글씨 색 초기화
+		const icons = document.querySelectorAll('.cns_category_text');
+		icons.forEach((icon) => {
+			if (icon.className === 'cns_category_text') {
+				// console.log(icon.className);
+				icon.style.color = 'black';
+				icon.style.fontWeight = '400';
+			} else {
+				icon.style.color = 'black';
+				icon.style.fontWeight = '400';
+			}
+		});
+
+		// 클릭된 아이콘만 색상 설정
+		const clickedIcon = e.currentTarget.querySelector('.cns_category_text');
+		// console.log(clickedIcon);
+		clickedIcon.style.color = 'red';
+		clickedIcon.style.fontWeight = '600';
+		clickedIcon.classList.toggle('icon-active');
 	};
 
 	const [cardClick, setCardClick] = useState(false);
@@ -50,85 +60,121 @@ const OneLinePrescription = () => {
 					<div className="counseling_category_wrapper">
 						<div className="cns_category_title">한 줄 처방</div>
 						<div className="cns_category_content_wrapper">
-							<div className="cns_category" onClick={handleIcon} id="예술">
+							<div className="cns_category" onClick={handleIcon} id="관계/소통">
 								<img
 									src="/icon/art_icon.svg"
-									alt="예술"
+									alt="관계/소통"
 									className="cns_category_img"
 								/>
-								<span className="cns_category_text">예술</span>
+								<span className="cns_category_text">관계/소통</span>
 							</div>
-							<div className="cns_category" onClick={handleIcon} id="역사">
+							<div
+								className="cns_category"
+								onClick={handleIcon}
+								id="소설/에세이"
+							>
 								<img
 									src="/icon/history_icon.png"
-									alt="역사"
+									alt="소설/에세이"
 									className="cns_category_img"
 								/>
-								<span className="cns_category_text">역사</span>
+								<span className="cns_category_text">소설/에세이</span>
+							</div>
+							<div className="cns_category" onClick={handleIcon} id="경제/경영">
+								<img
+									src="/icon/philosophy_icon.png"
+									alt="경제/경영"
+									className="cns_category_img"
+								/>
+								<span className="cns_category_text">경제/경영</span>
+							</div>
+							<div className="cns_category" onClick={handleIcon} id="자녀/양육">
+								<img
+									src="/icon/social_icon.png"
+									alt="자녀/양육"
+									className="cns_category_img"
+								/>
+								<span className="cns_category_text">자녀/양육</span>
+							</div>
+							<div className="cns_category" onClick={handleIcon} id="사회">
+								<img
+									src="/icon/tech_icon.png"
+									alt="사회"
+									className="cns_category_img"
+								/>
+								<span className="cns_category_text">사회</span>
 							</div>
 							<div className="cns_category" onClick={handleIcon} id="철학">
 								<img
-									src="/icon/philosophy_icon.png"
+									src="/icon/science_icon.png"
 									alt="철학"
 									className="cns_category_img"
 								/>
 								<span className="cns_category_text">철학</span>
 							</div>
-							<div className="cns_category" onClick={handleIcon} id="사회과학">
-								<img
-									src="/icon/social_icon.png"
-									alt="사회과학"
-									className="cns_category_img"
-								/>
-								<span className="cns_category_text">사회과학</span>
-							</div>
-							<div className="cns_category" onClick={handleIcon} id="기술과학">
-								<img
-									src="/icon/tech_icon.png"
-									alt="기술과학"
-									className="cns_category_img"
-								/>
-								<span className="cns_category_text">기술과학</span>
-							</div>
-							<div className="cns_category" onClick={handleIcon} id="자연과학">
-								<img
-									src="/icon/science_icon.png"
-									alt="자연과학"
-									className="cns_category_img"
-								/>
-								<span className="cns_category_text">자연과학</span>
-							</div>
-							<div className="cns_category" onClick={handleIcon} id="종교">
+							<div className="cns_category" onClick={handleIcon} id="건강">
 								<img
 									src="/icon/religion_icon.png"
-									alt="종교"
+									alt="건강"
 									className="cns_category_img"
 								/>
-								<span className="cns_category_text">종교</span>
+								<span className="cns_category_text">건강</span>
 							</div>
-							<div className="cns_category" onClick={handleIcon} id="총류">
+							<div className="cns_category" onClick={handleIcon} id="역사">
 								<img
 									src="/icon/general_icon.png"
-									alt="총류"
+									alt="역사"
 									className="cns_category_img"
 								/>
-								<span className="cns_category_text">총류</span>
+								<span className="cns_category_text">역사</span>
 							</div>
-							<div className="cns_category" onClick={handleIcon} id="언어">
+							<div
+								className="cns_category"
+								onClick={handleIcon}
+								id="수학/과학/공학"
+							>
 								<img
 									src="/icon/language_icon.png"
-									alt="언어"
+									alt="수학/과학/공학"
 									className="cns_category_img"
 								/>
-								<span className="cns_category_text">언어</span>
+								<span className="cns_category_text">수학/과학/공학</span>
 							</div>
-							<div className="cns_category" onClick={handleIcon} id="문학">
+							<div
+								className="cns_category"
+								onClick={handleIcon}
+								id="문제집/수험서"
+							>
 								<img
 									src="/icon/literature_icon.png"
-									alt="문학"
+									alt="문제집/수험서"
 									className="cns_category_img"
 								/>
-								<span className="cns_category_text">문학</span>
+								<span className="cns_category_text">문제집/수험서</span>
+							</div>
+							<div className="cns_category" onClick={handleIcon} id="취업">
+								<img
+									src="/icon/literature_icon.png"
+									alt="취업"
+									className="cns_category_img"
+								/>
+								<span className="cns_category_text">취업</span>
+							</div>
+							<div className="cns_category" onClick={handleIcon} id="취미">
+								<img
+									src="/icon/literature_icon.png"
+									alt="취미"
+									className="cns_category_img"
+								/>
+								<span className="cns_category_text">취미</span>
+							</div>
+							<div className="cns_category" onClick={handleIcon} id="기타">
+								<img
+									src="/icon/literature_icon.png"
+									alt="기타"
+									className="cns_category_img"
+								/>
+								<span className="cns_category_text">기타</span>
 							</div>
 						</div>
 					</div>
