@@ -5,18 +5,18 @@
 	border: 5px solid #a4d6dd;
 	border-radius: 15px;
 	padding: 9px;
-	/* transition: all 0.2s ease-in-out; */
 	transition: transform 0.5s ease-in-out;
+	transition: transform 0.3s;
+	/* 원근법 주기 */
+	transform: perspective(500px) rotateY(0deg);
 	cursor: pointer;
 }
 
-/* .prscrCard_container:hover {
-	transform: scale(1.05);
-	cursor: pointer;
-} */
-
 .flipped {
 	transform: rotateY(180deg);
+	transform: perspective(500px) rotateY(180deg);
+	/* background-color: #00a2bc;
+	border: #00a2bc; */
 }
 
 .flipped .prscrCard_title,
