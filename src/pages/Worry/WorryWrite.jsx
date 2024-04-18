@@ -524,6 +524,7 @@ const PrevAnswerMessage = styled.div`
   background-color: #a4d6dd;
   padding: 20px;
   border-radius: 16px 4px 16px 16px;
+  word-wrap: break-word;
 `;
 
 const MessageContainer = styled.div`
