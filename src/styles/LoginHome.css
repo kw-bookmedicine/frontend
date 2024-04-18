@@ -101,7 +101,7 @@
 .best-title {
   font-size: 24px;
   font-weight: 700;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 
 .LoginHome-today-item-title {
@@ -266,7 +266,6 @@
 
 .LoginHome-today-reviews-items-card-book > h3 {
   font-size: 10px;
-  /* font-weight: 400; */
 }
 
 .LoginHome-today-reviews-items-card-date {
@@ -304,7 +303,6 @@
 .recommend-book {
   height: 332px;
   padding: 0px 22px;
-  /* background-color: #dc4a4a; */
   margin-bottom: 50px;
 }
 
@@ -313,35 +311,10 @@
 }
 
 .title-wrapper {
-  margin-left: 30px;
-  margin-bottom: 10px;
+  margin-left: 20px;
+  margin-bottom: 15px;
 }
 
 .swiper {
   width: 100%;
-}
-
-/* .newbook {
-  padding: 20px;
-  background-color: violet;
-}
-
-.card {
-  width: 200px;
-  height: 240px;
-  background-color: burlywood;
-  position: relative;
-}
-
-.card::before {
-  position: absolute;
-  content: "1";
-  font-size: 5rem;
-  font-weight: 900;
-  bottom: 1px;
-  left: -20px;
-} */
-
-.swiper-slide {
-  filter: blur(0);
 }

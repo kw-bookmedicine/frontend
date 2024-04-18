@@ -1,5 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import swal from 'sweetalert';
+
+// SERVICE
+import api from '../services/api';
 
 // COMPONENTS
 import Header from '../components/Header';
@@ -30,10 +34,12 @@ const Mypage = () => {
 		setIsEdit(false);
 		// 여기서는 간단하게 console에 출력하도록 했지만, 실제로는 이 정보를 서버에 전송하여 저장할 수 있습니다.
 		console.log('유저의 자기소개:', intro);
-		alert('제출되었습니다.');
+		swal('제출되었습니다!', '자기 소개 정보가 변경되었습니다!', 'success');
 	};
 
 	const textAreaRef = useRef(null);
+
+	const [nickname, setNickname] = useState('');
 
 	useEffect(() => {
 		if (isEdit) {
@@ -43,6 +49,21 @@ const Mypage = () => {
 			textAreaRef.current.setSelectionRange(length, length);
 		}
 	}, [isEdit]);
+
+	const getUserData = () => {
+		api.get('/client', { withCredentials: true }).then((res) => {
+			console.log(res.data);
+			// console.log(res.data.nickname);
+
+			res.data.nickname === null
+				? setNickname('사용자 닉네임')
+				: setNickname(res.data.nickname);
+		});
+	};
+
+	useEffect(() => {
+		getUserData();
+	}, []);
 
 	return (
 		<>
@@ -56,8 +77,7 @@ const Mypage = () => {
 						</div>
 						<div className="user_right_wrapper">
 							<div className="right_userInfo_title_wrapper">
-								<p className="userInfo_name_text">사용자닉네임</p>
-
+								<p className="userInfo_name_text">{nickname}</p>
 								{!isEdit && (
 									<button
 										type="button"

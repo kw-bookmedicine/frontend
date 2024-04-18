@@ -113,9 +113,10 @@
 
 .myListModal_right_wrapper h1 {
 	text-align: center;
-	font-family: 'recipekorea';
+	/* font-family: 'HakgyoansimWoojuR'; */
+	font-family: var(--basic-font);
 	font-style: normal;
-	font-weight: 400;
+	font-weight: 600;
 	font-size: 40px;
 	line-height: 52px;
 	margin-top: 10px;
@@ -142,11 +143,11 @@
 .CloseButton::before,
 .CloseButton::after {
 	position: absolute;
-	top: 5px;
-	right: 25px;
+	top: 10px;
+	right: 20px;
 	content: ' ';
 	height: 25px;
-	width: 1.5px;
+	width: 3.5px;
 	background-color: #575757;
 }
 
@@ -162,11 +163,13 @@
 .select_complete {
 	width: 350px;
 	height: 35px;
-	background: #c8edf2;
-	box-shadow: 6px 6px 30px rgba(119, 119, 119, 0.466667);
+	/* background: #c8edf2; */
+	background: #00ae68;
+	box-shadow: 0px 0px 0px 0px #21825b;
 	border-radius: 10px;
 	opacity: 1;
 	margin-top: 14px;
+	transition: all 0.2s;
 
 	/* Font */
 	text-align: center;
@@ -175,13 +178,15 @@
 	font-weight: 400;
 	font-size: 20px;
 	line-height: 0px;
-	color: #6e6e6e;
+	color: #fff;
 }
 
 .select_complete:hover {
-	background: #a4d6dd;
-	box-shadow: 6px 6px 30px rgba(119, 119, 119, 0.466667),
-		inset 4px 4px 4px rgba(0, 0, 0, 0.25);
+	/* background: #a4d6dd; */
+	background: #00ae68;
+	box-shadow: 0px 0px 0px 5px #21825b;
+	/* box-shadow: 6px 6px 30px rgba(119, 119, 119, 0.466667),
+		inset 4px 4px 4px rgba(0, 0, 0, 0.25); */
 	border-radius: 10px;
 
 	/* Font */
