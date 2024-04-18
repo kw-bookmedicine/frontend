@@ -1,11 +1,11 @@
-import React, { useEffect, useReducer, useRef, useState } from "react";
-import Header from "../components/Header";
+import React, { useEffect, useReducer, useRef } from "react";
+import Header from "./../../components/Header";
 import styled, { keyframes } from "styled-components";
 
 // ASSET
 
 // COMPONENTS
-import ProcessTitle from "../components/Prescription/ProcessTitle";
+import ProcessTitle from "./../../components/Prescription/ProcessTitle";
 
 // 화면이 크기가 줄어들지 않게 고정하기
 // 로딩 후 화면 전환 추가

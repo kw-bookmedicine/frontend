@@ -619,41 +619,41 @@ const Title = styled.h1`
   font-weight: bold;
 `;
 
-const SearchInputWrap = styled.div`
-  width: 100%;
-  height: 60px;
-  box-shadow: 0px 2px 4px #00000033;
-  padding: 10px 0px 10px 1rem;
-  border-radius: 5px;
-  border: 1px solid #b0b0b0;
-  display: flex;
-  align-items: center;
-  font-size: 20px;
-  margin-bottom: 40px;
-`;
+// const SearchInputWrap = styled.div`
+//   width: 100%;
+//   height: 60px;
+//   box-shadow: 0px 2px 4px #00000033;
+//   padding: 10px 0px 10px 1rem;
+//   border-radius: 5px;
+//   border: 1px solid #b0b0b0;
+//   display: flex;
+//   align-items: center;
+//   font-size: 20px;
+//   margin-bottom: 40px;
+// `;
 
-const SelectMenu = styled.select`
-  width: 140px;
-  font-size: 20px;
-  border: none;
-  /* padding-left: 10px; */
-  text-align: center;
-  &:focus {
-    outline: none;
-  }
-`;
+// const SelectMenu = styled.select`
+//   width: 140px;
+//   font-size: 20px;
+//   border: none;
+//   /* padding-left: 10px; */
+//   text-align: center;
+//   &:focus {
+//     outline: none;
+//   }
+// `;
 
-const SearchInput = styled.input`
-  border: none;
-  border-left: 1px solid #c0c0c0;
-  margin-left: 1rem;
-  padding-left: 1rem;
-  font-size: 20px;
-  width: 100%;
-  &:focus {
-    outline: none;
-  }
-`;
+// const SearchInput = styled.input`
+//   border: none;
+//   border-left: 1px solid #c0c0c0;
+//   margin-left: 1rem;
+//   padding-left: 1rem;
+//   font-size: 20px;
+//   width: 100%;
+//   &:focus {
+//     outline: none;
+//   }
+// `;
 
 const ContentsWrap = styled.div`
   display: flex;
@@ -666,17 +666,17 @@ const Input = styled.input`
   font-size: 1rem;
 `;
 
-const SearchKeyword = styled.li`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 29px;
-  line-height: 27px;
-  padding: 0px 0px 0px 12px;
-  background-color: #c8edf2;
-  border-radius: 15px;
-  margin-right: 10px;
-`;
+// const SearchKeyword = styled.li`
+//   display: flex;
+//   align-items: center;
+//   justify-content: space-between;
+//   height: 29px;
+//   line-height: 27px;
+//   padding: 0px 0px 0px 12px;
+//   background-color: #c8edf2;
+//   border-radius: 15px;
+//   margin-right: 10px;
+// `;
 
 const BookKeyword = styled.li`
   display: flex;

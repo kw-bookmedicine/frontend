@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 // COMPONENTS
-import Header from "../../components/Header";
+import Header from "./../../components/Header";
 import Title from "../../components/Prescription/ProcessTitle";
 import WidePrscrCard from "../../components/Prescription/WidePrescriptionCard";
 
