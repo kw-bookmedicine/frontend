@@ -1,61 +1,57 @@
-import React, { useEffect } from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import React, { useEffect } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 // PAGES
-import Home from './pages/Home';
-import Main from './pages/LoginHome';
-import Feed from './pages/Feed';
-import MyFeed from './pages/MyFeed';
-import Search from './pages/Search/Search';
-import Mypage from './pages/Mypage';
-import BookDetail from './pages/BookDetail';
-import BookList from './pages/BookList';
-import SmallCategory from './pages/SmallCategory';
-import Edit from './pages/Edit';
-import UserInfo from './pages/UserInfo';
+import Home from "./pages/Home";
+import Main from "./pages/LoginHome";
+import Feed from "./pages/Feed";
+import MyFeed from "./pages/MyFeed";
+import Search from "./pages/Search/Search";
+import Mypage from "./pages/Mypage";
+import BookDetail from "./pages/BookDetail";
+import BookList from "./pages/BookList";
+import SmallCategory from "./pages/SmallCategory";
+import Edit from "./pages/Edit";
+import UserInfo from "./pages/UserInfo";
 
 // 로그인 관련 페이지들
 import Login from "./pages/Login/Login";
-import Join from "./pages/Login/Signup1";
+import Signup1 from "./pages/Login/Signup1";
 import Signup2 from "./pages/Login/Signup2";
 import Signup3 from "./pages/Login/Signup3";
-import Registration from './pages/Registration';
+import Registration from "./pages/Registration";
 import LoginFindResult from "./pages/Login/IdFindResult";
 import PasswordFind from "./pages/Login/PasswordFind";
 import PasswordFindResult from "./pages/Login/PasswordFindResult";
 import IdFind from "./pages/Login/IdFind";
 import LoginContextProvider from "./contexts/LoginContextProvider";
 
-
 // 처방전 관련 페이지들
-import Counseling from './pages/Counseling';
-import MyWorry from './pages/MyWorry';
-import WorryWrite from './pages/WorryWrite';
-import WorryDetail from './pages/WorryDetail';
-import PrescriptionWrite from './pages/PrescriptionWrite';
-import PrescriptionWriteStep2 from './pages/PrescriptionWriteStep2';
-import PrescriptionDetail from './pages/Prescription/PrescriptionDetail';
-import OneLinePrescription from './pages/Prescription/OneLinePrescription';
+import Counseling from "./pages/Counseling";
+import MyWorry from "./pages/MyWorry";
+import WorryWrite from "./pages/WorryWrite";
+import WorryDetail from "./pages/WorryDetail";
+import PrescriptionWrite from "./pages/PrescriptionWrite";
+import PrescriptionWriteStep2 from "./pages/PrescriptionWriteStep2";
+import PrescriptionDetail from "./pages/Prescription/PrescriptionDetail";
+import OneLinePrescription from "./pages/Prescription/OneLinePrescription";
 
 // STYLE
-import GlobalStyles from './styles/GlobalStyles';
-import './App.css';
-import ScrollTop from './components/ScrollTop';
-import LoginLayout from './components/LoginLayout';
-
-import SearchResult from './pages/Search/SearchResult';
-import Signup1 from './pages/Login/Signup1';
-
+import GlobalStyles from "./styles/GlobalStyles";
+import "./App.css";
+import ScrollTop from "./components/ScrollTop";
+import LoginLayout from "./components/LoginLayout";
+import SearchResult from "./pages/Search/SearchResult";
 
 function App() {
-	// 브라우저 새로고침 스크롤 이벤트
-	useEffect(() => {
-		window.onbeforeunload = function pushRefresh() {
-			window.scrollTo(0, 0);
-		};
-	}, []);
+  // 브라우저 새로고침 스크롤 이벤트
+  useEffect(() => {
+    window.onbeforeunload = function pushRefresh() {
+      window.scrollTo(0, 0);
+    };
+  }, []);
 
-	return (
+  return (
     <BrowserRouter>
       <LoginContextProvider>
         <div className="App">
@@ -67,7 +63,7 @@ function App() {
             <Route path="/main" element={<Main />} />
             <Route path="/feed" element={<Feed />} />
             <Route path="/search" element={<Search />} />
-            <Route path="/search/result/:title" element={<SearchResult />} />
+            <Route path="/search/:result" element={<SearchResult />} />
             <Route path="/mypage" element={<Mypage />} />
             <Route path="/myfeed" element={<MyFeed />} />
             <Route path="/myworry" element={<MyWorry />} />
