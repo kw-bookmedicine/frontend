@@ -3,6 +3,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+// SERVICE
+import api from '../../services/api.js';
+
 // COMPONENTS
 import PickBookItem from '../PickBookItem.jsx';
 
@@ -50,7 +53,7 @@ const MyListModal = ({ onClose }) => {
 	};
 
 	const AddAuthorList = (pickBookAuthor) => {
-		console.log('add author: ', pickBookAuthor);
+		// console.log('add author: ', pickBookAuthor);
 		setAddAuthorList(
 			pickAuthorList.includes(pickBookAuthor)
 				? pickAuthorList
@@ -67,14 +70,13 @@ const MyListModal = ({ onClose }) => {
 	// 엔터 눌렀을 때 검색 결과 보이기
 	const renderSearchList = (e) => {
 		if (input.trim() !== '') {
-			axios
-				.get(
-					`https://www.googleapis.com/books/v1/volumes?q=${input}&key=AIzaSyDUtFpAVpNPHCEW-pxSxpTHSACNjko_MCc`,
-				)
+			api
+				.get(`/api/search/book?title=${input}&target=page&page=0&size=10`)
 				.then((res) => {
-					setData(res.data.items); // 검색 결과 저장
+					// console.log(res.data);
+					setData((prevData) => [...prevData, ...res.data]); // 검색 결과 저장
 					setIsEnter(true); // 엔터 눌렀을 때 렌더링
-					setBookCount(res.data.items.length); // 검색 결과로 나온 책 권수
+					setBookCount(res.data.length); // 검색 결과로 나온 책 권수
 				})
 				.catch((err) => console.log(err));
 		}
@@ -152,12 +154,12 @@ const MyListModal = ({ onClose }) => {
 									? searchBookResult.map((ele) => {
 											return (
 												<PickBookItem
-													key={ele.id}
+													key={ele.isbn}
 													type="long"
-													title={ele.volumeInfo.title}
+													title={ele.title}
 													BookList={pickBookList}
 													updateList={AddBookList}
-													author={ele.volumeInfo.authors}
+													author={ele.authors}
 													updateAuthor={AddAuthorList}
 												/>
 											);
