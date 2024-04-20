@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import Slider from 'react-slick';
-import axios from 'axios';
 
 // SERVICE
 import api from '../services/api';
@@ -9,7 +7,6 @@ import api from '../services/api';
 // COMPONENTS
 import Header from '../components/Header';
 import Title from '../components/ArrowTitle';
-import BookCard from '../components/BookCard';
 import Footer from '../components/Footer';
 import BookListSlide from '../components/BookListSlide';
 

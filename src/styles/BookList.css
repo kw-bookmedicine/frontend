@@ -1,14 +1,6 @@
-@font-face {
-	font-family: 'Pretendard-Regular';
-	src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff')
-		format('woff');
-	font-weight: 400;
-	font-style: normal;
-}
-
 .bookList_content {
 	max-width: unset;
-	font-family: 'Pretendard-Regular';
+	font-family: var(--basic-font);
 	padding: 0;
 }
 
@@ -19,24 +11,21 @@
 
 	/* Font */
 	color: #000;
-	font-family: 'Pretendard-Regular';
+	font-family: var(--basic-font);
 	font-size: 24px;
 	font-style: normal;
 	font-weight: 700;
-	line-height: normal;
+	line-height: 29px;
 }
 
 .bookList_wrapper {
 	display: flex;
 	flex-direction: column;
-	width: 1338px;
+	width: 100%;
+	max-width: 1080px;
 	margin: 0 auto;
 }
 
 .bookList_title_wrapper {
 	margin-top: 30px;
-}
-
-.bookList_slide_wrapper {
-	/* overflow-x: scroll; */
 }
