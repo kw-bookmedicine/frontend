@@ -35,7 +35,9 @@ const BookListSlide = ({ list }) => {
 											title={item.title}
 											author={item.author}
 											img={
-												item.imageUrl === '' ? loading_thumbnail : item.imageUrl
+												item.imageUrl === null
+													? loading_thumbnail
+													: item.imageUrl
 											}
 											isbn={item.isbn}
 										/>
