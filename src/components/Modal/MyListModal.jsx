@@ -77,6 +77,8 @@ const MyListModal = ({ onClose }) => {
 					setData((prevData) => [...prevData, ...res.data]); // 검색 결과 저장
 					setIsEnter(true); // 엔터 눌렀을 때 렌더링
 					setBookCount(res.data.length); // 검색 결과로 나온 책 권수
+
+					// 페이지네이션으로 페이지 번호 클릭하면 요청 주소의 page 파라미터 수 변경
 				})
 				.catch((err) => console.log(err));
 		}
