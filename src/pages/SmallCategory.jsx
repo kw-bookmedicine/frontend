@@ -20,17 +20,31 @@ const SmallCategory = () => {
 	const [smCategoryBookList, setSmCategoryBookList] = useState([]);
 	const [choiceCategory, setChoiceCategory] = useState('');
 
-	// 초기에 랜더링될 때 한 번만 실행
+	// api 요청 주소 바꾸기 위한 함수
+	const replaceAll = (str, target, replace) => {
+		return str.split(target).join(replace);
+	};
+
+	// &로 구별되어 있는 소분류 제목 바꿔서 요청하는 함수
 	useEffect(() => {
 		setChoiceCategory(category);
+		if (category.includes('&')) {
+			let changeCategory = replaceAll(category, '&', '%26');
+			getData(changeCategory);
+		} else {
+			getData(category);
+		}
+	}, []);
 
-		// 중분류에 해당하는 책 목록 가져오기
+	// 소분류에 해당하는 책 목록 가져오기
+	const getData = (category) => {
 		api
 			.get(`/api/book/list/middle?name=${category}&page=0&size=30&sort=string`)
 			.then((res) => {
+				// console.log(res.data);
 				setSmCategoryBookList(res.data);
 			});
-	}, []);
+	};
 
 	return (
 		<>
