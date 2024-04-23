@@ -70,12 +70,17 @@
 }
 
 .right_up_author {
+	width: 260px;
 	font-family: var(--basic-font);
 	font-style: normal;
 	font-weight: 500;
 	font-size: 16px;
 	line-height: 19px;
 	color: #000;
+
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .bookCard_right_bottom_wrapper {
