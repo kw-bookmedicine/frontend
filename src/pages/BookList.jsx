@@ -26,13 +26,15 @@ const BookList = () => {
 	const [midCategory, setMidCategory] = useState([]);
 	const [resMidBookList, setResMidBookList] = useState([]);
 
-	const fetchData = async () => {
+	const fetchData = () => {
+		console.log(title);
 		// 로딩 시작
-		setIsLoading(true);
+		// setIsLoading(true);
 		setBigCategory(title);
 
 		// 대분류 지정
 		try {
+			// isLoading ? console.log('hi') : console.log('no');
 			api.get('/api/category/big').then((res) => {
 				setMidCategory(res.data[title]);
 			});
@@ -53,7 +55,7 @@ const BookList = () => {
 	// 초기에 랜더링될 때 한 번만 실행
 	useEffect(() => {
 		fetchData();
-	}, []);
+	}, [BookList]);
 
 	return (
 		<>
@@ -100,7 +102,7 @@ const BookList = () => {
 						);
 					})}
 				</div>
-				{isLoading ? console.log('loading') : console.log('ho')}
+				{isLoading ? <p>Loading ...</p> : ''}
 				<div id="cn_target"></div>
 				<Footer />
 			</section>
