@@ -1,11 +1,11 @@
-import React, { useEffect, useReducer, useRef, useState } from "react";
-import Header from "../components/Header";
+import React, { useEffect, useReducer, useRef } from "react";
+import Header from "./../../components/Header";
 import styled, { keyframes } from "styled-components";
 
 // ASSET
 
 // COMPONENTS
-import ProcessTitle from "../components/Prescription/ProcessTitle";
+import ProcessTitle from "./../../components/Prescription/ProcessTitle";
 
 // 화면이 크기가 줄어들지 않게 고정하기
 // 로딩 후 화면 전환 추가
@@ -71,8 +71,9 @@ const initialState = {
   showQuestion: true, // 질문 딜레이 적용(애니메이션)
   showOptions: false, // 질문 옵션과 버튼을 보여줄지 여부(애니메이션)
   isLoading: false, // 로딩
-  
-  userSelections: { // 사용자의 답변
+
+  userSelections: {
+    // 사용자의 답변
     readingFrequency: "",
     keywordConcern: "",
     primaryConcern: "",
@@ -81,7 +82,8 @@ const initialState = {
     detailedConcern: "",
     summary: "",
   },
-  questions: [ // 질문 리스트
+  questions: [
+    // 질문 리스트
     {
       field: "readingFrequency",
       question: "한달에 책을 얼마나 자주 읽으시나요?",
@@ -298,9 +300,9 @@ const WorryWrite = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       dispatch(actionCreators.setIsLoading(false));
-    }, 3000)
+    }, 3000);
     return () => clearTimeout(timer);
-  },[isLoading])
+  }, [isLoading]);
 
   return (
     <>
@@ -522,6 +524,7 @@ const PrevAnswerMessage = styled.div`
   background-color: #a4d6dd;
   padding: 20px;
   border-radius: 16px 4px 16px 16px;
+  word-wrap: break-word;
 `;
 
 const MessageContainer = styled.div`

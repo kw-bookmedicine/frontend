@@ -1,73 +1,78 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from "react-router-dom";
 
-import styles from '../styles/Button.module.css';
+import styles from "../styles/Button.module.css";
+import api from "../services/api";
 
 const Button = ({ text, type }) => {
-	let btnType = [
-		'login',
-		'postLogin',
-		'join',
-		'logout',
-		'logout2',
-		'exp',
-		'edit',
-		'editConfirm',
-		'rank',
-		'withdraw',
-		'add',
-		'delete',
-	].includes(type)
-		? type
-		: 'default';
+  // 페이지전환 Hook
+  const naviagate = useNavigate();
+  let btnType = [
+    "login",
+    "postLogin",
+    "join",
+    "logout",
+    "logout2",
+    "exp",
+    "edit",
+    "editConfirm",
+    "rank",
+    "withdraw",
+    "add",
+    "delete",
+  ].includes(type)
+    ? type
+    : "default";
 
-	let btnUrl = '';
-	if (type === 'nickname' || type === 'password' || type === 'job') {
-		btnUrl = `/edit/${type}`;
-		btnType = 'edit2';
-	} else if (type === 'logout' || type === 'logout2') {
-		// localStorage.clear();
-		btnUrl = '/';
-	} else {
-		btnUrl = `/${btnType}`;
-	}
+  let btnUrl = "";
+  if (type === "nickname" || type === "password" || type === "job") {
+    btnUrl = `/edit/${type}`;
+    btnType = "edit2";
+  } else if (type === "logout" || type === "logout2") {
+    // localStorage.clear();
+    btnUrl = "/";
+  } else {
+    btnUrl = `/${btnType}`;
+  }
 
-	const logout = () => {
-		let token = localStorage.getItem('token');
-		console.log('logout!');
-		localStorage.clear();
-		window.location.replace('http://localhost:3000/');
-	};
+  const logout = () => {
+    console.log("logout!");
+    localStorage.clear();
+    api.get("/logout").then((res) => {
+      console.log(res.data);
+    });
+    naviagate("/");
+  };
 
-	const renderButton = (url, type) => {
-		if (type === 'add' || type === 'delete' || type === 'exp') {
-			return <button className={styles[`Btn-${type}`]}>{text}</button>;
-		} else {
-			if (type === 'logout') {
-				return (
-					<button
-						onClick={() => {
-							logout();
-						}}
-						className={styles[`Btn-${type}`]}
-					>
-						{text}
-					</button>
-				);
-			} else {
-				return (
-					<button className={styles[`Btn-${type}`]}>
-						<Link to={url}>{text}</Link>
-					</button>
-				);
-			}
-		}
-	};
+  const renderButton = (url, type) => {
+    if (type === "add" || type === "delete" || type === "exp") {
+      return <button className={styles[`Btn-${type}`]}>{text}</button>;
+    } else {
+      if (type === "logout") {
+        return (
+          <button
+            onClick={() => {
+              logout();
+            }}
+            className={styles[`Btn-${type}`]}
+          >
+            {text}
+          </button>
+        );
+      } else {
+        return (
+          <button className={styles[`Btn-${type}`]}>
+            <Link to={url}>{text}</Link>
+          </button>
+        );
+      }
+    }
+  };
 
-	return <div className="button_wrapper">{renderButton(btnUrl, type)}</div>;
+  return <div className="button_wrapper">{renderButton(btnUrl, type)}</div>;
 };
 
 Button.defaultProps = {
-	type: 'default',
+  type: "default",
 };
 
 export default Button;

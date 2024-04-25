@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 
 // COMPONENT
@@ -10,12 +10,13 @@ import SearchBox from "../../components/SearchBox";
 import Pill from "../../components/Pill";
 
 // ASSET
-import closeIcon from "../../assets/closeIconRound.svg";
 import defaultBookCover from "../../assets/loading_thumbnail_not_rounded.png";
 
 const SearchResult = () => {
   const navigate = useNavigate();
-  const { title } = useParams(); // path로 책 제목 가져오기
+  const [searchParams] = useSearchParams(); // URL의 쿼리 파라미터들에 접근
+  const type = searchParams.get("type"); // 'type' 쿼리 파라미터의 값을 가져옴
+  const query = searchParams.get("query"); // 'query' 쿼리 파라미터의 값을 가져옴
   const [viewMode, setViewMode] = useState(true); // 책 뷰 선택(리스트/카드)
   const [books, setBooks] = useState([]); // 책 정보
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지
@@ -59,7 +60,6 @@ const SearchResult = () => {
 
     try {
       const response = await api.get(endpoint);
-      // console.log("test", searchType, response.data);
       setSearchData(response.data);
     } catch (error) {
       console.error("Failed to fetch books:", error);
@@ -70,9 +70,13 @@ const SearchResult = () => {
     if (evt.key === "Enter") {
       fetchBooks(input);
       if (input.length > 0 && selectedKeywords.length === 0)
-        navigate(`/search/result/${input}`);
+        navigate(`/search/result?type=${searchType}&query=${input}`);
       if (selectedKeywords.length > 0)
-        navigate(`/search/result/${selectedKeywords.join(" ")} ${input}`);
+        navigate(
+          `/search/result?type=${searchType}&query=${selectedKeywords.join(
+            " "
+          )} ${input}`
+        );
       if (input.length === 0 && searchType !== "keyword")
         alert("검색 키워드가 없습니다!");
       if (searchType === "keyword" && selectedKeywords.length === 0)
@@ -99,14 +103,20 @@ const SearchResult = () => {
   // 페이지 변경
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  // 콘텐츠 내용 API 호출
   useEffect(() => {
     const getSearchResults = async () => {
       setLoading(true);
       try {
-        const response = await api.get(
-          // `/api/search/book?title=${title}&target=page&page=${currentPage-1}&size=${booksPerPage}`
-          `/api/search/book?title=${title}&target=page&page=0&size=999`
-        );
+        let endpoint;
+        if (type === "title") {
+          endpoint = `/api/search/book?title=${query}&target=page&page=0&size=999`;
+        } else if (type === "author") {
+          endpoint = `/api/search/book?author=${query}&target=page&page=0&size=999`;
+        } else if (type === "keyword") {
+          endpoint = `/api/search/keyword?name=${query}&target=page&page=0&size=999`;
+        }
+        const response = await api.get(endpoint);
         setBooks(response.data);
         setLoading(false);
       } catch (error) {
@@ -114,11 +124,10 @@ const SearchResult = () => {
       }
     };
     getSearchResults();
-  }, [title]);
+  }, [type, query]);
 
   let searchResultsCount = books.length;
   searchResultsCount = searchResultsCount.toLocaleString();
-  let reviewCount = 123;
 
   // 10개, 50개, 100개에 따른 한페이지에 보여주는 책의 수
   const handleSizeChange = (event) => {
@@ -181,7 +190,7 @@ const SearchResult = () => {
         {/* 검색 결과의 헤더 */}
         <SearchTitle id="search-title">
           <Title>
-            <Highlight>"{title}"</Highlight> 에 대한
+            <Highlight>"{query}"</Highlight> 에 대한
             <Highlight> {searchResultsCount} 개의 검색 결과</Highlight>
           </Title>
         </SearchTitle>
@@ -224,7 +233,6 @@ const SearchResult = () => {
                       width: "75px",
                       border: "1.5px solid #C0C0C0",
                       borderRadius: "5px",
-                      // marginLeft: "10px",
                     }}
                   >
                     <ViewButton
@@ -272,140 +280,155 @@ const SearchResult = () => {
             )}
 
             {/* 콘텐츠 영역 */}
-            <div>
-              {viewMode ? (
-                <ListUIWrap>
-                  {currentBooks.map((book, index) => (
-                    <li
-                      style={{
-                        height: "310px",
-                        display: "flex",
-                        padding: "36px 20px",
-                        borderBottom: "1px solid #A1A1A1",
-                      }}
-                    >
-                      <Link key={index} to={`/book-detail?isbn=${book.isbn}`}>
-                        <img
-                          src={book.imageUrl || defaultBookCover}
-                          alt="책 표지 이미지"
+            {loading ? (
+              <div style={{ textAlign: "center", marginTop: "100px" }}>
+                Loading...
+              </div>
+            ) : (
+              <>
+                <div>
+                  {viewMode ? (
+                    <ListUIWrap>
+                      {currentBooks.map((book, index) => (
+                        <li
                           style={{
-                            height: "240px",
-                            width: "170px",
-                            backgroundColor: "gray",
-                            borderRadius: "5px",
-                            // objectFit: "cover",
-                            border: "1px solid #c0c0c0",
+                            height: "310px",
+                            display: "flex",
+                            padding: "36px 20px",
+                            borderBottom: "1px solid #A1A1A1",
                           }}
-                        />
-                      </Link>
-                      <div style={{ padding: "1rem 0px 0px 1rem" }}>
-                        <div>
+                        >
                           <Link
                             key={index}
                             to={`/book-detail?isbn=${book.isbn}`}
                           >
-                            <h3
+                            <img
+                              src={book.imageUrl || defaultBookCover}
+                              alt="책 표지 이미지"
                               style={{
-                                fontSize: "20px",
-                                fontWeight: "bold",
-                                marginBottom: "10px",
+                                height: "240px",
+                                width: "170px",
+                                backgroundColor: "gray",
+                                borderRadius: "5px",
+                                // objectFit: "cover",
+                                border: "1px solid #c0c0c0",
                               }}
-                            >
-                              {book.title}
-                            </h3>
+                            />
                           </Link>
-                          <h4
-                            style={{
-                              fontSize: "1rem",
-                              color: "gray",
-                              marginBottom: "10px",
-                            }}
-                          >
-                            {book.author}
-                          </h4>
-                          <h4
-                            style={{
-                              fontSize: "1rem",
-                              color: "gray",
-                              marginBottom: "40px",
-                            }}
-                          >
-                            {book.publicYear}
-                          </h4>
-                        </div>
-                        <div style={{ marginBottom: "40px" }}>
-                          <ul style={{ display: "flex", flexWrap: "wrap" }}>
-                            <BookKeyword
-                              onClick={(e) => {
-                                e.preventDefault();
-                                navigate(
-                                  `/search/result/${book.middleCategoryName}`
-                                );
-                              }}
-                            >
-                              {book.middleCategoryName}
-                            </BookKeyword>
-                            {book.bookKeywordList.map((keyword, index) => {
-                              return (
-                                <BookKeyword
-                                  key={index}
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                    navigate(`/search/result/${keyword.name}`);
+                          <div style={{ padding: "1rem 0px 0px 1rem" }}>
+                            <div>
+                              <Link
+                                key={index}
+                                to={`/book-detail?isbn=${book.isbn}`}
+                              >
+                                <h3
+                                  style={{
+                                    fontSize: "20px",
+                                    fontWeight: "bold",
+                                    marginBottom: "10px",
                                   }}
                                 >
-                                  {keyword.name}
+                                  {book.title}
+                                </h3>
+                              </Link>
+                              <h4
+                                style={{
+                                  fontSize: "1rem",
+                                  color: "gray",
+                                  marginBottom: "10px",
+                                }}
+                              >
+                                {book.author}
+                              </h4>
+                              <h4
+                                style={{
+                                  fontSize: "1rem",
+                                  color: "gray",
+                                  marginBottom: "40px",
+                                }}
+                              >
+                                {book.publicYear}
+                              </h4>
+                            </div>
+                            <div style={{ marginBottom: "40px" }}>
+                              <ul style={{ display: "flex", flexWrap: "wrap" }}>
+                                <BookKeyword
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    navigate(
+                                      `/search/result/${book.middleCategoryName}`
+                                    );
+                                  }}
+                                >
+                                  {book.middleCategoryName}
                                 </BookKeyword>
-                              );
-                            })}
-                          </ul>
-                        </div>
-                      </div>
-                    </li>
-                  ))}
-                </ListUIWrap>
-              ) : (
-                <CardUIWrap>
-                  {currentBooks.map((book, index) => (
-                    <li key={index} style={{ width: "170px" }}>
-                      <Link to={`/book-detail?isbn=${book.isbn}`}>
-                        <div
-                          style={{
-                            height: "240px",
-                            width: "170px",
-                            borderRadius: "5px",
-                            backgroundColor: "gray",
-                            marginBottom: "10px",
-                            display: "inline-block",
-                          }}
-                        >
-                          <img
-                            src={book.imageUrl || defaultBookCover}
-                            alt="책 표지 이미지"
-                            style={{
-                              width: "100%",
-                              height: "100%",
-                              // objectFit: "cover",
-                              borderRadius: "4px",
-                              border: "1px solid #c0c0c0",
-                            }}
-                          />
-                        </div>
-                        <BookTitle>{book.title}</BookTitle>
-                      </Link>
-                      <h3 style={{ color: "#6B6B6B", marginBottom: "10px" }}>
-                        {book.author}
-                      </h3>
-                    </li>
-                  ))}
-                </CardUIWrap>
-              )}
-            </div>
-            <Pagination
-              totalBooks={filteredBooks.length}
-              paginate={paginate}
-              currentPage={currentPage}
-            />
+                                {book.bookKeywordList.map((keyword, index) => {
+                                  return (
+                                    <BookKeyword
+                                      key={index}
+                                      onClick={(e) => {
+                                        e.preventDefault();
+                                        navigate(
+                                          `/search/result/${keyword.name}`
+                                        );
+                                      }}
+                                    >
+                                      {keyword.name}
+                                    </BookKeyword>
+                                  );
+                                })}
+                              </ul>
+                            </div>
+                          </div>
+                        </li>
+                      ))}
+                    </ListUIWrap>
+                  ) : (
+                    <CardUIWrap>
+                      {currentBooks.map((book, index) => (
+                        <li key={index} style={{ width: "170px" }}>
+                          <Link to={`/book-detail?isbn=${book.isbn}`}>
+                            <div
+                              style={{
+                                height: "240px",
+                                width: "170px",
+                                borderRadius: "5px",
+                                backgroundColor: "gray",
+                                marginBottom: "10px",
+                                display: "inline-block",
+                              }}
+                            >
+                              <img
+                                src={book.imageUrl || defaultBookCover}
+                                alt="책 표지 이미지"
+                                style={{
+                                  width: "100%",
+                                  height: "100%",
+                                  // objectFit: "cover",
+                                  borderRadius: "4px",
+                                  border: "1px solid #c0c0c0",
+                                }}
+                              />
+                            </div>
+                            <BookTitle>{book.title}</BookTitle>
+                          </Link>
+                          <h3
+                            style={{ color: "#6B6B6B", marginBottom: "10px" }}
+                          >
+                            {book.author}
+                          </h3>
+                        </li>
+                      ))}
+                    </CardUIWrap>
+                  )}
+                </div>
+                <Pagination
+                  totalBooks={filteredBooks.length}
+                  paginate={paginate}
+                  currentPage={currentPage}
+                />
+              </>
+            )}
           </section>
         </ContentsWrap>
       </Main>
@@ -596,41 +619,41 @@ const Title = styled.h1`
   font-weight: bold;
 `;
 
-const SearchInputWrap = styled.div`
-  width: 100%;
-  height: 60px;
-  box-shadow: 0px 2px 4px #00000033;
-  padding: 10px 0px 10px 1rem;
-  border-radius: 5px;
-  border: 1px solid #b0b0b0;
-  display: flex;
-  align-items: center;
-  font-size: 20px;
-  margin-bottom: 40px;
-`;
+// const SearchInputWrap = styled.div`
+//   width: 100%;
+//   height: 60px;
+//   box-shadow: 0px 2px 4px #00000033;
+//   padding: 10px 0px 10px 1rem;
+//   border-radius: 5px;
+//   border: 1px solid #b0b0b0;
+//   display: flex;
+//   align-items: center;
+//   font-size: 20px;
+//   margin-bottom: 40px;
+// `;
 
-const SelectMenu = styled.select`
-  width: 140px;
-  font-size: 20px;
-  border: none;
-  /* padding-left: 10px; */
-  text-align: center;
-  &:focus {
-    outline: none;
-  }
-`;
+// const SelectMenu = styled.select`
+//   width: 140px;
+//   font-size: 20px;
+//   border: none;
+//   /* padding-left: 10px; */
+//   text-align: center;
+//   &:focus {
+//     outline: none;
+//   }
+// `;
 
-const SearchInput = styled.input`
-  border: none;
-  border-left: 1px solid #c0c0c0;
-  margin-left: 1rem;
-  padding-left: 1rem;
-  font-size: 20px;
-  width: 100%;
-  &:focus {
-    outline: none;
-  }
-`;
+// const SearchInput = styled.input`
+//   border: none;
+//   border-left: 1px solid #c0c0c0;
+//   margin-left: 1rem;
+//   padding-left: 1rem;
+//   font-size: 20px;
+//   width: 100%;
+//   &:focus {
+//     outline: none;
+//   }
+// `;
 
 const ContentsWrap = styled.div`
   display: flex;
@@ -643,17 +666,17 @@ const Input = styled.input`
   font-size: 1rem;
 `;
 
-const SearchKeyword = styled.li`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 29px;
-  line-height: 27px;
-  padding: 0px 0px 0px 12px;
-  background-color: #c8edf2;
-  border-radius: 15px;
-  margin-right: 10px;
-`;
+// const SearchKeyword = styled.li`
+//   display: flex;
+//   align-items: center;
+//   justify-content: space-between;
+//   height: 29px;
+//   line-height: 27px;
+//   padding: 0px 0px 0px 12px;
+//   background-color: #c8edf2;
+//   border-radius: 15px;
+//   margin-right: 10px;
+// `;
 
 const BookKeyword = styled.li`
   display: flex;

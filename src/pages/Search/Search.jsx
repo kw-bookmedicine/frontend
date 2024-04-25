@@ -22,9 +22,25 @@ import { LoginContext } from "../../contexts/LoginContextProvider";
 import api from "../../services/api";
 import SearchBox from "../../components/SearchBox";
 
+// 카테고리 배경 색상(10개) && 카테고리별 대표 책 이미지 정보
+const categoriesInfo = [
+  { color: "#D4F4FF", image: bookImg1 },
+  { color: "#FFF2EC", image: bookImg2 },
+  { color: "#FFE3B5", image: bookImg3 },
+  { color: "#FFF4B6", image: bookImg4 },
+  { color: "#D6D6D6", image: bookImg5 },
+  { color: "#C2E2FF", image: bookImg6 },
+  { color: "#FFCACD", image: bookImg7 },
+  { color: "#DFFFF8", image: bookImg8 },
+  { color: "#CBD4F0", image: bookImg9 },
+  { color: "#D6CABC", image: bookImg10 },
+];
+
+// 어떤게 어떠한 역할을 하는지 한눈에 파악하기 어려움
+// 뭘 선택하든 책 제목만 넘긴다는 로직을 개선해야함
+//
 
 const Search = () => {
-  const baseURL = "https://api.bookpharmacy.store/api";
   const navigate = useNavigate();
   const [input, setInput] = useState(""); // 검색 데이터
   const [inputKeyword, setInputKeyword] = useState([]); // 키워드 검색 데이터
@@ -39,20 +55,6 @@ const Search = () => {
   const { userId, userPwd } = useContext(LoginContext);
   const loginData = { username: userId, password: userPwd };
 
-  // 카테고리 배경 색상(10개) && 카테고리별 대표 책 이미지 정보
-  const categoriesInfo = [
-    { color: "#D4F4FF", image: bookImg1 },
-    { color: "#FFF2EC", image: bookImg2 },
-    { color: "#FFE3B5", image: bookImg3 },
-    { color: "#FFF4B6", image: bookImg4 },
-    { color: "#D6D6D6", image: bookImg5 },
-    { color: "#C2E2FF", image: bookImg6 },
-    { color: "#FFCACD", image: bookImg7 },
-    { color: "#DFFFF8", image: bookImg8 },
-    { color: "#CBD4F0", image: bookImg9 },
-    { color: "#D6CABC", image: bookImg10 },
-  ];
-
   // 카테고리 대분류, 중분류 GET 요청 및 요청 데이터 사용하기 쉽게 처리
   useEffect(() => {
     let username = localStorage.getItem("id");
@@ -60,7 +62,7 @@ const Search = () => {
 
     const fetchCategories = async () => {
       try {
-        axios
+        api
           .post(
             "https://api.bookpharmacy.store/login",
             { username: username, password: password },
@@ -68,7 +70,7 @@ const Search = () => {
           )
           .then(async () => {
             // console.log('성공');
-            axios
+            api
               .get("https://api.bookpharmacy.store/api/category/big", {
                 withCredentials: true,
               })
@@ -90,33 +92,8 @@ const Search = () => {
         console.error("Error fetching categories:", error);
       }
     };
-
     fetchCategories();
   }, []);
-
-  // 카테고리 아이템을 렌더링 함수
-  const renderCategoryItem = ({ title, subtitle, image, color }, index) => (
-    <Link to={`/book/list/${title}`} key={index}>
-      <div className="category-item-wrapper">
-        <div
-          className="category-grid-item"
-          style={{
-            backgroundColor: color, // 여기서 색상 적용
-          }}
-        >
-          <div className="category-grid-description">
-            <h2 className="category-grid-item-title">{title}</h2>
-            <h3 className="category-grid-item-subtitle">{subtitle}</h3>
-          </div>
-          <img
-            src={image}
-            alt="카테고리 대표 이미지"
-            className="category-grid-item-image"
-          />
-        </div>
-      </div>
-    </Link>
-  );
 
   // 함수로 추천 키워드 리스트를 생성하는 함수
   const renderKeywordList = (title, keywords) => (
@@ -187,9 +164,29 @@ const Search = () => {
   // 검색창 엔터 및 버튼 이벤트 처리
 
   const searchBook = (evt) => {
-    if (evt.key === "Enter") {
-      fetchBooks(input);
-      navigate(`/search/result/${input}`);
+    if (evt.key !== "Enter") return;
+
+    if (searchType === "keyword") {
+      if (selectedKeywords.length === 0) {
+        alert("키워드를 선택하여 검색해주세요!");
+        return;
+      }
+
+      if (selectedKeywords.length > 0) {
+        navigate(
+          `/search/result?type=${searchType}&query=${selectedKeywords.join(
+            " "
+          )}`
+        );
+      }
+    } else {
+      if (input.trim() === "") {
+        alert("검색어를 입력해주세요.");
+        return;
+      }
+
+      fetchBooks(input.trim());
+      navigate(`/search/result?type=${searchType}&query=${input.trim()}`);
     }
   };
 
@@ -249,79 +246,6 @@ const Search = () => {
           handleRemoveKeyword={handleRemoveKeyword}
           inputRef={inputRef}
         />
-        {/* <section
-          className="search-wrapper"
-          onClick={(e) => {
-            e.stopPropagation();
-            handleSearchResultShow();
-          }}
-        >
-          <label>
-            <div className="search-wrap-inner">
-              
-              <select
-                value={searchType}
-                onChange={handleSelectChange}
-                name=""
-                id=""
-                className="search-select"
-              >
-                <option value="title" selected>
-                  책제목
-                </option>
-                <option value="author">작가</option>
-                <option value="keyword">키워드</option>
-              </select>
-              {searchType === "keyword" ? (
-                <>
-                  <input
-                    type="text"
-                    placeholder="검색어를 입력하세요"
-                    className="search-input"
-                    value={input}
-                    onChange={(e) => {
-                      setInput(e.target.value);
-                    }}
-                    onKeyPress={searchBook}
-                  />
-                </>
-              ) : (
-                <>
-                  <input
-                    type="text"
-                    placeholder="검색어를 입력하세요"
-                    className="search-input"
-                    value={input}
-                    onChange={(e) => {
-                      setInput(e.target.value);
-                    }}
-                    onKeyPress={searchBook}
-                  />
-                  {input.length > 0 ? (
-                    <button
-                      className="search-close-button"
-                      onClick={(e) => {
-                        setInput("");
-                      }}
-                    >
-                      X
-                    </button>
-                  ) : null}
-                </>
-              )}
-            </div>
-          </label>
-          {input.length > 0 && isShow && searchData.length > 0 ? (
-         
-            <SearchResultListModal
-              book={searchData}
-              addInput={setInput}
-              onClick={(e) => {
-                e.stopPropagation();
-              }}
-            />
-          ) : null}
-        </section> */}
 
         {/* 추천 검색어 */}
         {renderKeywordList("추천검색어", recommendedSearchKeywords)}
@@ -330,25 +254,55 @@ const Search = () => {
         {renderKeywordList("사용자 추천 키워드", userRecommendedKeywords)}
 
         {/* 카테고리 */}
-        <section className="category-wrapper">
-          <h2 className="recommend-title">카테고리</h2>
-          <div className="category-items">
-            {Object.keys(categories).map((key, index) => {
-              const title = key;
-              const subtitle = categories[key].join(", ");
-              const infoIndex = index % categoriesInfo.length; // 나머지로 0~9만 접근하도록 길이제한
-              const color = categoriesInfo[infoIndex].color;
-              const image = categoriesInfo[infoIndex].image;
-              return renderCategoryItem(
-                { title, subtitle, color, image },
-                index
-              );
-            })}
-          </div>
-        </section>
+        <BookCategories
+          categories={categories}
+          renderCategoryItem={renderCategoryItem}
+        />
       </section>
     </div>
   );
 };
 
 export default Search;
+
+const BookCategories = ({ categories, renderCategoryItem }) => {
+  return (
+    <section className="category-wrapper">
+      <h2 className="recommend-title">카테고리</h2>
+      <div className="category-items">
+        {Object.keys(categories).map((key, index) => {
+          const title = key;
+          const subtitle = categories[key].join(", ");
+          const infoIndex = index % categoriesInfo.length; // 나머지로 0~9만 접근하도록 길이제한
+          const color = categoriesInfo[infoIndex].color;
+          const image = categoriesInfo[infoIndex].image;
+          return renderCategoryItem({ title, subtitle, color, image }, index);
+        })}
+      </div>
+    </section>
+  );
+};
+
+// 카테고리 아이템을 렌더링 함수
+const renderCategoryItem = ({ title, subtitle, image, color }, index) => (
+  <Link to={`/book/list/${title}`} key={index}>
+    <div className="category-item-wrapper">
+      <div
+        className="category-grid-item"
+        style={{
+          backgroundColor: color, // 여기서 색상 적용
+        }}
+      >
+        <div className="category-grid-description">
+          <h2 className="category-grid-item-title">{title}</h2>
+          <h3 className="category-grid-item-subtitle">{subtitle}</h3>
+        </div>
+        <img
+          src={image}
+          alt="카테고리 대표 이미지"
+          className="category-grid-item-image"
+        />
+      </div>
+    </div>
+  </Link>
+);
