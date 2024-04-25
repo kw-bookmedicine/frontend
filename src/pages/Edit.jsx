@@ -15,6 +15,9 @@ import '../styles/Edit.css';
 
 const Edit = () => {
 	const [nickname, setNickname] = useState('');
+	const [gender, setGender] = useState('');
+	const [birth, setBirth] = useState('');
+	const [email, setEmail] = useState('');
 	const [userId, setUserId] = useState('');
 	const getUserData = () => {
 		api.get('/client', { withCredentials: true }).then((res) => {
@@ -23,8 +26,12 @@ const Edit = () => {
 
 			res.data.nickname === null
 				? setNickname('닉네임을 설정해주세요')
-				: setNickname(nickname);
+				: setNickname(res.data.nickname);
 
+			res.data.gender === 'M' ? setGender('남성') : setGender('여성');
+
+			setBirth(res.data.birth);
+			setEmail(res.data.email);
 			setUserId(res.data.loginId);
 		});
 	};
@@ -69,13 +76,13 @@ const Edit = () => {
 							<div className="input_title">이메일</div>
 							<div className="email_input_wrapper">
 								<div type="text" className="email_text">
-									akdsjfkja@akdsfjl.com
+									{email}
 								</div>
 							</div>
 						</div>
 						<div className="user_birthday_wrapper">
 							<div className="input_title">생년월일</div>
-							<div className="birthday_text">2024-01-29</div>
+							<div className="birthday_text">{birth}</div>
 						</div>
 						<div className="user_job_wrapper">
 							<div className="input_title">직업정보</div>
@@ -99,7 +106,7 @@ const Edit = () => {
 						</div>
 						<div className="user_gender_wrapper">
 							<div className="input_title">성별</div>
-							<div className="gender_text">여성</div>
+							<div className="gender_text">{gender}</div>
 						</div>
 					</div>
 				</div>
