@@ -210,14 +210,6 @@ const WorryWrite = () => {
     questions,
   } = state;
 
-  // 스크롤을 적용할 요소를 위한 ref 생성
-  const scrollContainerRef = useRef(null);
-
-  const scrollToBottom = () => {
-    scrollContainerRef.current?.scrollIntoView({ behavior: "smooth" });
-    console.log("scroll");
-  };
-
   // 질문지 1초후 보이도록 적용
   useEffect(() => {
     dispatch(actionCreators.setShowOptions(false)); // 새로운 질문이 로드될 때마다 옵션을 숨김
@@ -231,9 +223,9 @@ const WorryWrite = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       if (showOptions && currentQuestionIndex >= 1) {
-        scrollToBottom();
+        scrollToElement();
       }
-    }, 1000);
+    }, 200);
     return () => clearTimeout(timer);
   }, [showOptions, currentQuestionIndex]);
 
@@ -295,14 +287,28 @@ const WorryWrite = () => {
     ? 100
     : Math.floor((currentQuestionIndex / (questions.length - 1)) * 100);
 
-  const bodyRef = useRef(null);
-
   useEffect(() => {
     const timer = setTimeout(() => {
       dispatch(actionCreators.setIsLoading(false));
     }, 3000);
     return () => clearTimeout(timer);
   }, [isLoading]);
+
+  // 스크롤을 적용할 요소를 위한 ref 생성
+  const scrollContainerRef = useRef(null);
+
+  const scrollToElement = () => {
+    if (scrollContainerRef.current) {
+      const elementRect = scrollContainerRef.current.getBoundingClientRect();
+      const absoluteElementTop = elementRect.top + window.pageYOffset;
+      const middleOfElement = absoluteElementTop - window.innerHeight / 2;
+
+      window.scrollTo({
+        top: middleOfElement, // 요소의 중앙이 화면 중앙에 오도록 설정
+        behavior: "smooth",
+      });
+    }
+  };
 
   return (
     <>
@@ -316,7 +322,7 @@ const WorryWrite = () => {
           </Sticky>
 
           <Body id="app-body">
-            <div ref={bodyRef}>
+            <div>
               {userAnswers.map((ur, index) => (
                 <div key={index}>
                   <PrevQuestionMessageWrapper>
@@ -374,6 +380,7 @@ const WorryWrite = () => {
               )}
             </div>
           </Body>
+          <div style={{ height: "10vh", backgroundColor: "#dce9ec" }}></div>
         </>
       )}
     </>
@@ -494,6 +501,10 @@ const Body = styled.div`
   min-height: 90vh;
   height: auto;
   /* height: 100%; */
+  overflow-y: auto;
+  ::-webkit-scrollbar {
+    display: none; /* 크롬, 사파리 등 WebKit 기반 브라우저용 */
+  }
 `;
 
 const PrevQuestionMessageWrapper = styled.div`
