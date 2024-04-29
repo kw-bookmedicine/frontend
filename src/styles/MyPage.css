@@ -42,8 +42,8 @@
 	align-items: center;
 }
 
-.user_left_img_wrapper {
-	background: #ffdadf;
+.user_left_img_wrapper > img {
+	/* background: #ffdadf; */
 	border: 3px solid #fff;
 	border-radius: 100%;
 	width: 130px;

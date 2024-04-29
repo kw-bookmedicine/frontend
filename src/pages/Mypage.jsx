@@ -73,7 +73,9 @@ const Mypage = () => {
 				<div className="myPage_content">
 					<div className="myPage_user_wrapper">
 						<div className="user_left_wrapper">
-							<div className="user_left_img_wrapper"></div>
+							<div className="user_left_img_wrapper">
+								<img src="/basic_profile_img.svg" alt="기본 프로필 이미지" />
+							</div>
 						</div>
 						<div className="user_right_wrapper">
 							<div className="right_userInfo_title_wrapper">
