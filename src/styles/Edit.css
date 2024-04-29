@@ -31,14 +31,16 @@
 
 .edit_content_wrapper {
 	margin: 0 auto;
-	max-width: 1440px;
+	max-width: 1080px;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+	width: 100%;
 }
 
 .edit_profile_img_wrapper {
-	max-width: 1440px;
+	width: 100%;
+	max-width: 1080px;
 	height: 230px;
 	display: flex;
 	flex-direction: column;
@@ -57,13 +59,13 @@
 }
 
 .edit_user_info_wrapper {
-	width: 1338px;
+	width: 100%;
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
 	justify-content: center;
 	margin-top: 130px;
-	padding-left: 80px;
+	max-width: 1080px;
 }
 
 .user_nickname_wrapper,
@@ -73,6 +75,7 @@
 .user_birthday_wrapper,
 .user_job_wrapper,
 .user_gender_wrapper {
+	width: 100%;
 	display: flex;
 	flex-direction: column;
 	margin-bottom: 32px;
@@ -99,7 +102,7 @@
 .password_text {
 	display: flex;
 	align-items: center;
-	width: 1000px;
+	width: 940px;
 	height: 40px;
 	border: 1px solid black;
 	border-radius: 10px;
@@ -120,7 +123,7 @@
 .email_text {
 	display: flex;
 	align-items: center;
-	width: 1000px;
+	width: 940px;
 	height: 40px;
 	border-radius: 10px;
 	/* background: #d5e0ff; */

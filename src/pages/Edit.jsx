@@ -49,7 +49,7 @@ const Edit = () => {
 				</div>
 				<div className="edit_content_wrapper">
 					<div className="edit_profile_img_wrapper">
-						<div className="edit_profile_img"></div>
+						<img className="edit_profile_img" src="/basic_profile_img.svg" />
 					</div>
 					<div className="edit_user_info_wrapper">
 						<div className="user_nickname_wrapper">
