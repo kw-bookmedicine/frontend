@@ -225,7 +225,7 @@ const WorryWrite = () => {
       if (showOptions && currentQuestionIndex >= 1) {
         scrollToElement();
       }
-    }, 200);
+    }, 100);
     return () => clearTimeout(timer);
   }, [showOptions, currentQuestionIndex]);
 
@@ -301,10 +301,16 @@ const WorryWrite = () => {
     if (scrollContainerRef.current) {
       const elementRect = scrollContainerRef.current.getBoundingClientRect();
       const absoluteElementTop = elementRect.top + window.pageYOffset;
-      const middleOfElement = absoluteElementTop - window.innerHeight / 2;
+      const middleOfElement = absoluteElementTop - window.innerHeight / 3;
+      console.log(
+        elementRect.top,
+        window.pageYOffset,
+        absoluteElementTop,
+        middleOfElement
+      );
 
       window.scrollTo({
-        top: middleOfElement, // 요소의 중앙이 화면 중앙에 오도록 설정
+        top: middleOfElement,
         behavior: "smooth",
       });
     }
@@ -322,7 +328,7 @@ const WorryWrite = () => {
           </Sticky>
 
           <Body id="app-body">
-            <div>
+            <SurveyWrapper>
               {userAnswers.map((ur, index) => (
                 <div key={index}>
                   <PrevQuestionMessageWrapper>
@@ -378,7 +384,7 @@ const WorryWrite = () => {
                   </MessageContainer>
                 </>
               )}
-            </div>
+            </SurveyWrapper>
           </Body>
           <div style={{ height: "10vh", backgroundColor: "#dce9ec" }}></div>
         </>
@@ -483,6 +489,7 @@ const fadeIn = keyframes`
 const Sticky = styled.div`
   position: sticky;
   top: 64px;
+  z-index: 999;
   background-color: white;
 `;
 
@@ -497,14 +504,13 @@ const Loading = styled.div`
 const Body = styled.div`
   padding: 40px 160px 180px;
   background-color: #dce9ec;
-  /* min-height: 700px; */
   min-height: 90vh;
   height: auto;
-  /* height: 100%; */
-  overflow-y: auto;
-  ::-webkit-scrollbar {
-    display: none; /* 크롬, 사파리 등 WebKit 기반 브라우저용 */
-  }
+`;
+
+const SurveyWrapper = styled.div`
+  margin: 0 auto;
+  max-width: 700px;
 `;
 
 const PrevQuestionMessageWrapper = styled.div`
@@ -547,7 +553,6 @@ const MessageContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  /* align-items: center; */
   border-radius: 4px 16px 16px;
   animation: ${fadeIn} 1s ease-out;
 `;
