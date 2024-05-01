@@ -1,9 +1,11 @@
 .footer_wrapper {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	margin: 0 auto;
+	max-width: 1080px;
+	/* margin: 0 auto; */
+	padding: 24px 65px 12px;
 	background-color: #ffffff;
+	margin-top: 100px;
+	margin: 100px auto 20px auto;
+	/* margin-right: auto; */
 }
 
 .footer_inner {
