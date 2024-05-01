@@ -49,7 +49,10 @@ const Edit = () => {
 				</div>
 				<div className="edit_content_wrapper">
 					<div className="edit_profile_img_wrapper">
-						<img className="edit_profile_img" src="/basic_profile_img.svg" />
+						<img
+							className="edit_profile_img"
+							src="/icon/profile/basic_profile_img.svg"
+						/>
 					</div>
 					<div className="edit_user_info_wrapper">
 						<div className="user_nickname_wrapper">
@@ -58,6 +61,16 @@ const Edit = () => {
 								<div className="nickname_text">{nickname}</div>
 								<Btn text={'수정하기'} type="nickname" />
 							</div>
+						</div>
+						<div className="user_comment_wrapper">
+							<div className="input_title">자기소개</div>
+							<textarea
+								name="userComment"
+								id="comment_inputBox"
+								cols="30"
+								rows="10"
+								placeholder="자기소개를 입력하세요"
+							></textarea>
 						</div>
 						<div className="user_id_wrapper">
 							<div className="input_title">아이디</div>
@@ -90,24 +103,20 @@ const Edit = () => {
 								<DropDown DropDownTitle={'학생'} />
 
 								{/* <Btn text={'수정하기'} type="job" /> */}
-								<button
-									id="job_submit_btn"
-									onClick={() => {
-										swal(
-											'제출되었습니다!',
-											'직업 정보가 변경되었습니다!',
-											'success',
-										);
-									}}
-								>
-									수정하기
-								</button>
 							</div>
 						</div>
 						<div className="user_gender_wrapper">
 							<div className="input_title">성별</div>
 							<div className="gender_text">{gender}</div>
 						</div>
+						<button
+							id="total_submit_btn"
+							onClick={() => {
+								swal('제출되었습니다!', '정보가 변경되었습니다!', 'success');
+							}}
+						>
+							수정하기
+						</button>
 					</div>
 				</div>
 				<Footer />
