@@ -210,14 +210,6 @@ const WorryWrite = () => {
     questions,
   } = state;
 
-  // 스크롤을 적용할 요소를 위한 ref 생성
-  const scrollContainerRef = useRef(null);
-
-  const scrollToBottom = () => {
-    scrollContainerRef.current?.scrollIntoView({ behavior: "smooth" });
-    console.log("scroll");
-  };
-
   // 질문지 1초후 보이도록 적용
   useEffect(() => {
     dispatch(actionCreators.setShowOptions(false)); // 새로운 질문이 로드될 때마다 옵션을 숨김
@@ -231,9 +223,9 @@ const WorryWrite = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       if (showOptions && currentQuestionIndex >= 1) {
-        scrollToBottom();
+        scrollToElement();
       }
-    }, 1000);
+    }, 100);
     return () => clearTimeout(timer);
   }, [showOptions, currentQuestionIndex]);
 
@@ -295,14 +287,34 @@ const WorryWrite = () => {
     ? 100
     : Math.floor((currentQuestionIndex / (questions.length - 1)) * 100);
 
-  const bodyRef = useRef(null);
-
   useEffect(() => {
     const timer = setTimeout(() => {
       dispatch(actionCreators.setIsLoading(false));
     }, 3000);
     return () => clearTimeout(timer);
   }, [isLoading]);
+
+  // 스크롤을 적용할 요소를 위한 ref 생성
+  const scrollContainerRef = useRef(null);
+
+  const scrollToElement = () => {
+    if (scrollContainerRef.current) {
+      const elementRect = scrollContainerRef.current.getBoundingClientRect();
+      const absoluteElementTop = elementRect.top + window.pageYOffset;
+      const middleOfElement = absoluteElementTop - window.innerHeight / 3;
+      console.log(
+        elementRect.top,
+        window.pageYOffset,
+        absoluteElementTop,
+        middleOfElement
+      );
+
+      window.scrollTo({
+        top: middleOfElement,
+        behavior: "smooth",
+      });
+    }
+  };
 
   return (
     <>
@@ -316,7 +328,7 @@ const WorryWrite = () => {
           </Sticky>
 
           <Body id="app-body">
-            <div ref={bodyRef}>
+            <SurveyWrapper>
               {userAnswers.map((ur, index) => (
                 <div key={index}>
                   <PrevQuestionMessageWrapper>
@@ -372,8 +384,9 @@ const WorryWrite = () => {
                   </MessageContainer>
                 </>
               )}
-            </div>
+            </SurveyWrapper>
           </Body>
+          <div style={{ height: "10vh", backgroundColor: "#dce9ec" }}></div>
         </>
       )}
     </>
@@ -476,6 +489,7 @@ const fadeIn = keyframes`
 const Sticky = styled.div`
   position: sticky;
   top: 64px;
+  z-index: 999;
   background-color: white;
 `;
 
@@ -490,10 +504,13 @@ const Loading = styled.div`
 const Body = styled.div`
   padding: 40px 160px 180px;
   background-color: #dce9ec;
-  /* min-height: 700px; */
   min-height: 90vh;
   height: auto;
-  /* height: 100%; */
+`;
+
+const SurveyWrapper = styled.div`
+  margin: 0 auto;
+  max-width: 700px;
 `;
 
 const PrevQuestionMessageWrapper = styled.div`
@@ -536,7 +553,6 @@ const MessageContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  /* align-items: center; */
   border-radius: 4px 16px 16px;
   animation: ${fadeIn} 1s ease-out;
 `;

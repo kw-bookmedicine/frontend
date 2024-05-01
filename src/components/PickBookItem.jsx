@@ -32,13 +32,13 @@ const PickBookItem = ({
 	});
 
 	const addPick = () => {
-		console.log('add:', clickRef.current);
+		// console.log('add:', clickRef.current);
 		clickRef.current.focus();
 		setPickBookTitle(clickRef.current.textContent);
 	};
 
 	const addAuthorPick = () => {
-		console.log('add author:', clickAuthorRef.current);
+		// console.log('add author:', clickAuthorRef.current);
 		clickAuthorRef.current.focus();
 		setPickBookAuthor(clickAuthorRef.current.textContent);
 	};
