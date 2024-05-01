@@ -1,11 +1,3 @@
-@font-face {
-	font-family: 'Pretendard-Regular';
-	src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff')
-		format('woff');
-	font-weight: 400;
-	font-style: normal;
-}
-
 :root {
 	--fontSize-sm: 0.875rem;
 	--fontSize-md: 1.25rem;
@@ -141,12 +133,12 @@
 }
 
 /* 마이페이지 로그아웃 버튼 */
-.Btn-logout2 {
+.Btn-profile_logout {
 	width: 140px;
 	height: 60px;
 	border-radius: 15px;
-	border: 3px solid #a4d6dd;
-	background: #fff;
+	border: 3px solid #c8edf2;
+	background: #c8edf2;
 
 	/* Font */
 	color: #000;
@@ -155,24 +147,12 @@
 	font-style: normal;
 	font-weight: 500;
 	line-height: 24px;
+
+	box-shadow: 2px 2px 4px 0px rgba(119, 119, 119, 0.25);
 }
 
-.Btn-logout2:hover {
-	width: 180px;
-	height: 65px;
-	border-radius: 15px;
-	background: #a4d6dd;
-
-	/* Font */
-	color: #000;
-	font-family: var(--basic-font);
-	font-size: 24px;
-	font-style: normal;
-	font-weight: 400;
-	line-height: normal;
-
-	/* Drop Shadow */
-	box-shadow: 2px 2px 4px 0px rgba(119, 119, 119, 0.25);
+.Btn-profile_logout:hover {
+	font-weight: 600;
 }
 
 /* 마이페이지 회원탈퇴 버튼 */
@@ -180,20 +160,19 @@
 	width: 140px;
 	height: 60px;
 	border-radius: 15px;
-	border: 1px solid #000;
-	background: #fff;
+	border: 1px solid #ffdadf;
+	background: #ffdadf;
 	color: #000;
 	font-family: var(--basic-font);
 	font-size: 20px;
 	font-style: normal;
 	font-weight: 500;
 	line-height: normal;
+	box-shadow: 2px 2px 4px 0px rgba(119, 119, 119, 0.5);
 }
 
 .Btn-withdraw:hover {
-	/* Drop Shadow */
-	box-shadow: 2px 2px 4px 0px rgba(119, 119, 119, 0.5);
-	/* text-shadow: 2px 2px 2px rgba(119, 119, 119, 0.5); */
+	font-weight: 600;
 }
 
 .Btn-edit2 {

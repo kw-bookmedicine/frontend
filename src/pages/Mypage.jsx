@@ -132,7 +132,7 @@ const Mypage = () => {
 					</div>
 					<div className="myPage_button_wrapper">
 						<Btn text={'회원탈퇴'} type="withdraw" />
-						<Btn text={'로그아웃'} type="logout2" />
+						<Btn text={'로그아웃'} type="profile_logout" />
 					</div>
 					<section className="myPage_footer">
 						<Footer />
