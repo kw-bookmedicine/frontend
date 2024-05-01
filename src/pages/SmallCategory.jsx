@@ -15,21 +15,88 @@ import Card from '../components/BookDetailCard';
 import '../styles/SmallCategory.css';
 
 const SmallCategory = () => {
+	const [page, setPage] = useState(0);
+	const [isLoading, setIsLoading] = useState(false);
 	let { title } = useParams();
 	let { category } = useParams();
 	const [smCategoryBookList, setSmCategoryBookList] = useState([]);
 	const [choiceCategory, setChoiceCategory] = useState('');
 
-	// 초기에 랜더링될 때 한 번만 실행
-	useEffect(() => {
-		setChoiceCategory(category);
+	// api 요청 주소 바꾸기 위한 함수
+	const replaceAll = (str, target, replace) => {
+		return str.split(target).join(replace);
+	};
 
-		// 중분류에 해당하는 책 목록 가져오기
+	// 소분류에 해당하는 책 목록 가져오기
+	const getData = async (category) => {
 		api
 			.get(`/api/book/list/middle?name=${category}&page=0&size=30&sort=string`)
 			.then((res) => {
+				// console.log(res.data);
 				setSmCategoryBookList(res.data);
 			});
+	};
+
+	// &로 구별되어 있는 소분류 제목 바꿔서 요청하는 함수
+	useEffect(() => {
+		setChoiceCategory(category);
+		if (category.includes('&')) {
+			let changeCategory = replaceAll(category, '&', '%26');
+			getData(changeCategory);
+		} else {
+			getData(category);
+		}
+	}, []);
+
+	// page 변경 감지에 따른 API호출
+	useEffect(() => {
+		// console.log(page);
+		fetchData();
+	}, [page]);
+
+	// 타겟을 만나면 페이지 사이즈 늘려서 API 호출
+	const fetchData = async () => {
+		// console.log(page);
+		// 로딩 시작
+		setIsLoading(true);
+
+		try {
+			api
+				.get(
+					`api/book/list/middle?name=${category}&page=${page}&size=30&sort=string`,
+				)
+				.then((res) => {
+					// console.log(res.data);
+					if (res.data.end) {
+						console.log('데이터 없습니다.');
+					}
+					setSmCategoryBookList((prevData) => [...prevData, ...res.data]);
+				});
+		} catch (error) {
+			console.log(error);
+		} finally {
+			// 로딩 종료
+			setIsLoading(false);
+		}
+	};
+
+	useEffect(() => {
+		const handleObserver = (entries) => {
+			const target = entries[0];
+			if (target.isIntersecting && !isLoading) {
+				// console.log('visible');
+				setPage((prevPage) => prevPage + 1);
+			}
+		};
+
+		const observer = new IntersectionObserver(handleObserver, {
+			threshold: 0.5,
+		});
+
+		const target = document.getElementById('sm_target');
+		if (target) {
+			observer.observe(target);
+		}
 	}, []);
 
 	return (
@@ -45,15 +112,15 @@ const SmallCategory = () => {
 				</div>
 				<div className="smCategory_card_wrapper">
 					<div className="smCategory_card_slide">
-						{smCategoryBookList.map((data) => {
+						{smCategoryBookList.map((data, idx) => {
 							return (
 								<Card
 									isbn={data.isbn}
 									title={data.title}
 									author={data.author}
-									key={data.isbn}
+									key={idx + '-' + data.isbn}
 									imageUrl={
-										data.imageUrl === '' ? loading_thumbnail : data.imageUrl
+										data.imageUrl === null ? loading_thumbnail : data.imageUrl
 									}
 									bookKeywordList={data.bookKeywordList}
 								/>
@@ -61,6 +128,8 @@ const SmallCategory = () => {
 						})}
 					</div>
 				</div>
+				{isLoading && <p>Loading...</p>}
+				<div id="sm_target"></div>
 			</div>
 		</>
 	);

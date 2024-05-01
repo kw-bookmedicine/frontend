@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import Slider from 'react-slick';
-import axios from 'axios';
 
 // SERVICE
 import api from '../services/api';
@@ -9,7 +7,6 @@ import api from '../services/api';
 // COMPONENTS
 import Header from '../components/Header';
 import Title from '../components/ArrowTitle';
-import BookCard from '../components/BookCard';
 import Footer from '../components/Footer';
 import BookListSlide from '../components/BookListSlide';
 
@@ -19,13 +16,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
 const BookList = () => {
-	var settings = {
-		dots: true,
-		infinite: true,
-		speed: 500,
-		slidesToShow: 1,
-		slidesToScroll: 1,
-	};
+	const [isLoading, setIsLoading] = useState(false);
 
 	// 대분류
 	let { title } = useParams();
@@ -35,21 +26,36 @@ const BookList = () => {
 	const [midCategory, setMidCategory] = useState([]);
 	const [resMidBookList, setResMidBookList] = useState([]);
 
-	// 초기에 랜더링될 때 한 번만 실행
-	useEffect(() => {
-		// 대분류 지정
+	const fetchData = () => {
+		// console.log(title);
+		// 로딩 시작
+		// setIsLoading(true);
 		setBigCategory(title);
 
-		api.get('/api/category/big').then((res) => {
-			setMidCategory(res.data[title]);
-		});
-
-		api.get(`/api/book/list/big?name=${title}`).then((res) => {
-			res.data.map(() => {
-				setResMidBookList(res.data);
+		// 대분류 지정
+		try {
+			// isLoading ? console.log('hi') : console.log('no');
+			api.get('/api/category/big').then((res) => {
+				setMidCategory(res.data[title]);
 			});
-		});
-	}, []);
+
+			api.get(`/api/book/list/big?name=${title}`).then((res) => {
+				res.data.map(() => {
+					setResMidBookList(res.data);
+				});
+			});
+		} catch (error) {
+			console.log(error);
+		} finally {
+			// 로딩 종료
+			setIsLoading(false);
+		}
+	};
+
+	// 초기에 랜더링될 때 한 번만 실행
+	useEffect(() => {
+		fetchData();
+	}, [BookList]);
 
 	return (
 		<>
@@ -96,7 +102,8 @@ const BookList = () => {
 						);
 					})}
 				</div>
-
+				{isLoading ? <p>Loading ...</p> : ''}
+				<div id="cn_target"></div>
 				<Footer />
 			</section>
 		</>

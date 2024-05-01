@@ -70,19 +70,25 @@
 }
 
 .right_up_author {
+	width: 260px;
 	font-family: var(--basic-font);
 	font-style: normal;
 	font-weight: 500;
 	font-size: 16px;
 	line-height: 19px;
 	color: #000;
+
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .bookCard_right_bottom_wrapper {
-	width: 260px;
-	height: 130px;
-	padding-top: 60px;
+	position: relative;
+	width: 265px;
+	height: 70px;
 	overflow: auto;
+	top: 60px;
 }
 
 /* 경험 추가하기 모달창 */

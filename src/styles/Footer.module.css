@@ -9,7 +9,8 @@
 }
 
 .footer_inner {
-	width: 100%;
+	/* width: 100%; */
+	/* max-width: 1080px; */
 	display: flex;
 	flex-direction: column;
 	height: 5vh;
@@ -19,5 +20,5 @@
 	font-size: 14px;
 	font-style: normal;
 	font-weight: 300;
-	line-height: normal;
+	line-height: 19px;
 }
