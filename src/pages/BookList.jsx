@@ -27,7 +27,7 @@ const BookList = () => {
 	const [resMidBookList, setResMidBookList] = useState([]);
 
 	const fetchData = () => {
-		console.log(title);
+		// console.log(title);
 		// 로딩 시작
 		// setIsLoading(true);
 		setBigCategory(title);

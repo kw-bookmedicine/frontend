@@ -56,7 +56,7 @@ const SmallCategory = () => {
 
 	// 타겟을 만나면 페이지 사이즈 늘려서 API 호출
 	const fetchData = async () => {
-		console.log(page);
+		// console.log(page);
 		// 로딩 시작
 		setIsLoading(true);
 
@@ -66,7 +66,7 @@ const SmallCategory = () => {
 					`api/book/list/middle?name=${category}&page=${page}&size=30&sort=string`,
 				)
 				.then((res) => {
-					console.log(res.data);
+					// console.log(res.data);
 					if (res.data.end) {
 						console.log('데이터 없습니다.');
 					}
@@ -84,7 +84,7 @@ const SmallCategory = () => {
 		const handleObserver = (entries) => {
 			const target = entries[0];
 			if (target.isIntersecting && !isLoading) {
-				console.log('visible');
+				// console.log('visible');
 				setPage((prevPage) => prevPage + 1);
 			}
 		};

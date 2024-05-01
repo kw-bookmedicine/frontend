@@ -43,7 +43,7 @@
 }
 
 .right_up_left_wrapper {
-	width: 400px;
+	width: 585px;
 }
 
 .right_up_left_book_title {
@@ -93,16 +93,16 @@
 
 .summary_right_mid_wrapper {
 	display: flex;
-	position: relative;
+	position: sticky;
 	width: 100%;
-	height: 200px;
+	height: 135px;
 	margin-top: 20px;
 }
 
 .summary_right_bottom_wrapper {
-	width: 100%;
-	position: relative;
-	bottom: 65px;
+	width: 68%;
+	position: absolute;
+	bottom: 35px;
 }
 
 .right_bottom_text_wrapper {
