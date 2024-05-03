@@ -2,11 +2,10 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	max-width: 1440px;
+	max-width: 1080px;
 	margin: 0 auto;
 	box-sizing: border-box;
-	padding: 70px 60px 10px;
-	/* height: 100vh; */
+	padding: 45px 60px 10px;
 }
 
 .signup3_up_wrapper {
@@ -19,13 +18,19 @@
 
 .signup3_up_title_tag_wrapper {
 	display: flex;
-	justify-content: flex-start;
+	justify-content: space-between;
 	padding: 0 40px;
+}
+
+.signup3_up_title_wrapper {
+	display: flex;
+	flex-direction: column;
 }
 
 .signup3_title {
 	box-sizing: border-box;
 	margin-right: 15px;
+	margin-bottom: 10px;
 
 	/* Font */
 	color: #000;
@@ -37,7 +42,23 @@
 }
 
 .select_tag_wrapper {
-	background-color: yellow;
+	display: flex;
+	justify-content: flex-start;
+	padding: 0 40px;
+	margin-top: 10px;
+	/* display: flex; */
+	align-items: center;
+	width: 100%;
+	height: 40px;
+	/* padding: 0 10px; */
+	/* background-color: yellow;*/
+}
+
+.select_item_tag {
+	width: fit-content;
+	padding: 5px;
+	border: 1px solid #000;
+	border-radius: 15px;
 }
 
 .signup3_up_subTitle_step_wrapper {
@@ -50,6 +71,7 @@
 .signup3_step_wrapper {
 	display: flex;
 	align-items: center;
+	padding-top: 45px;
 }
 
 .signup3_circle-1 {
@@ -148,19 +170,20 @@
 
 .signup3_mid_wrapper {
 	width: 100%;
-	height: 510px;
-	margin-top: 10px;
-	padding: 10px 30px;
+	height: 395px;
+	/* margin-top: 0px; */
+	padding: 10px 30px 30px;
 	display: grid;
 	justify-items: center;
+	align-items: center;
 	grid-template-rows: repeat(2, 1fr);
 	grid-template-columns: repeat(5, 1fr);
 	box-sizing: border-box;
 }
 
-.user_interest_item {
-	width: 220px;
-	height: 220px;
+.user_interest_bigCtg_item {
+	width: 150px;
+	height: 150px;
 	margin: 10px;
 	background-position: center;
 	display: flex;
@@ -174,7 +197,53 @@
 	font-size: 20px;
 	font-style: normal;
 	font-weight: 700;
-	line-height: normal;
+	line-height: 24px;
+
+	/* Background Image */
+	background-size: 150px !important;
+	background-position: center !important;
+}
+
+.user_interest_item {
+	width: 150px;
+	height: 150px;
+	margin: 10px;
+	padding: 20px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 10px;
+	background-color: #ffdadf;
+
+	color: #000;
+	font-family: var(--basic-font);
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: 24px;
+}
+
+.user_interest_item:hover,
+.user_choice_back:hover {
+	background-color: #f8b0b9;
+	cursor: pointer;
+}
+
+.user_choice_back {
+	width: 150px;
+	height: 150px;
+	margin: 10px;
+	padding: 20px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 10px;
+	background-color: #ffdadf;
+}
+
+.user_choice_back_btn {
+	width: 30px;
+	height: 30px;
 }
 
 #general {
@@ -319,10 +388,10 @@
 
 .select_complete_button {
 	margin: 20px 0;
-	width: 93%;
+	width: 875px;
 	height: 45px;
 	border-radius: 10px;
-	background: #d3e7f6;
+	background-color: #c8edf2;
 
 	/* Font */
 	color: #000;
@@ -331,6 +400,10 @@
 	font-style: normal;
 	font-weight: 700;
 	line-height: normal;
+}
+
+.select_complete_button:hover {
+	background-color: #a4d6de;
 }
 
 .signup3_footer {
