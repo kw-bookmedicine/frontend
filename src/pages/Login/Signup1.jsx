@@ -21,6 +21,48 @@ const Signup1 = () => {
 		setIsActived2(!isActived2);
 	};
 
+	const [allClick, setAllClicked] = useState(false);
+
+	const agreeHandler = (event) => {
+		// console.log(event.target.checked);
+
+		const allChecked = event.target.checked;
+		// setAllClicked(allChecked);
+		let termUse_agreeTarget = document.getElementById('termUse_agree');
+		let personal_agreeTarget = document.getElementById('personal_agree');
+
+		// console.log(allChecked);
+		if (allChecked) {
+			termUse_agreeTarget.checked = true;
+			personal_agreeTarget.checked = true;
+			setAllClicked(true);
+		} else {
+			termUse_agreeTarget.checked = false;
+			personal_agreeTarget.checked = false;
+			setAllClicked(false);
+		}
+	};
+
+	const disagreeHandler = () => {
+		let allAgree = document.getElementById('agree_all');
+		let termUse_disagreeTarget = document.getElementById('termUse_disagree');
+		let personal_disagreeTarget = document.getElementById('personal_disagree');
+
+		if (termUse_disagreeTarget.checked || personal_disagreeTarget.checked) {
+			allAgree.checked = false;
+			setAllClicked(false);
+		}
+	};
+
+	const allAgreeHandler = () => {
+		let termUse_agreeTarget = document.getElementById('termUse_agree');
+		let personal_agreeTarget = document.getElementById('personal_agree');
+
+		if (termUse_agreeTarget.checked && personal_agreeTarget.checked) {
+			setAllClicked(true);
+		}
+	};
+
 	return (
 		<>
 			<LoginContainer>
@@ -46,7 +88,10 @@ const Signup1 = () => {
 					<div className="content">
 						<div className="total_agree_wrapper">
 							<p id="total_title">전체 약관에 동의</p>
-							<CheckBox type={'checkbox'}>전체 동의</CheckBox>
+							<label>
+								<input type="checkbox" id="agree_all" onClick={agreeHandler} />
+								전체 동의
+							</label>
 						</div>
 						<div className="termUse_container">
 							<div className="termUse_title_wrapper">
@@ -61,10 +106,30 @@ const Signup1 = () => {
 								</div>
 							</div>
 							<div className="agree_wrapper">
-								<CheckBox type={'radio'} className="agree_btn_text">
+								<label className="termUse_radio_btn">
+									<input
+										type="radio"
+										name="termUse_choice"
+										value="동의함"
+										id="termUse_agree"
+										onClick={allAgreeHandler}
+									/>
+									동의함
+								</label>
+								<label className="termUse_radio_btn">
+									<input
+										type="radio"
+										name="termUse_choice"
+										value="동의하지 않음"
+										id="termUse_disagree"
+										onClick={disagreeHandler}
+									/>
+									동의하지 않음
+								</label>
+								{/* <CheckBox type={'radio'} className="agree_btn_text">
 									동의함
 								</CheckBox>
-								<CheckBox type={'radio'}>동의하지 않음</CheckBox>
+								<CheckBox type={'radio'}>동의하지 않음</CheckBox> */}
 							</div>
 
 							{/* <div className="agree">
@@ -417,10 +482,26 @@ const Signup1 = () => {
 								</div>
 							</div>
 							<div className="agree_wrapper">
-								<CheckBox type={'radio'} className="agree_btn_text">
+								<label className="personal_radio_btn">
+									<input
+										type="radio"
+										name="personal_choice"
+										value="동의함"
+										id="personal_agree"
+										onClick={allAgreeHandler}
+									/>
 									동의함
-								</CheckBox>
-								<CheckBox type={'radio'}>동의하지 않음</CheckBox>
+								</label>
+								<label className="personal_radio_btn">
+									<input
+										type="radio"
+										name="personal_choice"
+										value="동의하지 않음"
+										id="personal_disagree"
+										onClick={disagreeHandler}
+									/>
+									동의하지 않음
+								</label>
 							</div>
 							{/* <div className="personalAgree">
 								책국('www.bookpharmacy.store'이하 '책국'은(는) 「개인정보
@@ -443,9 +524,11 @@ const Signup1 = () => {
 								네, 동의합니다.
 							</button> */}
 						</div>
-						<Link to={'/signup/2'} className="signUp1_btn">
-							다음 단계로
-						</Link>
+						{allClick && (
+							<Link to={'/signup/2'} className="signUp1_btn">
+								다음 단계로
+							</Link>
+						)}
 					</div>
 				</LoginContent>
 			</LoginContainer>

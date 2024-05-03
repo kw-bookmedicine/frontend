@@ -212,8 +212,16 @@
 	width: 100%;
 }
 
-.agree_btn_text {
-	font-size: 14px;
+.termUse_radio_btn,
+.personal_radio_btn {
+	font-family: var(----basic-font);
+	font-size: 19px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: 20px;
+	display: flex;
+	width: 35%;
+	justify-content: flex-end;
 }
 
 .agree {

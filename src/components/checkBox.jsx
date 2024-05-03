@@ -7,7 +7,7 @@ const checkBox = ({ children, type }) => {
 	if (type === 'radio') {
 		return (
 			<RadioBtn>
-				<input type="radio" />
+				<input type="radio" name="agree_choice" />
 				{children}
 			</RadioBtn>
 		);
