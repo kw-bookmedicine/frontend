@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
+// ASSETS
+import Banner from '../assets/banner.png';
+
 // COMPONENTS
 import Btn from '../components/Button';
 import EmotionItem from '../components/EmotionItem';
@@ -135,6 +138,7 @@ const Home = () => {
 				<section className="intro">
 					<section className="home_main">
 						<div className="home_main_wrapper">
+							<img src={Banner} alt="" id="home-banner" />
 							<div className="home_main_title_wrapper">
 								<div className="big_title">
 									당신의 마음에
@@ -200,7 +204,7 @@ const Home = () => {
 						</div>
 					</section>
 
-					<section className="home_emotion">
+					{/* <section className="home_emotion">
 						<div className="emotion_wrapper">
 							<div className="emotion_up_wrapper">
 								<div className="emotion_title">
@@ -225,6 +229,21 @@ const Home = () => {
 							<div className="emotion_bottom_wrapper">
 								<div className="emotionBook_slide">
 									<EmotionBookList text={text} />
+								</div>
+							</div>
+						</div>
+					</section> */}
+					<section className="home_counseling">
+						<div className="home_counseling_title_wrapper">
+							<p id="home_cns_title">당신의 고민을 적어주세요</p>
+							<p>다양한 사람들이 처방해줄거에요</p>
+						</div>
+						<div className="home_counseling_content_wrapper">
+							<div className="user-bubble">새로운 곳에 적응하기 힘들어요</div>
+							<div className="home_cns_ai_wrapper">
+								<img src="" alt="로봇 아이콘" />
+								<div className="ai-bubble">
+									새로운 곳에 적응하기 힘들어요 에 대한 AI 처방전입니다.
 								</div>
 							</div>
 						</div>
