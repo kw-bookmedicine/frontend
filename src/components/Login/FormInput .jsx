@@ -1,5 +1,6 @@
-import styled from "styled-components";
 import ErrorMessage from "./ErrorMessage";
+import styles from "../../styles/Login/FormInput.module.css";
+import { useLocation } from "react-router-dom";
 
 const FormInput = ({
   type = "text",
@@ -8,27 +9,26 @@ const FormInput = ({
   rules,
   placeholder,
   errors,
-}) => (
-  <InputWrap>
-    <Input type={type} {...register(name, rules)} placeholder={placeholder} />
-    {errors[name] && <ErrorMessage>{errors[name].message}</ErrorMessage>}
-  </InputWrap>
-);
+}) => {
+  const location = useLocation();
+  const pathSegment = location.pathname.split("/").filter(Boolean)[0];
+
+  const inputWrapperClass = `${styles.inputWrapper} ${
+    styles[`${pathSegment}-input-wrapper`] || ""
+  }`;
+  const inputClass = `${styles.input} ${styles[`${pathSegment}-input`] || ""}`;
+
+  return (
+    <div className={inputWrapperClass}>
+      <input
+        className={inputClass}
+        type={type}
+        {...register(name, rules)}
+        placeholder={placeholder}
+      />
+      {errors[name] && <ErrorMessage>{errors[name].message}</ErrorMessage>}
+    </div>
+  );
+};
 
 export default FormInput;
-
-const InputWrap = styled.div`
-  margin-bottom: 15px;
-  position: relative;
-`;
-
-const Input = styled.input`
-  box-sizing: border-box;
-  width: 100%;
-  height: 75px;
-  padding: 10px 12px;
-  border: 1px solid #000;
-  border-radius: 4px;
-  font-family: var(--basic-font);
-  font-size: 20px;
-`;

@@ -6,7 +6,6 @@ const ErrorMessage = ({ children }) => (
 
 const ErrorMessageWrap = styled.div`
   color: red;
-  font-weight: bold;
   margin-top: 4px;
   margin-bottom: 10px;
   p {
