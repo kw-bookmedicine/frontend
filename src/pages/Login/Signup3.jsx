@@ -1,20 +1,13 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 // COMPONENTS
 import Footer from '../../components/Footer';
 import Btn from '../../components/Button';
+import BigCategory from '../../components/interestGrid';
+import Tag from '../../components/HashTag';
 
-// ASSETS
-import general from '../../assets/interest_category_general.png';
-import philosophy from '../../assets/interest_category_philosophy.png';
-import religion from '../../assets/interest_category_religion.png';
-import social from '../../assets/interest_category_social-science.png';
-import natural from '../../assets/interest_category_natural-science.png';
-import tech from '../../assets/interest_category_tech.png';
-import art from '../../assets/interest_category_art.png';
-import language from '../../assets/interest_category_language.png';
-import literature from '../../assets/interest_category_literature.png';
-import history from '../../assets/interest_category_history.png';
+// SERVICE
+import api from '../../services/api';
 
 // STYLE
 import { styled } from 'styled-components';
@@ -23,15 +16,147 @@ import '../../styles/Signup3.css';
 const categoryList = ['general', 'philosophy', 'religion'];
 
 const Signup3 = () => {
-	const categoryRef = useRef();
-	const generalRef = useRef();
+	const [choiceItem, setChoiceItem] = useState('');
+	const [pickItemList, setPickItemList] = useState([]);
+	const [pickCtgList, setPickCtgList] = useState([]);
 
-	const [pickCategory, setPickCategory] = useState('');
+	const [active, setActive] = useState(false);
+	const [clicked, setClicked] = useState(false);
+	const [backClicked, setbackClicked] = useState(false);
 
-	const pick = () => {
-		console.log(categoryRef.current.textContent);
-		categoryRef.current.focus();
-		setPickCategory(categoryRef.current.textContent);
+	// 특정 카테고리별 중분류 보여주는 함수
+	const choiceCtgHandler = (event) => {
+		setClicked(true);
+		setbackClicked(false);
+		fetchMidCtg(event.target.innerText);
+		setChoiceItem(event.target.innerText);
+	};
+
+	const fetchMidCtg = async (ctg) => {
+		try {
+			api.get('/api/category/big').then((res) => {
+				setPickCtgList(res.data[ctg]);
+			});
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
+	// 중분류에서 뒤로 가기 했을 때, 적용되는 함수
+	const backClickHandler = () => {
+		setbackClicked(true);
+		setActive(true);
+		setClicked(false);
+	};
+
+	// 선택한 아이템과 아이템 개수 초과에 따라 알람을 주는 함수
+	const choiceItemHandler = (event) => {
+		if (pickItemList.length < 5) {
+			if (pickItemList.includes(event.target.innerText)) {
+				alert('이미 선택한 아이템입니다.');
+			} else {
+				setPickItemList((prevItem) => [...prevItem, event.target.innerText]);
+			}
+		} else {
+			alert('아이템이 5개입니다.');
+		}
+	};
+
+	// 선택한 카테고리 중에서 삭제하는 함수
+	const deleteItem = (event) => {
+		let delItem = event.target.innerText;
+		setPickItemList(pickItemList.filter((item) => item !== delItem));
+	};
+
+	// 회원가입 완료 버튼 눌렀을 때, 알람 주는 함수
+	const joinAlert = () => {
+		if (pickItemList.length === 0) {
+			if (!active) {
+				alert('관심사를 선택해주세요');
+			}
+		} else {
+			alert('회원가입을 축하합니다');
+			window.location.replace('/main');
+		}
+	};
+
+	// 대분류 렌더링 함수
+	const renderBigCtg = () => {
+		return (
+			<>
+				<div
+					className="user_interest_bigCtg_item"
+					id="general"
+					onClick={choiceCtgHandler}
+				>
+					총류
+				</div>
+				<div
+					className="user_interest_bigCtg_item"
+					id="philosophy"
+					onClick={choiceCtgHandler}
+				>
+					철학
+				</div>
+				<div
+					className="user_interest_bigCtg_item"
+					id="religion"
+					onClick={choiceCtgHandler}
+				>
+					종교
+				</div>
+
+				<div
+					className="user_interest_bigCtg_item"
+					id="social"
+					onClick={choiceCtgHandler}
+				>
+					사회과학
+				</div>
+				<div
+					className="user_interest_bigCtg_item"
+					id="natural"
+					onClick={choiceCtgHandler}
+				>
+					자연과학
+				</div>
+				<div
+					className="user_interest_bigCtg_item"
+					id="tech"
+					onClick={choiceCtgHandler}
+				>
+					기술과학
+				</div>
+				<div
+					className="user_interest_bigCtg_item"
+					id="art"
+					onClick={choiceCtgHandler}
+				>
+					예술
+				</div>
+				<div
+					className="user_interest_bigCtg_item"
+					id="language"
+					onClick={choiceCtgHandler}
+				>
+					언어
+				</div>
+				<div
+					className="user_interest_bigCtg_item"
+					id="literature"
+					onClick={choiceCtgHandler}
+				>
+					문학
+				</div>
+				<div
+					className="user_interest_bigCtg_item"
+					id="history"
+					onClick={choiceCtgHandler}
+				>
+					역사
+				</div>
+			</>
+		);
 	};
 
 	return (
@@ -39,11 +164,10 @@ const Signup3 = () => {
 			<div className="signup3_container">
 				<div className="signup3_up_wrapper">
 					<div className="signup3_up_title_tag_wrapper">
-						<h1 className="signup3_title">관심사 선택</h1>
-						<div className="select_tag_wrapper">{pickCategory}</div>
-					</div>
-					<div className="signup3_up_subTitle_step_wrapper">
-						<div className="signup3_subTitle">최대 5개까지 선택 가능</div>
+						<div className="signup3_up_title_wrapper">
+							<h1 className="signup3_title">관심사 선택</h1>
+							<p className="signup3_subTitle">최대 5개까지 선택 가능</p>
+						</div>
 						<div className="signup3_step_wrapper">
 							<div className="signup3_circle-1">1</div>
 							<div className="signup3_circleToLine" />
@@ -52,95 +176,53 @@ const Signup3 = () => {
 							<div className="signup3_circle-3">3</div>
 						</div>
 					</div>
+					<div className="select_tag_wrapper">
+						{pickItemList.map((item, idx) => {
+							return (
+								<React.Fragment key={item + idx}>
+									<Tag
+										className="select_item_tag"
+										key={idx + item}
+										text={item}
+										type={'interest'}
+										onClick={deleteItem}
+									/>
+								</React.Fragment>
+							);
+						})}
+					</div>
 				</div>
 				<div className="signup3_mid_wrapper">
-					<UserInterestItem
-						onClick={() => {
-							setPickCategory('총류');
-						}}
-					>
-						총류
-					</UserInterestItem>
-
-					<div
-						className="user_interest_item"
-						id="philosophy"
-						onClick={() => {
-							setPickCategory('철학');
-						}}
-					>
-						철학
-					</div>
-					<div
-						className="user_interest_item"
-						id="religion"
-						// ref={categoryRef}
-						onClick={() => {
-							setPickCategory('종교');
-						}}
-					>
-						종교
-					</div>
-					<div className="user_interest_item" id="social">
-						사회과학
-					</div>
-					<div className="user_interest_item" id="natural">
-						자연과학
-					</div>
-					<div className="user_interest_item" id="tech">
-						기술과학
-					</div>
-					<div className="user_interest_item" id="art">
-						예술
-					</div>
-					<div className="user_interest_item" id="language">
-						언어
-					</div>
-					<div className="user_interest_item" id="literature">
-						문학
-					</div>
-					<div className="user_interest_item" id="history">
-						역사
-					</div>
+					{clicked ? (
+						<>
+							<div className="user_choice_back" onClick={backClickHandler}>
+								<img
+									src="/icon/join/left_arrow.png"
+									alt="뒤로가기"
+									className="user_choice_back_btn"
+								/>
+							</div>
+							<BigCategory
+								onClick={choiceCtgHandler}
+								list={pickCtgList}
+								choiceClick={choiceItemHandler}
+							/>
+						</>
+					) : active ? null : (
+						renderBigCtg()
+					)}
+					{backClicked ? renderBigCtg() : null}
 				</div>
-				<button className="select_complete_button">선택 완료</button>
-				<section className="signup3_footer">
+
+				<button className="select_complete_button" onClick={joinAlert}>
+					선택 완료
+				</button>
+				{/* <section className="signup3_footer">
 					Copyright © 2024 책국 All Rights Reserved.
-				</section>
+				</section> */}
 			</div>
 		</>
 	);
 };
 
 export default Signup3;
-
-const UserInterestItem = styled.div`
-	width: 220px;
-	height: 220px;
-	margin: 10px;
-	background: url(${general});
-	background-size: cover;
-	background-position: center;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	border-radius: 10px;
-
-	/* Font */
-	color: #fff;
-	font-family: var(--basic-font);
-	font-size: 20px;
-	font-style: normal;
-	font-weight: 700;
-	line-height: normal;
-
-	&:hover {
-		background: linear-gradient(
-				0deg,
-				rgba(164, 214, 222, 0.78),
-				rgba(164, 214, 222, 0.78)
-			),
-			url(${general});
-		cursor: pointer;
-	}
-`;
