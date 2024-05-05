@@ -16,16 +16,7 @@ import { useLoginForm } from "../../hooks/useLoginForm";
 import ErrorMessage from "../../components/Login/ErrorMessage";
 
 const Login = () => {
-  const {
-    register,
-    handleSubmit,
-    errors,
-    loginError,
-    loginState,
-    loginErrorMessage,
-  } = useLoginForm();
-  console.log(loginError);
-  console.log(loginErrorMessage);
+  const { register, handleSubmit, errors, loginError } = useLoginForm();
 
   // 나중에 상태관리 사용해서 로그인 관리하도록 하기
   // refresh에 대한 post 요청 api 추가해야할거같음
@@ -153,6 +144,21 @@ const Title = styled.h1`
   font-size: 60px;
   font-weight: 700;
   margin-bottom: 60px;
+`;
+
+const InputWrap = styled.div`
+  margin-bottom: 15px;
+`;
+
+const Input = styled.input`
+  box-sizing: border-box;
+  width: 100%;
+  height: 75px;
+  padding: 10px 12px;
+  border: 1px solid #000;
+  border-radius: 4px;
+  font-family: var(--basic-font);
+  font-size: 20px;
 `;
 
 const LoginButton = styled.button`
