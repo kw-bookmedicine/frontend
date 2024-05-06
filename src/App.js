@@ -71,7 +71,7 @@ function App() {
 						<Route path="/edit/:page" element={<UserInfo />} />
 						<Route path="/worry/write" element={<WorryWrite />} />
 						<Route path="/counseling" element={<Counseling />} />
-						<Route path="/worry/detail" element={<WorryDetail />} />
+						<Route path="/worry-detail" element={<WorryDetail />} />
 						<Route path="/prescription/write" element={<PrescriptionWrite />} />
 						<Route
 							path="/prescription/write/2"
