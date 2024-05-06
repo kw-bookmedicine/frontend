@@ -27,7 +27,7 @@ import IdFind from './pages/Login/IdFind';
 import LoginContextProvider from './contexts/LoginContextProvider';
 
 // 처방전 관련 페이지들
-import Counseling from './pages/Counseling';
+import Counseling from './pages/Prescription/Counseling';
 import MyWorry from './pages/MyWorry';
 import WorryWrite from './pages/Worry/WorryWrite';
 import WorryDetail from './pages/Worry/WorryDetail';
@@ -84,7 +84,7 @@ function App() {
 						<Route path="/edit/:page" element={<UserInfo />} />
 						{/* 처방전 관련 */}
 						<Route path="/counseling" element={<Counseling />} />
-						<Route path="/worry-detail" element={<WorryDetail />} />
+						<Route path="/worry/detail" element={<WorryDetail />} />
 						<Route
 							path="/oneline/prescription"
 							element={<OneLinePrescription />}
