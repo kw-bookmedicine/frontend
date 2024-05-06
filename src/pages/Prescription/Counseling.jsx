@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 // COMPONENTS
-import Header from '../components/Header';
-import CnsFeed from '../components/Prescription/CounselingView';
+import Header from '../../components/Header';
+import CnsFeed from '../../components/Prescription/CounselingView';
 
 // STYLES
-import '../styles/Counseling/Counseling.css';
+import '../../styles/Counseling/Counseling.css';
 
 const Counseling = () => {
 	const [page, setPage] = useState(0);
