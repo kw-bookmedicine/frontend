@@ -6,6 +6,9 @@ import axios from 'axios';
 import Header from '../../components/Header';
 import CnsFeed from '../../components/Prescription/CounselingView';
 
+// SERVICE
+import api from '../../services/api';
+
 // STYLES
 import '../../styles/Counseling/Counseling.css';
 
@@ -26,11 +29,10 @@ const Counseling = () => {
 	};
 
 	useEffect(() => {
-		console.log('로드');
+		// console.log('로드');
 
-		const API_URL =
-			'https://api.thedogapi.com/v1/images/search?size=small&format=json&has_breeds=true&order=ASC&page=0&limit=10';
-		axios.get(API_URL).then((res) => {
+		api.get(`/api/board?size=20&page=0`).then((res) => {
+			// console.log(res.data);
 			setTestArr(res.data);
 		});
 	}, []);
@@ -46,8 +48,7 @@ const Counseling = () => {
 		setIsLoading(true);
 
 		try {
-			const API_URL = `https://api.thedogapi.com/v1/images/search?size=small&format=json&has_breeds=true&order=ASC&page=${page}&limit=10`;
-			const response = await axios.get(API_URL).then((res) => {
+			api.get(`/api/board?size=20&page=${page + 1}`).then((res) => {
 				if (res.data.end) {
 					console.log('데이터 없음');
 				}
@@ -70,7 +71,7 @@ const Counseling = () => {
 			if (target.isIntersecting && !isLoading) {
 				// console.log(entries);
 				// console.log(target);
-				console.log('visible');
+				// console.log('visible');
 				setPage((prevPage) => prevPage + 1);
 			}
 		};
@@ -275,42 +276,12 @@ const Counseling = () => {
 					</div>
 
 					{testArr.map((item, idx) => {
-						// console.log(item.id);
 						return (
-							<div className="cnsFeed_card_wrapper" key={item.id + idx}>
-								<CnsFeed key={item.id + idx} text={item.id} />
+							<div className="cnsFeed_card_wrapper" key={item.boardId}>
+								<CnsFeed key={item.boardId + idx} item={item} />
 							</div>
 						);
 					})}
-
-					{/* <div className="cnsFeed_card_wrapper">
-						<CnsFeed />
-					</div>
-					<div className="cnsFeed_card_wrapper">
-						<CnsFeed />
-					</div>
-					<div className="cnsFeed_card_wrapper">
-						<CnsFeed />
-					</div>
-					<div className="cnsFeed_card_wrapper">
-						<CnsFeed />
-					</div>
-					<div className="cnsFeed_card_wrapper">
-						<CnsFeed />
-					</div>
-					<div className="cnsFeed_card_wrapper">
-						<CnsFeed />
-					</div>
-					<div className="cnsFeed_card_wrapper">
-						<CnsFeed />
-					</div>
-
-					<div className="cnsFeed_card_wrapper">
-						<CnsFeed />
-					</div>
-					<div className="cnsFeed_card_wrapper">
-						<CnsFeed />
-					</div> */}
 				</div>
 				{isLoading && <p>Loading...</p>}
 				<div id="cn_target"></div>
