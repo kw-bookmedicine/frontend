@@ -312,11 +312,11 @@ const Signup2 = () => {
               <option value="" disabled hidden>
                 선택 없음
               </option>
-              <option value="STUDENT">학생</option>
-              <option value="OFFICE_WORKER">직장인</option>
-              <option value="SOLE_PROPRIETORSHIP">자영업</option>
-              <option value="FREELANCER">프리랜서</option>
-              <option value="UNEMPLOYED">무직</option>
+              <option value="학생">학생</option>
+              <option value="직장인">직장인</option>
+              <option value="자영업">자영업</option>
+              <option value="프리랜서">프리랜서</option>
+              <option value="무직">무직</option>
             </JobSelect>
             <ErrorMessage>
               {errors.occupation && <p>{errors.occupation.message}</p>}
