@@ -33,7 +33,7 @@ const Mypage = () => {
 		event.preventDefault();
 		setIsEdit(false);
 		// 여기서는 간단하게 console에 출력하도록 했지만, 실제로는 이 정보를 서버에 전송하여 저장할 수 있습니다.
-		console.log('유저의 자기소개:', intro);
+		// console.log('유저의 자기소개:', intro);
 		swal('제출되었습니다!', '자기 소개 정보가 변경되었습니다!', 'success');
 	};
 
@@ -52,7 +52,7 @@ const Mypage = () => {
 
 	const getUserData = () => {
 		api.get('/client', { withCredentials: true }).then((res) => {
-			console.log(res.data);
+			// console.log(res.data);
 			// console.log(res.data.nickname);
 
 			res.data.nickname === null
@@ -69,46 +69,43 @@ const Mypage = () => {
 		<>
 			<Header />
 			<div className="myPage_container">
-				<div className="myPage_banner"></div>
+				<div className="myPage_banner">
+					<img
+						className="myPage_banner_img"
+						src="/images/profile_bg.png"
+						alt=""
+					/>
+				</div>
 				<div className="myPage_content">
 					<div className="myPage_user_wrapper">
 						<div className="user_left_wrapper">
-							<div className="user_left_img_wrapper"></div>
+							<div className="user_left_img_wrapper">
+								<img
+									src="/icon/profile/basic_profile_img.svg"
+									alt="기본 프로필 이미지"
+								/>
+							</div>
 						</div>
 						<div className="user_right_wrapper">
 							<div className="right_userInfo_title_wrapper">
 								<p className="userInfo_name_text">{nickname}</p>
-								{!isEdit && (
-									<button
-										type="button"
-										className="userInfo_edit_btn"
-										onClick={handleEditClick}
-									>
-										수정하기
-									</button>
-								)}
-								{isEdit && (
-									<button
-										type="submit"
-										className="userInfo_edit_btn"
-										onClick={handleSubmit}
-									>
-										제출하기
-									</button>
-								)}
+								<p>
+									나는 어디에서 왔을까? 내가 제일 좋아하는 색깔은 검정검정.나는
+									어디에서 왔을까? 내가 제일 좋아하는 색깔은 검정검정.나는
+									어디에서
+								</p>
 							</div>
-							<div className="right_userInfo_comment_wrapper">
-								<textarea
-									name="comment"
-									id="userInfo_comment"
-									cols="30"
-									rows="5"
-									value={intro}
-									onChange={(e) => setIntro(e.target.value)}
-									disabled={!isEdit}
-									autoFocus={isEdit}
-									ref={textAreaRef}
-								></textarea>
+							<div className="right_userInfo_dashboard_wrapper">
+								<div className="dashboard_worry_wrapper">
+									<img src="/icon/profile/profile_worry_icon.svg" alt="" />
+									나의 고민 개수
+									<p className="dashboard_number">20개</p>
+								</div>
+								<div className="dashboard_prscr_wrapper">
+									<img src="/icon/profile/profile_prscr_icon.svg" alt="" />
+									내가 남긴 처방전 개수
+									<p className="dashboard_number">20개</p>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -135,7 +132,7 @@ const Mypage = () => {
 					</div>
 					<div className="myPage_button_wrapper">
 						<Btn text={'회원탈퇴'} type="withdraw" />
-						<Btn text={'로그아웃'} type="logout2" />
+						<Btn text={'로그아웃'} type="profile_logout" />
 					</div>
 					<section className="myPage_footer">
 						<Footer />

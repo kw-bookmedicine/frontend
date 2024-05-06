@@ -1,28 +1,20 @@
-@font-face {
-	font-family: 'Pretendard-Regular';
-	src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff')
-		format('woff');
-	font-weight: 400;
-	font-style: normal;
-}
-
 .Tag-default {
-	width: 100px;
-	height: 35px;
+	height: 40px;
 	border-radius: 20px;
 	border: 2px solid var(--dd, #a4d6de);
 	background: #fff;
 	padding-bottom: 2px;
-
-	/* Font */
 	color: #000;
-	font-family: 'Pretendard-Regular';
+	font-family: var(--basic-font);
 	font-size: 16px;
 	font-style: normal;
 	font-weight: 400;
 	line-height: normal;
-
 	margin-right: 15px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 10px;
 }
 
 .Tag-sm-category {
@@ -39,4 +31,24 @@
 	font-weight: 400;
 	font-size: 16px;
 	line-height: 19px;
+}
+
+.Tag-interest {
+	height: 35px;
+	border-radius: 20px;
+	border: 3px solid #a4d6de;
+	background: #fff;
+	padding-bottom: 2px;
+	color: #000;
+	font-family: var(--basic-font);
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: 16px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 10px;
+	margin-right: 5px;
+	white-space: nowrap;
 }

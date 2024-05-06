@@ -2,139 +2,97 @@ import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Input from "../../components/Input/Input";
+import FormInput from "../../components/Login/FormInput ";
+import FormEmail from "../../components/Login/FormEmail";
+import { FormProvider, useForm } from "react-hook-form";
+import api from "../../services/api";
 
 const PasswordFind = () => {
   let navigate = useNavigate();
 
-  const userName = useRef();
-  const userId = useRef();
-  const [email, setEmail] = useState("");
-  const [emailUsername, setEmailUsername] = useState("");
-  const [emailDomain, setEmailDomain] = useState();
-  const [isInputEnabled, setIsInputEnabled] = useState(false);
+  const methods = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = methods;
 
-  const handleNameChange = (e) => {
-    userName.current = e.target.value;
-  };
+  const onSubmit = async (data) => {
+    const { name, username, emailUsername, emailDomainInput } = data;
+    const email = `${emailUsername}@${emailDomainInput}`;
+    const formData = {
+      name,
+      username,
+      email,
+    };
 
-  const handleIDChange = (e) => {
-    userId.current = e.target.value;
-  }
-  console.log(userId.current);
+    console.log(formData);
 
-  const handleEmailChange = (e) => {
-    setEmailUsername(e.target.value);
-  };
+    try {
+      // API 요청을 보냅니다. 여기서는 URL을 예시로 사용하였습니다.
+      const response = await api.post("/password-find", formData);
 
-  const handleEmailDomain = (e) => {
-    setEmailDomain(e.target.value);
-  };
-
-  const handleSelectedEmailDomain = (e) => {
-    const selectedDomain = e.target.value;
-    if (selectedDomain !== "type") {
-      setEmailDomain(selectedDomain);
-      setIsInputEnabled(true);
-    } else {
-      setEmailDomain("");
-      setIsInputEnabled(false);
+      // API 응답을 처리합니다.
+      if (response.data.isSuccess) {
+        navigate("/id-find-result");
+      } else {
+        alert("요청한 정보를 찾을 수 없습니다. 입력하신 정보를 확인해 주세요.");
+      }
+    } catch (error) {
+      console.error("요청 실패:", error);
+      alert("요청 처리 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.");
     }
   };
-
-  useEffect(() => {
-    if (emailUsername && emailDomain) {
-      setEmail(`${emailUsername}@${emailDomain}`);
-    }
-  }, [emailUsername, emailDomain]);
-
-  // console.log(name);
-  console.log(email);
 
   return (
-    <section>
-      <Title>비밀번호 찾기</Title>
-      <article>
-        <div>
-          <Input
+    <FormProvider {...methods}>
+      <section>
+        <Title>비밀번호 찾기</Title>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <FormInput
+            type="name"
+            register={register}
+            name="name"
+            rules={{
+              required: "이름을 입력해주세요",
+            }}
             placeholder="이름"
-            width="100%"
-            onChange={(e) => {
-              userName.current = e.target.value;
-            }}
+            errors={errors}
           />
-        </div>
-        <div>
-          <Input
-            placeholder="아이디"
-            width="100%"
-            onChange={(e) => {
-              userId.current = e.target.value;
-            }}
-          />
-        </div>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "baseline",
-          }}
-        >
-          <StyledInput
-            type="email"
-            name="email"
-            id=""
-            placeholder="이메일"
-            style={{ width: "40%" }}
-            onChange={handleEmailChange}
-          />
-          <span style={{ fontSize: "24px" }}> @ </span>
-          <StyledInput
+          <FormInput
             type="text"
-            style={{ width: "25%" }}
-            onChange={handleEmailDomain}
-            disabled={isInputEnabled}
-            value={emailDomain}
+            register={register}
+            name="username"
+            rules={{
+              required: "ID를 입력해주세요",
+              maxLength: {
+                value: 12,
+                message: "ID 12글자 이하로 입력해주세요",
+              },
+              minLength: {
+                value: 6,
+                message: "ID 6글자 이상으로 입력해주세요",
+              },
+            }}
+            placeholder="아이디"
+            errors={errors}
           />
-          {/* <SelectEmail name="" id="" onChange={handleSelectedEmailDomain}>
-                <option value="type" selected>
-                  직접 입력
-                </option>
-                <option value="naver.com">naver.com</option>
-                <option value="google.com">google.com</option>
-                <option value="hanmail.net">hanmail.net</option>
-                <option value="nate.com">nate.com</option>
-                <option value="kakao.com">kakao.com</option>
-              </SelectEmail>
-               */}
-          <SelectEmail value={emailDomain} onChange={handleSelectedEmailDomain}>
-            <option value="type">직접 입력</option>
-            <option value="naver.com">naver.com</option>
-            <option value="google.com">google.com</option>
-            <option value="hanmail.net">hanmail.net</option>
-            <option value="nate.com">nate.com</option>
-            <option value="kakao.com">kakao.com</option>
-          </SelectEmail>
-        </div>
-      </article>
-      <article style={{ display: "flex", justifyContent: "space-between" }}>
-        <StyledButton
-          style={{ background: "#C8EDF2" }}
-          onClick={() => {
-            navigate("/password-find-result");
-          }}
-        >
-          찾기
-        </StyledButton>
-        <StyledButton
-          style={{ background: "#FFDADF" }}
-          onClick={() => {
-            navigate("/login");
-          }}
-        >
-          취소
-        </StyledButton>
-      </article>
-    </section>
+          <FormEmail />
+          <article style={{ display: "flex", justifyContent: "space-between" }}>
+            <StyledButton style={{ background: "#C8EDF2" }} type="submit">
+              찾기
+            </StyledButton>
+            <StyledButton
+              style={{ background: "#FFDADF" }}
+              onClick={() => navigate("/login")}
+              type="button"
+            >
+              취소
+            </StyledButton>
+          </article>
+        </form>
+      </section>
+    </FormProvider>
   );
 };
 
@@ -144,25 +102,6 @@ const Title = styled.h1`
   font-size: 3rem;
   font-weight: bold;
   margin-bottom: 83px;
-`;
-
-const StyledInput = styled.input`
-  height: 60px;
-  font-size: 1.2rem;
-  padding-left: 10px;
-  margin-bottom: 32px;
-  border: 1px solid #707070;
-  border-radius: 10px;
-`;
-
-const SelectEmail = styled.select`
-  width: 26%;
-  height: 60px;
-  font-size: 1.2rem;
-  padding-left: 10px;
-  margin-bottom: 32px;
-  border: 1px solid #707070;
-  border-radius: 10px;
 `;
 
 const StyledButton = styled.button`

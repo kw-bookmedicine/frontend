@@ -1,9 +1,24 @@
+import React from 'react';
+
+// STYLES
 import '../styles/HashTag.css';
 
-const HashTag = ({ text, type }) => {
-	let tagType = ['sm-category'].includes(type) ? type : 'default';
+const HashTag = ({ text, type, onClick }) => {
+	let tagType = ['sm-category', 'interest'].includes(type) ? type : 'default';
 
-	return <button className={`Tag-${tagType}`}>#{text}</button>;
+	const renderTag = (type) => {
+		if (type === 'interest') {
+			return (
+				<button className={`Tag-${tagType}`} onClick={onClick}>
+					{text}{' '}
+				</button>
+			);
+		} else {
+			return <button className={`Tag-${tagType}`}>#{text}</button>;
+		}
+	};
+
+	return renderTag(tagType);
 };
 
 HashTag.defaultProps = {

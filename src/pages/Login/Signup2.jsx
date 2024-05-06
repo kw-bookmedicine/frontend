@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useForm, rules } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 // SERVICE
 import api from "../../services/api";
@@ -11,141 +11,64 @@ import banner from "../../assets/Login-Banner.png";
 // STYLE
 import { styled } from "styled-components";
 import "../../styles/Signup2.css";
+import FormInput from "../../components/Login/FormInput ";
+import ErrorMessage from "../../components/Login/ErrorMessage";
 
 const Signup2 = () => {
-  // 유저에 대한 데이터를 객체로 담기
-
-  const {
-    watch,
-    control,
-    setValue,
-    handleSubmit,
-    setError,
-    clearErrors,
-    formState: { errors },
-  } = useForm({
-    mode: "onChange",
-    defaultValues: {
-      id: "",
-      pwd: "",
-      passwordMismatch: "",
-      term: false,
-    },
-  });
-
-  useEffect(() => {
-    if (
-      watch("password") !== watch("passwordConfirm") &&
-      watch("passwordConfirm")
-    ) {
-      setError("passwordConfirm", {
-        type: "password-mismatch",
-        message: "비밀번호가 일치하지 않습니다",
-      });
-    } else {
-      clearErrors("passwordConfirm");
-    }
-  }, [watch("password"), watch("passwordConfirm"), setError, clearErrors]);
-
   // 아이디 및 아이디 중복 확인
-  const [id, setId] = useState("");
-  const [isIdAvailable, setIsIdAvailable] = useState(true);
-
-  // 비밀번호 및 비밀번호 확인, 일치 여부
-  const [pwd, setPwd] = useState("");
-  const [pwdConfirm, setPwdConfirm] = useState("");
-  const isSame = pwd === pwdConfirm;
+  const [isIdAvailable, setIsIdAvailable] = useState(false);
 
   // 이름인데 필요한가? 어디에 활용하는거지?
   const [name, setName] = useState("");
 
-  // 닉네임 및 닉네임 중복 확인
-  const [nickname, setNickname] = useState("");
-  const [isNicknameAvailable, setIsNicknameAvailable] = useState(true);
+  // 닉네임 중복 확인
+  const [isNicknameAvailable, setIsNicknameAvailable] = useState(false);
 
   // 생년월일, 성별, 성별 버튼 클릭 판단
-  const [birthDate, setBirthDate] = useState("");
-  const [gender, setGender] = useState("");
   const [isMaleClicked, setIsMaleClicked] = useState(false);
   const [isFemaleClicked, setIsFemaleClicked] = useState(false);
 
   // 이메일 및 이메일 유저이름과 도메인
-  const [email, setEmail] = useState("");
-  const [emailUsername, setEmailUsername] = useState("");
   const [emailDomain, setEmailDomain] = useState("");
   const [isInputEnabled, setIsInputEnabled] = useState(false);
 
-  // 직업 정보
-  const [job, setJob] = useState("");
-
-  // 모든 것을 작성해야 가입하기 버튼 클릭 활성화
-  const [isButtonEnabled, setIsButtonEnabled] = useState(false);
-
   const navigate = useNavigate();
 
-  // 입력 이벤트
-  const handleInputChange = (e) => {
-    if (e.target.name === "id") {
-      setId(e.target.value);
-    } else if (e.target.name === "password") {
-      setPwd(e.target.value);
-    } else if (e.target.name === "passwordConfirm") {
-      setPwdConfirm(e.target.value);
-    } else if (e.target.name === "name") {
-      setName(e.target.value);
-    } else if (e.target.name === "nickname") {
-      setNickname(e.target.value);
-    } else if (e.target.name === "birthDate") {
-      setBirthDate(e.target.value);
-    } else if (e.target.name === "gender") {
-      setGender(e.target.value);
-    } else if (e.target.name === "email") {
-      setEmail(e.target.value);
+  const postSignup = async (signUpData) => {
+    try {
+      const res = await api.post("/signup", signUpData, {
+        withCredentials: true,
+      });
+      // console.log(res.data);
+      navigate("/signup/3");
+    } catch (error) {
+      console.error("회원가입 중 오류가 발생했습니다:", error);
     }
   };
 
-  // 입력의 X 버튼 이벤트
-  // const handleDeleteButtonClick = (inputType) => {
-  //   if (inputType === "id") {
-  //     setId("");
-  //   } else if (inputType === "password") {
-  //     setPwd("");
-  //   } else if (inputType === "passwordConfirm") {
-  //     setPwdConfirm("");
-  //   } else if (inputType === "name") {
-  //     setName("");
-  //   } else if (inputType === "nickname") {
-  //     setNickname("");
-  //   } else if (inputType === "birthDate") {
-  //     setBirthDate("");
-  //   } else if (inputType === "gender") {
-  //     setGender("");
-  //   } else if (inputType === "email") {
-  //     setEmail("");
-  //   }
-  // };
+  const {
+    setValue,
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
 
-  const handleBirthDateChange = (e) => {
-    setBirthDate(e.target.value);
+  const onSubmit = (data) => {
+    const { confirmPassword, emailUsername, birthDate, ...formData } = data;
+    postSignup(formData);
   };
 
-  const handleJobChange = (e) => {
-    setJob(e.target.value);
-  };
-
-  const handleGenderButtonClick = (gender) => {
-    if (gender === "male") {
+  // 성별 버튼 클릭 핸들러 함수
+  const handleGenderButtonClick = (genderValue) => {
+    setValue("gender", genderValue);
+    if (genderValue === "M") {
       setIsMaleClicked(true);
       setIsFemaleClicked(false);
-    } else if (gender === "female") {
+    } else if (genderValue === "F") {
       setIsMaleClicked(false);
       setIsFemaleClicked(true);
     }
-  };
-
-  const handleEmailDirectInput = (e) => {
-    const input = e.target.value;
-    setEmailUsername(input);
   };
 
   const handleEmailDomain = (e) => {
@@ -164,34 +87,17 @@ const Signup2 = () => {
     }
   };
 
+  const emailUsername = watch("emailUsername");
+  const password = watch("password");
+
   useEffect(() => {
     // setEmailDomain이 변경될 때마다 실행
-    setEmail(`${emailUsername}@${emailDomain}`);
+    setValue("email", `${emailUsername}@${emailDomain}`);
   }, [emailUsername, emailDomain]);
-
-  const signUpData = {
-    username: id,
-    password: pwd,
-    name: name,
-    nickname: nickname,
-    email: email,
-    gender: gender,
-    occupation: job,
-  };
-
-  const postSignup = () => {
-    api
-      .post("/signup", signUpData, {
-        withCredentials: true,
-      })
-      .then((res) => {
-        console.log(res.data);
-      });
-  };
 
   return (
     <LoginContainer>
-      <ImageContent></ImageContent>
+      <ImageContent />
       <LoginContent>
         <div className="signup2Title_wrapper">
           <Title>책국 회원가입</Title>
@@ -204,166 +110,221 @@ const Signup2 = () => {
           </div>
         </div>
 
-        <InputWrap2>
-          <Input
-            type="text"
-            name="id"
-            placeholder="아이디"
-            value={id}
-            onChange={handleInputChange}
-          />
-          <VerifyButton>중복 확인</VerifyButton>
-        </InputWrap2>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div style={{ position: "relative" }}>
+            <FormInput
+              type="text"
+              name="username"
+              register={register}
+              rules={{
+                required: "아이디를 입력해 주세요.",
+                maxLength: {
+                  value: 12,
+                  message: "ID 12글자 이하로 입력해주세요",
+                },
+                minLength: {
+                  value: 6,
+                  message: "ID 6글자 이상으로 입력해주세요",
+                },
+              }}
+              placeholder="아이디"
+              errors={errors}
+            />
+            <VerifyButton type="button">중복 확인</VerifyButton>
+          </div>
 
-        <InputWrap>
-          <Input
+          <FormInput
             type="password"
+            register={register}
             name="password"
+            rules={{
+              required: "Password를 입력해주세요",
+              pattern: {
+                value:
+                  /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,20}$/,
+                message:
+                  "비밀번호는 8자 이상이며, 영문, 숫자, 특수문자를 포함해야 합니다.",
+              },
+            }}
             placeholder="비밀번호"
-            value={pwd}
-            control={control}
-            label="비밀번호"
-            maxLength="15"
-            onChange={handleInputChange}
+            errors={errors}
           />
-        </InputWrap>
-        <InputWrap>
-          <Input
+
+          <FormInput
             type="password"
-            name="passwordConfirm"
+            register={register}
+            name="confirmPassword"
+            rules={{
+              required: "비밀번호 확인을 입력해주세요",
+              validate: (value) =>
+                value === password || "비밀번호가 일치하지 않습니다",
+            }}
             placeholder="비밀번호 확인"
-            value={pwdConfirm}
-            onChange={handleInputChange}
+            errors={errors}
           />
 
-          {pwdConfirm !== "" && !isSame && (
-            <ErrorMessageWrap>비밀번호가 일치하지 않습니다.</ErrorMessageWrap>
-          )}
-        </InputWrap>
-
-        <InputWrap>
-          <Input
-            type="text"
+          <FormInput
+            type="name"
+            register={register}
             name="name"
+            rules={{
+              required: "이름을 입력해주세요",
+            }}
             placeholder="이름"
-            value={name}
-            onChange={handleInputChange}
+            errors={errors}
           />
-        </InputWrap>
-
-        <InputWrap2>
-          <Input
-            type="text"
-            name="nickname"
-            placeholder="닉네임 입력"
-            value={nickname}
-            onChange={handleInputChange}
-          />
-
-          <VerifyButton>중복 확인</VerifyButton>
-        </InputWrap2>
-        <InputWrap2>
-          <BirthInput>
-            <p>생년월일</p>
-            <input
-              type="date"
-              max="9999-12-31"
-              value={birthDate}
-              onChange={handleBirthDateChange}
+          <div style={{ position: "relative" }}>
+            <FormInput
+              type="nickname"
+              register={register}
+              name="nickname"
+              rules={{
+                required: "닉네임을 입력해주세요",
+              }}
+              placeholder="닉네임 입력"
+              errors={errors}
             />
-          </BirthInput>
-          <GenderInput>
-            <p>성별</p>
-            <GenderWrap>
-              <form>
-                <button
-                  type="button"
-                  value="male"
-                  onClick={() => handleGenderButtonClick("male")}
-                  style={{
-                    backgroundColor: isMaleClicked ? "#D9D9D9" : "#fff",
-                    color: isMaleClicked ? "black" : "#D9D9D9",
-                  }}
+            <VerifyButton type="button">중복 확인</VerifyButton>
+          </div>
+
+          <InputFlexWrap>
+            <div style={{ width: "75%", display: "flex" }}>
+              <BirthInputWrapper>
+                <OptionTitle>생년월일</OptionTitle>
+                <BirthInput
+                  type="date"
+                  max="9999-12-31"
+                  {...register("birthDate", {
+                    required: "생년월일을 입력해주세요.",
+                  })}
+                />
+                <ErrorMessage>
+                  {errors.birthDate && <p>{errors.birthDate.message}</p>}
+                </ErrorMessage>
+              </BirthInputWrapper>
+              <GenderInput>
+                <OptionTitle>성별</OptionTitle>
+                <div style={{ width: "100%" }}>
+                  <GenderWrap>
+                    <button
+                      type="button"
+                      value="male"
+                      onClick={() => handleGenderButtonClick("M")}
+                      style={{
+                        backgroundColor: isMaleClicked ? "#D9D9D9" : "#fff",
+                        color: isMaleClicked ? "black" : "#D9D9D9",
+                      }}
+                    >
+                      남성
+                    </button>
+                    <button
+                      type="button"
+                      value="female"
+                      onClick={() => handleGenderButtonClick("F")}
+                      style={{
+                        backgroundColor: isFemaleClicked ? "#D9D9D9" : "#fff",
+                        color: isFemaleClicked ? "black" : "#D9D9D9",
+                      }}
+                    >
+                      여성
+                    </button>
+                  </GenderWrap>
+                  <ErrorMessage>
+                    {errors.gender && <p>{errors.gender.message}</p>}
+                  </ErrorMessage>
+                </div>
+              </GenderInput>
+            </div>
+            <input
+              type="hidden"
+              {...register("gender", { required: "성별을 선택해주세요." })}
+            />
+          </InputFlexWrap>
+
+          <InputFlexWrap>
+            <div style={{ position: "relative" }}>
+              <EmailWrap>
+                <input
+                  type="text"
+                  placeholder="이메일 입력"
+                  {...register("emailUsername", {
+                    required: "이메일 주소를 정확히 입력해주세요.",
+                  })}
+                />
+                <AtSymbol>@</AtSymbol>
+                <input
+                  type="text"
+                  value={emailDomain}
+                  onChange={handleEmailDomain}
+                  disabled={isInputEnabled}
+                />
+                <EmailSelect
+                  name="emailDomain"
+                  id="emailDomain"
+                  onChange={handleSelectedEmailDomain}
+                  defaultValue={"type"}
                 >
-                  남성
-                </button>
-                <button
-                  type="button"
-                  value="female"
-                  onClick={() => handleGenderButtonClick("female")}
-                  style={{
-                    backgroundColor: isFemaleClicked ? "#D9D9D9" : "#fff",
-                    color: isFemaleClicked ? "black" : "#D9D9D9",
-                  }}
-                >
-                  여성
-                </button>
-              </form>
-            </GenderWrap>
-          </GenderInput>
-        </InputWrap2>
+                  <option value="type" disabled>
+                    직접 입력
+                  </option>
+                  <option value="naver.com">naver.com</option>
+                  <option value="google.com">google.com</option>
+                  <option value="hanmail.net">hanmail.net</option>
+                  <option value="nate.com">nate.com</option>
+                  <option value="kakao.com">kakao.com</option>
+                </EmailSelect>
+              </EmailWrap>
+              <EmailVerifyButton type="button">인증하기</EmailVerifyButton>
+              <ErrorMessage>
+                {(errors.emailUsername || errors.emailDomain) && (
+                  <p>{errors.emailUsername.message}</p>
+                )}
+              </ErrorMessage>
+            </div>
+          </InputFlexWrap>
 
-        <InputWrap2>
-          <EmailWrap>
-            <input
-              type="text"
-              placeholder="이메일 입력"
-              value={emailUsername}
-              onChange={handleEmailDirectInput}
-            />
-            <AtSymbol>@</AtSymbol>
-            <input
-              type="text"
-              value={emailDomain}
-              onChange={handleEmailDomain}
-              disabled={isInputEnabled}
-            />
-            <EmailSelect name="" id="" onChange={handleSelectedEmailDomain}>
-              <option value="type" selected>
-                직접 입력
+          <InputWrap>
+            <div style={{ position: "relative" }}>
+              <HalfWidthInput
+                type="text"
+                placeholder="인증번호 입력"
+                onInput={(event) => {
+                  // 숫자만 입력
+                  event.currentTarget.value = event.currentTarget.value.replace(
+                    /\D/g,
+                    ""
+                  );
+                }}
+              ></HalfWidthInput>
+              <VerifyButton type="button">인증</VerifyButton>
+            </div>
+          </InputWrap>
+
+          <InputWrap>
+            <OptionTitle>직업 선택</OptionTitle>
+            <JobSelect
+              name="job"
+              id="occupation"
+              {...register("occupation", { required: "직업을 선택해주세요." })}
+              placeholder="선택 없음"
+              defaultValue={""}
+            >
+              <option value="" disabled hidden>
+                선택 없음
               </option>
-              <option value="naver.com">naver.com</option>
-              <option value="google.com">google.com</option>
-              <option value="hanmail.net">hanmail.net</option>
-              <option value="nate.com">nate.com</option>
-              <option value="kakao.com">kakao.com</option>
-            </EmailSelect>
-          </EmailWrap>
-          <EmailVerifyButton>인증하기</EmailVerifyButton>
-        </InputWrap2>
+              <option value="학생">학생</option>
+              <option value="직장인">직장인</option>
+              <option value="자영업">자영업</option>
+              <option value="프리랜서">프리랜서</option>
+              <option value="무직">무직</option>
+            </JobSelect>
+            <ErrorMessage>
+              {errors.occupation && <p>{errors.occupation.message}</p>}
+            </ErrorMessage>
+          </InputWrap>
 
-        <InputWrap>
-          <HalfWidthInput
-            type="text"
-            placeholder="인증번호 입력"
-          ></HalfWidthInput>
-          <VerifyButton>인증</VerifyButton>
-        </InputWrap>
-
-        <InputWrap>
-          <p>직업 선택</p>
-          <JobSelect name="job" id="" onChange={handleJobChange}>
-            <option value="0" selected>
-              선택 없음
-            </option>
-            <option value="학생">학생</option>
-            <option value="직장인">직장인</option>
-            <option value="전문직">전문직</option>
-            <option value="자영업">자영업</option>
-            <option value="프리랜서">프리랜서</option>
-            <option value="무직">무직</option>
-          </JobSelect>
-        </InputWrap>
-
-        <LoginButton
-          disabled={isButtonEnabled}
-          onClick={() => {
-            postSignup();
-            navigate("/signup/3");
-          }}
-        >
-          가입하기
-        </LoginButton>
+          <LoginButton type="submit">가입하기</LoginButton>
+        </form>
       </LoginContent>
     </LoginContainer>
   );
@@ -406,42 +367,12 @@ const Title = styled.h1`
 
 const InputWrap = styled.div`
   margin-bottom: 20px;
-  position: relative;
-  p {
-    font-family: var(--basic-font);
-    font-size: 20px;
-    font-weight: 300;
-  }
 `;
 
-const InputWrap2 = styled.div`
+const InputFlexWrap = styled.div`
   display: flex;
-  position: relative;
   margin-bottom: 20px;
-  p {
-    font-family: var(--basic-font);
-    font-size: 20px;
-    font-weight: 300;
-  }
 `;
-
-const ErrorMessageWrap = styled.div`
-  color: red;
-  margin-top: 5px;
-`;
-
-// const InputDelete = styled.button`
-//   position: absolute; /* X 버튼을 absolute로 설정 */
-//   right: 27%; /* 오른쪽 여백 조절 */
-//   top: 50%; /* 세로 중앙 정렬을 위해 50%로 설정 */
-//   transform: translateY(-50%);
-//   background: none;
-//   border: none;
-//   font-family: var(--basic-font);
-//   font-size: 20px;
-//   cursor: pointer;
-//   display: ${({ showDeleteButton }) => (showDeleteButton ? "block" : "none")};
-// `;
 
 const Input = styled.input`
   box-sizing: border-box;
@@ -468,37 +399,40 @@ const LoginButton = styled.button`
   margin-top: 10px;
 `;
 
-const BirthInput = styled.div`
-  width: 50%;
+const BirthInputWrapper = styled.div`
+  width: 60%;
+`;
 
-  input {
-    font-family: var(--basic-font);
-    font-size: 20px;
-    margin-top: 10px;
-    width: 90%;
-    height: 40px;
-    border: 1px solid #ccc;
-    padding: 0px 10px;
+const BirthInput = styled.input`
+  font-family: var(--basic-font);
+  font-size: 20px;
+  margin-top: 10px;
+  width: 90%;
+  height: 40px;
+  border: 1px solid #ccc;
+  padding: 0px 10px;
+`;
+const GenderInput = styled.div`
+  width: 40%;
+  /* margin-left: -20px; */
+  p {
+    margin-left: 10px;
   }
 `;
 
-const GenderInput = styled.div`
-  width: 50%;
-  p {
-    margin-left: 20px;
-  }
+const OptionTitle = styled.p`
+  font-family: var(--basic-font);
+  font-size: 20px;
+  font-weight: 300;
 `;
 
 const GenderWrap = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  form {
-    width: 100%;
-  }
+
   button {
-    margin: 10px 20px 0px;
-    /* padding: 10px 20px; */
+    margin: 10px 0px 0px 10px;
     font-family: var(--basic-font);
     font-size: 20px;
     border: 1px solid #d9d9d9;
@@ -512,6 +446,7 @@ const GenderWrap = styled.div`
 const EmailWrap = styled.div`
   display: flex;
   align-items: center;
+  width: 75%;
   input {
     width: 50%;
     height: 56px;
@@ -552,15 +487,16 @@ const EmailVerifyButton = styled.button`
   border: none;
   border-radius: 4px;
   margin-left: 25px;
+  position: absolute;
+  top: 0;
+  right: 0%;
 `;
 
 const HalfWidthInput = styled(Input)`
-  width: 34%;
+  /* width: 34%; */
 `;
 
-const VerifyButton = styled(EmailVerifyButton)`
-  width: 15%;
-`;
+const VerifyButton = styled(EmailVerifyButton)``;
 
 const JobSelect = styled.select`
   margin-top: 10px;

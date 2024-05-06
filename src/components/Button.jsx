@@ -1,14 +1,17 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import styles from '../styles/Button.module.css';
+import api from '../services/api';
 
 const Button = ({ text, type }) => {
+	// 페이지전환 Hook
+	const navigate = useNavigate();
 	let btnType = [
 		'login',
 		'postLogin',
 		'join',
 		'logout',
-		'logout2',
+		'profile_logout',
 		'exp',
 		'edit',
 		'editConfirm',
@@ -24,7 +27,7 @@ const Button = ({ text, type }) => {
 	if (type === 'nickname' || type === 'password' || type === 'job') {
 		btnUrl = `/edit/${type}`;
 		btnType = 'edit2';
-	} else if (type === 'logout' || type === 'logout2') {
+	} else if (type === 'logout' || type === 'profile_logout') {
 		// localStorage.clear();
 		btnUrl = '/';
 	} else {
@@ -32,10 +35,12 @@ const Button = ({ text, type }) => {
 	}
 
 	const logout = () => {
-		let token = localStorage.getItem('token');
 		console.log('logout!');
 		localStorage.clear();
-		window.location.replace('http://localhost:3000/');
+		api.get('/logout').then((res) => {
+			console.log(res.data);
+		});
+		navigate('/');
 	};
 
 	const renderButton = (url, type) => {

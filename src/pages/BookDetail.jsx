@@ -44,9 +44,9 @@ const BookDetail = () => {
 
 		api.get(`/api/book/detail?isbn=${isbn}`).then((res) => {
 			// console.log(res.data.title);
-			console.log(res.data);
+			// console.log(res.data);
 			setBookInfo(res.data);
-			setBookKeywordList(res.data.bookKeywordList);
+			setBookKeywordList(res.data.keywordItemList);
 		});
 	};
 

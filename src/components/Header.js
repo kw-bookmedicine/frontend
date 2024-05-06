@@ -1,9 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 
-// SERVICE
-import api from '../services/api';
-
 // COMPONENTS
 import Btn from '../components/Button';
 
@@ -11,15 +8,9 @@ import Btn from '../components/Button';
 import '../styles/Header.css';
 
 const Header = () => {
-	const logout = () => {
-		api.get('/logout').then((res) => {
-			console.log(res.data);
-		});
-		window.location.replace('http://localhost:3000/');
-	};
-
 	// 현재 url 주소 불러옴
 	const location = useLocation();
+	// console.log(";", location);
 
 	// 해당하는 주소 url일 때, 적용될 스타일
 	const activeStyle = {
@@ -116,15 +107,7 @@ const Header = () => {
 				</ul>
 			</nav>
 			<div className="head_btn__logout">
-				<Btn
-					onClick={() => {
-						logout();
-						// window.location.replace('/');
-					}}
-					text={'로그아웃'}
-					type="logout"
-					id="home-header-btn"
-				/>
+				<Btn text={'로그아웃'} type="logout" id="home-header-btn" />
 			</div>
 		</div>
 	);

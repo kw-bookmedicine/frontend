@@ -1,0 +1,22 @@
+.email-domain-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.email-domain-input {
+  width: 50%;
+  height: 60px;
+  font-size: 1.2rem;
+  padding-left: 10px;
+  border: 1px solid #707070;
+  border-radius: 10px;
+}
+
+.email-domain-select {
+  width: 40%;
+  height: 60px;
+  font-size: 1.2rem;
+  padding-left: 10px;
+  border: 1px solid #707070;
+  border-radius: 10px;
+}
