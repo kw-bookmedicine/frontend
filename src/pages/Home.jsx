@@ -241,9 +241,67 @@ const Home = () => {
 						<div className="home_counseling_content_wrapper">
 							<div className="user-bubble">새로운 곳에 적응하기 힘들어요</div>
 							<div className="home_cns_ai_wrapper">
-								<img src="" alt="로봇 아이콘" />
+								<img
+									src="/temp-robot-icon.png"
+									alt="로봇 아이콘"
+									id="robot-icon"
+								/>
 								<div className="ai-bubble">
-									새로운 곳에 적응하기 힘들어요 에 대한 AI 처방전입니다.
+									<p className="ai_prscr_title">
+										새로운 곳에 적응하기 힘들어요 에 대한 AI 처방전입니다.
+									</p>
+									<div className="ai_prscr_content_wrapper">
+										<div className="ai_prscr_left_wrapper">
+											<img
+												src="/loading_thumbnail_x4.png"
+												alt=""
+												id="ai_prscr_thumbnail"
+											/>
+											<div className="ai_prscr_bookInfo_wrapper">
+												<p id="ai_prscr_bookTitle">책 제목</p>
+												<p>저자</p>
+												<p>출판사/출판연도</p>
+											</div>
+										</div>
+										<div className="ai_prscr_right_wrapper">
+											<span id="ai_prscr_res_title">처방사유</span>
+											<div className="ai_prscr_res_box">
+												이 책을 처방한 이유는 ...
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div className="home_cns_ai_wrapper">
+								<img
+									src="/icon/profile/basic_profile_img.svg"
+									alt="유저 아이콘"
+									id="user-icon"
+								/>
+								<div className="ai-bubble">
+									<p className="ai_prscr_title">
+										새로운 곳에 적응하기 힘들어요 에 대한 AI 처방전입니다.
+									</p>
+									<div className="ai_prscr_content_wrapper">
+										<div className="ai_prscr_left_wrapper">
+											<img
+												src="/loading_thumbnail_x4.png"
+												alt=""
+												id="ai_prscr_thumbnail"
+											/>
+											<div className="ai_prscr_bookInfo_wrapper">
+												<p id="ai_prscr_bookTitle">책 제목</p>
+												<p>저자</p>
+												<p>출판사/출판연도</p>
+											</div>
+										</div>
+										<div className="ai_prscr_right_wrapper">
+											<span id="ai_prscr_res_title">처방사유</span>
+											<div className="ai_prscr_res_box">
+												이 책을 처방한 이유는 ...
+											</div>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
