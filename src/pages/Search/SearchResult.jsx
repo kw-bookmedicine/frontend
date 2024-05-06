@@ -13,7 +13,6 @@ import Pill from "../../components/Pill";
 import defaultBookCover from "../../assets/loading_thumbnail_not_rounded.png";
 
 const SearchResult = () => {
-  const navigate = useNavigate();
   const [searchParams] = useSearchParams(); // URL의 쿼리 파라미터들에 접근
   const type = searchParams.get("type"); // 'type' 쿼리 파라미터의 값을 가져옴
   const query = searchParams.get("query"); // 'query' 쿼리 파라미터의 값을 가져옴
@@ -24,81 +23,20 @@ const SearchResult = () => {
 
   const [loading, setLoading] = useState(false); // 로딩 상태
 
-  const [input, setInput] = useState(""); // 검색 데이터
-  const [searchType, setSearchType] = useState("title"); // 검색 유형 상태
-  const [searchData, setSearchData] = useState([]); // 검색 결과 데이터
-  const [isShow, setIsShow] = useState(false); // 검색창 모달창
-  const inputRef = useRef(null);
-
-  const [selectedKeywords, setSelectedKeywords] = useState([]);
-  const [selectedKeywordSet, setSelectedKeywordSet] = useState(new Set());
-
-  const [searchedSelectedKeywords, setSearchedSelectedKeywords] = useState([]);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      fetchBooks(input);
-    }, 100);
-
-    // cleanup 함수를 반환하여 컴포넌트가 언마운트될 때 타이머를 해제합니다.
-    return () => clearTimeout(timer);
-  }, [input]);
-
-  const fetchBooks = async (searchInput) => {
-    if (input.trim() === "") return; // 빈 문자열일 때 API 호출 방지
-
-    let endpoint = "";
-    if (searchType === "title") {
-      endpoint = `/api/search/book?title=${searchInput}&target=modal`;
-    }
-    if (searchType === "author") {
-      endpoint = `/api/search/book?author=${searchInput}&target=modal`;
-    }
-    if (searchType === "keyword") {
-      endpoint = `/api/search/keyword?name=${searchInput}&target=modal`;
-    }
-
-    try {
-      const response = await api.get(endpoint);
-      setSearchData(response.data);
-    } catch (error) {
-      console.error("Failed to fetch books:", error);
-    }
-  };
-
-  const searchBook = (evt) => {
-    if (evt.key === "Enter") {
-      fetchBooks(input);
-      if (input.length > 0 && selectedKeywords.length === 0)
-        navigate(`/search/result?type=${searchType}&query=${input}`);
-      if (selectedKeywords.length > 0)
-        navigate(
-          `/search/result?type=${searchType}&query=${selectedKeywords.join(
-            " "
-          )} ${input}`
-        );
-      if (input.length === 0 && searchType !== "keyword")
-        alert("검색 키워드가 없습니다!");
-      if (searchType === "keyword" && selectedKeywords.length === 0)
-        alert("키워드를 선택하여 검색해주세요!");
-      setIsShow(false);
-    }
-  };
-
   // 키워드로 책 필터링
-  const filteredBooks = books.filter((book) =>
-    searchedSelectedKeywords.every(
-      (keyword) =>
-        book.bookKeywordList.some(
-          (bookKeyword) => bookKeyword.name === keyword
-        ) || keyword === book.middleCategoryName
-    )
-  );
+  // const filteredBooks = books.filter((book) =>
+  //   searchedSelectedKeywords.every(
+  //     (keyword) =>
+  //       book.bookKeywordList.some(
+  //         (bookKeyword) => bookKeyword.name === keyword
+  //       ) || keyword === book.middleCategoryName
+  //   )
+  // );
 
-  const indexOfLastBook = currentPage * booksPerPage;
-  const indexOfFirstBook = indexOfLastBook - booksPerPage;
+  // const indexOfLastBook = currentPage * booksPerPage;
+  // const indexOfFirstBook = indexOfLastBook - booksPerPage;
   // const currentBooks = books.slice(indexOfFirstBook, indexOfLastBook);
-  const currentBooks = filteredBooks.slice(indexOfFirstBook, indexOfLastBook);
+  // const currentBooks = filteredBooks.slice(indexOfFirstBook, indexOfLastBook);
 
   // 페이지 변경
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
@@ -110,56 +48,30 @@ const SearchResult = () => {
       try {
         let endpoint;
         if (type === "title") {
-          endpoint = `/api/search/book?title=${query}&target=page&page=0&size=999`;
+          endpoint = `/api/search/book?title=${query}&target=page&page=${currentPage}&size=20`;
         } else if (type === "author") {
-          endpoint = `/api/search/book?author=${query}&target=page&page=0&size=999`;
+          endpoint = `/api/search/book?author=${query}&target=page&page=${currentPage}&size=20`;
         } else if (type === "keyword") {
-          endpoint = `/api/search/keyword?name=${query}&target=page&page=0&size=999`;
+          endpoint = `/api/search/keyword?name=${query}&target=page&page=${currentPage}&size=20`;
         }
-        const response = await api.get(endpoint);
+        const response = await api.get(endpoint, { withCredentials: true });
         setBooks(response.data);
+        console.log(response);
+        console.log(response.data);
         setLoading(false);
       } catch (error) {
         console.error("책 데이터 GET 요청 실패", error);
       }
     };
     getSearchResults();
-  }, [type, query]);
+  }, [type, query, currentPage]);
 
-  let searchResultsCount = books.length;
-  searchResultsCount = searchResultsCount.toLocaleString();
+  let searchResultsCount = books.totalElements;
+  // searchResultsCount = searchResultsCount.toLocaleString();
 
   // 10개, 50개, 100개에 따른 한페이지에 보여주는 책의 수
   const handleSizeChange = (event) => {
     setBooksPerPage(event.target.value);
-  };
-
-  // 키워드 선택
-  const handleSelectKeyword = (keyword) => {
-    setSelectedKeywords([...selectedKeywords, keyword]);
-    setSelectedKeywordSet(new Set([...selectedKeywordSet, keyword]));
-    setInput("");
-    setSearchData([]);
-    inputRef.current.focus();
-  };
-
-  // 키워드 삭제
-  const handleRemoveKeyword = (keyword) => {
-    const updatedKeywords = selectedKeywords.filter(
-      (selectedKeyword) => selectedKeyword !== keyword
-    );
-    setSelectedKeywords(updatedKeywords);
-
-    const updatedKeywordSet = new Set(selectedKeywordSet);
-    updatedKeywordSet.delete(keyword);
-    setSelectedKeywordSet(updatedKeywordSet);
-  };
-
-  // 검색된 키워드 삭제
-  const handleRemoveSearchedKeyword = (keyword) => {
-    setSearchedSelectedKeywords(
-      searchedSelectedKeywords.filter((k) => k !== keyword)
-    );
   };
 
   // 아래 키 기능
@@ -169,23 +81,10 @@ const SearchResult = () => {
   return (
     <>
       <Header />
-      <Main onClick={() => setIsShow(false)}>
+      {/* <Main onClick={() => setIsShow(false)}> */}
+      <Main>
         {/* 검색창 컴포넌트 만들어야함 */}
-        <SearchBox
-          input={input}
-          setInput={setInput}
-          searchType={searchType}
-          setSearchType={setSearchType}
-          isShow={isShow}
-          setIsShow={setIsShow}
-          searchBook={searchBook}
-          searchData={searchData}
-          handleSelectKeyword={handleSelectKeyword}
-          selectedKeyword={selectedKeywords}
-          selectedKeywordSet={selectedKeywordSet}
-          handleRemoveKeyword={handleRemoveKeyword}
-          inputRef={inputRef}
-        />
+        <SearchBox />
 
         {/* 검색 결과의 헤더 */}
         <SearchTitle id="search-title">
@@ -194,243 +93,6 @@ const SearchResult = () => {
             <Highlight> {searchResultsCount} 개의 검색 결과</Highlight>
           </Title>
         </SearchTitle>
-
-        <ContentsWrap>
-          <aside>
-            <ContentTitle>키워드 검색</ContentTitle>
-            <KeywordSearchBox
-              bookData={filteredBooks}
-              selectedKeywords={searchedSelectedKeywords}
-              setSelectedKeywords={setSearchedSelectedKeywords}
-            />
-          </aside>
-
-          <section style={{ paddingLeft: "2.5rem", width: "100%" }}>
-            {/* 헤더 영역 */}
-            <HeaderArea>
-              <ContentTitle>
-                전체 <Highlight>{filteredBooks.length}</Highlight>건
-              </ContentTitle>
-              <div>
-                <div style={{ display: "flex" }}>
-                  <SelectStyled name="sortOption" id="sort-option-select">
-                    <option value="popular">인기순</option>
-                    <option value="ranked">처방많은 순</option>
-                  </SelectStyled>
-                  <SelectStyled
-                    name="itemsPerPage"
-                    id="items-per-page-select"
-                    onChange={handleSizeChange}
-                    value={booksPerPage}
-                  >
-                    <option value="10">10개씩 보기</option>
-                    <option value="50">50개씩 보기</option>
-                    <option value="100">100개씩 보기</option>
-                  </SelectStyled>
-                  <ViewModeContainer
-                    style={{
-                      display: "flex",
-                      width: "75px",
-                      border: "1.5px solid #C0C0C0",
-                      borderRadius: "5px",
-                    }}
-                  >
-                    <ViewButton
-                      onClick={() => setViewMode(true)}
-                      active={viewMode}
-                      rightBorder
-                    >
-                      <img
-                        src="https://contents.kyobobook.co.kr/resources/fo/images/common/ink/ico_view_list_active.png"
-                        alt="리스트 뷰"
-                      />
-                    </ViewButton>
-                    <ViewButton
-                      onClick={() => setViewMode(false)}
-                      active={!viewMode}
-                    >
-                      <img
-                        src="https://contents.kyobobook.co.kr/resources/fo/images/common/ink/ico_view_img_active.png"
-                        alt="카드 뷰"
-                      />
-                    </ViewButton>
-                  </ViewModeContainer>
-                </div>
-              </div>
-            </HeaderArea>
-
-            {/* 키워드 영역 */}
-            {searchedSelectedKeywords.length !== 0 && (
-              <div
-                style={{
-                  padding: "15px 0px 15px 0px",
-                  borderBottom: "1px solid #c4bebe",
-                }}
-              >
-                <ul style={{ display: "flex" }}>
-                  {searchedSelectedKeywords.map((keyword, index) => (
-                    <Pill
-                      key={index}
-                      text={keyword}
-                      onClick={() => handleRemoveSearchedKeyword(keyword)}
-                    />
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {/* 콘텐츠 영역 */}
-            {loading ? (
-              <div style={{ textAlign: "center", marginTop: "100px" }}>
-                Loading...
-              </div>
-            ) : (
-              <>
-                <div>
-                  {viewMode ? (
-                    <ListUIWrap>
-                      {currentBooks.map((book, index) => (
-                        <li
-                          style={{
-                            height: "310px",
-                            display: "flex",
-                            padding: "36px 20px",
-                            borderBottom: "1px solid #A1A1A1",
-                          }}
-                        >
-                          <Link
-                            key={index}
-                            to={`/book-detail?isbn=${book.isbn}`}
-                          >
-                            <img
-                              src={book.imageUrl || defaultBookCover}
-                              alt="책 표지 이미지"
-                              style={{
-                                height: "240px",
-                                width: "170px",
-                                backgroundColor: "gray",
-                                borderRadius: "5px",
-                                // objectFit: "cover",
-                                border: "1px solid #c0c0c0",
-                              }}
-                            />
-                          </Link>
-                          <div style={{ padding: "1rem 0px 0px 1rem" }}>
-                            <div>
-                              <Link
-                                key={index}
-                                to={`/book-detail?isbn=${book.isbn}`}
-                              >
-                                <h3
-                                  style={{
-                                    fontSize: "20px",
-                                    fontWeight: "bold",
-                                    marginBottom: "10px",
-                                  }}
-                                >
-                                  {book.title}
-                                </h3>
-                              </Link>
-                              <h4
-                                style={{
-                                  fontSize: "1rem",
-                                  color: "gray",
-                                  marginBottom: "10px",
-                                }}
-                              >
-                                {book.author}
-                              </h4>
-                              <h4
-                                style={{
-                                  fontSize: "1rem",
-                                  color: "gray",
-                                  marginBottom: "40px",
-                                }}
-                              >
-                                {book.publicYear}
-                              </h4>
-                            </div>
-                            <div style={{ marginBottom: "40px" }}>
-                              <ul style={{ display: "flex", flexWrap: "wrap" }}>
-                                <BookKeyword
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                    navigate(
-                                      `/search/result/${book.middleCategoryName}`
-                                    );
-                                  }}
-                                >
-                                  {book.middleCategoryName}
-                                </BookKeyword>
-                                {book.bookKeywordList.map((keyword, index) => {
-                                  return (
-                                    <BookKeyword
-                                      key={index}
-                                      onClick={(e) => {
-                                        e.preventDefault();
-                                        navigate(
-                                          `/search/result/${keyword.name}`
-                                        );
-                                      }}
-                                    >
-                                      {keyword.name}
-                                    </BookKeyword>
-                                  );
-                                })}
-                              </ul>
-                            </div>
-                          </div>
-                        </li>
-                      ))}
-                    </ListUIWrap>
-                  ) : (
-                    <CardUIWrap>
-                      {currentBooks.map((book, index) => (
-                        <li key={index} style={{ width: "170px" }}>
-                          <Link to={`/book-detail?isbn=${book.isbn}`}>
-                            <div
-                              style={{
-                                height: "240px",
-                                width: "170px",
-                                borderRadius: "5px",
-                                backgroundColor: "gray",
-                                marginBottom: "10px",
-                                display: "inline-block",
-                              }}
-                            >
-                              <img
-                                src={book.imageUrl || defaultBookCover}
-                                alt="책 표지 이미지"
-                                style={{
-                                  width: "100%",
-                                  height: "100%",
-                                  // objectFit: "cover",
-                                  borderRadius: "4px",
-                                  border: "1px solid #c0c0c0",
-                                }}
-                              />
-                            </div>
-                            <BookTitle>{book.title}</BookTitle>
-                          </Link>
-                          <h3
-                            style={{ color: "#6B6B6B", marginBottom: "10px" }}
-                          >
-                            {book.author}
-                          </h3>
-                        </li>
-                      ))}
-                    </CardUIWrap>
-                  )}
-                </div>
-                <Pagination
-                  totalBooks={filteredBooks.length}
-                  paginate={paginate}
-                  currentPage={currentPage}
-                />
-              </>
-            )}
-          </section>
-        </ContentsWrap>
       </Main>
     </>
   );
