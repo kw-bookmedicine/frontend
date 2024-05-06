@@ -6,6 +6,7 @@ import Banner from '../assets/banner.png';
 
 // COMPONENTS
 import Btn from '../components/Button';
+import PrscrCard from '../components/Prescription/PrescriptionCard';
 import EmotionItem from '../components/EmotionItem';
 import EmotionBookList from '../components/EmotionBookList';
 
@@ -301,6 +302,52 @@ const Home = () => {
 												이 책을 처방한 이유는 ...
 											</div>
 										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+					<section className="home_prescription">
+						<div className="home_prscr_title_wrapper">
+							<p>당신의 고민에 처방전을 드립니다</p>
+						</div>
+						<div className="home_prscr_content_wrapper">
+							<div className="home_prscrCard_wrapper">
+								<div className="home_prscrCard_title_wrapper">
+									<img
+										src="/icon/home/home_prscrCard_icon.svg"
+										id="home_prscrCard_icon-1"
+									/>
+									<div className="home_prscrCard_title">
+										<p>TO.</p>
+										<p>이름 없는 새</p>
+									</div>
+								</div>
+								<div className="home_prscrCard_content_wrapper">
+									<div className="home_prscrCard_bookInfo_wrapper">
+										<p id="home_prscrCard_info_title">처방전</p>
+										<img
+											src="/loading_thumbnail_x4.png"
+											id="bookInfo-thumbnail"
+										/>
+										<div className="bookInfo_right_wrapper">
+											<p id="prscrCard_bookInfo_title">책 제목</p>
+											<p>저자</p>
+											<p>출판사/출판연도</p>
+											<img
+												src="/icon/home/home_prscrCard_icon-group.svg"
+												id="prscrCard_icon_group"
+											/>
+										</div>
+									</div>
+									<div className="home_prscrCard_res_wrapper">
+										<span>처방사유</span>
+										<div className="home_prscrCard_res_box">
+											이 책을 처방한 이유는 ...
+										</div>
+									</div>
+									<div className="home_prscrCard_footer">
+										<p>2000년 00월 00일</p>
 									</div>
 								</div>
 							</div>

@@ -360,7 +360,7 @@
 	width: 100%;
 	height: 850px;
 	align-items: center;
-	padding: 0 160px;
+	padding: 0px 15%;
 }
 
 .user-bubble {
@@ -399,10 +399,11 @@
 
 .home_cns_ai_wrapper {
 	display: flex;
-	width: 100%;
+	width: 650px;
 	height: 250px;
 	margin-top: 90px;
 	position: relative;
+	left: -315px;
 }
 
 #robot-icon,
@@ -533,11 +534,212 @@
 	line-height: 16px;
 }
 
+/* 처방전 */
+.home_prescription {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	height: fit-content;
+	background-color: #dce9ec;
+}
+
+.home_prscr_title_wrapper {
+	display: flex;
+	width: 100%;
+	height: 40px;
+	justify-content: center;
+	align-items: center;
+	margin-top: 60px;
+	font-size: 36px;
+	font-weight: 600;
+	font-style: normal;
+	line-height: 47px;
+	color: #000;
+}
+
+.home_prscr_content_wrapper {
+	display: flex;
+	width: 100%;
+	height: 700px;
+	justify-content: center;
+	align-items: center;
+}
+
+.home_prscrCard_wrapper {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	width: 460px;
+	height: 615px;
+	border: 5px solid #a5debe;
+	background-color: #fff;
+	border-radius: 15px;
+	padding: 10px;
+}
+
+.home_prscrCard_title_wrapper {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	height: 40px;
+	margin-bottom: 60px;
+}
+
+#home_prscrCard_icon-1 {
+	position: absolute;
+	width: 40px;
+	height: 40px;
+	left: 15px;
+}
+
+.home_prscrCard_title {
+	position: absolute;
+	top: 55px;
+	width: 55%;
+	height: 40px;
+	border-bottom: 1px solid #000;
+	font-family: var(--basic-font);
+	font-style: normal;
+	font-weight: 500;
+	font-size: 22px;
+	color: #000;
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+}
+
+.home_prscrCard_content_wrapper {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+	padding: 15px;
+}
+
+.home_prscrCard_bookInfo_wrapper {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	width: 85%;
+	height: 45%;
+	padding-top: 20px;
+	border: 2px solid #a5debe;
+	border-radius: 15px;
+}
+
+#home_prscrCard_info_title {
+	z-index: 1;
+	position: absolute;
+	top: -10px;
+	left: 30px;
+	font-family: var(--basic-font);
+	font-size: 16px;
+	font-weight: 600;
+	line-height: 19px;
+	background-color: #fff;
+	width: 80px;
+	text-align: center;
+	color: #a5debe;
+}
+
+#bookInfo-thumbnail {
+	width: 130px;
+	height: 170px;
+	margin-right: 20px;
+}
+
+.bookInfo_right_wrapper {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	width: 50%;
+	height: 100%;
+}
+
+.bookInfo_right_wrapper > p {
+	font-family: var(--basic-font);
+	font-style: normal;
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 19px;
+	color: #848484;
+	margin-top: 5px;
+}
+
+#prscrCard_bookInfo_title {
+	font-family: var(--basic-font);
+	font-style: normal;
+	font-weight: 600;
+	font-size: 16px;
+	line-height: 19px;
+	color: #000;
+	margin-bottom: 5px;
+}
+
+#prscrCard_icon_group {
+	position: absolute;
+	width: 60px;
+	height: 70px;
+	bottom: 8px;
+	right: 0;
+}
+
+.home_prscrCard_res_wrapper {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	width: 85%;
+	height: 45%;
+	margin-top: 20px;
+	border: 2px solid #a5debe;
+	border-radius: 15px;
+	padding: 15px;
+
+	font-family: var(--basic-font);
+	font-style: normal;
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 19px;
+	color: #000;
+}
+
+.home_prscrCard_res_wrapper > span {
+	z-index: 1;
+	position: absolute;
+	top: -10px;
+	left: 30px;
+	font-family: var(--basic-font);
+	font-size: 16px;
+	font-weight: 600;
+	line-height: 19px;
+	background-color: #fff;
+	width: 80px;
+	text-align: center;
+	color: #a5debe;
+}
+
+.home_prscrCard_footer {
+	display: flex;
+	width: 100%;
+	justify-content: center;
+	margin-top: 10px;
+}
+
+.home_prscrCard_footer > p {
+	font-family: var(--basic-font);
+	font-size: 18px;
+	font-weight: 600;
+	line-height: 20px;
+	color: #a5debe;
+}
+
+/* Footer */
 .home_footer_wrapper {
 	max-width: 1440px;
 	margin: 0 auto;
 	padding: 24px 65px 12px;
-
 	background-color: #ffffff;
 }
 
@@ -547,6 +749,7 @@
 	flex-direction: column;
 	height: 5vh;
 	justify-content: center;
+	align-items: center;
 	color: #000;
 	font-family: var(--basic-font);
 	font-size: 14px;
