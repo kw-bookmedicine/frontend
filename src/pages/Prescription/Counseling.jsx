@@ -3,11 +3,14 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 // COMPONENTS
-import Header from '../components/Header';
-import CnsFeed from '../components/Prescription/CounselingView';
+import Header from '../../components/Header';
+import CnsFeed from '../../components/Prescription/CounselingView';
+
+// SERVICE
+import api from '../../services/api';
 
 // STYLES
-import '../styles/Counseling/Counseling.css';
+import '../../styles/Counseling/Counseling.css';
 
 const Counseling = () => {
 	const [page, setPage] = useState(0);
@@ -16,6 +19,9 @@ const Counseling = () => {
 
 	const [iconUrl, setIconUrl] = useState('/icon/white_search_icon.svg');
 	const [iconClick, setIconClick] = useState(false);
+
+	const [clickCtg, setClickCtg] = useState('');
+	const [keyword, setKeyword] = useState('');
 
 	const handleIconUrl = async () => {
 		if (!iconClick) {
@@ -26,11 +32,10 @@ const Counseling = () => {
 	};
 
 	useEffect(() => {
-		console.log('로드');
+		// console.log('로드');
 
-		const API_URL =
-			'https://api.thedogapi.com/v1/images/search?size=small&format=json&has_breeds=true&order=ASC&page=0&limit=10';
-		axios.get(API_URL).then((res) => {
+		api.get(`/api/board?size=20&page=0`).then((res) => {
+			// console.log(res.data);
 			setTestArr(res.data);
 		});
 	}, []);
@@ -46,8 +51,7 @@ const Counseling = () => {
 		setIsLoading(true);
 
 		try {
-			const API_URL = `https://api.thedogapi.com/v1/images/search?size=small&format=json&has_breeds=true&order=ASC&page=${page}&limit=10`;
-			const response = await axios.get(API_URL).then((res) => {
+			api.get(`/api/board?size=20&page=${page + 1}`).then((res) => {
 				if (res.data.end) {
 					console.log('데이터 없음');
 				}
@@ -70,7 +74,7 @@ const Counseling = () => {
 			if (target.isIntersecting && !isLoading) {
 				// console.log(entries);
 				// console.log(target);
-				console.log('visible');
+				// console.log('visible');
 				setPage((prevPage) => prevPage + 1);
 			}
 		};
@@ -90,7 +94,6 @@ const Counseling = () => {
 		const icons = document.querySelectorAll('.cns_category_text');
 		icons.forEach((icon) => {
 			if (icon.className === 'cns_category_text') {
-				// console.log(icon.className);
 				icon.style.color = 'black';
 				icon.style.fontWeight = '400';
 			} else {
@@ -101,10 +104,67 @@ const Counseling = () => {
 
 		// 클릭된 아이콘만 색상 설정
 		const clickedIcon = e.currentTarget.querySelector('.cns_category_text');
-		// console.log(clickedIcon);
+		ctgType(clickedIcon.innerText);
+		// console.log(clickedIcon.innerText);
 		clickedIcon.style.color = 'red';
 		clickedIcon.style.fontWeight = '600';
 		clickedIcon.classList.toggle('icon-active');
+	};
+
+	// 선택된 키워드 타입 지정
+	const ctgType = async (ctg) => {
+		console.log('category:' + ctg);
+		switch (ctg) {
+			case '관계/소통':
+				setKeyword('Relationships_Communication');
+			case '소설/에세이':
+				setKeyword('Fiction_Essays');
+			case '경제/경영':
+				setKeyword('Economy_Management');
+			case '자녀/양육':
+				setKeyword('Children_Parenting');
+			case '사회':
+				setKeyword('Society');
+			case '철학':
+				setKeyword('Philosophy');
+			case '건강':
+				setKeyword('Health');
+			case '역사':
+				setKeyword('History');
+			case '수학/과학/공학':
+				setKeyword('Science_Math_Engineering');
+			case '문제집/수험서':
+				setKeyword('Workbook_Examination');
+			case '취업':
+				setKeyword('Employment_Career');
+			case '취미':
+				setKeyword('Hobbies');
+			// case '기타':
+			// 	setKeyword('Etc');
+		}
+	};
+
+	useEffect(() => {
+		// fetchKeyword();
+	}, [keyword]);
+
+	// 키워드별 검색
+	const fetchKeyword = async () => {
+		// console.log(keyword);
+		try {
+			if (keyword !== '') {
+				await api
+					.get(`api/board/keyword?keyword=${keyword}&page=0&size=20`)
+					.then((res) => {
+						if (res.data.end) {
+							console.log('데이터 없음.');
+						}
+						console.log(res.data);
+					});
+			}
+		} catch (err) {
+			console.log(err);
+		}
 	};
 
 	return (
@@ -116,7 +176,7 @@ const Counseling = () => {
 					<div className="cns_category_content_wrapper">
 						<div className="cns_category" onClick={handleIcon} id="관계/소통">
 							<img
-								src="/icon/art_icon.svg"
+								src="/icon/prscr-category/Relationships_Communication-icon.svg"
 								alt="관계/소통"
 								className="cns_category_img"
 							/>
@@ -124,7 +184,7 @@ const Counseling = () => {
 						</div>
 						<div className="cns_category" onClick={handleIcon} id="소설/에세이">
 							<img
-								src="/icon/history_icon.png"
+								src="/icon/prscr-category/Fiction_Essays-icon.svg"
 								alt="소설/에세이"
 								className="cns_category_img"
 							/>
@@ -132,7 +192,7 @@ const Counseling = () => {
 						</div>
 						<div className="cns_category" onClick={handleIcon} id="경제/경영">
 							<img
-								src="/icon/philosophy_icon.png"
+								src="/icon/prscr-category/Economy_Management-icon.svg"
 								alt="경제/경영"
 								className="cns_category_img"
 							/>
@@ -140,7 +200,7 @@ const Counseling = () => {
 						</div>
 						<div className="cns_category" onClick={handleIcon} id="자녀/양육">
 							<img
-								src="/icon/social_icon.png"
+								src="/icon/prscr-category/Children_Parenting-icon.svg"
 								alt="자녀/양육"
 								className="cns_category_img"
 							/>
@@ -148,7 +208,7 @@ const Counseling = () => {
 						</div>
 						<div className="cns_category" onClick={handleIcon} id="사회">
 							<img
-								src="/icon/tech_icon.png"
+								src="/icon/prscr-category/Society-icon.svg"
 								alt="사회"
 								className="cns_category_img"
 							/>
@@ -156,7 +216,7 @@ const Counseling = () => {
 						</div>
 						<div className="cns_category" onClick={handleIcon} id="철학">
 							<img
-								src="/icon/science_icon.png"
+								src="/icon/prscr-category/Philosophy-icon.svg"
 								alt="철학"
 								className="cns_category_img"
 							/>
@@ -164,7 +224,7 @@ const Counseling = () => {
 						</div>
 						<div className="cns_category" onClick={handleIcon} id="건강">
 							<img
-								src="/icon/religion_icon.png"
+								src="/icon/prscr-category/Health-icon.svg"
 								alt="건강"
 								className="cns_category_img"
 							/>
@@ -172,7 +232,7 @@ const Counseling = () => {
 						</div>
 						<div className="cns_category" onClick={handleIcon} id="역사">
 							<img
-								src="/icon/general_icon.png"
+								src="/icon/prscr-category/History-icon.svg"
 								alt="역사"
 								className="cns_category_img"
 							/>
@@ -184,7 +244,7 @@ const Counseling = () => {
 							id="수학/과학/공학"
 						>
 							<img
-								src="/icon/language_icon.png"
+								src="/icon/prscr-category/Science_Math_Engineering-icon.svg"
 								alt="수학/과학/공학"
 								className="cns_category_img"
 							/>
@@ -196,7 +256,7 @@ const Counseling = () => {
 							id="문제집/수험서"
 						>
 							<img
-								src="/icon/literature_icon.png"
+								src="/icon/prscr-category/Workbook_Examination-icon.svg"
 								alt="문제집/수험서"
 								className="cns_category_img"
 							/>
@@ -204,7 +264,7 @@ const Counseling = () => {
 						</div>
 						<div className="cns_category" onClick={handleIcon} id="취업">
 							<img
-								src="/icon/literature_icon.png"
+								src="/icon/prscr-category/Employment_Career-icon.svg"
 								alt="취업"
 								className="cns_category_img"
 							/>
@@ -212,7 +272,7 @@ const Counseling = () => {
 						</div>
 						<div className="cns_category" onClick={handleIcon} id="취미">
 							<img
-								src="/icon/literature_icon.png"
+								src="/icon/prscr-category/Hobbies-icon.svg"
 								alt="취미"
 								className="cns_category_img"
 							/>
@@ -220,7 +280,7 @@ const Counseling = () => {
 						</div>
 						<div className="cns_category" onClick={handleIcon} id="기타">
 							<img
-								src="/icon/literature_icon.png"
+								src="/icon/prscr-category/Etc-icon.svg"
 								alt="기타"
 								className="cns_category_img"
 							/>
@@ -275,42 +335,12 @@ const Counseling = () => {
 					</div>
 
 					{testArr.map((item, idx) => {
-						// console.log(item.id);
 						return (
-							<div className="cnsFeed_card_wrapper" key={item.id + idx}>
-								<CnsFeed key={item.id + idx} text={item.id} />
+							<div className="cnsFeed_card_wrapper" key={item.boardId}>
+								<CnsFeed key={item.boardId + idx} item={item} />
 							</div>
 						);
 					})}
-
-					{/* <div className="cnsFeed_card_wrapper">
-						<CnsFeed />
-					</div>
-					<div className="cnsFeed_card_wrapper">
-						<CnsFeed />
-					</div>
-					<div className="cnsFeed_card_wrapper">
-						<CnsFeed />
-					</div>
-					<div className="cnsFeed_card_wrapper">
-						<CnsFeed />
-					</div>
-					<div className="cnsFeed_card_wrapper">
-						<CnsFeed />
-					</div>
-					<div className="cnsFeed_card_wrapper">
-						<CnsFeed />
-					</div>
-					<div className="cnsFeed_card_wrapper">
-						<CnsFeed />
-					</div>
-
-					<div className="cnsFeed_card_wrapper">
-						<CnsFeed />
-					</div>
-					<div className="cnsFeed_card_wrapper">
-						<CnsFeed />
-					</div> */}
 				</div>
 				{isLoading && <p>Loading...</p>}
 				<div id="cn_target"></div>
