@@ -10,7 +10,7 @@
 	display: flex;
 	flex-direction: column;
 	width: 100%;
-	height: 580px;
+	height: 420px;
 	background-color: #c8edf2;
 }
 
@@ -18,7 +18,7 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding: 100px 150px;
+	padding: 50px 170px 25px 170px;
 }
 
 .wd_user_left_wrapper {
@@ -28,8 +28,8 @@
 }
 
 .wd_user_img {
-	width: 120px;
-	height: 120px;
+	width: 90px;
+	height: 90px;
 	border-radius: 100%;
 	background-color: #ffffff;
 	margin-right: 40px;
@@ -44,7 +44,7 @@
 	font-family: var(--basic-font);
 	font-style: normal;
 	font-weight: 700;
-	font-size: 24px;
+	font-size: 21px;
 	margin-bottom: 10px;
 }
 
@@ -63,7 +63,7 @@
 	font-family: var(--basic-font);
 	font-weight: 700;
 	font-style: normal;
-	font-size: 40px;
+	font-size: 31px;
 	color: black;
 }
 
@@ -82,7 +82,7 @@
 	width: 1120px;
 	height: 350px;
 	z-index: 1;
-	top: -80px;
+	top: -120px;
 	background-color: #fff;
 	border-radius: 20px;
 	display: flex;
