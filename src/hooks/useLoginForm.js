@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import useLogin from "./useLogin";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const useLoginForm = () => {
   const {
@@ -12,21 +13,12 @@ export const useLoginForm = () => {
   });
   const { loginUser, loginError } = useLogin();
   const [loginState, setLoginState] = useState(null);
-  const isMounted = useRef(true); // 컴포넌트가 마운트되었는지 확인하기 위한 ref
-
-  useEffect(() => {
-    return () => {
-      isMounted.current = false; // 컴포넌트가 언마운트되면 false로 설정
-    };
-  }, []);
+  const navigate = useNavigate();
 
   const onSubmit = async ({ id, password }) => {
     const response = await loginUser(id, password);
-    // 예시로, 로그인 상태를 지역 상태로 관리합니다.
-    if (isMounted.current) {
-      // 컴포넌트가 마운트된 상태라면 상태 업데이트
-      setLoginState(response);
-    }
+    setLoginState(response);
+    navigate("/main");
   };
 
   return {
