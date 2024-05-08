@@ -12,7 +12,6 @@ export const useLoginForm = () => {
     mode: "onChange", // 제출 시 유효성 검사 실행
   });
   const { loginUser, loginError } = useLogin();
-  const [loginState, setLoginState] = useState(null);
   const navigate = useNavigate();
 
   const onSubmit = async ({ username, password }) => {
@@ -20,7 +19,6 @@ export const useLoginForm = () => {
     if (response) {
       navigate("/main");
     }
-    setLoginState(response);
   };
 
   return {
@@ -28,6 +26,5 @@ export const useLoginForm = () => {
     handleSubmit: handleSubmit(onSubmit),
     errors,
     loginError,
-    loginState,
   };
 };
