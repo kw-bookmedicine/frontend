@@ -1,11 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const Pagination = ({
-  totalBooks,
-  paginate,
-  currentPage,
-}) => {
+const Pagination = ({ totalBooks, paginate, currentPage }) => {
   const pageNumbers = [];
   const maxPageNumberLimit = 10; // 한 번에 보여줄 최대 페이지 번호 개수
   const totalPages = Math.ceil(totalBooks / maxPageNumberLimit);
@@ -22,23 +18,23 @@ const Pagination = ({
   }
 
   return (
-      <PaginationContainer className="pagination">
-        {pageNumbers.map((number) => {
-          return (
-            <PageItem
-              key={number}
-              className="page-item"
-              isCurrent={number === currentPage}
-              onClick={() => {
-                window.scrollTo(0, 0);
-                paginate(number);
-              }}
-            >
-              {number}
-            </PageItem>
-          );
-        })}
-      </PaginationContainer>
+    <PaginationContainer className="pagination">
+      {pageNumbers.map((number) => {
+        return (
+          <PageItem
+            key={number}
+            className="page-item"
+            $iscurrent={number === currentPage}
+            onClick={() => {
+              window.scrollTo(0, 0);
+              paginate(number);
+            }}
+          >
+            {number}
+          </PageItem>
+        );
+      })}
+    </PaginationContainer>
   );
 };
 
@@ -54,11 +50,8 @@ const PageItem = styled.li`
   margin-top: 30px;
   margin-bottom: 60px;
   padding: 4px;
-  color: ${(props) =>
-    props.isCurrent
-      ? "#00A2BC"
-      : "black"};
-  font-weight: ${(props) => (props.isCurrent ? "bold" : "normal")};
+  color: ${(props) => (props.$iscurrent ? "#00A2BC" : "black")};
+  font-weight: ${(props) => (props.$iscurrent ? "bold" : "normal")};
 
   &:hover {
     cursor: pointer;
