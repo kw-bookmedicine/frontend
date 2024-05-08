@@ -7,7 +7,7 @@ import '../../styles/Counseling/CounselingView.css';
 const CounselingView = ({ item }) => {
 	return (
 		<>
-			<Link to={'/worry/detail'}>
+			<Link to={`/worry-detail?board=${item.boardId}`}>
 				<div className="cnsView_container">
 					<div className="cns_user_wrapper">
 						<div className="cns_user_left_wrapper"></div>
