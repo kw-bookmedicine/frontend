@@ -31,13 +31,21 @@ const Counseling = () => {
 		}
 	};
 
-	useEffect(() => {
-		// console.log('로드');
+	const getData = () => {
+		try {
+			api.get(`/api/board/all?size=20&page=0`).then((res) => {
+				if (res.data.end) {
+					console.log('데이터 없음');
+				}
+				setTestArr(res.data);
+			});
+		} catch (err) {
+			console.log(err);
+		}
+	};
 
-		api.get(`/api/board/all?size=20&page=0`).then((res) => {
-			// console.log(res.data);
-			setTestArr(res.data);
-		});
+	useEffect(() => {
+		getData();
 	}, []);
 
 	// page 변경 감지에 따른 API호출
@@ -72,9 +80,6 @@ const Counseling = () => {
 			// 	console.log(entries);
 			// }
 			if (target.isIntersecting && !isLoading) {
-				// console.log(entries);
-				// console.log(target);
-				// console.log('visible');
 				setPage((prevPage) => prevPage + 1);
 			}
 		};
@@ -162,17 +167,49 @@ const Counseling = () => {
 	}, [keyword]);
 
 	// 키워드별 검색
-	const fetchKeyword = () => {
+	const fetchKeyword = async () => {
 		try {
 			if (keyword !== '') {
 				api
 					.get(`api/board/keyword?keyword=${keyword}&page=0&size=20`)
 					.then((res) => {
+						if (res.data.length === 0) {
+							alert('조회된 게시글이 없습니다.');
+							// 페이지 새로고침
+							window.location.reload();
+						}
 						if (res.data.end) {
 							console.log('데이터 없음.');
 						}
 						setTestArr(res.data);
 					});
+			}
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
+	// 검색 기능
+	const onKeyDown = (e) => {
+		if (e.key === 'Enter') {
+			fetchSearchRes(e.target.value);
+		}
+	};
+
+	const fetchSearchRes = (searchText) => {
+		try {
+			if (searchText !== null) {
+				api
+					.get(`/api/board/search?searchKeyword=${searchText}&page=0&size=20`)
+					.then((res) => {
+						if (res.data.end) {
+							console.log('데이터 없음');
+						}
+						setTestArr(res.data);
+					});
+			} else if (searchText === '') {
+				// 검색어가 비어있을 때 페이지 새로고침
+				window.location.reload();
 			}
 		} catch (err) {
 			console.log(err);
@@ -307,7 +344,13 @@ const Counseling = () => {
 
 					<div className="cnsWrite_search_wrapper">
 						<div className="cnsWrite_search_left_wrapper">
-							<form action="" className="cnsSearchBar_wrapper">
+							<form
+								action=""
+								className="cnsSearchBar_wrapper"
+								onSubmit={(e) => {
+									e.preventDefault();
+								}}
+							>
 								<img
 									src={iconUrl}
 									alt="검색"
@@ -328,6 +371,7 @@ const Counseling = () => {
 									type="text"
 									id="cnsSearch_text"
 									placeholder="검색어를 입력해주세요"
+									onKeyDown={onKeyDown}
 								/>
 							</form>
 						</div>
