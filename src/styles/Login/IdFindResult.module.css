@@ -1,0 +1,50 @@
+.title {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 120px;
+}
+
+.contentTitle {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.userIdDisplay {
+  border: 1px solid black;
+  border-radius: 8px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #0b60b0;
+}
+
+.resultNotification {
+  margin-bottom: 20px;
+}
+
+.buttonsContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.button {
+  height: 45px;
+  font-weight: bold;
+  font-size: 20px;
+  border-radius: 10px;
+}
+
+.loginButton,
+.idFindButton {
+  width: 60%;
+  background-color: #a4c4dd;
+}
+
+.passwordFindButton,
+.joinButton {
+  width: 30%;
+  background-color: #c8edf2;
+}

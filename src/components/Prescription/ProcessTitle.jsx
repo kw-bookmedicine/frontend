@@ -1,8 +1,8 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 // STYLES
-import "../../styles/Counseling/ProcessTitle.css";
+import '../../styles/Counseling/ProcessTitle.css';
 
 const ProcessTitle = ({ type, value }) => {
 	const renderTitle = (type) => {
@@ -12,7 +12,7 @@ const ProcessTitle = ({ type, value }) => {
 					<div className={`process_${type}_title_wrapper`}>
 						<div className={`process_${type}_title`}>진단서</div>
 						<div className={`process_${type}_subTitle`}>
-							<span id={`${type}_nickname`}>이름 없는 새</span> 님의 진단서
+							<span id={`${type}_nickname`}>{value}</span> 님의 진단서
 						</div>
 					</div>
 				</>
@@ -32,32 +32,32 @@ const ProcessTitle = ({ type, value }) => {
 			);
 		} else {
 			return (
-        <>
-          <div className="process_title_wrapper">
-            {type === "Counseling" ? (
-              <div className="process_title">고민 상담하기</div>
-            ) : (
-              <div className="process_title">
-                <span id="process_nickname">이름 없는 새</span> 님을 위한 처방전
-                작성 중...
-              </div>
-            )}
-            <div className="progress_bar_wrapper">
-              <progress
-                id="progress"
-                value={value}
-                min="0"
-                max="100"
-              ></progress>
-              <p id="progress_text">{value}%</p>
-            </div>
-          </div>
-        </>
-      );
+				<>
+					<div className="process_title_wrapper">
+						{type === 'Counseling' ? (
+							<div className="process_title">고민 상담하기</div>
+						) : (
+							<div className="process_title">
+								<span id="process_nickname">이름 없는 새</span> 님을 위한 처방전
+								작성 중...
+							</div>
+						)}
+						<div className="progress_bar_wrapper">
+							<progress
+								id="progress"
+								value={value}
+								min="0"
+								max="100"
+							></progress>
+							<p id="progress_text">{value}%</p>
+						</div>
+					</div>
+				</>
+			);
 		}
 	};
 
-  return <>{renderTitle(type)}</>;
+	return <>{renderTitle(type)}</>;
 };
 
 export default ProcessTitle;

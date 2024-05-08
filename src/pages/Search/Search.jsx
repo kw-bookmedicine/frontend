@@ -1,10 +1,10 @@
-import { useContext, useEffect, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 // COMPONENTS
 import Header from "../../components/Header";
-import SearchResultListModal from "../../components/SearchResultListModal";
+import api from "../../services/api";
+import SearchBox from "../../components/Search/SearchBox";
 
 // STYLES
 import "../../styles/SearchStyles.css";
@@ -19,8 +19,7 @@ import bookImg8 from "../../assets/category-book-언어.jpg";
 import bookImg9 from "../../assets/category-book-문학.png";
 import bookImg10 from "../../assets/category-book-역사.jpg";
 import { LoginContext } from "../../contexts/LoginContextProvider";
-import api from "../../services/api";
-import SearchBox from "../../components/SearchBox";
+import useLogin from "../../hooks/useLogin";
 
 // 카테고리 배경 색상(10개) && 카테고리별 대표 책 이미지 정보
 const categoriesInfo = [
@@ -38,49 +37,15 @@ const categoriesInfo = [
 
 // 어떤게 어떠한 역할을 하는지 한눈에 파악하기 어려움
 // 뭘 선택하든 책 제목만 넘긴다는 로직을 개선해야함
-//
 
 const Search = () => {
-  const navigate = useNavigate();
-  const [input, setInput] = useState(""); // 검색 데이터
-  const [inputKeyword, setInputKeyword] = useState([]); // 키워드 검색 데이터
-  const [searchData, setSearchData] = useState([]); // 검색 결과 데이터
   const [categories, setCategories] = useState([]); // 카테고리 데이터
-  const [isShow, setIsShow] = useState(false); // 검색창 모달창
-  const [searchType, setSearchType] = useState("title"); // 검색 유형 상태
-  const inputRef = useRef(null); // 검색창 커서 처리
-  const [selectedKeywords, setSelectedKeywords] = useState([]); // 검색창의 키워드 저장
-  const [selectedKeywordSet, setSelectedKeywordSet] = useState(new Set()); // 검색창의 키워드 중복 처리
-
   const { userId, userPwd } = useContext(LoginContext);
-  const loginData = { username: userId, password: userPwd };
 
   // 카테고리 대분류, 중분류 GET 요청 및 요청 데이터 사용하기 쉽게 처리
   useEffect(() => {
-    let username = localStorage.getItem("id");
-    let password = localStorage.getItem("password");
-
     const fetchCategories = async () => {
       try {
-        api
-          .post(
-            "https://api.bookpharmacy.store/login",
-            { username: username, password: password },
-            { withCredentials: true }
-          )
-          .then(async () => {
-            // console.log('성공');
-            api
-              .get("https://api.bookpharmacy.store/api/category/big", {
-                withCredentials: true,
-              })
-              .then((res) => {
-                setCategories(res.data);
-              });
-          })
-          .catch((err) => {
-            console.log(err);
-          });
         api
           .get("/api/category/big", {
             withCredentials: true,
@@ -90,6 +55,9 @@ const Search = () => {
           });
       } catch (error) {
         console.error("Error fetching categories:", error);
+        if (error.response && error.response.status === 401) {
+          // loginUser(username, password);
+        }
       }
     };
     fetchCategories();
@@ -128,124 +96,14 @@ const Search = () => {
     // Add more keywords as needed
   ];
 
-  // 검색할 때, 0.1초 딜레이 걸기 -> 끊기는 느낌을 방지
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      fetchBooks(input);
-    }, 100);
-
-    // cleanup 함수를 반환하여 컴포넌트가 언마운트될 때 타이머를 해제합니다.
-    return () => clearTimeout(timer);
-  }, [input]);
-
-  const fetchBooks = async (searchInput) => {
-    if (input.trim() === "") return; // 빈 문자열일 때 API 호출 방지
-
-    let endpoint = "";
-    if (searchType === "title") {
-      endpoint = `/api/search/book?title=${searchInput}&target=modal`;
-    }
-    if (searchType === "author") {
-      endpoint = `/api/search/book?author=${searchInput}&target=modal`;
-    }
-    if (searchType === "keyword") {
-      endpoint = `/api/search/keyword?name=${searchInput}&target=modal`;
-    }
-
-    try {
-      const response = await api.get(endpoint);
-      console.log("test", searchType, response.data);
-      setSearchData(response.data);
-    } catch (error) {
-      console.error("Failed to fetch books:", error);
-    }
-  };
-
-  // 검색창 엔터 및 버튼 이벤트 처리
-
-  const searchBook = (evt) => {
-    if (evt.key !== "Enter") return;
-
-    if (searchType === "keyword") {
-      if (selectedKeywords.length === 0) {
-        alert("키워드를 선택하여 검색해주세요!");
-        return;
-      }
-
-      if (selectedKeywords.length > 0) {
-        navigate(
-          `/search/result?type=${searchType}&query=${selectedKeywords.join(
-            " "
-          )}`
-        );
-      }
-    } else {
-      if (input.trim() === "") {
-        alert("검색어를 입력해주세요.");
-        return;
-      }
-
-      fetchBooks(input.trim());
-      navigate(`/search/result?type=${searchType}&query=${input.trim()}`);
-    }
-  };
-
-  const handleSearchResultClose = () => {
-    setIsShow(false);
-  };
-
-  const handleSearchResultShow = () => {
-    setIsShow(true);
-  };
-
-  const handleSelectChange = (e) => {
-    setSearchType(e.target.value);
-    setInput("");
-  };
-
-  // 키워드 선택
-  const handleSelectKeyword = (keyword) => {
-    setSelectedKeywords([...selectedKeywords, keyword]);
-    setSelectedKeywordSet(new Set([...selectedKeywordSet, keyword]));
-    setInput("");
-    setSearchData([]);
-    inputRef.current.focus();
-  };
-
-  // 키워드 삭제
-  const handleRemoveKeyword = (keyword) => {
-    const updatedKeywords = selectedKeywords.filter(
-      (selectedKeyword) => selectedKeyword !== keyword
-    );
-    setSelectedKeywords(updatedKeywords);
-
-    const updatedKeywordSet = new Set(selectedKeywordSet);
-    updatedKeywordSet.delete(keyword);
-    setSelectedKeywordSet(updatedKeywordSet);
-  };
-
   return (
-    <div onClick={handleSearchResultClose}>
+    <div>
       <Header />
 
       {/* 검색 페이지 전체 */}
       <section className="search-container">
         {/* 검색 창 */}
-        <SearchBox
-          input={input}
-          setInput={setInput}
-          searchType={searchType}
-          setSearchType={setSearchType}
-          isShow={isShow}
-          setIsShow={setIsShow}
-          searchBook={searchBook}
-          searchData={searchData}
-          handleSelectKeyword={handleSelectKeyword}
-          selectedKeyword={selectedKeywords}
-          selectedKeywordSet={selectedKeywordSet}
-          handleRemoveKeyword={handleRemoveKeyword}
-          inputRef={inputRef}
-        />
+        <SearchBox />
 
         {/* 추천 검색어 */}
         {renderKeywordList("추천검색어", recommendedSearchKeywords)}

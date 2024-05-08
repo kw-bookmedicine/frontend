@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
+// ASSETS
+import Banner from '../assets/banner.png';
+
 // COMPONENTS
 import Btn from '../components/Button';
+import PrscrCard from '../components/Prescription/PrescriptionCard';
 import EmotionItem from '../components/EmotionItem';
 import EmotionBookList from '../components/EmotionBookList';
 
@@ -135,6 +139,7 @@ const Home = () => {
 				<section className="intro">
 					<section className="home_main">
 						<div className="home_main_wrapper">
+							<img src={Banner} alt="" id="home-banner" />
 							<div className="home_main_title_wrapper">
 								<div className="big_title">
 									당신의 마음에
@@ -200,7 +205,7 @@ const Home = () => {
 						</div>
 					</section>
 
-					<section className="home_emotion">
+					{/* <section className="home_emotion">
 						<div className="emotion_wrapper">
 							<div className="emotion_up_wrapper">
 								<div className="emotion_title">
@@ -225,6 +230,125 @@ const Home = () => {
 							<div className="emotion_bottom_wrapper">
 								<div className="emotionBook_slide">
 									<EmotionBookList text={text} />
+								</div>
+							</div>
+						</div>
+					</section> */}
+					<section className="home_counseling">
+						<div className="home_counseling_title_wrapper">
+							<p id="home_cns_title">당신의 고민을 적어주세요</p>
+							<p>다양한 사람들이 처방해줄거에요</p>
+						</div>
+						<div className="home_counseling_content_wrapper">
+							<div className="user-bubble">새로운 곳에 적응하기 힘들어요</div>
+							<div className="home_cns_ai_wrapper">
+								<img
+									src="/temp-robot-icon.png"
+									alt="로봇 아이콘"
+									id="robot-icon"
+								/>
+								<div className="ai-bubble">
+									<p className="ai_prscr_title">
+										새로운 곳에 적응하기 힘들어요 에 대한 AI 처방전입니다.
+									</p>
+									<div className="ai_prscr_content_wrapper">
+										<div className="ai_prscr_left_wrapper">
+											<img
+												src="/loading_thumbnail_x4.png"
+												alt=""
+												id="ai_prscr_thumbnail"
+											/>
+											<div className="ai_prscr_bookInfo_wrapper">
+												<p id="ai_prscr_bookTitle">책 제목</p>
+												<p>저자</p>
+												<p>출판사/출판연도</p>
+											</div>
+										</div>
+										<div className="ai_prscr_right_wrapper">
+											<span id="ai_prscr_res_title">처방사유</span>
+											<div className="ai_prscr_res_box">
+												이 책을 처방한 이유는 ...
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div className="home_cns_ai_wrapper">
+								<img
+									src="/icon/profile/basic_profile_img.svg"
+									alt="유저 아이콘"
+									id="user-icon"
+								/>
+								<div className="ai-bubble">
+									<p className="ai_prscr_title">
+										새로운 곳에 적응하기 힘들어요 에 대한 AI 처방전입니다.
+									</p>
+									<div className="ai_prscr_content_wrapper">
+										<div className="ai_prscr_left_wrapper">
+											<img
+												src="/loading_thumbnail_x4.png"
+												alt=""
+												id="ai_prscr_thumbnail"
+											/>
+											<div className="ai_prscr_bookInfo_wrapper">
+												<p id="ai_prscr_bookTitle">책 제목</p>
+												<p>저자</p>
+												<p>출판사/출판연도</p>
+											</div>
+										</div>
+										<div className="ai_prscr_right_wrapper">
+											<span id="ai_prscr_res_title">처방사유</span>
+											<div className="ai_prscr_res_box">
+												이 책을 처방한 이유는 ...
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+					<section className="home_prescription">
+						<div className="home_prscr_title_wrapper">
+							<p>당신의 고민에 처방전을 드립니다</p>
+						</div>
+						<div className="home_prscr_content_wrapper">
+							<div className="home_prscrCard_wrapper">
+								<div className="home_prscrCard_title_wrapper">
+									<img
+										src="/icon/home/home_prscrCard_icon.svg"
+										id="home_prscrCard_icon-1"
+									/>
+									<div className="home_prscrCard_title">
+										<p>TO.</p>
+										<p>이름 없는 새</p>
+									</div>
+								</div>
+								<div className="home_prscrCard_content_wrapper">
+									<div className="home_prscrCard_bookInfo_wrapper">
+										<p id="home_prscrCard_info_title">처방전</p>
+										<img
+											src="/loading_thumbnail_x4.png"
+											id="bookInfo-thumbnail"
+										/>
+										<div className="bookInfo_right_wrapper">
+											<p id="prscrCard_bookInfo_title">책 제목</p>
+											<p>저자</p>
+											<p>출판사/출판연도</p>
+											<img
+												src="/icon/home/home_prscrCard_icon-group.svg"
+												id="prscrCard_icon_group"
+											/>
+										</div>
+									</div>
+									<div className="home_prscrCard_res_wrapper">
+										<span>처방사유</span>
+										<div className="home_prscrCard_res_box">
+											이 책을 처방한 이유는 ...
+										</div>
+									</div>
+									<div className="home_prscrCard_footer">
+										<p>2000년 00월 00일</p>
+									</div>
 								</div>
 							</div>
 						</div>
