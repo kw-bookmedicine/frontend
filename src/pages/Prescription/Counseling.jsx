@@ -34,7 +34,7 @@ const Counseling = () => {
 	useEffect(() => {
 		// console.log('로드');
 
-		api.get(`/api/board?size=20&page=0`).then((res) => {
+		api.get(`/api/board/all?size=20&page=0`).then((res) => {
 			// console.log(res.data);
 			setTestArr(res.data);
 		});
@@ -51,7 +51,7 @@ const Counseling = () => {
 		setIsLoading(true);
 
 		try {
-			api.get(`/api/board?size=20&page=${page + 1}`).then((res) => {
+			api.get(`/api/board/all?size=20&page=${page + 1}`).then((res) => {
 				if (res.data.end) {
 					console.log('데이터 없음');
 				}
@@ -117,49 +117,61 @@ const Counseling = () => {
 		switch (ctg) {
 			case '관계/소통':
 				setKeyword('Relationships_Communication');
+				break;
 			case '소설/에세이':
 				setKeyword('Fiction_Essays');
+				break;
 			case '경제/경영':
 				setKeyword('Economy_Management');
+				break;
 			case '자녀/양육':
 				setKeyword('Children_Parenting');
+				break;
 			case '사회':
 				setKeyword('Society');
+				break;
 			case '철학':
 				setKeyword('Philosophy');
+				break;
 			case '건강':
 				setKeyword('Health');
+				break;
 			case '역사':
 				setKeyword('History');
+				break;
 			case '수학/과학/공학':
 				setKeyword('Science_Math_Engineering');
+				break;
 			case '문제집/수험서':
 				setKeyword('Workbook_Examination');
+				break;
 			case '취업':
 				setKeyword('Employment_Career');
+				break;
 			case '취미':
 				setKeyword('Hobbies');
-			// case '기타':
-			// 	setKeyword('Etc');
+				break;
+			case '기타':
+				setKeyword('ETC');
+				break;
 		}
 	};
 
 	useEffect(() => {
-		// fetchKeyword();
+		fetchKeyword();
 	}, [keyword]);
 
 	// 키워드별 검색
-	const fetchKeyword = async () => {
-		// console.log(keyword);
+	const fetchKeyword = () => {
 		try {
 			if (keyword !== '') {
-				await api
+				api
 					.get(`api/board/keyword?keyword=${keyword}&page=0&size=20`)
 					.then((res) => {
 						if (res.data.end) {
 							console.log('데이터 없음.');
 						}
-						console.log(res.data);
+						setTestArr(res.data);
 					});
 			}
 		} catch (err) {
