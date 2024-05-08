@@ -6,13 +6,14 @@ import styled from "styled-components";
 import Header from "../../components/Header";
 import api from "../../services/api";
 import Pagination from "../../components/Pagination";
-import SearchBox from "../../components/SearchBox";
+import SearchBox from "../../components/Search/SearchBox";
 import Pill from "../../components/Pill";
 
 // ASSET
 import defaultBookCover from "../../assets/loading_thumbnail_not_rounded.png";
 
 const SearchResult = () => {
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams(); // URL의 쿼리 파라미터들에 접근
   const type = searchParams.get("type"); // 'type' 쿼리 파라미터의 값을 가져옴
   const query = searchParams.get("query"); // 'query' 쿼리 파라미터의 값을 가져옴
@@ -22,77 +23,256 @@ const SearchResult = () => {
   const [booksPerPage, setBooksPerPage] = useState(10); // 페이지당 책 수
 
   const [loading, setLoading] = useState(false); // 로딩 상태
+  const [isError, setIsError] = useState(false); // 로딩 후 응답상태
+
+  const [searchedSelectedKeywords, setSearchedSelectedKeywords] = useState([]);
 
   // 키워드로 책 필터링
-  // const filteredBooks = books.filter((book) =>
-  //   searchedSelectedKeywords.every(
-  //     (keyword) =>
-  //       book.bookKeywordList.some(
-  //         (bookKeyword) => bookKeyword.name === keyword
-  //       ) || keyword === book.middleCategoryName
-  //   )
-  // );
+  const filteredBooks = books.filter((book) =>
+    searchedSelectedKeywords.every(
+      (keyword) =>
+        book.keywordItemList?.some(
+          (bookKeyword) => bookKeyword.name === keyword
+        ) ||
+        keyword === book.middleCategoryName ||
+        keyword === book.bigCategoryName
+    )
+  );
 
-  // const indexOfLastBook = currentPage * booksPerPage;
-  // const indexOfFirstBook = indexOfLastBook - booksPerPage;
-  // const currentBooks = books.slice(indexOfFirstBook, indexOfLastBook);
-  // const currentBooks = filteredBooks.slice(indexOfFirstBook, indexOfLastBook);
+  // 키워드 검색 에서 검색된 키워드 삭제
+  const handleRemoveSearchedKeyword = (keyword) => {
+    setSearchedSelectedKeywords(
+      searchedSelectedKeywords.filter((k) => k !== keyword)
+    );
+  };
 
   // 페이지 변경
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  const searchResultsCount = useRef(null);
   // 콘텐츠 내용 API 호출
   useEffect(() => {
     const getSearchResults = async () => {
       setLoading(true);
+      setIsError(false);
       try {
         let endpoint;
         if (type === "title") {
-          endpoint = `/api/search/book?title=${query}&target=page&page=${currentPage}&size=20`;
+          endpoint = `/api/search/book?title=${query}&target=page&page=${currentPage}&size=${booksPerPage}`;
+          // endpoint = `/api/search/book?title=${query}&target=page&page=${currentPage}&size=700`;
         } else if (type === "author") {
-          endpoint = `/api/search/book?author=${query}&target=page&page=${currentPage}&size=20`;
+          endpoint = `/api/search/book?author=${query}&target=page&page=${currentPage}&size=${booksPerPage}`;
         } else if (type === "keyword") {
-          endpoint = `/api/search/keyword?name=${query}&target=page&page=${currentPage}&size=20`;
+          endpoint = `/api/search/keyword?name=${query}&target=page&page=${currentPage}&size=${booksPerPage}`;
         }
         const response = await api.get(endpoint, { withCredentials: true });
-        setBooks(response.data);
-        console.log(response);
-        console.log(response.data);
+        setBooks(response.data.content);
+        searchResultsCount.current = response.data.totalElements; // 결과에 대한 모든 책의 수
         setLoading(false);
       } catch (error) {
+        searchResultsCount.current = 0;
         console.error("책 데이터 GET 요청 실패", error);
+        setIsError(true);
       }
     };
     getSearchResults();
-  }, [type, query, currentPage]);
-
-  let searchResultsCount = books.totalElements;
-  // searchResultsCount = searchResultsCount.toLocaleString();
+  }, [type, query, currentPage, booksPerPage]);
 
   // 10개, 50개, 100개에 따른 한페이지에 보여주는 책의 수
-  const handleSizeChange = (event) => {
+  const handlebooksPerPageChange = (event) => {
     setBooksPerPage(event.target.value);
   };
-
-  // 아래 키 기능
-
-  // 요청했던 책에 대한 키워드
 
   return (
     <>
       <Header />
-      {/* <Main onClick={() => setIsShow(false)}> */}
       <Main>
-        {/* 검색창 컴포넌트 만들어야함 */}
+        {/* 검색창 */}
         <SearchBox />
 
         {/* 검색 결과의 헤더 */}
         <SearchTitle id="search-title">
           <Title>
             <Highlight>"{query}"</Highlight> 에 대한
-            <Highlight> {searchResultsCount} 개의 검색 결과</Highlight>
+            <Highlight> {searchResultsCount.current} 개의 검색 결과</Highlight>
           </Title>
         </SearchTitle>
+        <ContentsWrap>
+          <aside>
+            <ContentTitle>키워드 검색</ContentTitle>
+            <KeywordSearchBox
+              bookData={filteredBooks}
+              selectedKeywords={searchedSelectedKeywords}
+              setSelectedKeywords={setSearchedSelectedKeywords}
+            />
+          </aside>
+
+          <Section>
+            {/* 헤더 영역 */}
+            <HeaderArea>
+              <ContentTitle>
+                전체 <Highlight>{filteredBooks.length}</Highlight>건
+              </ContentTitle>
+              <div>
+                <div style={{ display: "flex" }}>
+                  <SelectStyled name="sortOption" id="sort-option-select">
+                    <option value="popular">인기순</option>
+                    <option value="ranked">처방많은 순</option>
+                  </SelectStyled>
+                  <SelectStyled
+                    name="itemsPerPage"
+                    id="items-per-page-select"
+                    onChange={handlebooksPerPageChange}
+                    value={booksPerPage}
+                  >
+                    <option value="10">10개씩 보기</option>
+                    <option value="50">50개씩 보기</option>
+                    <option value="100">100개씩 보기</option>
+                  </SelectStyled>
+                  <ViewModeContainer>
+                    <ViewButton
+                      onClick={() => setViewMode(true)}
+                      $active={viewMode}
+                      $rightborder={true}
+                    >
+                      <img
+                        src="https://contents.kyobobook.co.kr/resources/fo/images/common/ink/ico_view_list_active.png"
+                        alt="리스트 뷰"
+                      />
+                    </ViewButton>
+                    <ViewButton
+                      onClick={() => setViewMode(false)}
+                      $active={!viewMode}
+                    >
+                      <img
+                        src="https://contents.kyobobook.co.kr/resources/fo/images/common/ink/ico_view_img_active.png"
+                        alt="카드 뷰"
+                      />
+                    </ViewButton>
+                  </ViewModeContainer>
+                </div>
+              </div>
+            </HeaderArea>
+
+            {/* 키워드 영역 */}
+            {searchedSelectedKeywords.length !== 0 && (
+              <div
+                style={{
+                  padding: "15px 0px 15px 0px",
+                  borderBottom: "1px solid #c4bebe",
+                }}
+              >
+                <ul style={{ display: "flex" }}>
+                  {searchedSelectedKeywords.map((keyword, index) => (
+                    <Pill
+                      key={index}
+                      text={keyword}
+                      onClick={() => handleRemoveSearchedKeyword(keyword)}
+                    />
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* 콘텐츠 영역 */}
+            {loading ? (
+              <LoadingText>
+                {isError ? "책 데이터 요청에 실패되었습니다." : "Loading..."}
+              </LoadingText>
+            ) : (
+              <>
+                <div>
+                  {viewMode ? (
+                    <ListUIWrap>
+                      {filteredBooks.map((book, index) => (
+                        <BookListItem key={index}>
+                          <Link
+                            // key={index}
+                            to={`/book-detail?isbn=${book.isbn}`}
+                          >
+                            <BookImage
+                              src={book.imageUrl || defaultBookCover}
+                              alt="책 표지 이미지"
+                            />
+                          </Link>
+                          <BookDetails>
+                            <div>
+                              <Link
+                                key={index}
+                                to={`/book-detail?isbn=${book.isbn}`}
+                              >
+                                <BookTitleOfListUI>
+                                  {book.title}
+                                </BookTitleOfListUI>
+                              </Link>
+                              <BookAuthor>{book.author}</BookAuthor>
+                              <BookPublicYear>{book.publicYear}</BookPublicYear>
+                            </div>
+                            <div style={{ marginBottom: "40px" }}>
+                              <ul style={{ display: "flex", flexWrap: "wrap" }}>
+                                <BookKeyword
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    navigate(
+                                      `/search/result?type=keyword&query=${book.middleCategoryName}`
+                                    );
+                                  }}
+                                >
+                                  #{book.middleCategoryName}
+                                </BookKeyword>
+                                {book.keywordItemList.map((keyword, index) => {
+                                  return (
+                                    <BookKeyword
+                                      key={index}
+                                      onClick={(e) => {
+                                        e.preventDefault();
+                                        navigate(
+                                          `/search/result?type=keyword&query=${keyword.name}`
+                                        );
+                                      }}
+                                    >
+                                      #{keyword.name}
+                                    </BookKeyword>
+                                  );
+                                })}
+                              </ul>
+                            </div>
+                          </BookDetails>
+                        </BookListItem>
+                      ))}
+                    </ListUIWrap>
+                  ) : (
+                    <CardUIWrap>
+                      {filteredBooks.map((book, index) => (
+                        <li key={index} style={{ width: "170px" }}>
+                          <Link to={`/book-detail?isbn=${book.isbn}`}>
+                            <CardImageContainer>
+                              <BookCardImage
+                                src={book.imageUrl || defaultBookCover}
+                                alt="책 표지 이미지"
+                              />
+                            </CardImageContainer>
+                            <BookTitleOfCardUI>{book.title}</BookTitleOfCardUI>
+                          </Link>
+                          <h3
+                            style={{ color: "#6B6B6B", marginBottom: "10px" }}
+                          >
+                            {book.author}
+                          </h3>
+                        </li>
+                      ))}
+                    </CardUIWrap>
+                  )}
+                </div>
+                <Pagination
+                  totalBooks={searchResultsCount.current}
+                  paginate={paginate}
+                  currentPage={currentPage}
+                />
+              </>
+            )}
+          </Section>
+        </ContentsWrap>
       </Main>
     </>
   );
@@ -115,8 +295,9 @@ const KeywordSearchBox = ({
   useEffect(() => {
     setTotalBooksOfKeywords([]); // 키워드 초기화
     const newKeywords = bookData.flatMap((data) => {
-      const keywords = data.bookKeywordList.map((keyword) => keyword.name);
-      return [data.middleCategoryName, ...keywords];
+      const keywords =
+        data.keywordItemList?.map((keyword) => keyword.name) ?? [];
+      return [data.bigCategoryName, data.middleCategoryName, ...keywords];
     });
     setTotalBooksOfKeywords((prev) => [...prev, ...new Set(newKeywords)]); // 중복 제거
   }, [bookData]);
@@ -158,6 +339,8 @@ const KeywordSearchBox = ({
       !selectedKeywords.includes(keyword) &&
       keyword.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  console.log();
 
   return (
     <>
@@ -203,6 +386,7 @@ const KeywordSearchBoxModal = ({ keywordData, onSelectKeyword }) => {
 
 const ModalStyled = styled.div`
   width: 100%;
+  max-width: 220px;
   background-color: aliceblue;
   max-height: 300px;
   overflow-y: auto;
@@ -219,7 +403,7 @@ const ModalStyled = styled.div`
 
 const Main = styled.main`
   padding-top: 48px;
-  max-width: 1440px;
+  max-width: 1200px;
   margin: 0 auto;
 `;
 
@@ -247,6 +431,10 @@ const SelectStyled = styled.select`
   border-radius: 5px;
   margin-right: 10px;
 `;
+const Section = styled.section`
+  padding-left: 2.5rem;
+  width: 100%;
+`;
 
 const HeaderArea = styled.div`
   width: 100%;
@@ -255,6 +443,11 @@ const HeaderArea = styled.div`
   align-items: center;
   padding-bottom: 20px;
   border-bottom: 1px solid #c4bebe;
+`;
+
+const LoadingText = styled.div`
+  text-align: center;
+  margin-top: 100px;
 `;
 
 const ViewModeContainer = styled.div`
@@ -267,9 +460,9 @@ const ViewModeContainer = styled.div`
 const ViewButton = styled.button`
   padding: 10px;
   width: 100%;
-  background-color: ${(props) => (props.active ? "#d0d0d0" : "white")};
+  background-color: ${(props) => (props.$active ? "#d0d0d0" : "white")};
   border-right: ${(props) =>
-    props.rightBorder ? "1px solid #C0C0C0" : "none"};
+    props.$rightborder ? "1px solid #C0C0C0" : "none"};
 `;
 
 const SearchTitle = styled.section`
@@ -281,42 +474,6 @@ const Title = styled.h1`
   font-weight: bold;
 `;
 
-// const SearchInputWrap = styled.div`
-//   width: 100%;
-//   height: 60px;
-//   box-shadow: 0px 2px 4px #00000033;
-//   padding: 10px 0px 10px 1rem;
-//   border-radius: 5px;
-//   border: 1px solid #b0b0b0;
-//   display: flex;
-//   align-items: center;
-//   font-size: 20px;
-//   margin-bottom: 40px;
-// `;
-
-// const SelectMenu = styled.select`
-//   width: 140px;
-//   font-size: 20px;
-//   border: none;
-//   /* padding-left: 10px; */
-//   text-align: center;
-//   &:focus {
-//     outline: none;
-//   }
-// `;
-
-// const SearchInput = styled.input`
-//   border: none;
-//   border-left: 1px solid #c0c0c0;
-//   margin-left: 1rem;
-//   padding-left: 1rem;
-//   font-size: 20px;
-//   width: 100%;
-//   &:focus {
-//     outline: none;
-//   }
-// `;
-
 const ContentsWrap = styled.div`
   display: flex;
 `;
@@ -327,18 +484,6 @@ const Input = styled.input`
   padding: 8px 8px 8px 12px;
   font-size: 1rem;
 `;
-
-// const SearchKeyword = styled.li`
-//   display: flex;
-//   align-items: center;
-//   justify-content: space-between;
-//   height: 29px;
-//   line-height: 27px;
-//   padding: 0px 0px 0px 12px;
-//   background-color: #c8edf2;
-//   border-radius: 15px;
-//   margin-right: 10px;
-// `;
 
 const BookKeyword = styled.li`
   display: flex;
@@ -353,6 +498,43 @@ const BookKeyword = styled.li`
 
 const ListUIWrap = styled.ul``;
 
+const BookListItem = styled.li`
+  height: 310px;
+  display: flex;
+  padding: 36px 20px;
+  border-bottom: 1px solid #a1a1a1;
+`;
+
+const BookImage = styled.img`
+  height: 240px;
+  width: 170px;
+  background-color: gray;
+  border-radius: 5px;
+  border: 1px solid #c0c0c0;
+`;
+
+const BookTitleOfListUI = styled.h3`
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+`;
+
+const BookDetails = styled.div`
+  padding: 1rem 0px 0px 1rem;
+`;
+
+const BookAuthor = styled.h3`
+  font-size: 1rem;
+  color: gray;
+  margin-bottom: 10px;
+`;
+
+const BookPublicYear = styled.h4`
+  font-size: 1rem;
+  color: gray;
+  margin-bottom: 40px;
+`;
+
 const CardUIWrap = styled.ul`
   padding: 36px 20px;
   display: grid;
@@ -360,7 +542,23 @@ const CardUIWrap = styled.ul`
   grid-gap: 10px;
 `;
 
-const BookTitle = styled.h2`
+const CardImageContainer = styled.div`
+  height: 240px;
+  width: 170px;
+  border-radius: 5px;
+  background-color: gray;
+  margin-bottom: 10px;
+  display: inline-block;
+`;
+
+const BookCardImage = styled.img`
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
+  border: 1px solid #c0c0c0;
+`;
+
+const BookTitleOfCardUI = styled.h2`
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2; /* 원하는 라인 수 */

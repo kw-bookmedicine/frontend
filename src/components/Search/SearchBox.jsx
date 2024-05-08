@@ -1,11 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
-import SearchResultListModal from "./SearchResultListModal";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import SearchResultListModal from "../SearchResultListModal";
 
 // style
-import "../styles/SearchStyles.css";
+import "../../styles/SearchStyles.css";
 import styled from "styled-components";
-import Pill from "./Pill";
-import api from "../services/api";
+import Pill from "../Pill";
+import api from "../../services/api";
 import { useNavigate } from "react-router-dom";
 
 // 모달창 바깥에 누르면 닫기
@@ -27,7 +27,7 @@ function useOutsideClick(ref, callback) {
 
 const SearchBox = () => {
   const navigate = useNavigate();
-  const wrapperRef = useRef(null);
+  const wrapperRef = useRef(null); // 검색 모달 ref
   const [isModalOpen, setIsModalOpen] = useState(false); // 검색창 모달창 열고 닫기
   const [input, setInput] = useState(""); // 검색 데이터
   const [searchType, setSearchType] = useState("title"); // 검색 유형 상태
@@ -37,9 +37,44 @@ const SearchBox = () => {
   const [selectedKeywords, setSelectedKeywords] = useState([]);
   const [selectedKeywordSet, setSelectedKeywordSet] = useState(new Set());
 
-  const [searchedSelectedKeywords, setSearchedSelectedKeywords] = useState([]);
-
   useOutsideClick(wrapperRef, () => setIsModalOpen(false));
+
+  const isMounted = useRef(true);
+
+  useEffect(() => {
+    return () => {
+      isMounted.current = false; // 컴포넌트 언마운트시 false로 설정
+    };
+  }, []);
+
+  const fetchBooks = useCallback(
+    async (searchInput) => {
+      if (input.trim() === "") return; // 빈 문자열일 때 API 호출 방지
+
+      let endpoint = "";
+      if (searchType === "title") {
+        endpoint = `/api/search/book?title=${searchInput}&target=modal`;
+      }
+      if (searchType === "author") {
+        endpoint = `/api/search/book?author=${searchInput}&target=modal`;
+      }
+      if (searchType === "keyword") {
+        endpoint = `/api/search/keyword?name=${searchInput}&target=modal`;
+      }
+
+      try {
+        const response = await api.get(endpoint);
+        if (isMounted.current) {
+          // 마운트 상태 확인
+          setSearchData(response.data);
+        }
+        console.log(response);
+      } catch (error) {
+        console.error("Failed to fetch books:", error);
+      }
+    },
+    [searchType, isMounted, input]
+  );
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -47,31 +82,10 @@ const SearchBox = () => {
     }, 100);
 
     // cleanup 함수를 반환하여 컴포넌트가 언마운트될 때 타이머를 해제합니다.
-    return () => clearTimeout(timer);
-  }, [input]);
-
-  const fetchBooks = async (searchInput) => {
-    if (input.trim() === "") return; // 빈 문자열일 때 API 호출 방지
-
-    let endpoint = "";
-    if (searchType === "title") {
-      endpoint = `/api/search/book?title=${searchInput}&target=modal`;
-    }
-    if (searchType === "author") {
-      endpoint = `/api/search/book?author=${searchInput}&target=modal`;
-    }
-    if (searchType === "keyword") {
-      endpoint = `/api/search/keyword?name=${searchInput}&target=modal`;
-    }
-
-    try {
-      const response = await api.get(endpoint);
-      setSearchData(response.data);
-      console.log(response);
-    } catch (error) {
-      console.error("Failed to fetch books:", error);
-    }
-  };
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [input, fetchBooks]);
 
   const searchBook = (evt) => {
     if (evt.key === "Enter") {
@@ -113,13 +127,6 @@ const SearchBox = () => {
     setSelectedKeywordSet(updatedKeywordSet);
   };
 
-  // 검색된 키워드 삭제
-  const handleRemoveSearchedKeyword = (keyword) => {
-    setSearchedSelectedKeywords(
-      searchedSelectedKeywords.filter((k) => k !== keyword)
-    );
-  };
-
   return (
     <section
       ref={wrapperRef}
@@ -134,11 +141,6 @@ const SearchBox = () => {
         <SearchInputWrap>
           {/* 검색창에 라벨 적용해보기 */}
           {/* 책 렌더링했던 유튜브 영상을 활용해서 검색창 누르면 밑에 책보여주는 방법으로 활용하기 */}
-          {/* <button
-                className="search-button"
-                onClick={searchBook}
-                name="search-button"
-              /> */}
           <SelectMenu
             // defaultValue="title"
             value={searchType}
@@ -146,11 +148,10 @@ const SearchBox = () => {
               setSearchType(e.target.value);
               setInput("");
             }}
-            name=""
-            id=""
+            name="search-type"
+            id="search-type"
             // className="search-select"
           >
-            {/* <option value="title" selected> */}
             <option value="title">책제목</option>
             <option value="author">작가</option>
             <option value="keyword">키워드</option>
@@ -207,12 +208,6 @@ const SearchBox = () => {
         </SearchInputWrap>
       </label>
       {input.length > 0 && isModalOpen && searchData.length > 0 ? (
-        // <SearchResultList
-        //   book={searchData}
-        //   onClick={(e) => {
-        //     e.stopPropagation();
-        //   }}
-        // />
         <SearchResultListModal
           book={searchData}
           addInput={handleSelectKeyword}
@@ -238,15 +233,12 @@ const SearchInputWrap = styled.div`
   display: flex;
   align-items: center;
   font-size: 20px;
-  /* margin-bottom: 40px; */
 `;
 
 const SelectMenu = styled.select`
   min-width: 140px;
   font-size: 20px;
   border: none;
-  /* border-right: 1px solid #c0c0c0; */
-  /* padding-r: 10px; */
   text-align: center;
   &:focus {
     outline: none;
@@ -255,11 +247,8 @@ const SelectMenu = styled.select`
 
 const SearchInput = styled.input`
   border: none;
-  /* border-left: 1px solid #c0c0c0; */
-  /* margin-left: 1rem; */
   padding-left: 1rem;
   font-size: 20px;
-  /* width: 100%; */
   flex: 1;
   &:focus {
     outline: none;
