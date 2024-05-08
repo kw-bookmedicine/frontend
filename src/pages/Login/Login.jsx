@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 // COMPONENTS
-import Btn from "../../components/Button";
 
 // ASSETS
 import kakaoIcon from "../../assets/kakao-icon.jpg";
@@ -38,7 +37,7 @@ const Login = () => {
           <FormInput
             type="text"
             register={register}
-            name="id"
+            name="username"
             rules={{
               required: "ID를 입력해주세요",
               maxLength: {
@@ -144,21 +143,6 @@ const Title = styled.h1`
   font-size: 60px;
   font-weight: 700;
   margin-bottom: 60px;
-`;
-
-const InputWrap = styled.div`
-  margin-bottom: 15px;
-`;
-
-const Input = styled.input`
-  box-sizing: border-box;
-  width: 100%;
-  height: 75px;
-  padding: 10px 12px;
-  border: 1px solid #000;
-  border-radius: 4px;
-  font-family: var(--basic-font);
-  font-size: 20px;
 `;
 
 const LoginButton = styled.button`
