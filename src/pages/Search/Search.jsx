@@ -19,6 +19,7 @@ import bookImg8 from "../../assets/category-book-언어.jpg";
 import bookImg9 from "../../assets/category-book-문학.png";
 import bookImg10 from "../../assets/category-book-역사.jpg";
 import { LoginContext } from "../../contexts/LoginContextProvider";
+import useLogin from "../../hooks/useLogin";
 
 // 카테고리 배경 색상(10개) && 카테고리별 대표 책 이미지 정보
 const categoriesInfo = [
@@ -40,7 +41,6 @@ const categoriesInfo = [
 const Search = () => {
   const [categories, setCategories] = useState([]); // 카테고리 데이터
   const { userId, userPwd } = useContext(LoginContext);
-  const loginData = { username: userId, password: userPwd };
 
   // 카테고리 대분류, 중분류 GET 요청 및 요청 데이터 사용하기 쉽게 처리
   useEffect(() => {
@@ -56,6 +56,7 @@ const Search = () => {
       } catch (error) {
         console.error("Error fetching categories:", error);
         if (error.response && error.response.status === 401) {
+          // loginUser(username, password);
         }
       }
     };

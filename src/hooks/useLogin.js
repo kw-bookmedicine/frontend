@@ -3,7 +3,7 @@ import { LoginContext } from "../contexts/LoginContextProvider";
 import api from "../services/api";
 
 export default function useLogin() {
-  const [loginError, setLoginError] = useState(false);
+  const [loginError, setLoginError] = useState(null);
   const { setUserId, setUserPwd } = useContext(LoginContext);
 
   const loginUser = async (id, password) => {
@@ -15,9 +15,12 @@ export default function useLogin() {
         { username: id, password },
         { withCredentials: true }
       );
+      setLoginError(false);
+      return true;
     } catch (error) {
       console.error(error);
       setLoginError(true);
+      return false;
     }
   };
 

@@ -15,10 +15,12 @@ export const useLoginForm = () => {
   const [loginState, setLoginState] = useState(null);
   const navigate = useNavigate();
 
-  const onSubmit = async ({ id, password }) => {
-    const response = await loginUser(id, password);
+  const onSubmit = async ({ username, password }) => {
+    const response = await loginUser(username, password);
+    if (response) {
+      navigate("/main");
+    }
     setLoginState(response);
-    navigate("/main");
   };
 
   return {
