@@ -52,7 +52,13 @@ const WorryDetail = () => {
 				<div className="worry_detail_title_wrapper">
 					<div className="wd_user_wrapper">
 						<div className="wd_user_left_wrapper">
-							<div className="wd_user_img"></div>
+							<div className="wd_user_img">
+								<img
+									src="/icon/profile/basic_profile_img.svg"
+									alt="유저 프로필"
+									className="wd_user_img"
+								/>
+							</div>
 							<div className="wd_user_info_wrapper">
 								<div className="wd_user_name">{boardData.nickname}</div>
 								<div className="wd_user_date">

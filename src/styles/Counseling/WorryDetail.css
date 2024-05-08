@@ -28,10 +28,9 @@
 }
 
 .wd_user_img {
-	width: 90px;
-	height: 90px;
+	width: 70px;
+	height: 70px;
 	border-radius: 100%;
-	background-color: #ffffff;
 	margin-right: 40px;
 }
 
