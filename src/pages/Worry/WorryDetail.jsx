@@ -31,7 +31,6 @@ const WorryDetail = () => {
       }
       api.get(`/api/board/${boardId}`).then((res) => {
         setBoardData(res.data);
-        console.log(res.data);
       });
     } catch (err) {
       console.log(err);
