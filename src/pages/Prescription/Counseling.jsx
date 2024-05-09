@@ -23,6 +23,8 @@ const Counseling = () => {
 	const [clickCtg, setClickCtg] = useState('');
 	const [keyword, setKeyword] = useState('');
 
+	const [category, setCategory] = useState([]);
+
 	const handleIconUrl = async () => {
 		if (!iconClick) {
 			setIconUrl('/icon/black_search_icon.svg');
@@ -44,8 +46,19 @@ const Counseling = () => {
 		}
 	};
 
+	const getCategory = () => {
+		try {
+			api.get(`/api/boardKeyword/keyword`).then((res) => {
+				setCategory(res.data);
+			});
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
 	useEffect(() => {
 		getData();
+		getCategory();
 	}, []);
 
 	// page 변경 감지에 따른 API호출
@@ -123,7 +136,7 @@ const Counseling = () => {
 			case '관계/소통':
 				setKeyword('Relationships_Communication');
 				break;
-			case '소설/에세이':
+			case '소셜/에세이':
 				setKeyword('Fiction_Essays');
 				break;
 			case '경제/경영':
@@ -223,118 +236,25 @@ const Counseling = () => {
 				<div className="counseling_category_wrapper">
 					<div className="cns_category_title">분야 선택</div>
 					<div className="cns_category_content_wrapper">
-						<div className="cns_category" onClick={handleIcon} id="관계/소통">
-							<img
-								src="/icon/prscr-category/Relationships_Communication-icon.svg"
-								alt="관계/소통"
-								className="cns_category_img"
-							/>
-							<span className="cns_category_text">관계/소통</span>
-						</div>
-						<div className="cns_category" onClick={handleIcon} id="소설/에세이">
-							<img
-								src="/icon/prscr-category/Fiction_Essays-icon.svg"
-								alt="소설/에세이"
-								className="cns_category_img"
-							/>
-							<span className="cns_category_text">소설/에세이</span>
-						</div>
-						<div className="cns_category" onClick={handleIcon} id="경제/경영">
-							<img
-								src="/icon/prscr-category/Economy_Management-icon.svg"
-								alt="경제/경영"
-								className="cns_category_img"
-							/>
-							<span className="cns_category_text">경제/경영</span>
-						</div>
-						<div className="cns_category" onClick={handleIcon} id="자녀/양육">
-							<img
-								src="/icon/prscr-category/Children_Parenting-icon.svg"
-								alt="자녀/양육"
-								className="cns_category_img"
-							/>
-							<span className="cns_category_text">자녀/양육</span>
-						</div>
-						<div className="cns_category" onClick={handleIcon} id="사회">
-							<img
-								src="/icon/prscr-category/Society-icon.svg"
-								alt="사회"
-								className="cns_category_img"
-							/>
-							<span className="cns_category_text">사회</span>
-						</div>
-						<div className="cns_category" onClick={handleIcon} id="철학">
-							<img
-								src="/icon/prscr-category/Philosophy-icon.svg"
-								alt="철학"
-								className="cns_category_img"
-							/>
-							<span className="cns_category_text">철학</span>
-						</div>
-						<div className="cns_category" onClick={handleIcon} id="건강">
-							<img
-								src="/icon/prscr-category/Health-icon.svg"
-								alt="건강"
-								className="cns_category_img"
-							/>
-							<span className="cns_category_text">건강</span>
-						</div>
-						<div className="cns_category" onClick={handleIcon} id="역사">
-							<img
-								src="/icon/prscr-category/History-icon.svg"
-								alt="역사"
-								className="cns_category_img"
-							/>
-							<span className="cns_category_text">역사</span>
-						</div>
-						<div
-							className="cns_category"
-							onClick={handleIcon}
-							id="수학/과학/공학"
-						>
-							<img
-								src="/icon/prscr-category/Science_Math_Engineering-icon.svg"
-								alt="수학/과학/공학"
-								className="cns_category_img"
-							/>
-							<span className="cns_category_text">수학/과학/공학</span>
-						</div>
-						<div
-							className="cns_category"
-							onClick={handleIcon}
-							id="문제집/수험서"
-						>
-							<img
-								src="/icon/prscr-category/Workbook_Examination-icon.svg"
-								alt="문제집/수험서"
-								className="cns_category_img"
-							/>
-							<span className="cns_category_text">문제집/수험서</span>
-						</div>
-						<div className="cns_category" onClick={handleIcon} id="취업">
-							<img
-								src="/icon/prscr-category/Employment_Career-icon.svg"
-								alt="취업"
-								className="cns_category_img"
-							/>
-							<span className="cns_category_text">취업</span>
-						</div>
-						<div className="cns_category" onClick={handleIcon} id="취미">
-							<img
-								src="/icon/prscr-category/Hobbies-icon.svg"
-								alt="취미"
-								className="cns_category_img"
-							/>
-							<span className="cns_category_text">취미</span>
-						</div>
-						<div className="cns_category" onClick={handleIcon} id="기타">
-							<img
-								src="/icon/prscr-category/Etc-icon.svg"
-								alt="기타"
-								className="cns_category_img"
-							/>
-							<span className="cns_category_text">기타</span>
-						</div>
+						{category.map((item, idx) => {
+							const changeItem = item.replaceAll('/', '_');
+
+							return (
+								<div
+									className="cns_category"
+									onClick={handleIcon}
+									id={item}
+									key={item + idx}
+								>
+									<img
+										src={`icon/prscr-category/${changeItem}-icon.svg`}
+										alt={item}
+										className="cns_category_img"
+									/>
+									<span className="cns_category_text">{item}</span>
+								</div>
+							);
+						})}
 					</div>
 				</div>
 				<div className="counseling_feed_wrapper">
