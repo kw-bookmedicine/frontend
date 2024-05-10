@@ -1,13 +1,3 @@
-:root {
-	--fontSize-sm: 0.875rem;
-	--fontSize-md: 1.25rem;
-	--fontSize-lg: 2rem;
-
-	--border-sm: 33px;
-
-	--basic-font: 'Pretendard-Regular';
-}
-
 /* 헤더 로그인, 로그아웃 버튼 */
 .Btn-login,
 .Btn-logout {
