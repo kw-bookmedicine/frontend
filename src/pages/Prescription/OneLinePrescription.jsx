@@ -9,6 +9,7 @@ import PrescriptionCard from '../../components/Prescription/PrescriptionCard';
 
 // STYLE
 import '../../styles/Prescription/OneLinePrescription.css';
+import { Link } from 'react-router-dom';
 
 const OneLinePrescription = () => {
 	const [iconUrl, setIconUrl] = useState('/icon/white_search_icon.svg');
@@ -206,9 +207,11 @@ const OneLinePrescription = () => {
 									placeholder="검색어를 입력해주세요"
 								/>
 							</form>
-							<button id="oneLinePrscr_write_btn">
-								<img src="/icon/mint_write_icon.svg" />한 줄 처방 작성하기
-							</button>
+							<Link to={'/oneline/prescription/write'}>
+								<button id="oneLinePrscr_write_btn">
+									<img src="/icon/mint_write_icon.svg" />한 줄 처방 작성하기
+								</button>
+							</Link>
 						</div>
 						<div className="OneLinePrscr_card_container">
 							<PrescriptionCard
