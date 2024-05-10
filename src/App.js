@@ -31,7 +31,7 @@ import Counseling from './pages/Prescription/Counseling';
 import MyWorry from './pages/MyWorry';
 import WorryWrite from './pages/Worry/WorryWrite';
 import WorryDetail from './pages/Worry/WorryDetail';
-import PrescriptionWrite from './pages/PrescriptionWrite';
+import PrescriptionWrite from './pages/Prescription/PrescriptionWrite';
 import PrescriptionWriteStep2 from './pages/PrescriptionWriteStep2';
 import PrescriptionDetail from './pages/Prescription/PrescriptionDetail';
 import OneLinePrescription from './pages/Prescription/OneLinePrescription';

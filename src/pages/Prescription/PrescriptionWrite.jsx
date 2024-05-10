@@ -2,16 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 // COMPONENTS
-import Header from '../components/Header';
-import Title from '../components/Prescription/ProcessTitle';
-import SearchBookModal from '../components/Modal/SearchBook';
+import Header from '../../components/Header';
+import Title from '../../components/Prescription/ProcessTitle';
+import SearchBookModal from '../../components/Modal/SearchBook';
 
 // ASSETS
-import loading_img from '../assets/loading_thumbnail_x4.png';
-import loading_test_img from '../assets/loading_test_img.png';
+import loading_img from '../../assets/loading_thumbnail_x4.png';
+import loading_test_img from '../../assets/loading_test_img.png';
 
 // STYLE
-import '../styles/Counseling/PrescriptionWrite.css';
+import '../../styles/Counseling/PrescriptionWrite.css';
 
 const PrescriptionWrite = () => {
 	const [input, setInput] = useState('');
