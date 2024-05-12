@@ -30,6 +30,23 @@ const ProcessTitle = ({ type, value }) => {
 					</div>
 				</>
 			);
+		} else if (type === 'oneLine') {
+			return (
+				<>
+					<div className={`process_${type}_title_wrapper`}>
+						<div className={`process_${type}_title`}>한 줄 처방 작성</div>
+						<div className="progress_bar_wrapper">
+							<progress
+								id="progress"
+								value={value}
+								min="0"
+								max="100"
+							></progress>
+							<p id="progress_text">{value}%</p>
+						</div>
+					</div>
+				</>
+			);
 		} else {
 			return (
 				<>
