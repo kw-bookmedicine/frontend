@@ -5,6 +5,18 @@
 	src: url('./font/Recipekorea\ 레코체\ FONT.ttf');
 }
 
+:root {
+	--fontSize-sm: 0.875rem;
+	--fontSize-md: 1.25rem;
+	--fontSize-lg: 2rem;
+
+	--border-sm: 33px;
+
+	--basic-font: 'Pretendard-Regular';
+
+	--primary-color: #67b6c1;
+}
+
 /* Header */
 
 header {
