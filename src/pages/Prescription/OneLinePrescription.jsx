@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 // SERVICES
 import api from '../../services/api';
@@ -6,10 +7,10 @@ import api from '../../services/api';
 // COMPONENTS
 import Header from '../../components/Header';
 import PrescriptionCard from '../../components/Prescription/PrescriptionCard';
+import OneLinePrscrCard from '../../components/Prescription/OneLinePrscrCard';
 
 // STYLE
 import '../../styles/Prescription/OneLinePrescription.css';
-import { Link } from 'react-router-dom';
 
 const OneLinePrescription = () => {
 	const [iconUrl, setIconUrl] = useState('/icon/white_search_icon.svg');
@@ -58,9 +59,44 @@ const OneLinePrescription = () => {
 			<Header />
 			<section>
 				<div className="OneLinePrscr_content">
-					<div className="counseling_category_wrapper">
-						<div className="cns_category_title">한 줄 처방</div>
-						<div className="cns_category_content_wrapper">
+					<div className="oneLinePrscr_category_wrapper">
+						<div className="oneLinePrscr_category_title">한 줄 처방</div>
+						<form className="oneLinePrscr_searchBar_wrapper">
+							<img
+								src="/icon/black_search_icon.svg"
+								id="oneLinePrscr_searchBar_icon"
+							/>
+							<input
+								type="text"
+								className="oneLinePrscr_searchBar"
+								placeholder="Search"
+							/>
+						</form>
+
+						{/* <form action="" className="oneLinePrscrSearchBar_wrapper">
+								<img
+									src={iconUrl}
+									alt="검색"
+									id="cnsSearch_icon"
+									onClick={() => {
+										handleIconUrl();
+										setIconClick(!iconClick);
+										let searchBar = document.querySelector(
+											'.cnsSearchBar_wrapper',
+										);
+										let searchBarText =
+											document.getElementById('cnsSearch_text');
+										searchBar.classList.toggle('searchBar-visible');
+										searchBarText.classList.toggle('searchBar-visible');
+									}}
+								/>
+								<input
+									type="text"
+									id="cnsSearch_text"
+									placeholder="검색어를 입력해주세요"
+								/>
+							</form> */}
+						<div className="oneLinePrscr_category_content_wrapper">
 							<div className="cns_category" onClick={handleIcon} id="관계/소통">
 								<img
 									src="/icon/art_icon.svg"
@@ -184,36 +220,18 @@ const OneLinePrescription = () => {
 					</div> */}
 					<div className="OneLinePrscr_container">
 						<div className="OneLinePrscr_search_wrapper">
-							<form action="" className="cnsSearchBar_wrapper">
-								<img
-									src={iconUrl}
-									alt="검색"
-									id="cnsSearch_icon"
-									onClick={() => {
-										handleIconUrl();
-										setIconClick(!iconClick);
-										let searchBar = document.querySelector(
-											'.cnsSearchBar_wrapper',
-										);
-										let searchBarText =
-											document.getElementById('cnsSearch_text');
-										searchBar.classList.toggle('searchBar-visible');
-										searchBarText.classList.toggle('searchBar-visible');
-									}}
-								/>
-								<input
-									type="text"
-									id="cnsSearch_text"
-									placeholder="검색어를 입력해주세요"
-								/>
-							</form>
 							<Link to={'/oneline/prescription/write'}>
 								<button id="oneLinePrscr_write_btn">
 									<img src="/icon/mint_write_icon.svg" />한 줄 처방 작성하기
 								</button>
 							</Link>
 						</div>
-						<div className="OneLinePrscr_card_container">
+						<OneLinePrscrCard />
+						<OneLinePrscrCard />
+						<OneLinePrscrCard />
+						<OneLinePrscrCard />
+						<OneLinePrscrCard />
+						{/* <div className="OneLinePrscr_card_container">
 							<PrescriptionCard
 								onClick={() => {
 									console.log('click');
@@ -227,7 +245,7 @@ const OneLinePrescription = () => {
 							<PrescriptionCard />
 							<PrescriptionCard />
 							<PrescriptionCard />
-						</div>
+						</div> */}
 					</div>
 				</div>
 			</section>
