@@ -31,10 +31,11 @@ import Counseling from './pages/Prescription/Counseling';
 import MyWorry from './pages/MyWorry';
 import WorryWrite from './pages/Worry/WorryWrite';
 import WorryDetail from './pages/Worry/WorryDetail';
-import PrescriptionWrite from './pages/PrescriptionWrite';
+import PrescriptionWrite from './pages/Prescription/PrescriptionWrite';
 import PrescriptionWriteStep2 from './pages/PrescriptionWriteStep2';
 import PrescriptionDetail from './pages/Prescription/PrescriptionDetail';
 import OneLinePrescription from './pages/Prescription/OneLinePrescription';
+import OneLinePrscrWrite from './pages/Prescription/OneLinePrscrWrite.jsx';
 
 // STYLE
 import GlobalStyles from './styles/GlobalStyles';
@@ -88,7 +89,11 @@ function App() {
 						<Route
 							path="/oneline/prescription"
 							element={<OneLinePrescription />}
-						/>{' '}
+						/>
+						<Route
+							path="/oneline/prescription/write"
+							element={<OneLinePrscrWrite />}
+						/>
 						<Route path="/prescription/write" element={<PrescriptionWrite />} />
 						{/* <Route
 							path="/prescription/write/2"
