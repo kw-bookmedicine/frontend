@@ -4,7 +4,9 @@ import React from 'react';
 import '../styles/HashTag.css';
 
 const HashTag = ({ text, type, onClick }) => {
-	let tagType = ['sm-category', 'interest'].includes(type) ? type : 'default';
+	let tagType = ['sm-category', 'interest', 'keyword'].includes(type)
+		? type
+		: 'default';
 
 	const renderTag = (type) => {
 		if (type === 'interest') {

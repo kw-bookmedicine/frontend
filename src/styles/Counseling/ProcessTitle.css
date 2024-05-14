@@ -39,7 +39,8 @@
 	color: #00a2bc;
 }
 
-.process_title_wrapper {
+.process_title_wrapper,
+.process_oneLine_title_wrapper {
 	position: sticky;
 	display: flex;
 	flex-direction: column;
@@ -52,7 +53,8 @@
 	padding: 45px 160px;
 }
 
-.process_title {
+.process_title,
+.process_oneLine_title {
 	font-family: var(--basic-font);
 	font-style: normal;
 	font-weight: 600;

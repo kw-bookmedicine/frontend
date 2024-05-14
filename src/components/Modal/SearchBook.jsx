@@ -1,39 +1,49 @@
 import React, { useState, useEffect } from 'react';
 
-// SERVIce
-import api from '../../services/api';
-
 // COMPONENTS
 
 // STYLE
 import '../../styles/SearchBookModal.css';
 
-const SearchBook = ({ onClose, author, isClick, active }) => {
+const SearchBook = ({ onClose, searchResult, isClick, active, resClick }) => {
 	// 검색 결과 선택 여부
 	const handleModalIsClick = async () => {
 		onClose();
 		isClick();
 	};
 
-	// 검색 리스트 가져오기
-	// const fetchSearchData = async () => {
-	// 	if (input.trim() === '') return;
-	// 	api.get(`/api/search/book?author=${author}&target=modal`).then((res) => {
-	// 		console.log(res.data);
-	// 		setSearchData(res.data);
-	// 	});
-	// };
-
-	// useEffect(() => {
-	// 	fetchSearchData();
-	// }, [author]);
-
 	return (
 		<>
-			<div
-				className={`searchBook_modal_container_${active}`}
-				onClick={handleModalIsClick}
-			></div>
+			{active
+				? searchResult.map((item) => {
+						return (
+							<div
+								className="searchBook_modal_item_wrapper"
+								key={'result-item:' + item.isbn}
+								onClick={async () => {
+									handleModalIsClick();
+									resClick(item);
+								}}
+							>
+								<div className="item_left_wrapper">
+									<img
+										src={
+											item.imageUrl === null
+												? '/loading_thumbnail_x4.png'
+												: item.imageUrl
+										}
+										alt=""
+										id="item_thumbnail"
+									/>
+								</div>
+								<div className="item_right_wrapper">
+									<p id="item_title">{item.title}</p>
+									<p>{item.author}</p>
+								</div>
+							</div>
+						);
+				  })
+				: null}
 		</>
 	);
 };
