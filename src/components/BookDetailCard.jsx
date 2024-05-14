@@ -15,7 +15,7 @@ const BookDetailCard = ({
 	author,
 	imageUrl,
 	isbn,
-	bookKeywordList,
+	keywordItemList,
 	type,
 }) => {
 	let cardType = ['expModal'].includes(type) ? type : '';
@@ -76,15 +76,16 @@ const BookDetailCard = ({
 									</div>
 
 									<div className="bookCard_right_bottom_wrapper">
-										{bookKeywordList.map((keyword, idx) => {
-											return (
-												<HashTag
-													key={`${isbn}keyword-${idx}`}
-													text={keyword.name}
-													type="sm-category"
-												/>
-											);
-										})}
+										{keywordItemList !== null &&
+											keywordItemList.map((keyword, idx) => {
+												return (
+													<HashTag
+														key={`${isbn}keyword-${idx}`}
+														text={keyword.name}
+														type="sm-category"
+													/>
+												);
+											})}
 									</div>
 								</div>
 							</div>
