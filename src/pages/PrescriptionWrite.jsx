@@ -14,6 +14,9 @@ import loading_test_img from "../assets/loading_test_img.png";
 // STYLE
 import "../styles/Counseling/PrescriptionWrite.css";
 
+// todo
+// -focus가 되어있을때, 처방전 작성하기 버튼을 누르면 조금 스크롤 이동이 되는 버그 발생-> css 없애면 잘 작동함..
+// 책 클릭시 handleChangeISBN함수로 isbn 수정하기 +  isbn: location.state?.isbn || "9788932011172", // 임시 ISBN 값 제거하기
 const PrescriptionWrite = () => {
   const [input, setInput] = useState("");
   const [isShow, setIsShow] = useState(false); // 검색 모달창
@@ -22,9 +25,9 @@ const PrescriptionWrite = () => {
   const [modalIsClick, setModalIsClick] = useState(false);
   let [searchData, setSearchData] = useState(0);
 
-  // useNavigate로 전달한 해당 처방전의 boardId 데이터 받기
+  // 처방하러가기 버튼으로는 useNavigate로 전달한 해당 처방전의 boardId 데이터 받기
+  // 수정하기 버튼에서는 해당 처방에 대한 데이터 title, description, isbn, boardId, prescriptionId 값 받기
   const location = useLocation();
-  const boardId = location.state.boardId;
 
   const navigate = useNavigate(); // 버튼 클릭시 페이지 이동
 
@@ -44,10 +47,11 @@ const PrescriptionWrite = () => {
 
   const { register, handleSubmit, setValue } = useForm({
     defaultValues: {
-      title: "",
-      description: "",
-      isbn: "9788932011172", // 임시 isbn 설정
-      boardId: boardId,
+      title: location.state?.title || "",
+      description: location.state?.description || "",
+      isbn: location.state?.isbn || "9788932011172", // 임시 ISBN ->
+      boardId: location.state?.boardId,
+      prescriptionId: location.state?.prescriptionId || undefined,
     },
   });
 
@@ -98,7 +102,6 @@ const PrescriptionWrite = () => {
       alert("책을 선택해주세요.");
       return;
     }
-
     navigate("/prescription/write/2", { state: data });
   };
 
@@ -209,7 +212,15 @@ const PrescriptionWrite = () => {
           </section>
         </div>
         <div className="prescription_btn_container">
-          <button className="prscr_cancel_btn">취소하기</button>
+          <button
+            type="button"
+            onClick={() =>
+              navigate(`/worry-detail?board=${location.state.boardId}`)
+            }
+            className="prscr_cancel_btn"
+          >
+            취소하기
+          </button>
           <button type="submit" className="prscr_apply_btn">
             처방전 작성하기
           </button>

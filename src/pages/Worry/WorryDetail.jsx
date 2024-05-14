@@ -99,14 +99,16 @@ const WorryDetail = () => {
               {boardData.description}
             </div>
           </div>
-          <div className="worry_detail_prscr_wrapper">
-            <div className="wd_prscr_list_title">처방전 확인하기</div>
-            <div className="wd_prscr_list_wrapper">
-              {prescriptionData.map((prescription) => (
-                <WidePrscrCard key={prescription.id} props={prescription} />
-              ))}
+          {prescriptionData.length > 0 && (
+            <div className="worry_detail_prscr_wrapper">
+              <div className="wd_prscr_list_title">처방전 확인하기</div>
+              <div className="wd_prscr_list_wrapper">
+                {prescriptionData.map((prescription) => (
+                  <WidePrscrCard key={prescription.id} props={prescription} />
+                ))}
+              </div>
             </div>
-          </div>
+          )}
           <button onClick={() => movePrescriptionWrite()} className="prscr_btn">
             처방하러 가기
           </button>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 // COMPONENTS
 import Header from "../components/Header";
@@ -12,6 +12,7 @@ import loading_img from "../assets/loading_thumbnail_x4.png";
 import "../styles/Counseling/PrescriptionWriteStep2.css";
 import api from "../services/api";
 
+// todo: put 보다는 patch가 더좋을거같음
 const PrescriptionWriteStep2 = () => {
   const location = useLocation(); // 이전 useNavigate로 state 정보 받기 위해 사용
   const [bookImage, setBookImage] = useState(); // 처방책 isbn 이미지
@@ -20,7 +21,8 @@ const PrescriptionWriteStep2 = () => {
   const title = location.state.title; // 처방 제목
   const description = location.state.description; // 처방 사유
   const isbn = location.state.isbn; // 처방 책 isbn
-  const boardId = location.state.boardId; // 처방 책 isbn
+  const boardId = location.state.boardId; // 처방전 boardId
+  const prescriptionId = location.state.prescriptionId || undefined; // 처방전 id
 
   const getIsbn = async () => {
     await api
@@ -46,14 +48,62 @@ const PrescriptionWriteStep2 = () => {
     }
   };
 
-  const onSubmit = () => {
+  const putPrescription = async ({
+    title,
+    description,
+    isbn,
+    prescriptionId,
+  }) => {
+    try {
+      const response = await api.put(
+        `/api/prescription/${prescriptionId}`,
+        {
+          title,
+          description,
+          isbn,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      console.log(response);
+    } catch (erorr) {
+      console.error("처방전 업데이트 요청 실패", erorr);
+    }
+  };
+
+  const onSubmit = async () => {
+    if (prescriptionId) {
+      // const patchPrescription = async () => {
+      //   try {
+      //     const response = await api.patch(
+      //       `/api/prescription/${prescriptionId}`,
+      //       prescriptionData,
+      //       {
+      //         withCredentials: true,
+      //       }
+      //     );
+      //     console.log(response);
+      //   } catch (erorr) {
+      //     console.error("처방전 업데이트 요청 실패", erorr);
+      //   }
+      // };
+      await putPrescription({
+        title,
+        description,
+        isbn,
+        prescriptionId,
+      });
+    } else {
+      await postPrescription({
+        title,
+        description,
+        isbn,
+        boardId,
+      });
+    }
     // 전달 받은 값 전부 전달
-    postPrescription({
-      title,
-      description,
-      isbn,
-      boardId,
-    });
+
     navigate(`/worry-detail?board=${boardId}`);
   };
 
