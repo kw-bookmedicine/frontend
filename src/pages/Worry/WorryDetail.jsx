@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 // COMPONENTS
 import Header from "./../../components/Header";
@@ -41,7 +41,7 @@ const WorryDetail = () => {
   const fetchPrescription = async () => {
     try {
       const response = await api.get(
-        `/api/prescription?page=0&size=99&boardId=${boardId}`
+        `/api/prescription?page=0&size=20&boardId=${boardId}`
       );
       setPrescriptionData(response.data);
     } catch (error) {
@@ -54,8 +54,15 @@ const WorryDetail = () => {
     fetchPrescription();
   }, []);
 
-  const move = () => {
-    window.location.replace("/pre/write");
+  const navigate = useNavigate();
+
+  const movePrescriptionWrite = () => {
+    // 화면 이동하면서 boardId값 전달
+    navigate("/prescription/write", {
+      state: {
+        boardId,
+      },
+    });
   };
 
   return (
@@ -100,9 +107,9 @@ const WorryDetail = () => {
               ))}
             </div>
           </div>
-          <Link to={`/prescription/write?prscrId=123`}>
-            <button className="prscr_btn">처방하러 가기</button>
-          </Link>
+          <button onClick={() => movePrescriptionWrite()} className="prscr_btn">
+            처방하러 가기
+          </button>
         </div>
       </div>
     </>
