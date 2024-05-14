@@ -113,6 +113,7 @@ const SmallCategory = () => {
 				<div className="smCategory_card_wrapper">
 					<div className="smCategory_card_slide">
 						{smCategoryBookList.map((data, idx) => {
+							// console.log(data);
 							return (
 								<Card
 									isbn={data.isbn}
@@ -122,7 +123,7 @@ const SmallCategory = () => {
 									imageUrl={
 										data.imageUrl === null ? loading_thumbnail : data.imageUrl
 									}
-									bookKeywordList={data.bookKeywordList}
+									keywordItemList={data.keywordItemList}
 								/>
 							);
 						})}
