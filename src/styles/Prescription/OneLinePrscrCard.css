@@ -100,7 +100,7 @@
 .bookInfo_content_left_wrapper {
 	display: flex;
 	flex-direction: column;
-	width: 30%;
+	width: 80%;
 }
 
 .bookInfo_content_left_wrapper > p {

@@ -1,3 +1,10 @@
+.OneLinePrscr_content {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+}
+
 .oneLinePrscr_category_wrapper {
 	display: flex;
 	flex-direction: column;
@@ -71,14 +78,6 @@
 	margin: 0 40px;
 	height: auto;
 	gap: 10px;
-}
-
-.OneLinePrscr_content {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	width: 100%;
-	height: 105vh;
 }
 
 .OneLinePrscr_title_wrapper {

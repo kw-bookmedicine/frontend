@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 // SERVICES
@@ -16,6 +16,39 @@ const OneLinePrescription = () => {
 	const [iconUrl, setIconUrl] = useState('/icon/white_search_icon.svg');
 
 	const [iconClick, setIconClick] = useState(false);
+	const [category, setCategory] = useState([]);
+	const [page, setPage] = useState(0);
+	const [isLoading, setIsLoading] = useState(false);
+	const [dataArr, setDataArr] = useState([]);
+
+	const getData = () => {
+		try {
+			api.get(`/api/oneline-prescriptions/all?page=0&size=20`).then((res) => {
+				if (res.data.end) {
+					console.log('데이터 없음');
+				}
+				console.log(res.data);
+				setDataArr(res.data.content);
+			});
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
+	const getCategory = () => {
+		try {
+			api.get(`/api/boardKeyword/keyword`).then((res) => {
+				setCategory(res.data);
+			});
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
+	useEffect(() => {
+		getData();
+		getCategory();
+	}, []);
 
 	const handleIconUrl = async () => {
 		if (!iconClick) {
@@ -99,7 +132,7 @@ const OneLinePrescription = () => {
 						<div className="oneLinePrscr_category_content_wrapper">
 							<div className="cns_category" onClick={handleIcon} id="관계/소통">
 								<img
-									src="/icon/art_icon.svg"
+									src="/icon/prscr-category/관계_소통-icon.svg"
 									alt="관계/소통"
 									className="cns_category_img"
 								/>
@@ -111,7 +144,7 @@ const OneLinePrescription = () => {
 								id="소설/에세이"
 							>
 								<img
-									src="/icon/history_icon.png"
+									src="/icon/prscr-category/소설_에세이-icon.svg"
 									alt="소설/에세이"
 									className="cns_category_img"
 								/>
@@ -119,7 +152,7 @@ const OneLinePrescription = () => {
 							</div>
 							<div className="cns_category" onClick={handleIcon} id="경제/경영">
 								<img
-									src="/icon/philosophy_icon.png"
+									src="/icon/prscr-category/경제_경영-icon.svg"
 									alt="경제/경영"
 									className="cns_category_img"
 								/>
@@ -127,7 +160,7 @@ const OneLinePrescription = () => {
 							</div>
 							<div className="cns_category" onClick={handleIcon} id="자녀/양육">
 								<img
-									src="/icon/social_icon.png"
+									src="/icon/prscr-category/자녀_양육-icon.svg"
 									alt="자녀/양육"
 									className="cns_category_img"
 								/>
@@ -135,7 +168,7 @@ const OneLinePrescription = () => {
 							</div>
 							<div className="cns_category" onClick={handleIcon} id="사회">
 								<img
-									src="/icon/tech_icon.png"
+									src="/icon/prscr-category/사회-icon.svg"
 									alt="사회"
 									className="cns_category_img"
 								/>
@@ -143,7 +176,7 @@ const OneLinePrescription = () => {
 							</div>
 							<div className="cns_category" onClick={handleIcon} id="철학">
 								<img
-									src="/icon/science_icon.png"
+									src="/icon/prscr-category/철학-icon.svg"
 									alt="철학"
 									className="cns_category_img"
 								/>
@@ -151,7 +184,7 @@ const OneLinePrescription = () => {
 							</div>
 							<div className="cns_category" onClick={handleIcon} id="건강">
 								<img
-									src="/icon/religion_icon.png"
+									src="/icon/prscr-category/건강-icon.svg"
 									alt="건강"
 									className="cns_category_img"
 								/>
@@ -159,7 +192,7 @@ const OneLinePrescription = () => {
 							</div>
 							<div className="cns_category" onClick={handleIcon} id="역사">
 								<img
-									src="/icon/general_icon.png"
+									src="/icon/prscr-category/역사-icon.svg"
 									alt="역사"
 									className="cns_category_img"
 								/>
@@ -171,7 +204,7 @@ const OneLinePrescription = () => {
 								id="수학/과학/공학"
 							>
 								<img
-									src="/icon/language_icon.png"
+									src="/icon/prscr-category/수학_과학_공학-icon.svg"
 									alt="수학/과학/공학"
 									className="cns_category_img"
 								/>
@@ -183,7 +216,7 @@ const OneLinePrescription = () => {
 								id="문제집/수험서"
 							>
 								<img
-									src="/icon/literature_icon.png"
+									src="/icon/prscr-category/문제집_수험서-icon.svg"
 									alt="문제집/수험서"
 									className="cns_category_img"
 								/>
@@ -191,7 +224,7 @@ const OneLinePrescription = () => {
 							</div>
 							<div className="cns_category" onClick={handleIcon} id="취업">
 								<img
-									src="/icon/literature_icon.png"
+									src="/icon/prscr-category/취업-icon.svg"
 									alt="취업"
 									className="cns_category_img"
 								/>
@@ -199,7 +232,7 @@ const OneLinePrescription = () => {
 							</div>
 							<div className="cns_category" onClick={handleIcon} id="취미">
 								<img
-									src="/icon/literature_icon.png"
+									src="/icon/prscr-category/취미-icon.svg"
 									alt="취미"
 									className="cns_category_img"
 								/>
@@ -207,7 +240,7 @@ const OneLinePrescription = () => {
 							</div>
 							<div className="cns_category" onClick={handleIcon} id="기타">
 								<img
-									src="/icon/literature_icon.png"
+									src="/icon/prscr-category/기타-icon.svg"
 									alt="기타"
 									className="cns_category_img"
 								/>
@@ -226,11 +259,16 @@ const OneLinePrescription = () => {
 								</button>
 							</Link>
 						</div>
+						{dataArr !== null &&
+							dataArr.map((item, idx) => {
+								// console.log(item);
+								return <OneLinePrscrCard key={item.id + idx} item={item} />;
+							})}
+						{/* <OneLinePrscrCard />
 						<OneLinePrscrCard />
 						<OneLinePrscrCard />
 						<OneLinePrscrCard />
-						<OneLinePrscrCard />
-						<OneLinePrscrCard />
+						<OneLinePrscrCard /> */}
 						{/* <div className="OneLinePrscr_card_container">
 							<PrescriptionCard
 								onClick={() => {
