@@ -573,7 +573,7 @@ const NormalQuestion = ({ state, userAnswers, handleNextStep, dispatch }) => {
         withCredentials: true,
       });
       console.log("Response:", response);
-      alert("데이터가 성공적으로 전송되었습니다!");
+      // alert("데이터가 성공적으로 전송되었습니다!");
       dispatch(actionCreators.setIsLoading(true));
       // navigate("/counseling");
       navigate("/loading");
@@ -634,8 +634,6 @@ const OptionButton = ({ clicked }) => {
 
 const createDataObject = (state) => {
   const { questions, userAnswers } = state;
-
-  console.log(userAnswers);
 
   // Exclude the last question which is the summary
   const relevantQuestions = questions
