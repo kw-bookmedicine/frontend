@@ -13,11 +13,16 @@ import loading_test_img from '../../assets/loading_test_img.png';
 // SERVICE
 import api from '../../services/api';
 
+// STYLE
+import '../../styles/Prescription/OneLinePrscrWrite.css';
+
 const OneLinePrscrWrite = () => {
 	const [processValue, setProcessValue] = useState(0);
 
 	const [input, setInput] = useState('');
 	const [isShow, setIsShow] = useState(false); // 검색 모달창
+	// const location = useLocation();
+	// const navigate = useNavigate(); // 버튼 클릭시 페이지 이동
 
 	// 모달창을 클릭한 여부
 	const [modalIsClick, setModalIsClick] = useState(false);
@@ -40,6 +45,16 @@ const OneLinePrscrWrite = () => {
 		// console.log(searchData);
 	};
 
+	// const { register, handleSubmit, setValue } = useForm({
+	// 	defaultValues: {
+	// 		title: location.state?.title || '',
+	// 		description: location.state?.description || '',
+	// 		isbn: location.state?.isbn || '9788932011172', // 임시 ISBN ->
+	// 		boardId: location.state?.boardId,
+	// 		prescriptionId: location.state?.prescriptionId || undefined,
+	// 	},
+	// });
+
 	useEffect(() => {
 		const observer = new IntersectionObserver(
 			(items) => {
@@ -47,20 +62,20 @@ const OneLinePrscrWrite = () => {
 					if (item.isIntersecting) {
 						// console.log(item.target, 'is visible!');
 						if (modalIsClick === true) {
-							chTarget.classList.add('visible');
+							chTarget.classList.add('oneLine_visible');
 							chTarget.classList.remove('no');
 						} else {
-							chTarget.classList.add('visible');
+							chTarget.classList.add('oneLine_visible');
 							chTarget.classList.remove('no');
 						}
 					} else {
 						if (modalIsClick === false) {
 							// chTarget.classList.add('no');
-							// chTarget.classList.remove('visible');
-							chTarget.classList.add('visible');
+							// chTarget.classList.remove('oneLine_visible');
+							chTarget.classList.add('oneLine_visible');
 						} else {
 							chTarget.classList.add('no');
-							chTarget.classList.remove('visible');
+							chTarget.classList.remove('oneLine_visible');
 						}
 					}
 				});
@@ -71,9 +86,19 @@ const OneLinePrscrWrite = () => {
 		);
 		// 특정 dom 요소가 화면에 등장하는 지 여부를 감시함.
 		const box = document.getElementById('observe_target');
-		const chTarget = document.getElementById('prscr_write_box');
+		const chTarget = document.getElementById('oneLine_prscr_write_box');
 		observer.observe(box);
 	});
+
+	// const onSubmit = (data, event) => {
+	// 	event.preventDefault();
+
+	// 	if (!data.isbn) {
+	// 		alert('책을 선택해주세요.');
+	// 		return;
+	// 	}
+	// 	// navigate('/prescription/write/2', { state: data });
+	// };
 
 	// 검색 결과
 	const [searchResult, setSearchResult] = useState([]);
@@ -110,7 +135,8 @@ const OneLinePrscrWrite = () => {
 		<>
 			<Header />
 			<Title type={'oneLine'} value={processValue} />
-			<div className="prescription_content_container">
+			{/* <form onSubmit={handleSubmit(onSubmit)}> */}
+			<div className="oneLine_prscr_content_container">
 				<section className="prescription_content_up_container">
 					<div className="prscr_category_wrapper"></div>
 					<div className="prscr_bookInfo_wrapper">
@@ -213,9 +239,23 @@ const OneLinePrscrWrite = () => {
 					className="prescription_content_bottom_container"
 					id="observe_target"
 				>
-					<div id="prscr_write_box">
-						<p>처방사유</p>
-						<textarea type="text" placeholder="처방사유를 작성하세요" />
+					<div id="oneLine_prscr_write_box">
+						<label className="oneLine_prscr_writeBox_title_wrapper">
+							<p>처방제목</p>
+							<input
+								// {...register('title', { required: true })}
+								type="text"
+								placeholder="한 줄 처방 제목을 작성하세요"
+							/>
+						</label>
+						<label>
+							<p>처방사유</p>
+							<textarea
+								// {...register('description', { required: true })}
+								type="text"
+								placeholder="처방사유를 작성하세요"
+							/>
+						</label>
 					</div>
 				</section>
 			</div>
@@ -225,6 +265,7 @@ const OneLinePrscrWrite = () => {
 					<button className="prscr_apply_btn">처방전 작성하기</button>
 				</Link>
 			</div>
+			{/* </form> */}
 		</>
 	);
 };
