@@ -5,6 +5,7 @@ import HashTag from '../HashTag';
 
 // STYLE
 import '../../styles/Prescription/OneLinePrscrCard.css';
+import { Link } from 'react-router-dom';
 
 const OneLinePrscrCard = ({ item }) => {
 	return (
@@ -41,14 +42,16 @@ const OneLinePrscrCard = ({ item }) => {
 								<p>{item.bookAuthor}</p>
 							</div>
 							<div className="showBook_btn_wrapper">
-								<button id="showBook_btn">책 보러가기</button>
+								<Link to={`/book-detail?isbn=${item.bookIsbn}`}>
+									<button id="showBook_btn">책 보러가기</button>
+								</Link>
 							</div>
 						</div>
-						<div className="oneLineCard_bookInfo_keyword_wrapper">
+						{/* <div className="oneLineCard_bookInfo_keyword_wrapper">
 							<HashTag text={'저주'} type={'keyword'} />
 							<HashTag text={'해리포터'} type={'keyword'} />
 							<HashTag text={'판타지'} type={'keyword'} />
-						</div>
+						</div> */}
 					</div>
 				</div>
 				<div className="oneLineCard_evaluation_wrapper">
