@@ -52,8 +52,9 @@ const UserInfo = () => {
 	};
 
 	// 닉네임 중복 확인 검사
-	const nicknameDuplicate = () => {
+	const nicknameDuplicate = (e) => {
 		const changeNickname = document.getElementById('change-nickname').value;
+		const inputBox = document.querySelector('userInfo_input_box');
 
 		if (!changeNickname) {
 			alert('변경할 닉네임을 작성해주세요.');
@@ -64,19 +65,17 @@ const UserInfo = () => {
 				})
 				.then((res) => {
 					if (!res.data) {
-						postData(changeNickname);
+						postNickname(changeNickname);
 					} else {
 						alert('닉네임이 중복되었습니다!\n다시 입력해주세요.');
-						// 페이지 새로고침
-						window.location.reload();
+						document.getElementById('change-nickname').focus();
 					}
 				});
 		}
 	};
 
-	// 정보 수정 요청 보내기
-	const postData = async (changeNickname) => {
-		// console.log(changeNickname);
+	// 닉네임 정보 수정 요청 보내기
+	const postNickname = async (changeNickname) => {
 		if (changeNickname !== null) {
 			api
 				.put(
@@ -119,6 +118,11 @@ const UserInfo = () => {
 									placeholder={`수정 할 ${option}`}
 									className="userInfo_input_box"
 									id="change-nickname"
+									onKeyDown={(e) => {
+										if (e.key === 'Enter') {
+											nicknameDuplicate();
+										}
+									}}
 								/>
 							</>
 						) : (
