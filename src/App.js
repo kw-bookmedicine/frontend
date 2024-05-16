@@ -7,12 +7,12 @@ import Main from './pages/LoginHome';
 import Feed from './pages/Feed';
 import MyFeed from './pages/MyFeed';
 import Search from './pages/Search/Search';
-import Mypage from './pages/Mypage';
+import Mypage from './pages/profile/Mypage';
 import BookDetail from './pages/BookDetail';
 import BookList from './pages/BookList';
 import SmallCategory from './pages/SmallCategory';
-import Edit from './pages/Edit';
-import UserInfo from './pages/UserInfo';
+import Edit from './pages/profile/Edit';
+import UserInfo from './pages/profile/UserInfo';
 
 // 로그인 관련 페이지들
 import Login from './pages/Login/Login';

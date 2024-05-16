@@ -3,17 +3,17 @@ import { Link } from 'react-router-dom';
 import swal from 'sweetalert';
 
 // SERVICE
-import api from '../services/api';
+import api from '../../services/api';
 
 // COMPONENTS
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import Btn from '../components/Button';
-import ModalPortal from '../components/Modal/Portal';
-import MyListModal from '../components/Modal/MyListModal';
+import Header from '../../components/Header';
+import Footer from '../../components/Footer';
+import Btn from '../../components/Button';
+import ModalPortal from '../../components/Modal/Portal';
+import MyListModal from '../../components/Modal/MyListModal';
 
 // STYLES
-import '../styles/MyPage.css';
+import '../../styles/Profile/MyPage.css';
 
 const Mypage = () => {
 	const [modalOn, setModalOn] = useState(false);
