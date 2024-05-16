@@ -2,16 +2,16 @@ import React, { useState, useEffect } from 'react';
 import swal from 'sweetalert';
 
 // SERVICE
-import api from '../services/api';
+import api from '../../services/api';
 
 // COMPONENTS
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import Btn from '../components/Button';
-import DropDown from '../components/DropDown';
+import Header from '../../components/Header';
+import Footer from '../../components/Footer';
+import Btn from '../../components/Button';
+import DropDown from '../../components/DropDown';
 
 // STYLES
-import '../styles/Edit.css';
+import '../../styles/Profile/Edit.css';
 
 const Edit = () => {
 	const [nickname, setNickname] = useState('');
