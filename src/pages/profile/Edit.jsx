@@ -19,6 +19,7 @@ const Edit = () => {
 	const [birth, setBirth] = useState('');
 	const [email, setEmail] = useState('');
 	const [userId, setUserId] = useState('');
+
 	const getUserData = () => {
 		api.get('/client', { withCredentials: true }).then((res) => {
 			console.log(res.data);
@@ -34,6 +35,29 @@ const Edit = () => {
 			setEmail(res.data.email);
 			setUserId(res.data.loginId);
 		});
+	};
+
+	// 자기소개랑 직업정보 가져오기
+	const getChangeData = () => {
+		const changeComment = document.getElementById('comment_inputBox').value;
+		const changeJob = document.getElementById('job-box').innerText;
+		console.log(changeComment);
+		console.log(changeJob);
+
+		const response = api
+			.put(
+				'/client/info',
+				{
+					occupation: `${changeComment}`,
+					description: `${changeJob}`,
+				},
+				{
+					withCredentials: true,
+				},
+			)
+			.then((res) => {
+				console.log(res.data);
+			});
 	};
 
 	useEffect(() => {
@@ -99,7 +123,7 @@ const Edit = () => {
 						</div>
 						<div className="user_job_wrapper">
 							<div className="input_title">직업정보</div>
-							<div className="job_input_wrapper">
+							<div className="job_input_wrapper" id="job-box">
 								<DropDown DropDownTitle={'학생'} />
 
 								{/* <Btn text={'수정하기'} type="job" /> */}
@@ -112,7 +136,8 @@ const Edit = () => {
 						<button
 							id="total_submit_btn"
 							onClick={() => {
-								swal('제출되었습니다!', '정보가 변경되었습니다!', 'success');
+								getChangeData();
+								// swal('제출되었습니다!', '정보가 변경되었습니다!', 'success');
 							}}
 						>
 							수정하기
