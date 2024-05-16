@@ -5,8 +5,9 @@ import HashTag from '../HashTag';
 
 // STYLE
 import '../../styles/Prescription/OneLinePrscrCard.css';
+import { Link } from 'react-router-dom';
 
-const OneLinePrscrCard = () => {
+const OneLinePrscrCard = ({ item }) => {
 	return (
 		<>
 			<div className="OneLinePrscrCard_wrapper">
@@ -17,37 +18,40 @@ const OneLinePrscrCard = () => {
 						id="oneLineCard_profile_img"
 					/>
 					<div className="oneLineCard_profile_userInfo_wrapper">
-						<p id="oneLineCard_user_nickname">이름 없는 새</p>
+						<p id="oneLineCard_user_nickname">{item.clientNickname}</p>
 						<p>2024.05.13</p>
 					</div>
 				</div>
 				<div className="oneLineCard_title_wrapper">
-					<p>
-						“재미있는 판타지 소설을 읽어보고 싶을 땐 해리포터 불의 잔을
-						읽어보세요”
-					</p>
+					<p>{item.title}</p>
 				</div>
 				<div className="oneLineCard_bookInfo_wrapper">
 					<img
-						src="/loading_thumbnail_x4.png"
+						src={
+							item.bookImageUrl === null
+								? '/loading_thumbnail_x4.png'
+								: item.bookImageUrl
+						}
 						alt="책 썸네일"
 						id="oneLineCard_thumbnail"
 					/>
 					<div className="oneLineCard_bookInfo_right_wrapper">
 						<div className="oneLineCard_bookInfo_content_wrapper">
 							<div className="bookInfo_content_left_wrapper">
-								<p id="oneLineCard_bookInfo_bookTitle">책 제목</p>
-								<p>작가</p>
+								<p id="oneLineCard_bookInfo_bookTitle">{item.bookTitle}</p>
+								<p>{item.bookAuthor}</p>
 							</div>
 							<div className="showBook_btn_wrapper">
-								<button id="showBook_btn">책 보러가기</button>
+								<Link to={`/book-detail?isbn=${item.bookIsbn}`}>
+									<button id="showBook_btn">책 보러가기</button>
+								</Link>
 							</div>
 						</div>
-						<div className="oneLineCard_bookInfo_keyword_wrapper">
+						{/* <div className="oneLineCard_bookInfo_keyword_wrapper">
 							<HashTag text={'저주'} type={'keyword'} />
 							<HashTag text={'해리포터'} type={'keyword'} />
 							<HashTag text={'판타지'} type={'keyword'} />
-						</div>
+						</div> */}
 					</div>
 				</div>
 				<div className="oneLineCard_evaluation_wrapper">
