@@ -36,6 +36,7 @@ import PrescriptionWriteStep2 from './pages/PrescriptionWriteStep2';
 import PrescriptionDetail from './pages/Prescription/PrescriptionDetail';
 import OneLinePrescription from './pages/Prescription/OneLinePrescription';
 import OneLinePrscrWrite from './pages/Prescription/OneLinePrscrWrite.jsx';
+import OneLinePrscrDetail from './pages/Prescription/OneLinePrscrDetail.jsx';
 
 // STYLE
 import GlobalStyles from './styles/GlobalStyles';
@@ -102,6 +103,10 @@ function App() {
 						<Route
 							path="/prescription/detail"
 							element={<PrescriptionDetail />}
+						/>
+						<Route
+							path="/oneline/prescription-detail"
+							element={<OneLinePrscrDetail />}
 						/>
 						<Route path="/myworry" element={<MyWorry />} />
 						{/* 회원가입 및 로그인 */}
