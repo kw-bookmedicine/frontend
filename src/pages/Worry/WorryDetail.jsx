@@ -11,10 +11,12 @@ import api from "../../services/api";
 
 // STYLE
 import "../../styles/Counseling/WorryDetail.css";
+import ConfirmModal from "../../components/Modal/ConfirmModal ";
 
 const WorryDetail = () => {
   const [boardData, setBoardData] = useState({});
   const [prescriptionData, setPrescriptionData] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const currentUrl = window.location.href;
 
@@ -67,14 +69,14 @@ const WorryDetail = () => {
 
   const handleBoardIdDelete = async () => {
     try {
-      const response = await api.delete(`/api/board/${boardId}`, {
+      await api.delete(`/api/board/${boardId}`, {
         withCredentials: true,
       });
-      console.log("Response:", response);
-      alert("게시물이 성공적으로 삭제되었습니다!");
+      navigate("/counseling");
     } catch (error) {
       console.error("Error deleting post:", error);
-      alert("게시물 삭제에 실패했습니다.");
+    } finally {
+      setIsModalOpen(false);
     }
   };
 
@@ -103,7 +105,10 @@ const WorryDetail = () => {
                   </div>
                 </div>
               </div>
-              <button onClick={handleBoardIdDelete} className="wd_delete_btn">
+              <button
+                onClick={() => setIsModalOpen(true)}
+                className="wd_delete_btn"
+              >
                 삭제
               </button>
             </div>
@@ -132,6 +137,11 @@ const WorryDetail = () => {
           </button>
         </div>
       </div>
+      <ConfirmModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onConfirm={handleBoardIdDelete}
+      />
     </>
   );
 };
