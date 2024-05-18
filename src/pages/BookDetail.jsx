@@ -42,12 +42,14 @@ const BookDetail = () => {
 		let isbn = searchParams.get('isbn');
 		// console.log(isbn);
 
-		api.get(`/api/book/detail?isbn=${isbn}`).then((res) => {
-			// console.log(res.data.title);
-			// console.log(res.data);
-			setBookInfo(res.data);
-			setBookKeywordList(res.data.keywordItemList);
-		});
+		api
+			.get(`/api/book/detail?isbn=${isbn}`, { withCredentials: true })
+			.then((res) => {
+				// console.log(res.data.title);
+				// console.log(res.data);
+				setBookInfo(res.data);
+				setBookKeywordList(res.data.keywordItemList);
+			});
 	};
 
 	useEffect(() => {

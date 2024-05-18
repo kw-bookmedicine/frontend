@@ -107,3 +107,24 @@
 .userInfo_input_box_2 {
 	margin-top: 10px;
 }
+
+.userInfo_edit_btn {
+	width: 1000px;
+	height: 40px;
+	border-radius: 10px;
+	background: #d3e7f6;
+
+	/* Font */
+	color: #000;
+	font-family: var(--basic-font);
+	font-size: 20px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+}
+
+.userInfo_edit_btn:hover {
+	font-weight: 600;
+	/* Drop Shadow */
+	box-shadow: 2px 2px 4px 0px rgba(119, 119, 119, 0.25);
+}
