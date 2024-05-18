@@ -65,32 +65,50 @@ const WorryDetail = () => {
     });
   };
 
+  const handleBoardIdDelete = async () => {
+    try {
+      const response = await api.delete(`/api/board/${boardId}`, {
+        withCredentials: true,
+      });
+      console.log("Response:", response);
+      alert("게시물이 성공적으로 삭제되었습니다!");
+    } catch (error) {
+      console.error("Error deleting post:", error);
+      alert("게시물 삭제에 실패했습니다.");
+    }
+  };
+
   return (
     <>
       <Header />
       <div className="worry_detail_content">
         <Title type={"normal"} value={boardData.nickname} />
         <div className="worry_detail_title_wrapper">
-          <div className="wd_user_wrapper">
-            <div className="wd_user_left_wrapper">
-              <div className="wd_user_img">
-                <img
-                  src="/icon/profile/basic_profile_img.svg"
-                  alt="유저 프로필"
-                  className="wd_user_img"
-                />
-              </div>
-              <div className="wd_user_info_wrapper">
-                <div className="wd_user_name">{boardData.nickname}</div>
-                <div className="wd_user_date">
-                  {boardData.createdDate
-                    ? boardData.createdDate.slice(0, 10)
-                    : null}
+          <div className="wd_container">
+            <div className="wd_user_wrapper">
+              <div className="wd_user_left_wrapper">
+                <div className="wd_user_img">
+                  <img
+                    src="/icon/profile/basic_profile_img.svg"
+                    alt="유저 프로필"
+                    className="wd_user_img"
+                  />
+                </div>
+                <div className="wd_user_info_wrapper">
+                  <div className="wd_user_name">{boardData.nickname}</div>
+                  <div className="wd_user_date">
+                    {boardData.createdDate
+                      ? boardData.createdDate.slice(0, 10)
+                      : null}
+                  </div>
                 </div>
               </div>
+              <button onClick={handleBoardIdDelete} className="wd_delete_btn">
+                삭제
+              </button>
             </div>
+            <div className="wd_title_text_wrapper">{boardData.title}</div>
           </div>
-          <div className="wd_title_text_wrapper">{boardData.title}</div>
         </div>
         <div className="worry_detail_content_wrapper">
           <div className="wd_content_detail_wrapper">

@@ -20,6 +20,8 @@
 
 .wd_user_wrapper {
   padding: 50px 0px 30px 0px;
+  display: flex;
+  justify-content: space-between;
 }
 
 .wd_user_left_wrapper {
@@ -54,6 +56,13 @@
   font-weight: 400;
   font-size: 16px;
   color: #8e8e8e;
+}
+.wd_delete_btn {
+  font-size: 25px;
+  height: 40px;
+  width: 80px;
+  background-color: #fff;
+  border-radius: 10px;
 }
 
 .wd_title_text_wrapper {
