@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import Header from '../../components/Header';
 import Title from '../../components/Prescription/ProcessTitle';
 import SearchBookModal from '../../components/Modal/SearchBook';
+import DropMenu from '../../components/DropDown';
 
 // ASSETS
 import loading_img from '../../assets/loading_thumbnail_x4.png';
@@ -49,42 +50,81 @@ const OneLinePrscrWrite = () => {
 		// console.log(searchData);
 	};
 
-	const { register, handleSubmit, setValue } = useForm({
-		defaultValues: {
-			title: location.state?.title || '',
-			description: location.state?.description || '',
-			isbn: location.state?.isbn || (choiceItem !== null && choiceItem.isbn),
-			boardId: location.state?.boardId,
-			prescriptionId: location.state?.prescriptionId || undefined,
-		},
-	});
+	const [category, setCategory] = useState('');
 
-	const [prscrTitle, setPrscrTitle] = useState('');
-	const [prscrDescription, setPrscrDescription] = useState('');
-
-	// 작성한 처방제목, 처방사유 가져오기
-	const setPrscrData = () => {
-		setPrscrTitle();
-		setPrscrDescription();
+	// 선택된 키워드 타입 지정
+	const ctgType = (ctg) => {
+		switch (ctg) {
+			case '관계/소통':
+				setCategory('Relationships_Communication');
+				break;
+			case '소설/에세이':
+				setCategory('Fiction_Essays');
+				break;
+			case '경제/경영':
+				setCategory('Economy_Management');
+				break;
+			case '자녀/양육':
+				setCategory('Children_Parenting');
+				break;
+			case '사회':
+				setCategory('Society');
+				break;
+			case '철학':
+				setCategory('Philosophy');
+				break;
+			case '건강':
+				setCategory('Health');
+				break;
+			case '역사':
+				setCategory('History');
+				break;
+			case '수학/과학/공학':
+				setCategory('Science_Math_Engineering');
+				break;
+			case '문제집/수험서':
+				setCategory('Workbook_Examination');
+				break;
+			case '취업':
+				setCategory('Employment_Career');
+				break;
+			case '취미':
+				setCategory('Hobbies');
+				break;
+			case '기타':
+				setCategory('ETC');
+				break;
+		}
 	};
 
 	// 한 줄 처방 작성 요청 보내기
-	const postData = () => {
-		let prescriptionTItle = document.getElementById;
+	const postData = async () => {
+		const inputTitle = document.getElementById('oneLine-prscr-title').value;
+
+		const inputDescription = document.getElementById(
+			'oneLine-prscr-description',
+		).value;
+
 		try {
 			if (
-				prscrTitle !== '' &&
-				prscrDescription !== '' &&
+				category !== '' &&
+				inputTitle !== '' &&
+				inputDescription !== '' &&
 				choiceItem.isbn !== null
 			) {
 				api
-					.post('/api/oneline-prescriptions/new', {
-						title: `${prscrTitle}`,
-						description: `${prscrDescription}`,
-						bookIsbn: `${choiceItem.isbn}`,
-						keyword: 'Economy_Management',
-					})
+					.post(
+						'/api/oneline-prescriptions/new',
+						{
+							title: `${inputTitle}`,
+							description: `${inputDescription}`,
+							bookIsbn: `${choiceItem.isbn}`,
+							keyword: `${category}`,
+						},
+						{ withCredentials: true },
+					)
 					.then((res) => {
+						console.log('성공');
 						console.log(res.data);
 					});
 			}
@@ -171,140 +211,158 @@ const OneLinePrscrWrite = () => {
 		<>
 			<Header />
 			<Title type={'oneLine'} value={processValue} />
-			{console.log(choiceItem)}
-			<form onSubmit={handleSubmit(onSubmit)}>
-				<div className="oneLine_prscr_content_container">
-					<section className="prescription_content_up_container">
-						<div className="prscr_category_wrapper"></div>
-						<div className="prscr_bookInfo_wrapper">
-							<div className="prscr_left_wrapper">
-								<img
-									src={
-										modalIsClick
+			{/* {console.log(choiceItem)}
+			{console.log('ctg :' + category)} */}
+			{/* <form onSubmit={handleSubmit(onSubmit)}> */}
+			<div className="oneLine_prscr_content_container">
+				<section className="prescription_content_up_container">
+					<div className="prscr_category_wrapper"></div>
+					<div className="prscr_bookInfo_wrapper">
+						<div className="prscr_left_wrapper">
+							<img
+								src={
+									modalIsClick
+										? choiceItem.imageUrl
 											? choiceItem.imageUrl
-												? choiceItem.imageUrl
-												: loading_img
 											: loading_img
-									}
-									alt="로딩 썸네일"
-									className="prscr_img_wrapper"
+										: loading_img
+								}
+								alt="로딩 썸네일"
+								className="prscr_img_wrapper"
+							/>
+						</div>
+						<div className="prscr_right_wrapper">
+							<div className="prscr_searchBar_wrapper">
+								<img
+									src="/icon/search_icon.png"
+									className="prscr_search_icon"
 								/>
-							</div>
-							<div className="prscr_right_wrapper">
-								<div className="prscr_searchBar_wrapper">
-									<img
-										src="/icon/search_icon.png"
-										className="prscr_search_icon"
-									/>
 
-									<input
-										type="text"
-										placeholder="처방할 책을 검색해주세요"
-										value={isShow ? (input === '' ? '' : input) : ''}
-										className="prscr_search_text"
-										onChange={(e) => {
-											setInput(e.target.value);
-											handleModalShow();
+								<input
+									type="text"
+									placeholder="처방할 책을 검색해주세요"
+									value={isShow ? (input === '' ? '' : input) : ''}
+									className="prscr_search_text"
+									onChange={(e) => {
+										setInput(e.target.value);
+										handleModalShow();
+									}}
+								/>
+								{input.length > 0 ? (
+									<button
+										className="prscr_search_close_btn"
+										onClick={() => {
+											setInput('');
+											handleModalClose();
 										}}
-									/>
-									{input.length > 0 ? (
-										<button
-											className="prscr_search_close_btn"
-											onClick={() => {
-												setInput('');
-												handleModalClose();
-											}}
-										>
-											X
-										</button>
-									) : null}
-								</div>
-
-								{/* 처음에 모달 클릭되었을 때 책 정보 나타나는 에러 방지 */}
-								{isShow === false && modalIsClick === true
-									? input.length > 0
-										? null
-										: setModalIsClick(false)
-									: null}
-								{isShow && input.length === 0 ? setIsShow(false) : null}
-
-								{isShow && input.length > 0 ? (
-									<>
-										<div
-											className={`searchBook_modal_container_${isShow}`}
-											onClick={handleModalIsClick}
-										>
-											<SearchBookModal
-												onClose={handleModalClose}
-												isClick={handleModalIsClick}
-												searchResult={searchResult}
-												active={isShow}
-												resClick={resClick}
-											/>
-										</div>
-									</>
-								) : (
-									<>
-										<div
-											className={`searchBook_modal_container_${isShow}`}
-											onClick={handleModalIsClick}
-										>
-											<SearchBookModal
-												onClose={handleModalClose}
-												isClick={handleModalIsClick}
-												searchResult={searchResult}
-												active={isShow}
-												resClick={resClick}
-											/>
-										</div>
-									</>
-								)}
-
-								{isShow === false && modalIsClick && searchData > 0 ? (
-									<div className="prscr_search_res_wrapper">
-										<p className="search_res_bookTitle">{choiceItem.title}</p>
-										<p className="search_res_bookAuthor">{choiceItem.author}</p>
-										<p className="search_res_bookCompany">
-											{choiceItem.publishingHouse}
-										</p>
-									</div>
+									>
+										X
+									</button>
 								) : null}
 							</div>
+
+							{/* 처음에 모달 클릭되었을 때 책 정보 나타나는 에러 방지 */}
+							{isShow === false && modalIsClick === true
+								? input.length > 0
+									? null
+									: setModalIsClick(false)
+								: null}
+							{isShow && input.length === 0 ? setIsShow(false) : null}
+
+							{isShow && input.length > 0 ? (
+								<>
+									<div
+										className={`searchBook_modal_container_${isShow}`}
+										onClick={handleModalIsClick}
+									>
+										<SearchBookModal
+											onClose={handleModalClose}
+											isClick={handleModalIsClick}
+											searchResult={searchResult}
+											active={isShow}
+											resClick={resClick}
+										/>
+									</div>
+								</>
+							) : (
+								<>
+									<div
+										className={`searchBook_modal_container_${isShow}`}
+										onClick={handleModalIsClick}
+									>
+										<SearchBookModal
+											onClose={handleModalClose}
+											isClick={handleModalIsClick}
+											searchResult={searchResult}
+											active={isShow}
+											resClick={resClick}
+										/>
+									</div>
+								</>
+							)}
+
+							{isShow === false && modalIsClick && searchData > 0 ? (
+								<div className="prscr_search_res_wrapper">
+									<p className="search_res_bookTitle">{choiceItem.title}</p>
+									<p className="search_res_bookAuthor">{choiceItem.author}</p>
+									<p className="search_res_bookCompany">
+										{choiceItem.publishingHouse}
+									</p>
+								</div>
+							) : null}
 						</div>
-					</section>
-					<section
-						className="prescription_content_bottom_container"
-						id="observe_target"
-					>
-						<div id="oneLine_prscr_write_box">
-							<label className="oneLine_prscr_writeBox_title_wrapper">
-								<p>처방제목</p>
-								<input
-									{...register('title', { required: true })}
-									type="text"
-									placeholder="한 줄 처방 제목을 작성하세요"
-									id="oneLine-prscr-title"
+					</div>
+				</section>
+				<section
+					className="prescription_content_bottom_container"
+					id="observe_target"
+				>
+					<div id="oneLine_prscr_write_box">
+						<div className="prscr_category_wrapper">
+							<span>카테고리</span>
+							<div id="choice-category">
+								<DropMenu
+									DropDownTitle={'카테고리를 선택해주세요'}
+									ctgType={ctgType}
 								/>
-							</label>
-							<label>
-								<p>처방사유</p>
-								<textarea
-									{...register('description', { required: true })}
-									type="text"
-									placeholder="처방사유를 작성하세요"
-									id="oneLine-prscr-description"
-								/>
-							</label>
+							</div>
 						</div>
-					</section>
-				</div>
-				<div className="prescription_btn_container">
-					<button className="prscr_cancel_btn">취소하기</button>
-					<Link to={'/prescription/write/2'}>
-						<button className="prscr_apply_btn">처방전 작성하기</button>
-					</Link>
-				</div>
-			</form>
+						<label className="oneLine_prscr_writeBox_title_wrapper">
+							<p>처방제목</p>
+							<input
+								// {...register('title', { required: true })}
+								type="text"
+								placeholder="한 줄 처방 제목을 작성하세요"
+								id="oneLine-prscr-title"
+							/>
+						</label>
+						<label>
+							<p>처방사유</p>
+							<textarea
+								// {...register('description', { required: true })}
+								type="text"
+								placeholder="처방사유를 작성하세요"
+								id="oneLine-prscr-description"
+							/>
+						</label>
+					</div>
+				</section>
+			</div>
+			<div className="prescription_btn_container">
+				<button className="prscr_cancel_btn">취소하기</button>
+				{/* <Link to={'/prescription/write/2'}> */}
+				<button
+					className="prscr_apply_btn"
+					id="prscr-write-btn"
+					onClick={() => {
+						postData();
+					}}
+				>
+					처방전 작성하기
+				</button>
+				{/* </Link> */}
+			</div>
+			{/* </form> */}
 		</>
 	);
 };
