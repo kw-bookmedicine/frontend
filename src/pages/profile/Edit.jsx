@@ -124,7 +124,7 @@ const Edit = () => {
 						<div className="user_job_wrapper">
 							<div className="input_title">직업정보</div>
 							<div className="job_input_wrapper" id="job-box">
-								<DropDown DropDownTitle={'학생'} />
+								<DropDown DropDownTitle={'학생'} type={'job'} />
 
 								{/* <Btn text={'수정하기'} type="job" /> */}
 							</div>
