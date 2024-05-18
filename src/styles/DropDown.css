@@ -60,7 +60,71 @@
 
 .dropDown_menu_item_select:hover {
 	color: #000;
-	/* background: #a4d6dd; */
-	/* background: #d5e0ff; */
 	background: #c8edf2;
+}
+
+/* 카테고리 선택 드롭메뉴 */
+.dropDown_ctg_menu {
+	width: 210px;
+	height: 40px;
+	margin-top: 5px;
+}
+
+.dropDown_ctg_menu_button {
+	display: flex;
+	align-items: center;
+	width: 100%;
+	height: 30px;
+	border-radius: 8px;
+	background: #fff;
+	border: 1px solid #d9d9d9;
+	box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+	padding-left: 10px;
+
+	color: #000;
+	font-family: var(--basic-font);
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 19px;
+}
+
+.dropDown_ctg_menu_list {
+	visibility: hidden;
+}
+
+.dropDown_ctg_menu_list_active {
+	background: #fff;
+	border-radius: 8px;
+	width: 210px;
+	height: 130px;
+	padding: 10px;
+	z-index: 1;
+	position: relative;
+	text-align: left;
+
+	box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
+	transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
+	opacity: 1;
+	visibility: visible;
+	transform: translateY(0);
+
+	color: #000;
+	font-family: var(--basic-font);
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 19px;
+
+	overflow-y: scroll;
+	scrollbar-width: none;
+}
+
+.dropDown_ctg_menu_item_select {
+	padding: 10px;
+}
+
+.dropDown_ctg_menu_item_select:hover {
+	color: #000;
+	background: #d3e7f6;
 }
