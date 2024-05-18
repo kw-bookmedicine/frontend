@@ -94,41 +94,6 @@ const OneLinePrescription = () => {
 				<div className="OneLinePrscr_content">
 					<div className="oneLinePrscr_category_wrapper">
 						<div className="oneLinePrscr_category_title">한 줄 처방</div>
-						<form className="oneLinePrscr_searchBar_wrapper">
-							<img
-								src="/icon/black_search_icon.svg"
-								id="oneLinePrscr_searchBar_icon"
-							/>
-							<input
-								type="text"
-								className="oneLinePrscr_searchBar"
-								placeholder="Search"
-							/>
-						</form>
-
-						{/* <form action="" className="oneLinePrscrSearchBar_wrapper">
-								<img
-									src={iconUrl}
-									alt="검색"
-									id="cnsSearch_icon"
-									onClick={() => {
-										handleIconUrl();
-										setIconClick(!iconClick);
-										let searchBar = document.querySelector(
-											'.cnsSearchBar_wrapper',
-										);
-										let searchBarText =
-											document.getElementById('cnsSearch_text');
-										searchBar.classList.toggle('searchBar-visible');
-										searchBarText.classList.toggle('searchBar-visible');
-									}}
-								/>
-								<input
-									type="text"
-									id="cnsSearch_text"
-									placeholder="검색어를 입력해주세요"
-								/>
-							</form> */}
 						<div className="oneLinePrscr_category_content_wrapper">
 							<div className="cns_category" onClick={handleIcon} id="관계/소통">
 								<img
@@ -248,11 +213,19 @@ const OneLinePrescription = () => {
 							</div>
 						</div>
 					</div>
-					{/* <div className="OneLinePrscr_title_wrapper">
-						<p>한 줄 처방</p>
-					</div> */}
+					<form className="oneLinePrscr_searchBar_wrapper">
+						<img
+							src="/icon/black_search_icon.svg"
+							id="oneLinePrscr_searchBar_icon"
+						/>
+						<input
+							type="text"
+							className="oneLinePrscr_searchBar"
+							placeholder="Search"
+						/>
+					</form>
 					<div className="OneLinePrscr_container">
-						<div className="OneLinePrscr_search_wrapper">
+						<div className="OneLinePrscr_write_wrapper">
 							<Link to={'/oneline/prescription/write'}>
 								<button id="oneLinePrscr_write_btn">
 									<img src="/icon/mint_write_icon.svg" />한 줄 처방 작성하기
@@ -262,28 +235,8 @@ const OneLinePrescription = () => {
 						{dataArr !== null &&
 							dataArr.map((item, idx) => {
 								// console.log(item);
-								return <OneLinePrscrCard key={item.id + idx} item={item} />;
+								return <OneLinePrscrCard key={item.id} item={item} />;
 							})}
-						{/* <OneLinePrscrCard />
-						<OneLinePrscrCard />
-						<OneLinePrscrCard />
-						<OneLinePrscrCard />
-						<OneLinePrscrCard /> */}
-						{/* <div className="OneLinePrscr_card_container">
-							<PrescriptionCard
-								onClick={() => {
-									console.log('click');
-								}}
-								isClick={cardClick}
-							/>
-							<PrescriptionCard />
-							<PrescriptionCard />
-							<PrescriptionCard />
-							<PrescriptionCard />
-							<PrescriptionCard />
-							<PrescriptionCard />
-							<PrescriptionCard />
-						</div> */}
 					</div>
 				</div>
 			</section>
