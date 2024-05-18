@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, Component } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 // COMPONENTS
 import Header from '../../components/Header';
@@ -18,6 +19,7 @@ import api from '../../services/api';
 
 // STYLE
 import '../../styles/Prescription/OneLinePrscrWrite.css';
+// import 'sweetalert2/src/sweetalert2.scss';
 
 const OneLinePrscrWrite = () => {
 	const [processValue, setProcessValue] = useState(0);
@@ -124,8 +126,11 @@ const OneLinePrscrWrite = () => {
 						{ withCredentials: true },
 					)
 					.then((res) => {
+						alert('한 줄 처방전이 작성되었습니다!');
+						// swal('한 줄 처방전이 작성되었습니다!', '', 'success');
+						window.location.replace('/oneline/prescription');
 						console.log('성공');
-						console.log(res.data);
+						// console.log(res.data);
 					});
 			}
 		} catch (err) {
@@ -207,13 +212,17 @@ const OneLinePrscrWrite = () => {
 		setChoiceItem(item);
 	};
 
+	const closeWrite = () => {
+		const closeConfirm = window.confirm('한 줄 처방 작성을 취소하시겠습니까?');
+		if (closeConfirm === true) {
+			window.location.replace('/oneline/prescription');
+		}
+	};
+
 	return (
 		<>
 			<Header />
 			<Title type={'oneLine'} value={processValue} />
-			{/* {console.log(choiceItem)}
-			{console.log('ctg :' + category)} */}
-			{/* <form onSubmit={handleSubmit(onSubmit)}> */}
 			<div className="oneLine_prscr_content_container">
 				<section className="prescription_content_up_container">
 					<div className="prscr_category_wrapper"></div>
@@ -330,7 +339,6 @@ const OneLinePrscrWrite = () => {
 						<label className="oneLine_prscr_writeBox_title_wrapper">
 							<p>처방제목</p>
 							<input
-								// {...register('title', { required: true })}
 								type="text"
 								placeholder="한 줄 처방 제목을 작성하세요"
 								id="oneLine-prscr-title"
@@ -339,7 +347,6 @@ const OneLinePrscrWrite = () => {
 						<label>
 							<p>처방사유</p>
 							<textarea
-								// {...register('description', { required: true })}
 								type="text"
 								placeholder="처방사유를 작성하세요"
 								id="oneLine-prscr-description"
@@ -349,8 +356,15 @@ const OneLinePrscrWrite = () => {
 				</section>
 			</div>
 			<div className="prescription_btn_container">
-				<button className="prscr_cancel_btn">취소하기</button>
-				{/* <Link to={'/prescription/write/2'}> */}
+				<button
+					className="prscr_cancel_btn"
+					onClick={() => {
+						closeWrite();
+					}}
+				>
+					취소하기
+				</button>
+
 				<button
 					className="prscr_apply_btn"
 					id="prscr-write-btn"
@@ -360,7 +374,6 @@ const OneLinePrscrWrite = () => {
 				>
 					처방전 작성하기
 				</button>
-				{/* </Link> */}
 			</div>
 			{/* </form> */}
 		</>
