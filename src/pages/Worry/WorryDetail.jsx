@@ -74,7 +74,7 @@ const WorryDetail = () => {
       });
       navigate("/counseling");
     } catch (error) {
-      console.error("Error deleting post:", error);
+      console.error("boardId Delete 실패:", error);
     } finally {
       setIsModalOpen(false);
     }
