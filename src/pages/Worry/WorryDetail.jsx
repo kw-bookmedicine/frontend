@@ -11,10 +11,12 @@ import api from "../../services/api";
 
 // STYLE
 import "../../styles/Counseling/WorryDetail.css";
+import ConfirmModal from "../../components/Modal/ConfirmModal";
 
 const WorryDetail = () => {
   const [boardData, setBoardData] = useState({});
   const [prescriptionData, setPrescriptionData] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const currentUrl = window.location.href;
 
@@ -65,36 +67,57 @@ const WorryDetail = () => {
     });
   };
 
+  const handleBoardIdDelete = async () => {
+    try {
+      await api.delete(`/api/board/${boardId}`, {
+        withCredentials: true,
+      });
+      navigate("/counseling");
+    } catch (error) {
+      console.error("boardId Delete 실패:", error);
+    } finally {
+      setIsModalOpen(false);
+    }
+  };
+
   return (
     <>
       <Header />
       <div className="worry_detail_content">
         <Title type={"normal"} value={boardData.nickname} />
         <div className="worry_detail_title_wrapper">
-          <div className="wd_user_wrapper">
-            <div className="wd_user_left_wrapper">
-              <div className="wd_user_img">
-                <img
-                  src="/icon/profile/basic_profile_img.svg"
-                  alt="유저 프로필"
-                  className="wd_user_img"
-                />
-              </div>
-              <div className="wd_user_info_wrapper">
-                <div className="wd_user_name">{boardData.nickname}</div>
-                <div className="wd_user_date">
-                  {boardData.createdDate
-                    ? boardData.createdDate.slice(0, 10)
-                    : null}
+          <div className="wd_container">
+            <div className="wd_user_wrapper">
+              <div className="wd_user_left_wrapper">
+                <div className="wd_user_img">
+                  <img
+                    src="/icon/profile/basic_profile_img.svg"
+                    alt="유저 프로필"
+                    className="wd_user_img"
+                  />
+                </div>
+                <div className="wd_user_info_wrapper">
+                  <div className="wd_user_name">{boardData.nickname}</div>
+                  <div className="wd_user_date">
+                    {boardData.createdDate
+                      ? boardData.createdDate.slice(0, 10)
+                      : null}
+                  </div>
                 </div>
               </div>
+              <button
+                onClick={() => setIsModalOpen(true)}
+                className="wd_delete_btn"
+              >
+                삭제
+              </button>
             </div>
+            <div className="wd_title_text_wrapper">{boardData.title}</div>
           </div>
-          <div className="wd_title_text_wrapper">{boardData.title}</div>
         </div>
         <div className="worry_detail_content_wrapper">
           <div className="wd_content_detail_wrapper">
-            <span className="wd_content_detail_title">처방사유</span>
+            <span className="wd_content_detail_title">고민 내용</span>
             <div className="wd_content_detail_text">
               {boardData.description}
             </div>
@@ -114,6 +137,11 @@ const WorryDetail = () => {
           </button>
         </div>
       </div>
+      <ConfirmModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onConfirm={handleBoardIdDelete}
+      />
     </>
   );
 };

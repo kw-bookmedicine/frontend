@@ -44,6 +44,7 @@ import './App.css';
 import ScrollTop from './components/ScrollTop';
 import LoginLayout from './components/LoginLayout';
 import SearchResult from './pages/Search/SearchResult';
+import LoadingPage from './pages/Worry/LoadingPage.jsx';
 
 function App() {
 	// 브라우저 새로고침 스크롤 이벤트
