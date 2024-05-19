@@ -16,8 +16,14 @@ import ErrorMessage from "../../components/Login/ErrorMessage";
 import LoginErrorModal from "../../components/Modal/LoginErrorModal";
 
 const Login = () => {
-  const { register, handleSubmit, errors, loginError } = useLoginForm();
-  const [showErrorModal, setShowErrorModal] = useState(false); // 로그인 실패 모달창
+  const {
+    register,
+    handleSubmit,
+    errors,
+    loginError,
+    showErrorModal,
+    setShowErrorModal,
+  } = useLoginForm();
 
   // 나중에 상태관리 사용해서 로그인 관리하도록 하기
   // refresh에 대한 post 요청 api 추가해야할거같음
@@ -76,9 +82,7 @@ const Login = () => {
               onClose={() => setShowErrorModal(false)}
             />
           )}
-          <LoginButton type="submit" onClick={() => setShowErrorModal(true)}>
-            로그인
-          </LoginButton>
+          <LoginButton type="submit">로그인</LoginButton>
         </form>
         <LoginSubMenu>
           <LoginSubMenuItem>
