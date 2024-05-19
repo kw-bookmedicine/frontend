@@ -96,10 +96,6 @@ function App() {
               element={<OneLinePrscrWrite />}
             />
             <Route path="/prescription/write" element={<PrescriptionWrite />} />
-            {/* <Route
-							path="/prescription/write/2"
-							element={<PrescriptionWriteStep2 />}
-						/> */}
             <Route
               path="/prescription/detail"
               element={<PrescriptionDetail />}
