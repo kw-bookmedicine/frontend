@@ -117,7 +117,7 @@ const WorryDetail = () => {
         </div>
         <div className="worry_detail_content_wrapper">
           <div className="wd_content_detail_wrapper">
-            <span className="wd_content_detail_title">처방사유</span>
+            <span className="wd_content_detail_title">고민 내용</span>
             <div className="wd_content_detail_text">
               {boardData.description}
             </div>
