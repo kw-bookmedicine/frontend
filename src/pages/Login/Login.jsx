@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 // COMPONENTS
@@ -13,9 +13,11 @@ import { styled } from "styled-components";
 import FormInput from "./../../components/Login/FormInput ";
 import { useLoginForm } from "../../hooks/useLoginForm";
 import ErrorMessage from "../../components/Login/ErrorMessage";
+import LoginErrorModal from "../../components/Modal/LoginErrorModal";
 
 const Login = () => {
   const { register, handleSubmit, errors, loginError } = useLoginForm();
+  const [showErrorModal, setShowErrorModal] = useState(false); // 로그인 실패 모달창
 
   // 나중에 상태관리 사용해서 로그인 관리하도록 하기
   // refresh에 대한 post 요청 api 추가해야할거같음
@@ -69,14 +71,14 @@ const Login = () => {
             errors={errors}
           />
           {loginError && (
-            <ErrorMessage>
-              <p>
-                아이디(로그인 전용 아이디) 또는 비밀번호를 잘못 입력했습니다.
-              </p>
-              <p>입력하신 내용을 다시 확인해주세요.</p>
-            </ErrorMessage>
+            <LoginErrorModal
+              show={showErrorModal}
+              onClose={() => setShowErrorModal(false)}
+            />
           )}
-          <LoginButton type="submit">로그인</LoginButton>
+          <LoginButton type="submit" onClick={() => setShowErrorModal(true)}>
+            로그인
+          </LoginButton>
         </form>
         <LoginSubMenu>
           <LoginSubMenuItem>
@@ -149,7 +151,7 @@ const LoginButton = styled.button`
   width: 100%;
   height: 74px;
   border-radius: 10px;
-  background: #c8edf2;
+  background: var(--secondary-color);
 
   /* Font */
   font-family: var(--basic-font);
@@ -205,8 +207,8 @@ const Or = styled.div`
     font-size: 13px;
     word-break: keep-all;
     padding: 0px 24px;
-    background-color: white;
   }
+
   p::before {
     content: "";
     display: block;

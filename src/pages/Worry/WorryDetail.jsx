@@ -11,7 +11,7 @@ import api from "../../services/api";
 
 // STYLE
 import "../../styles/Counseling/WorryDetail.css";
-import ConfirmModal from "../../components/Modal/ConfirmModal ";
+import ConfirmModal from "../../components/Modal/ConfirmModal";
 
 const WorryDetail = () => {
   const [boardData, setBoardData] = useState({});

@@ -66,7 +66,6 @@ function App() {
             <Route path="/feed" element={<Feed />} />
             <Route path="/search" element={<Search />} />
             <Route path="/search/:result" element={<SearchResult />} />
-            <Route path="/mypage" element={<Mypage />} />
             <Route path="/myfeed" element={<MyFeed />} />
             <Route path="/myworry" element={<MyWorry />} />
             <Route path="/edit" element={<Edit />} />
