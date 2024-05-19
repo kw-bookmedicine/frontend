@@ -41,6 +41,7 @@
 #oneLine-prscr-book-img {
 	width: 250px;
 	height: 100%;
+	box-shadow: 2px 2px 8px 4px rgba(0, 0, 0, 0.25);
 }
 
 .prscr_detail_bookAbout_wrapper {
@@ -61,7 +62,15 @@
 	width: 100%;
 	height: 250px;
 	margin-top: 15px;
-	background-color: blue;
+	/* background-color: blue; */
+	font-family: var(--basic-font);
+	font-size: 16px;
+	line-height: 25px;
+	font-weight: 400;
+	color: #000;
+	overflow-y: scroll;
+	text-overflow: ellipsis;
+	scrollbar-width: thin;
 }
 
 .bookKeyword_wrapper {
@@ -69,7 +78,7 @@
 	width: 100%;
 	height: 70px;
 	margin-top: 20px;
-	background-color: red;
+	/* background-color: red; */
 }
 
 .prscr_detail_right_wrapper {
@@ -92,7 +101,7 @@
 	height: 65px;
 	justify-content: space-between;
 	align-items: flex-start;
-	padding-right: 60px;
+	/* padding-right: 60px; */
 	font-size: 28px;
 	font-family: var(--basic-font);
 	font-weight: 600;
@@ -149,7 +158,7 @@
 	width: 310px;
 	align-items: center;
 	justify-content: space-between;
-	margin-right: 60px;
+	/* margin-right: 60px; */
 }
 
 .prscr_detail_evaluation_btn {
@@ -199,4 +208,21 @@
 	font-weight: 600;
 	color: #454545;
 	border-bottom: 1px solid #d9d9d9;
+}
+
+.prscr_detail_content_about_wrapper > p {
+	font-family: var(--basic-font);
+	font-size: 18px;
+	font-weight: 600;
+	color: #454545;
+	margin-bottom: 15px;
+}
+
+#prscr_detail_content {
+	font-family: var(--basic-font);
+	font-size: 16px;
+	line-height: 19px;
+	font-weight: 400;
+	color: #000;
+	/* margin-bottom: 15px; */
 }
