@@ -4,6 +4,7 @@ import { useSearchParams } from 'react-router-dom';
 // COMPONENTS
 import Header from '../../components/Header';
 import HashTag from '../../components/HashTag';
+import ConfirmModal from '../../components/Modal/ConfirmModal';
 
 // SERVICE
 import api from '../../services/api';
@@ -13,11 +14,8 @@ import '../../styles/Prescription/OneLinePrscrDetail.css';
 
 const OneLinePrscrDetail = () => {
 	const [searchParams] = useSearchParams();
-	console.log(searchParams);
 	const prscrId = searchParams.get('prscrId');
 	const bookIsbn = searchParams.get('bookIsbn');
-	console.log(bookIsbn);
-	console.log(prscrId);
 
 	const [data, setData] = useState({});
 	const [bookData, setBookData] = useState({});
@@ -25,10 +23,13 @@ const OneLinePrscrDetail = () => {
 
 	const fetchData = () => {
 		try {
-			api.get(`/api/oneline-prescriptions/${prscrId}`).then((res) => {
-				console.log(res.data);
-				setData(res.data);
-			});
+			api
+				.get(`/api/oneline-prescriptions/${prscrId}`, {
+					withCredentials: true,
+				})
+				.then((res) => {
+					setData(res.data);
+				});
 		} catch (err) {
 			console.log(err);
 		}
@@ -37,13 +38,17 @@ const OneLinePrscrDetail = () => {
 	const getBookData = () => {
 		try {
 			if (data.bookIsbn !== null) {
-				api.get(`/api/book/detail?isbn=${bookIsbn}`).then((res) => {
-					setBookData(res.data);
-					if (res.data.keywordItemList.length !== 0) {
-						setKeywordArr(res.data.keywordItemList);
-					}
-					console.log(res.data);
-				});
+				api
+					.get(`/api/book/detail?isbn=${bookIsbn}`, {
+						withCredentials: true,
+					})
+					.then((res) => {
+						setBookData(res.data);
+						if (res.data.keywordItemList.length !== 0) {
+							setKeywordArr(res.data.keywordItemList);
+						}
+						// console.log(res.data);
+					});
 			}
 		} catch (err) {
 			console.log(err);
@@ -54,6 +59,17 @@ const OneLinePrscrDetail = () => {
 		fetchData();
 		getBookData();
 	}, []);
+
+	const editPrscr = () => {
+		console.log('수정');
+	};
+
+	const deletePrscr = () => {
+		// try {
+		// 	api.post
+		// }
+		console.log('삭제');
+	};
 
 	return (
 		<>
@@ -96,7 +112,12 @@ const OneLinePrscrDetail = () => {
 							<div className="prscr_detail_bookInfo_wrapper">
 								<div className="bookInfo_title_wrapper">
 									<p>{data.bookTitle}</p>
-									<button id="delete-btn">삭제하기</button>
+									<button id="edit-btn" onClick={editPrscr}>
+										수정하기
+									</button>
+									<button id="delete-btn" onClick={deletePrscr}>
+										삭제하기
+									</button>
 								</div>
 								<p>{data.bookAuthor}</p>
 								<p>

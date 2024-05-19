@@ -117,6 +117,17 @@
 	color: #454545;
 }
 
+#edit-btn {
+	width: 100px;
+	height: 40px;
+	background-color: #c8edf2;
+	border-radius: 10px;
+	font-size: 16px;
+	text-align: center;
+	font-weight: 600;
+	margin-right: 10px;
+}
+
 #delete-btn {
 	width: 100px;
 	height: 40px;
