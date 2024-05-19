@@ -43,6 +43,7 @@ import "./App.css";
 import ScrollTop from "./components/ScrollTop";
 import LoginLayout from "./components/LoginLayout";
 import SearchResult from "./pages/Search/SearchResult";
+import LoadingPage from "./pages/Worry/LoadingPage.jsx";
 
 function App() {
   // 브라우저 새로고침 스크롤 이벤트
@@ -65,6 +66,7 @@ function App() {
             <Route path="/feed" element={<Feed />} />
             <Route path="/search" element={<Search />} />
             <Route path="/search/:result" element={<SearchResult />} />
+            <Route path="/mypage" element={<Mypage />} />
             <Route path="/myfeed" element={<MyFeed />} />
             <Route path="/myworry" element={<MyWorry />} />
             <Route path="/edit" element={<Edit />} />
@@ -119,6 +121,8 @@ function App() {
             <Route path="/book-detail" element={<BookDetail />} />
             <Route path="/book/list/:title" element={<BookList />} />
             <Route path="/book/:title/:category" element={<SmallCategory />} />
+
+            <Route path="worry/loading" element={<LoadingPage />} />
           </Routes>
         </div>
       </LoginContextProvider>

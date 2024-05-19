@@ -181,14 +181,15 @@ const WorryWrite = () => {
       },
       {
         field: "title",
-        question: "어떤 고민에 대해 이야기하고 싶은지 주제를 작성해주세요.",
+        question: "어떤 고민에 대해 이야기하고 싶은지 제목을 적어주세요.",
         minLength: 1,
         type: "freeText",
       },
       {
         field: "description",
-        question: "고민에 대해서 자세하게 작성해주세요(최소 100자 이상)",
-        minLength: 1,
+        question:
+          "AI 처방을 위해서 고민에 대한 키워드를 포함해서 작성해주세요!(최소 10자 이상 써주세요)",
+        minLength: 10,
         type: "freeText",
       },
       {
@@ -575,8 +576,8 @@ const NormalQuestion = ({ state, userAnswers, handleNextStep, dispatch }) => {
       console.log("Response:", response);
       // alert("데이터가 성공적으로 전송되었습니다!");
       dispatch(actionCreators.setIsLoading(true));
-      // navigate("/counseling");
-      navigate("/loading");
+      navigate("/counseling");
+      // navigate("/loading");
     } catch (error) {
       console.error("Error posting data:", error);
       alert("데이터 전송에 실패했습니다.");
