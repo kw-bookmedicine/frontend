@@ -141,7 +141,9 @@ const WorryDetail = () => {
 					{/* <button onClick={() => movePrescriptionWrite()} className="prscr_btn"> */}
 					<button
 						onClick={() => {
-							window.location.replace(`/prescription/write?boardId=${boardId}`);
+							window.location.replace(
+								`/prescription/write?boardId=${boardId}&nickname=${boardData.nickname}`,
+							);
 						}}
 						className="prscr_btn"
 					>
