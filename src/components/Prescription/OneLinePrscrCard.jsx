@@ -10,7 +10,9 @@ import { Link } from 'react-router-dom';
 const OneLinePrscrCard = ({ item }) => {
 	return (
 		<>
-			<Link to={`/oneline/prescription-detail?boardId=${item.id}`}>
+			<Link
+				to={`/oneline/prescription-detail?prscrId=${item.id}&bookIsbn=${item.bookIsbn}`}
+			>
 				<div className="OneLinePrscrCard_wrapper">
 					<div className="oneLineCard_profile_wrapper">
 						<img
@@ -43,9 +45,14 @@ const OneLinePrscrCard = ({ item }) => {
 									<p>{item.bookAuthor}</p>
 								</div>
 								<div className="showBook_btn_wrapper">
-									<Link to={`/book-detail?isbn=${item.bookIsbn}`}>
-										<button id="showBook_btn">책 보러가기</button>
-									</Link>
+									{/* <Link to={`/book-detail?isbn=${item.bookIsbn}`}> */}
+									<button
+										href={`/book-detail?isbn=${item.bookIsbn}`}
+										id="showBook_btn"
+									>
+										책 보러가기
+									</button>
+									{/* </Link> */}
 								</div>
 							</div>
 							{/* <div className="oneLineCard_bookInfo_keyword_wrapper">
