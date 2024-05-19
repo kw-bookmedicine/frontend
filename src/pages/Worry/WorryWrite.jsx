@@ -239,7 +239,7 @@ const WorryWrite = () => {
 
       const newQuestions = existingQuestions.map((question, index) => {
         const questionField = `Question${index}`;
-        const categoryQuestion = categoryQuestions[index];
+        const categoryQuestion = categoryQuestions[index - 1];
 
         if (question.field === questionField && categoryQuestion) {
           return {
