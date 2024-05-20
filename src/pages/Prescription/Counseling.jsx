@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
@@ -16,11 +16,11 @@ const Counseling = () => {
 	const [page, setPage] = useState(0);
 	const [isLoading, setIsLoading] = useState(false);
 	const [testArr, setTestArr] = useState([]);
+	const pageEnd = useRef();
 
 	const [iconUrl, setIconUrl] = useState('/icon/white_search_icon.svg');
 	const [iconClick, setIconClick] = useState(false);
 
-	const [clickCtg, setClickCtg] = useState('');
 	const [keyword, setKeyword] = useState('');
 
 	const [category, setCategory] = useState([]);
@@ -30,19 +30,6 @@ const Counseling = () => {
 			setIconUrl('/icon/black_search_icon.svg');
 		} else {
 			setIconUrl('/icon/white_search_icon.svg');
-		}
-	};
-
-	const getData = () => {
-		try {
-			api.get(`/api/board/all?size=20&page=0`).then((res) => {
-				if (res.data.end) {
-					console.log('데이터 없음');
-				}
-				setTestArr(res.data);
-			});
-		} catch (err) {
-			console.log(err);
 		}
 	};
 
@@ -57,7 +44,6 @@ const Counseling = () => {
 	};
 
 	useEffect(() => {
-		getData();
 		getCategory();
 	}, []);
 
@@ -67,12 +53,13 @@ const Counseling = () => {
 	}, [page]);
 
 	// 타겟을 만날 때마다 API 호출
-	const fetchData = async () => {
+	const fetchData = () => {
+		// console.log('fetchData: ', page);
 		// 로딩 시작
 		setIsLoading(true);
 
 		try {
-			api.get(`/api/board/all?size=20&page=${page + 1}`).then((res) => {
+			api.get(`/api/board/all?size=5&page=${page}`).then((res) => {
 				if (res.data.end) {
 					console.log('데이터 없음');
 				}
@@ -89,22 +76,40 @@ const Counseling = () => {
 	useEffect(() => {
 		const handleObserver = (entries) => {
 			const target = entries[0];
-			// if (target.isIntersecting) {
-			// 	console.log(entries);
-			// }
 			if (target.isIntersecting && !isLoading) {
+				// console.log('visible');
 				setPage((prevPage) => prevPage + 1);
 			}
 		};
 
+		// 로딩되었을 때만 실행
 		const observer = new IntersectionObserver(handleObserver, {
 			threshold: 0.5,
 		});
 
-		const target = document.getElementById('cn_target');
-		if (target) {
-			observer.observe(target);
-		}
+		// 탐색 시작
+		// const target = document.getElementById('cn_target');
+		// if (target) {
+
+		// }
+		observer.observe(pageEnd.current);
+		// if (props.isLoading) {
+
+		// }
+
+		// const target = entries[0];
+		// if (target.isIntersecting && !isLoading) {
+		// 	setPage(page + 1);
+		// }
+
+		// const observer = new IntersectionObserver(handleObserver, {
+		// 	threshold: 0.5,
+		// });
+
+		// const target = document.getElementById('cn_target');
+		// if (target) {
+		// 	observer.observe(target);
+		// }
 	}, []);
 
 	const handleIcon = (e) => {
@@ -309,17 +314,14 @@ const Counseling = () => {
 							</Link>
 						</div>
 					</div>
-
-					{testArr.map((item, idx) => {
-						return (
-							<div className="cnsFeed_card_wrapper" key={item.boardId}>
-								<CnsFeed key={item.boardId + idx} item={item} />
-							</div>
-						);
-					})}
+					<div className="cnsFeed_card_wrapper">
+						{testArr.map((item, idx) => {
+							return <CnsFeed key={`${idx}-${item.boardId}`} item={item} />;
+						})}
+					</div>
 				</div>
 				{isLoading && <p>Loading...</p>}
-				<div id="cn_target"></div>
+				<div id="cn_target" ref={pageEnd}></div>
 			</div>
 		</>
 	);
