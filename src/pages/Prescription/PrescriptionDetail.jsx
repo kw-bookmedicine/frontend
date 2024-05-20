@@ -14,7 +14,7 @@ import api from "../../services/api.js";
 
 // STYLE
 import "../../styles/Prescription/PrescriptionDetail.css";
-import Skeleton from "../../components/Skeleton .jsx";
+import Skeleton from "../../components/Skeleton.jsx";
 import ConfirmModal from "../../components/Modal/ConfirmModal.jsx";
 
 // todo
@@ -87,7 +87,8 @@ const PrescriptionDetail = () => {
             <div className="dt_prscr_title_wrapper">
               <div onClick={() => navigate(`/worry-detail?board=${boardId}`)}>
                 <span id="dt_prscr_title">"새로운 곳에 적응하기 힘들어요"</span>
-                &nbsp;에 대한&nbsp;<span id="dt_from_nickname">광</span>
+                &nbsp;에 대한&nbsp;
+                <span id="dt_from_nickname">{prescriptionData.nickname}</span>
                 님의 처방전
               </div>
               <div className="prscr_dt_wrapper">
@@ -122,7 +123,11 @@ const PrescriptionDetail = () => {
                   저자: {prescriptionData.author ?? ""}
                 </p>
                 <p className="prscr_dt_right_bookCompany">
-                  출판사: {prescriptionData.publishingHouse ?? ""}
+                  출판사:
+                  {prescriptionData.publishingHouse ?? " 알에이치코리아(RHK)"}
+                </p>
+                <p className="prscr_dt_right_bookCompany">
+                  출판연도: {prescriptionData.publishYear ?? ""}
                 </p>
               </div>
             </div>
