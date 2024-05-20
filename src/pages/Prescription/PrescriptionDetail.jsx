@@ -24,6 +24,7 @@ const PrescriptionDetail = () => {
   const boardId = searchParams.get("boardId");
   const prescriptionId = searchParams.get("prescriptionId");
   const [prescriptionData, setPrescriptionData] = useState(null);
+  const [worryTitle, setWorryTitle] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const deletePrescription = async () => {
@@ -50,7 +51,7 @@ const PrescriptionDetail = () => {
     });
   };
 
-  const fetchData = useCallback(async () => {
+  const fetchData = async () => {
     try {
       const response = await api.get(`/api/prescription/${prescriptionId}`, {
         withCredentials: true,
@@ -59,13 +60,25 @@ const PrescriptionDetail = () => {
     } catch (error) {
       console.error("처방전 데이터 불러오기 실패", error);
     }
-  }, [prescriptionId]);
+  };
+
+  // 고민 타이틀 받기
+  const fetchPrescriptionTitle = async () => {
+    try {
+      const response = await api.get(`/api/board/${boardId}`, {
+        withCredentials: true,
+      });
+
+      setWorryTitle(response.data.title);
+    } catch (error) {
+      console.error("처방전 데이터 불러오기 실패", error);
+    }
+  };
 
   useEffect(() => {
     fetchData();
-  }, [prescriptionId, fetchData]);
-
-  console.log(prescriptionData);
+    fetchPrescriptionTitle();
+  }, []);
 
   if (!prescriptionData) {
     return (
@@ -86,7 +99,7 @@ const PrescriptionDetail = () => {
           <div className="prscr_detail_top_wrapper">
             <div className="dt_prscr_title_wrapper">
               <div onClick={() => navigate(`/worry-detail?board=${boardId}`)}>
-                <span id="dt_prscr_title">"새로운 곳에 적응하기 힘들어요"</span>
+                <span id="dt_prscr_title">"{worryTitle}"</span>
                 &nbsp;에 대한&nbsp;
                 <span id="dt_from_nickname">{prescriptionData.nickname}</span>
                 님의 처방전
