@@ -97,7 +97,7 @@
 
 .bookInfo_title_wrapper {
 	display: flex;
-	width: 100%;
+	width: 700px;
 	height: 65px;
 	justify-content: space-between;
 	align-items: flex-start;
@@ -105,6 +105,12 @@
 	font-size: 28px;
 	font-family: var(--basic-font);
 	font-weight: 600;
+}
+
+.bookInfo_title_wrapper > p {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .prscr_detail_bookInfo_wrapper > p {
@@ -178,7 +184,6 @@
 	justify-content: center;
 	width: 150px;
 	height: 45px;
-	margin-right: 10px;
 	padding-top: 5px;
 	font-size: 14px;
 	font-weight: 600;
