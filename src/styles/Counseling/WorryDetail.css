@@ -6,7 +6,6 @@
 }
 
 .worry_detail_title_wrapper {
-	/* position: sticky; */
 	display: flex;
 	flex-direction: column;
 	width: 100%;
@@ -14,11 +13,15 @@
 	background-color: #c8edf2;
 }
 
+.wd_container {
+	width: 1120px;
+	margin: 0 auto;
+}
+
 .wd_user_wrapper {
+	padding: 50px 0px 30px 0px;
 	display: flex;
 	justify-content: space-between;
-	align-items: center;
-	padding: 50px 170px 25px 200px;
 }
 
 .wd_user_left_wrapper {
@@ -54,6 +57,13 @@
 	font-size: 16px;
 	color: #8e8e8e;
 }
+.wd_delete_btn {
+	font-size: 20px;
+	height: 35px;
+	width: 60px;
+	background-color: #fff;
+	border-radius: 10px;
+}
 
 .wd_title_text_wrapper {
 	display: flex;
@@ -71,9 +81,10 @@
 	flex-direction: column;
 	align-items: center;
 	width: 100%;
-	height: 1360px;
+	height: 100%;
 	background-color: #f3fdff;
 	position: static;
+	padding-bottom: 100px;
 }
 
 .wd_content_detail_wrapper {
@@ -142,12 +153,11 @@
 }
 
 .prscr_btn {
-	width: 700px;
+	width: 1120px;
 	height: 70px;
 	background-color: #c8edf2;
 	border-radius: 11px;
-	margin-top: 70px;
-	margin-bottom: 95px;
+	margin-top: 20px;
 
 	font-family: var(--basic-font);
 	font-weight: 700;

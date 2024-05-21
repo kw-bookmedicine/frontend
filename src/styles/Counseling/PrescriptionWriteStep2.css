@@ -1,33 +1,33 @@
 .prescription_mid_wrapper {
-	/* position: static; */
-	display: flex;
-	flex-direction: column;
-	width: 100%;
-	height: 400px;
-	justify-content: center;
-	align-items: center;
-	background-color: #fff;
-	z-index: -1;
-	padding: 0 120px;
+  /* position: static; */
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 400px;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  z-index: -1;
+  padding: 0 120px;
 }
 
 .prscr_write_wrapper {
-	display: flex;
-	flex-direction: column;
-	position: relative;
-	top: -70px;
-	width: 94%;
-	height: 450px;
-	background-color: #fff;
-	border-radius: 20px;
-	box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.4);
-	padding: 30px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  top: -70px;
+  width: 94%;
+  height: 450px;
+  background-color: #fff;
+  border-radius: 20px;
+  box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.4);
+  padding: 30px;
 }
 
 .prscr_write_title {
-	font-family: var(--basic-font);
-	font-weight: 700;
-	font-style: normal;
-	font-size: 20px;
-	line-height: 24px;
+  font-family: var(--basic-font);
+  font-weight: 700;
+  font-style: normal;
+  font-size: 20px;
+  line-height: 24px;
 }
