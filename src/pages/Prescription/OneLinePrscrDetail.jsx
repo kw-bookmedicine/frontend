@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 
 // COMPONENTS
 import Header from '../../components/Header';
@@ -13,6 +13,7 @@ import api from '../../services/api';
 import '../../styles/Prescription/OneLinePrscrDetail.css';
 
 const OneLinePrscrDetail = () => {
+	const navigate = useNavigate();
 	const [searchParams] = useSearchParams();
 	const prscrId = searchParams.get('prscrId');
 	const bookIsbn = searchParams.get('bookIsbn');
@@ -47,7 +48,6 @@ const OneLinePrscrDetail = () => {
 						if (res.data.keywordItemList.length !== 0) {
 							setKeywordArr(res.data.keywordItemList);
 						}
-						// console.log(res.data);
 					});
 			}
 		} catch (err) {
@@ -61,13 +61,28 @@ const OneLinePrscrDetail = () => {
 	}, []);
 
 	const editPrscr = () => {
+		navigate(
+			`/oneline/prescription/edit?prscrId=${prscrId}&bookIsbn=${bookIsbn}`,
+		);
+		// try {
+		// 	api.put(`/api/oneline-prescriptions/${prscrId}`).then((res) => {
+		// 		console.log(res.data);
+		// 		// window.location.replace('/oneline/prescription/write');
+		// 	});
+		// } catch (err) {
+		// 	console.log(err);
+		// }
 		console.log('수정');
 	};
 
 	const deletePrscr = () => {
-		// try {
-		// 	api.post
-		// }
+		try {
+			api.delete(`/api/oneline-prescriptions/${prscrId}`).then((res) => {
+				console.log(res.data);
+			});
+		} catch (err) {
+			console.log(err);
+		}
 		console.log('삭제');
 	};
 
@@ -112,12 +127,14 @@ const OneLinePrscrDetail = () => {
 							<div className="prscr_detail_bookInfo_wrapper">
 								<div className="bookInfo_title_wrapper">
 									<p>{data.bookTitle}</p>
-									<button id="edit-btn" onClick={editPrscr}>
-										수정하기
-									</button>
-									<button id="delete-btn" onClick={deletePrscr}>
-										삭제하기
-									</button>
+									<div className="bookInfo_title_btn_wrapper">
+										<button id="edit-btn" onClick={editPrscr}>
+											수정하기
+										</button>
+										<button id="delete-btn" onClick={deletePrscr}>
+											삭제하기
+										</button>
+									</div>
 								</div>
 								<p>{data.bookAuthor}</p>
 								<p>
