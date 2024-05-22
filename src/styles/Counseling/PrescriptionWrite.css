@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 170vh;
+  height: 100vh;
 }
 
 .prescription_content_up_container {
@@ -149,21 +149,24 @@ button {
   flex-direction: column;
   align-items: center;
   width: 100%;
-  height: 100vh;
+  height: 50vh;
 }
 
 .prescription_btn_container {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   width: 100%;
   height: 100px;
   background-color: #fff;
   padding-bottom: 15px;
+  margin: 0 auto;
+  margin-top: 50px;
+  max-width: 1120px;
 }
 
 .prscr_cancel_btn {
-  width: 280px;
+  width: 500px;
   height: 45px;
   border-radius: 11px;
   background-color: #ffdadf;
@@ -172,11 +175,11 @@ button {
   font-style: normal;
   font-size: 20px;
   line-height: 24px;
-  margin-right: 200px;
+  /* margin-right: 200px; */
 }
 
 .prscr_apply_btn {
-  width: 280px;
+  width: 500px;
   height: 45px;
   border-radius: 11px;
   background-color: #c8edf2;
@@ -228,11 +231,11 @@ button {
 #prscr_write_box {
   width: 80%;
   max-width: 1120px;
-  height: 100vh;
+  height: 50vh;
   padding: 40px;
   border-radius: 20px;
   background-color: #fff;
-  margin-top: 80px;
+  margin-top: 120px;
   box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.4);
 }
 
