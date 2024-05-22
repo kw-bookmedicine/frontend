@@ -80,6 +80,8 @@ const WorryDetail = () => {
     }
   };
 
+  console.log(boardData.answers);
+
   return (
     <>
       <Header />
@@ -117,6 +119,18 @@ const WorryDetail = () => {
         </div>
         <div className="worry_detail_content_wrapper">
           <div className="wd_content_detail_wrapper">
+            {boardData?.answers
+              ?.slice(0, boardData.answers.length - 2)
+              .map((response) => (
+                <div key={response.id}>
+                  <span className="wd_content_detail_title">
+                    {response.question}
+                  </span>
+                  <div className="wd_content_detail_text">
+                    {response.answer}
+                  </div>
+                </div>
+              ))}
             <span className="wd_content_detail_title">고민 내용</span>
             <div className="wd_content_detail_text">
               {boardData.description}

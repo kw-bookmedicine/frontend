@@ -90,7 +90,7 @@
 .wd_content_detail_wrapper {
   position: relative;
   width: 1120px;
-  height: 350px;
+  min-height: 350px;
   z-index: 1;
   top: -120px;
   background-color: #fff;
@@ -109,6 +109,11 @@
   font-weight: 600;
   font-size: 20px;
   line-height: 24px;
+  margin-bottom: 10px;
+}
+
+.wd_content_detail_text {
+  margin-top: 10px;
   margin-bottom: 30px;
 }
 

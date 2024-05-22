@@ -123,7 +123,7 @@ const WorryWrite = () => {
       keywordConcern: "",
       primaryConcern: "",
       secondaryConcern: "",
-      relatedBooksRead: "", // 검색 컴포넌트 있으면 좋을듯
+      // relatedBooksRead: "", // 검색 컴포넌트 있으면 좋을듯
       description: "",
       summary: "",
     },
@@ -173,12 +173,12 @@ const WorryWrite = () => {
         selected: false,
         type: "multipleChoice",
       },
-      {
-        field: "relatedBooksRead",
-        question: "고민과 관련된 읽어본 책 있으면 적어주세요.",
-        type: "freeText",
-        minLength: 1,
-      },
+      // {
+      //   field: "relatedBooksRead",
+      //   question: "고민과 관련된 읽어본 책 있으면 적어주세요.",
+      //   type: "freeText",
+      //   minLength: 1,
+      // },
       {
         field: "title",
         question: "어떤 고민에 대해 이야기하고 싶은지 제목을 적어주세요.",
@@ -330,16 +330,14 @@ const WorryWrite = () => {
         { step: currentQuestionIndex, response },
       ])
     );
-    const relatedBookReadFieldIndex = state.questions.findIndex(
-      (question) => question.field === "relatedBooksRead"
+    const titleFieldIndex = state.questions.findIndex(
+      (question) => question.field === "title"
     );
 
     if (currentQuestionIndex < questions.length - 1) {
       // 질문지가 빈배열이면 relatedBookRead 질문으로 이동함
       if (questions[currentQuestionIndex + 1].options?.length === 0) {
-        dispatch(
-          actionCreators.setCurrentQuestionIndex(relatedBookReadFieldIndex)
-        );
+        dispatch(actionCreators.setCurrentQuestionIndex(titleFieldIndex));
       } else {
         dispatch(
           actionCreators.setCurrentQuestionIndex(currentQuestionIndex + 1)
@@ -645,7 +643,7 @@ const createDataObject = (state) => {
     const answer = userAnswers.find((ans) => ans.step === index);
     return {
       question: question.question,
-      answer: answer && answer.response ? answer.response : "No response",
+      answer: answer && answer.response ? answer.response : "없음",
     };
   });
 
