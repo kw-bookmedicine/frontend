@@ -68,13 +68,9 @@ const WorryDetail = () => {
   const navigate = useNavigate();
 
   const movePrescriptionWrite = () => {
-    // 화면 이동하면서 boardId값 전달
-    navigate("/prescription/write", {
-      state: {
-        boardId,
-        nickname, // 고민 작성자
-      },
-    });
+    navigate(
+      `/prescription/write?boardId=${boardId}&nickname=${boardData.nickname}`
+    );
   };
 
   // 해당 고민 글 삭제
