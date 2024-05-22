@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 // COMPONENTS
@@ -10,6 +10,9 @@ import SearchBookModal from "../../components/Modal/SearchBook";
 // ASSETS
 import loading_img from "../../assets/loading_thumbnail_x4.png";
 import loading_test_img from "../../assets/loading_test_img.png";
+
+// SERVICE
+import api from "../../services/api";
 
 // STYLE
 import "../../styles/Counseling/PrescriptionWrite.css";
@@ -24,6 +27,14 @@ const PrescriptionWrite = () => {
   // 모달창을 클릭한 여부
   const [modalIsClick, setModalIsClick] = useState(false);
   let [searchData, setSearchData] = useState(0);
+
+  const [searchParams] = useSearchParams();
+  const boardId = searchParams.get("boardId");
+  const nickname = searchParams.get("nickname");
+
+  // 검색 결과
+  const [searchResult, setSearchResult] = useState([]);
+  const [choiceItem, setChoiceItem] = useState({});
 
   // 처방하러가기 버튼으로는 useNavigate로 전달한 해당 처방전의 boardId 데이터 받기
   // 수정하기 버튼에서는 해당 처방에 대한 데이터 title, description, isbn, boardId, prescriptionId 값 받기
@@ -43,21 +54,6 @@ const PrescriptionWrite = () => {
     setModalIsClick(true);
     setSearchData(searchData + 1);
     searchData = searchData + 1;
-  };
-
-  const { register, handleSubmit, setValue } = useForm({
-    defaultValues: {
-      title: location.state?.title || "",
-      description: location.state?.description || "",
-      isbn: location.state?.isbn || "9788932011172", // 임시 ISBN ->
-      boardId: location.state?.boardId,
-      prescriptionId: location.state?.prescriptionId || undefined,
-    },
-  });
-
-  // 책 클릭 시, isbn 값 설정
-  const handleChangeISBN = (isbn) => {
-    setValue("isbn", isbn);
   };
 
   useEffect(() => {
@@ -95,27 +91,105 @@ const PrescriptionWrite = () => {
     observer.observe(box);
   });
 
+  const { register, handleSubmit, setValue } = useForm({
+    defaultValues: {
+      title: location.state?.title || "",
+      description: location.state?.description || "",
+      isbn: location.state?.isbn || "",
+      boardId: location.state?.boardId || "",
+      prescriptionId: location.state?.prescriptionId || undefined,
+    },
+  });
+
+  const postPrscr = async (data) => {
+    console.log(data);
+    try {
+      api
+        .post(
+          "/api/prescription",
+          {
+            title: data.title,
+            description: data.description,
+            isbn: data.isbn,
+            boardId: data.boardId,
+          },
+          { withCredentials: true }
+        )
+        .then((res) => {
+          // console.log('성공', res.data);
+          if (res.data === "success") {
+            // navigate('/prescription/write/2', { state: data });
+            alert("처방전이 작성되었습니다!");
+            navigate(`/worry-detail?board=${boardId}`);
+          }
+        });
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  // 폼 제출 핸들러
+  // const onSubmit = (data) => {
+  // 	postPrscr(data);
+  // };
+
+  useEffect(() => {
+    fetchSearchData();
+  }, [input]);
+
+  // 검색 데이터 가져오기
+  const fetchSearchData = () => {
+    try {
+      if (input.trim() === "") return;
+
+      api
+        .get(
+          `/api/search/book?title=${input}&target=page&page=${0}&size=${10}`,
+          { withCredentials: true }
+        )
+        .then((res) => {
+          if (res.data.content.length > 0) {
+            setSearchResult(res.data.content);
+          }
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  // 검색 결과 중 선택된 아이템 지정
+  const resClick = (item) => {
+    // console.log(item);
+    setChoiceItem(item);
+    setValue("isbn", item.isbn);
+    setValue("boardId", boardId);
+  };
+
   const onSubmit = (data, event) => {
     event.preventDefault();
-
+    postPrscr(data);
     if (!data.isbn) {
       alert("책을 선택해주세요.");
       return;
     }
-    navigate("/prescription/write/2", { state: data });
+    // navigate('/prescription/write/2', { state: data });
   };
+
+  const imageUrl =
+    location.state?.imageUrl ??
+    (modalIsClick ? choiceItem.imageUrl ?? loading_img : loading_img);
 
   return (
     <>
       <Header />
-      <Title type={"process"} value={"50"} nickname={location.state.nickname} />
+      <Title type={"process"} value={"50"} nickname={nickname} />
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="prescription_content_container">
           <section className="prescription_content_up_container">
             <div className="prscr_bookInfo_wrapper">
               <div className="prscr_left_wrapper">
                 <img
-                  src={modalIsClick ? loading_test_img : loading_img}
+                  src={imageUrl}
                   alt="로딩 썸네일"
                   className="prscr_img_wrapper"
                 />
@@ -133,7 +207,7 @@ const PrescriptionWrite = () => {
                   <input
                     type="text"
                     placeholder="처방할 책을 검색해주세요"
-                    value={input}
+                    value={isShow ? (input === "" ? "" : input) : ""}
                     className="prscr_search_text"
                     onChange={(e) => {
                       setInput(e.target.value);
@@ -159,28 +233,47 @@ const PrescriptionWrite = () => {
                     ? null
                     : setModalIsClick(false)
                   : null}
+                {isShow && input.length === 0 ? setIsShow(false) : null}
 
                 {isShow && input.length > 0 ? (
-                  <SearchBookModal
-                    onClose={handleModalClose}
-                    isClick={handleModalIsClick}
-                    author={input}
-                    active={isShow}
-                  />
+                  <>
+                    <div
+                      className={`searchBook_modal_container_${isShow}`}
+                      onClick={handleModalIsClick}
+                    >
+                      <SearchBookModal
+                        onClose={handleModalClose}
+                        isClick={handleModalIsClick}
+                        searchResult={searchResult}
+                        active={isShow}
+                        resClick={resClick}
+                      />
+                    </div>
+                  </>
                 ) : (
-                  <SearchBookModal
-                    onClose={handleModalClose}
-                    isClick={handleModalIsClick}
-                    author={input}
-                    active={isShow}
-                  />
+                  <>
+                    <div
+                      className={`searchBook_modal_container_${isShow}`}
+                      onClick={handleModalIsClick}
+                    >
+                      <SearchBookModal
+                        onClose={handleModalClose}
+                        isClick={handleModalIsClick}
+                        searchResult={searchResult}
+                        active={isShow}
+                        resClick={resClick}
+                      />
+                    </div>
+                  </>
                 )}
 
                 {isShow === false && modalIsClick && searchData > 0 ? (
                   <div className="prscr_search_res_wrapper">
-                    <p className="search_res_bookTitle">책 제목</p>
-                    <p className="search_res_bookAuthor">저자</p>
-                    <p className="search_res_bookCompany">출판사</p>
+                    <p className="search_res_bookTitle">{choiceItem.title}</p>
+                    <p className="search_res_bookAuthor">{choiceItem.author}</p>
+                    <p className="search_res_bookCompany">
+                      {choiceItem.publishingHouse}
+                    </p>
                   </div>
                 ) : null}
               </div>
@@ -214,9 +307,7 @@ const PrescriptionWrite = () => {
         <div className="prescription_btn_container">
           <button
             type="button"
-            onClick={() =>
-              navigate(`/worry-detail?board=${location.state.boardId}`)
-            }
+            onClick={() => navigate(`/worry-detail?board=${boardId}`)}
             className="prscr_cancel_btn"
           >
             취소하기

@@ -7,12 +7,12 @@ import Main from './pages/LoginHome';
 import Feed from './pages/Feed';
 import MyFeed from './pages/MyFeed';
 import Search from './pages/Search/Search';
-import Mypage from './pages/Mypage';
+import Mypage from './pages/profile/Mypage';
 import BookDetail from './pages/BookDetail';
 import BookList from './pages/BookList';
 import SmallCategory from './pages/SmallCategory';
-import Edit from './pages/Edit';
-import UserInfo from './pages/UserInfo';
+import Edit from './pages/profile/Edit';
+import UserInfo from './pages/profile/UserInfo';
 
 // 로그인 관련 페이지들
 import Login from './pages/Login/Login';
@@ -36,6 +36,7 @@ import PrescriptionWriteStep2 from './pages/PrescriptionWriteStep2';
 import PrescriptionDetail from './pages/Prescription/PrescriptionDetail';
 import OneLinePrescription from './pages/Prescription/OneLinePrescription';
 import OneLinePrscrWrite from './pages/Prescription/OneLinePrscrWrite.jsx';
+import OneLinePrscrDetail from './pages/Prescription/OneLinePrscrDetail.jsx';
 
 // STYLE
 import GlobalStyles from './styles/GlobalStyles';
@@ -43,6 +44,7 @@ import './App.css';
 import ScrollTop from './components/ScrollTop';
 import LoginLayout from './components/LoginLayout';
 import SearchResult from './pages/Search/SearchResult';
+import LoadingPage from './pages/Worry/LoadingPage.jsx';
 
 function App() {
 	// 브라우저 새로고침 스크롤 이벤트
@@ -102,6 +104,10 @@ function App() {
 						<Route
 							path="/prescription/detail"
 							element={<PrescriptionDetail />}
+						/>
+						<Route
+							path="/oneline/prescription-detail"
+							element={<OneLinePrscrDetail />}
 						/>
 						<Route path="/myworry" element={<MyWorry />} />
 						{/* 회원가입 및 로그인 */}

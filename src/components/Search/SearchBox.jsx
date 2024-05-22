@@ -226,7 +226,7 @@ export default SearchBox;
 const SearchInputWrap = styled.div`
   width: 100%;
   height: 60px;
-  box-shadow: 0px 2px 4px #00000033;
+  /* box-shadow: 0px 2px 4px #00000033; */
   padding: 10px 0px 10px 16px;
   border-radius: 5px;
   border: 1px solid #b0b0b0;
