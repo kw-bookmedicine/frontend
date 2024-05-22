@@ -42,8 +42,6 @@ const PrescriptionWrite = () => {
 
   const navigate = useNavigate(); // 버튼 클릭시 페이지 이동
 
-  console.log(location);
-
   const handleModalClose = async () => {
     setIsShow(false);
   };
