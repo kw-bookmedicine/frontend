@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 // STYLES
 import '../../styles/Counseling/ProcessTitle.css';
 
-const ProcessTitle = ({ type, value }) => {
+const ProcessTitle = ({ type, value, nickname }) => {
 	const renderTitle = (type) => {
 		if (type === 'normal') {
 			return (
@@ -55,7 +55,7 @@ const ProcessTitle = ({ type, value }) => {
 							<div className="process_title">고민 상담하기</div>
 						) : (
 							<div className="process_title">
-								<span id="process_nickname">이름 없는 새</span> 님을 위한 처방전
+								<span id="process_nickname">{nickname}</span> 님을 위한 처방전
 								작성 중...
 							</div>
 						)}
