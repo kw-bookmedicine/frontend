@@ -27,6 +27,9 @@ const WorryDetail = () => {
   const [searchParams] = useSearchParams();
   const boardId = searchParams.get("board");
 
+  // 고민 작성자 닉네임
+  const nickname = boardData.nickname;
+
   // 해당하는 고민 글 정보 가져오기
   const fetchData = () => {
     try {
@@ -65,12 +68,9 @@ const WorryDetail = () => {
   const navigate = useNavigate();
 
   const movePrescriptionWrite = () => {
-    // 화면 이동하면서 boardId값 전달
-    navigate("/prescription/write", {
-      state: {
-        boardId,
-      },
-    });
+    navigate(
+      `/prescription/write?boardId=${boardId}&nickname=${boardData.nickname}`
+    );
   };
 
   // 해당 고민 글 삭제
