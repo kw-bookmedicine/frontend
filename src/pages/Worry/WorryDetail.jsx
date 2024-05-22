@@ -22,6 +22,9 @@ const WorryDetail = () => {
   const urlParams = new URLSearchParams(new URL(currentUrl).search);
   const boardId = urlParams.get("board");
 
+  // 고민 작성자 닉네임
+  const nickname = boardData.nickname;
+
   // 해당하는 고민 글 정보 가져오기
   const fetchData = () => {
     try {
@@ -61,6 +64,7 @@ const WorryDetail = () => {
     navigate("/prescription/write", {
       state: {
         boardId,
+        nickname, // 고민 작성자
       },
     });
   };

@@ -108,7 +108,7 @@ const PrescriptionWrite = () => {
   return (
     <>
       <Header />
-      <Title type={"process"} value={"50"} />
+      <Title type={"process"} value={"50"} nickname={location.state.nickname} />
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="prescription_content_container">
           <section className="prescription_content_up_container">
