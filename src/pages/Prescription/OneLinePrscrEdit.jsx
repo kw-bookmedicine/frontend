@@ -26,6 +26,7 @@ const OneLinePrscrEdit = () => {
 	const [searchParams] = useSearchParams();
 	const prscrId = searchParams.get('prscrId');
 	const bookIsbn = searchParams.get('bookIsbn');
+	const [keyword, setKeyword] = useState('');
 
 	const [input, setInput] = useState('');
 	const [isShow, setIsShow] = useState(false); // 검색 모달창
@@ -36,7 +37,7 @@ const OneLinePrscrEdit = () => {
 	const [bookData, setBookData] = useState([]); // 수정할 책 정보
 	const [choiceItem, setChoiceItem] = useState({});
 
-	// 처음에 책 정보 가져오기
+	// 관련된 한 줄 처방 정보 가져오기
 	const fetchData = () => {
 		try {
 			api
@@ -45,6 +46,7 @@ const OneLinePrscrEdit = () => {
 				})
 				.then((res) => {
 					setEditablePrscrData(res.data);
+					ctgType(res.data.keyword);
 				});
 		} catch (err) {
 			console.log(err);
@@ -96,8 +98,47 @@ const OneLinePrscrEdit = () => {
 	const [category, setCategory] = useState('');
 
 	// 선택된 키워드 타입 지정
-	const ctgType = (ctg) => {
+	const ctgType = async (ctg) => {
 		switch (ctg) {
+			case 'Relationships_Communication':
+				setKeyword('관계/소통');
+				break;
+			case 'Fiction_Essays':
+				setKeyword('소설/에세이');
+				break;
+			case 'Economy_Management':
+				setKeyword('경제/경영');
+				break;
+			case 'Children_Parenting':
+				setKeyword('자녀/양육');
+				break;
+			case 'Society':
+				setKeyword('사회');
+				break;
+			case 'Philosophy':
+				setKeyword('철학');
+				break;
+			case 'Health':
+				setKeyword('건강');
+				break;
+			case 'History':
+				setKeyword('역사');
+				break;
+			case 'Science_Math_Engineering':
+				setKeyword('수학/과학/공학');
+				break;
+			case 'Workbook_Examination':
+				setKeyword('문제집/수험서');
+				break;
+			case 'Employment_Career':
+				setKeyword('취업');
+				break;
+			case 'Hobbies':
+				setKeyword('취미');
+				break;
+			case 'ETC':
+				setKeyword('기타');
+				break;
 			case '관계/소통':
 				setCategory('Relationships_Communication');
 				break;
@@ -139,6 +180,9 @@ const OneLinePrscrEdit = () => {
 				break;
 		}
 	};
+
+	// 한 줄 처방 키워드 한글로 변경
+	const chKoreanCtg = (ctg) => {};
 
 	const [isTitleEditing, setTitleEditing] = useState(false);
 	const [isDscrpEditing, setDscrpEditing] = useState(false);
@@ -417,10 +461,7 @@ const OneLinePrscrEdit = () => {
 						<div className="prscr_category_wrapper">
 							<span>카테고리</span>
 							<div id="choice-category">
-								<DropMenu
-									DropDownTitle={'카테고리를 선택해주세요'}
-									ctgType={ctgType}
-								/>
+								<DropMenu DropDownTitle={keyword} ctgType={ctgType} />
 							</div>
 						</div>
 						<label className="oneLine_prscr_writeBox_title_wrapper">
