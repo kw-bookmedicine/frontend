@@ -42,8 +42,6 @@ const PrescriptionWrite = () => {
 
   const navigate = useNavigate(); // 버튼 클릭시 페이지 이동
 
-  console.log(location);
-
   const handleModalClose = async () => {
     setIsShow(false);
   };
@@ -104,7 +102,6 @@ const PrescriptionWrite = () => {
   });
 
   const postPrscr = async (data) => {
-    console.log(data);
     try {
       api
         .post(
@@ -118,9 +115,7 @@ const PrescriptionWrite = () => {
           { withCredentials: true }
         )
         .then((res) => {
-          // console.log('성공', res.data);
           if (res.data === "success") {
-            // navigate('/prescription/write/2', { state: data });
             alert("처방전이 작성되었습니다!");
             navigate(`/worry-detail?board=${boardId}`);
           }
@@ -129,11 +124,6 @@ const PrescriptionWrite = () => {
       console.error("Error:", error);
     }
   };
-
-  // 폼 제출 핸들러
-  // const onSubmit = (data) => {
-  // 	postPrscr(data);
-  // };
 
   useEffect(() => {
     fetchSearchData();
@@ -174,7 +164,6 @@ const PrescriptionWrite = () => {
       alert("책을 선택해주세요.");
       return;
     }
-    // navigate('/prescription/write/2', { state: data });
   };
 
   const imageUrl =
