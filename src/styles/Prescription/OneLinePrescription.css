@@ -85,9 +85,36 @@
 .oneLinePrscr_category_content_wrapper {
 	display: grid;
 	grid-template-columns: repeat(13, 1fr);
-	margin: 0 40px;
+	/* margin: 0 40px; */
+	width: 80%;
 	height: auto;
 	gap: 10px;
+}
+
+.oneLinePrscr_category {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	cursor: pointer;
+}
+
+.oneLinePrscr_category_img {
+	width: 40px;
+	height: 40px;
+	object-fit: contain;
+	margin-bottom: 10px;
+	transition: all 0.2s ease-in-out;
+}
+
+.oneLinePrscr_category_text {
+	font-family: var(--basic-font);
+	font-style: normal;
+	font-weight: 400;
+	font-size: 13px;
+}
+
+.oneLinePrscr_category_img:hover {
+	transform: scale(1.3, 1.3);
 }
 
 .OneLinePrscr_title_wrapper {

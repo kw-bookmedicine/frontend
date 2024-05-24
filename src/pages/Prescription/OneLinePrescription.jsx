@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 
 // SERVICES
@@ -13,13 +13,20 @@ import OneLinePrscrCard from '../../components/Prescription/OneLinePrscrCard';
 import '../../styles/Prescription/OneLinePrescription.css';
 
 const OneLinePrescription = () => {
-	const [iconUrl, setIconUrl] = useState('/icon/white_search_icon.svg');
+	const pageEnd = useRef();
 
-	const [iconClick, setIconClick] = useState(false);
 	const [category, setCategory] = useState([]);
 	const [page, setPage] = useState(0);
 	const [isLoading, setIsLoading] = useState(false);
 	const [dataArr, setDataArr] = useState([]);
+
+	const [iconClick, setIconClick] = useState(false);
+
+	const [keyword, setKeyword] = useState('All'); // 지금 선택된 카테고리 여부
+	const [isClick, setIsClick] = useState(false); // 카테고리 선택 여부
+	const [prevClick, setPrevClick] = useState(''); // 이전에 클릭한 아이콘
+	const [keywordArr, setKeywordArr] = useState([]); // 카테고리별 피드 데이터 읽어서 넣기
+	const [keywordPage, setKeywordPage] = useState(0); // 카테고리 불러올 페이지
 
 	const getData = () => {
 		try {
@@ -50,41 +57,111 @@ const OneLinePrescription = () => {
 		getCategory();
 	}, []);
 
-	const handleIconUrl = async () => {
-		if (!iconClick) {
-			setIconUrl('/icon/black_search_icon.svg');
+	useEffect(() => {
+		const handleObserver = (entries) => {
+			const target = entries[0];
+			if (target.isIntersecting && !isLoading) {
+				console.log('visible');
+				setPage((prevPage) => prevPage + 1);
+			}
+		};
+
+		// 로딩되었을 때만 실행
+		const observer = new IntersectionObserver(handleObserver, {
+			threshold: 0.5,
+		});
+
+		observer.observe(pageEnd.current);
+	}, []);
+
+	const handleIcon = (e) => {
+		console.log('이전 클릭: ', prevClick);
+		const targetCtg = e.target.id;
+		const target = document.getElementById(`${targetCtg}`);
+		const prevTarget = document.getElementById(`${prevClick}`);
+		const targetText = target.querySelector('.oneLinePrscr_category_text');
+
+		if (keyword === 'All') {
+			if (prevClick !== '') {
+				setPrevClick(e.target.id);
+				// fetchData();
+			}
+		}
+
+		// 제일 처음 클릭된 거를 이전 클릭으로 지정
+		if (prevClick === '') {
+			setPrevClick(e.target.id);
+		}
+
+		if (prevClick !== '' && prevClick !== e.target.id && keyword !== 'All') {
+			if (prevTarget !== null) {
+				// 먼저 클릭된 아이콘이 있을 때
+				const prevTargetText = prevTarget.querySelector(
+					'.oneLinePrscr_category_text',
+				);
+				setPrevClick(e.target.id);
+				prevTargetText.classList.remove('icon-active');
+			}
+		}
+
+		if (targetText.className === 'oneLinePrscr_category_text') {
+			// 아이콘이 클릭되었을 때
+			targetText.classList.toggle('icon-active');
+			ctgType(targetText.innerText);
 		} else {
-			setIconUrl('/icon/white_search_icon.svg');
+			// 클릭된 아이콘을 다시 클릭했을 때
+			targetText.classList.toggle('icon-active');
+			setPrevClick(e.target.id);
+			ctgType('전체');
 		}
 	};
 
-	const handleIcon = (e) => {
-		// 모든 아이콘 글씨 색 초기화
-		const icons = document.querySelectorAll('.cns_category_text');
-		icons.forEach((icon) => {
-			if (icon.className === 'cns_category_text') {
-				// console.log(icon.className);
-				icon.style.color = 'black';
-				icon.style.fontWeight = '400';
-			} else {
-				icon.style.color = 'black';
-				icon.style.fontWeight = '400';
-			}
-		});
-
-		// 클릭된 아이콘만 색상 설정
-		const clickedIcon = e.currentTarget.querySelector('.cns_category_text');
-		// console.log(clickedIcon);
-		clickedIcon.style.color = 'red';
-		clickedIcon.style.fontWeight = '600';
-		clickedIcon.classList.toggle('icon-active');
-	};
-
-	const [cardClick, setCardClick] = useState(false);
-
-	const handleCardClick = (res) => {
-		// setCardClick(!cardClick);
-		console.log(res);
+	// 선택된 키워드 타입 지정
+	const ctgType = async (ctg) => {
+		switch (ctg) {
+			case '관계/소통':
+				setKeyword('Relationships_Communication');
+				break;
+			case '소설/에세이':
+				setKeyword('Fiction_Essays');
+				break;
+			case '경제/경영':
+				setKeyword('Economy_Management');
+				break;
+			case '자녀/양육':
+				setKeyword('Children_Parenting');
+				break;
+			case '사회':
+				setKeyword('Society');
+				break;
+			case '철학':
+				setKeyword('Philosophy');
+				break;
+			case '건강':
+				setKeyword('Health');
+				break;
+			case '역사':
+				setKeyword('History');
+				break;
+			case '수학/과학/공학':
+				setKeyword('Science_Math_Engineering');
+				break;
+			case '문제집/수험서':
+				setKeyword('Workbook_Examination');
+				break;
+			case '취업':
+				setKeyword('Employment_Career');
+				break;
+			case '취미':
+				setKeyword('Hobbies');
+				break;
+			case '기타':
+				setKeyword('ETC');
+				break;
+			case '전체':
+				setKeyword('All');
+				break;
+		}
 	};
 
 	return (
@@ -95,7 +172,29 @@ const OneLinePrescription = () => {
 					<div className="oneLinePrscr_category_wrapper">
 						<div className="oneLinePrscr_category_title">한 줄 처방</div>
 						<div className="oneLinePrscr_category_content_wrapper">
-							<div className="cns_category" onClick={handleIcon} id="관계/소통">
+							{category.map((item, idx) => {
+								const changeItem = item.replaceAll('/', '_');
+
+								return (
+									<div
+										className="oneLinePrscr_category"
+										onClick={handleIcon}
+										id={item}
+										key={item + idx}
+									>
+										<img
+											src={`icon/prscr-category/${changeItem}-icon.svg`}
+											alt={item}
+											className="oneLinePrscr_category_img"
+											id={item}
+										/>
+										<span className="oneLinePrscr_category_text" id={item}>
+											{item}
+										</span>
+									</div>
+								);
+							})}
+							{/* <div className="cns_category" onClick={handleIcon} id="관계/소통">
 								<img
 									src="/icon/prscr-category/관계_소통-icon.svg"
 									alt="관계/소통"
@@ -210,7 +309,7 @@ const OneLinePrescription = () => {
 									className="cns_category_img"
 								/>
 								<span className="cns_category_text">기타</span>
-							</div>
+							</div> */}
 						</div>
 					</div>
 					<form className="oneLinePrscr_searchBar_wrapper">
@@ -239,6 +338,8 @@ const OneLinePrescription = () => {
 							})}
 					</div>
 				</div>
+				{isLoading && <p>Loading...</p>}
+				<div id="cn_target" ref={pageEnd}></div>
 			</section>
 		</>
 	);
