@@ -181,16 +181,15 @@ const OneLinePrscrEdit = () => {
 		}
 	};
 
-	// 한 줄 처방 키워드 한글로 변경
-	const chKoreanCtg = (ctg) => {};
-
 	const [isTitleEditing, setTitleEditing] = useState(false);
 	const [isDscrpEditing, setDscrpEditing] = useState(false);
+	const [isCtgEditing, setCtgEditing] = useState(false);
 
 	// 한 줄 처방 수정 요청 보내기
 	const editData = async () => {
 		let editTitle = '';
 		let editDescription = '';
+		let editCategory = '';
 		const inputTitle = document.getElementById('oneLine-prscr-title');
 
 		const inputDescription = document.getElementById(
@@ -213,6 +212,13 @@ const OneLinePrscrEdit = () => {
 			console.log('바뀐 설명: ', editDescription);
 		}
 
+		if (!isCtgEditing) {
+			editCategory = keyword;
+			console.log('원래 카테고리: ', editCategory);
+		} else {
+			editCategory = category;
+			console.log('바뀐 카테고리: ', editCategory);
+		}
 		try {
 			if (category === null) {
 				alert('카테고리를 지정해주세요');
@@ -461,7 +467,14 @@ const OneLinePrscrEdit = () => {
 						<div className="prscr_category_wrapper">
 							<span>카테고리</span>
 							<div id="choice-category">
-								<DropMenu DropDownTitle={keyword} ctgType={ctgType} />
+								<DropMenu
+									DropDownTitle={keyword}
+									ctgType={ctgType}
+									onClick={(ctg) => {
+										setCtgEditing(true);
+										ctgType(ctg);
+									}}
+								/>
 							</div>
 						</div>
 						<label className="oneLine_prscr_writeBox_title_wrapper">
