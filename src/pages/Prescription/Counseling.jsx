@@ -55,15 +55,16 @@ const Counseling = () => {
 	}, []);
 
 	// 타겟을 만날 때마다 API 호출
-	const fetchData = () => {
+	const fetchData = async () => {
 		setIsLoading(true); // 로딩 시작
 
 		try {
-			api.get(`/api/board/all?size=5&page=${page}`).then((res) => {
+			console.log(page);
+			api.get(`/api/board/all?size=20&page=${page}`).then((res) => {
 				if (res.data.end) {
 					console.log('데이터 없음');
 				}
-				// console.log(res.data);
+				console.log(res.data);
 				setTestArr((prevData) => [...prevData, ...res.data]);
 			});
 		} catch (error) {
@@ -80,7 +81,7 @@ const Counseling = () => {
 		const handleObserver = (entries) => {
 			const target = entries[0];
 			if (target.isIntersecting && !isLoading) {
-				// console.log('visible');
+				console.log('visible');
 				setPage((prevPage) => prevPage + 1);
 			}
 		};
@@ -199,6 +200,9 @@ const Counseling = () => {
 	// page 변경 감지에 따른 API호출
 	useEffect(() => {
 		if (keyword === 'All') {
+			// setPage(0);
+			setTestArr([]);
+
 			fetchData();
 		}
 	}, [page]);
