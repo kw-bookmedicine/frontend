@@ -14,6 +14,7 @@ import '../../styles/Prescription/OneLinePrescription.css';
 
 const OneLinePrescription = () => {
 	const pageEnd = useRef();
+	const observerRef = useRef();
 
 	const [category, setCategory] = useState([]);
 	const [page, setPage] = useState(0);
@@ -24,13 +25,13 @@ const OneLinePrescription = () => {
 
 	const [keyword, setKeyword] = useState('All'); // 지금 선택된 카테고리 여부
 	const [isClick, setIsClick] = useState(false); // 카테고리 선택 여부
-	const [prevClick, setPrevClick] = useState(''); // 이전에 클릭한 아이콘
+	const [prevClick, setPrevClick] = useState('All'); // 이전에 클릭한 아이콘
 	const [keywordArr, setKeywordArr] = useState([]); // 카테고리별 피드 데이터 읽어서 넣기
 	const [keywordPage, setKeywordPage] = useState(0); // 카테고리 불러올 페이지
 
 	const getData = () => {
 		try {
-			api.get(`/api/oneline-prescriptions/all?page=0&size=20`).then((res) => {
+			api.get(`/api/oneline-prescriptions/all?page=0&size=10`).then((res) => {
 				if (res.data.end) {
 					console.log('데이터 없음');
 				}
@@ -53,55 +54,96 @@ const OneLinePrescription = () => {
 	};
 
 	useEffect(() => {
-		getData();
+		// getData();
 		getCategory();
 	}, []);
 
+	// useEffect(() => {
+	// 	if (!isLoading) {
+	// 		const handleObserver = (entries) => {
+	// 			const target = entries[0];
+	// 			if (target.isIntersecting && !isLoading) {
+	// 				console.log('visible');
+	// 				setPage((prevPage) => prevPage + 1);
+	// 			}
+	// 		};
+
+	// 		// 로딩되었을 때만 실행
+	// 		const observer = new IntersectionObserver(handleObserver, {
+	// 			threshold: 0.5,
+	// 		});
+
+	// 		observer.observe(pageEnd.current);
+	// 	}
+	// }, []);
+
 	useEffect(() => {
+		if (observerRef.current) observerRef.current.disconnect(); // 👈 기존 observer 해제
+
 		const handleObserver = (entries) => {
+			// console.log(entries);
 			const target = entries[0];
-			if (target.isIntersecting && !isLoading) {
-				console.log('visible');
-				setPage((prevPage) => prevPage + 1);
+			if (target.isIntersecting) {
+				if (keyword === 'All') {
+					setPage((prevPage) => prevPage + 1);
+				} else {
+					setKeywordPage((prevPage) => prevPage + 1);
+				}
 			}
 		};
 
-		// 로딩되었을 때만 실행
-		const observer = new IntersectionObserver(handleObserver, {
-			threshold: 0.5,
+		observerRef.current = new IntersectionObserver(handleObserver, {
+			threshold: 1,
 		});
 
-		observer.observe(pageEnd.current);
-	}, []);
+		const lastElement = document.querySelector(
+			'.OneLinePrscr_content_container > *:last-child',
+		); // 👈 마지막 요소 선택
+
+		if (lastElement) {
+			observerRef.current.observe(lastElement); // 👈 마지막 요소에 observer 설정
+		}
+
+		return () => {
+			if (observerRef.current) observerRef.current.disconnect();
+		};
+	}, [dataArr, keywordArr]); // 👈 dataArr과 keywordArr가 변경될 때마다 observer 설정
 
 	const handleIcon = (e) => {
-		console.log('이전 클릭: ', prevClick);
+		// console.log('지금 클릭: ', e.target.id);
 		const targetCtg = e.target.id;
 		const target = document.getElementById(`${targetCtg}`);
 		const prevTarget = document.getElementById(`${prevClick}`);
 		const targetText = target.querySelector('.oneLinePrscr_category_text');
+		// setPrevClick(e.target.id);
 
 		if (keyword === 'All') {
 			if (prevClick !== '') {
 				setPrevClick(e.target.id);
-				// fetchData();
 			}
 		}
 
-		// 제일 처음 클릭된 거를 이전 클릭으로 지정
-		if (prevClick === '') {
-			setPrevClick(e.target.id);
-		}
+		// console.log('e.target.id: ', e.target.id);
+		// console.log('prevTarget: ', prevTarget);
+		// console.log('prevClick: ', prevClick);
 
-		if (prevClick !== '' && prevClick !== e.target.id && keyword !== 'All') {
+		if (prevClick !== e.target.id) {
 			if (prevTarget !== null) {
+				setPrevClick(e.target.id);
 				// 먼저 클릭된 아이콘이 있을 때
 				const prevTargetText = prevTarget.querySelector(
 					'.oneLinePrscr_category_text',
 				);
-				setPrevClick(e.target.id);
+				ctgType('전체');
 				prevTargetText.classList.remove('icon-active');
+			} else {
+				// 먼저 클릭된 아이콘이 없는 경우
+				setPrevClick(e.target.id);
+				ctgType(e.target.id);
 			}
+		} else {
+			setPrevClick(prevClick);
+			prevTarget.classList.remove('icon-active');
 		}
 
 		if (targetText.className === 'oneLinePrscr_category_text') {
@@ -113,6 +155,79 @@ const OneLinePrescription = () => {
 			targetText.classList.toggle('icon-active');
 			setPrevClick(e.target.id);
 			ctgType('전체');
+		}
+	};
+
+	useEffect(async () => {
+		if (keyword !== 'All') {
+			setKeywordPage(0);
+
+			setKeywordArr([]);
+			fetchData();
+		} else {
+			// 키워드가 바뀌면서 All이 됨.
+			setPage(0);
+			setDataArr([]);
+			fetchData();
+		}
+		// fetchData();
+	}, [keyword]);
+
+	useEffect(() => {
+		if (page > 0 || keywordPage > 0) fetchData();
+	}, [page, keywordPage]);
+
+	const fetchData = async () => {
+		// 키워드가 ALL인 경우, 전체 호출
+		setIsLoading(true);
+
+		if (keyword === 'All') {
+			try {
+				await api
+					.get(`/api/oneline-prescriptions/all?page=${page}&size=5`)
+					.then((res) => {
+						console.log('키워드 all일 때, 페이지: ', page);
+						if (res.data.totalPages > page) {
+							if (res.data.content.length === 0) {
+								alert('마지막 페이지입니다.');
+							} else {
+								setDataArr((prevData) => [...prevData, ...res.data.content]);
+							}
+						} else {
+							alert('마지막 페이지입니다.');
+						}
+					});
+			} catch (err) {
+				console.log(err);
+			} finally {
+				setIsLoading(false);
+			}
+		} else {
+			// 키워드가 ALL 아닌 경우, 키워드별 호출
+			try {
+				await api
+					.get(
+						`/api/oneline-prescriptions/keyword?keyword=${keyword}&page=${keywordPage}&size=5`,
+					)
+					.then((res) => {
+						console.log(`======(키워드:${keyword})=======`);
+						console.log(res.data);
+						if (res.data.totalPages > keywordPage) {
+							if (res.data.content.length === 0) {
+								alert('마지막 페이지입니다.');
+							} else {
+								setKeywordArr((prevData) => [...prevData, ...res.data.content]);
+							}
+						} else {
+							alert('마지막 페이지입니다.');
+							// ctgType('전체');
+						}
+					});
+			} catch (err) {
+				console.log(err);
+			} finally {
+				setIsLoading(false);
+			}
 		}
 	};
 
@@ -331,15 +446,35 @@ const OneLinePrescription = () => {
 								</button>
 							</Link>
 						</div>
-						{dataArr !== null &&
+						<div className="OneLinePrscr_content_container">
+							{keyword === 'All'
+								? dataArr.map((item, idx) => {
+										return (
+											<OneLinePrscrCard
+												key={`${keyword}-${idx}:${item.id}`}
+												item={item}
+											/>
+										);
+								  })
+								: keywordArr.map((item, idx) => {
+										return (
+											<OneLinePrscrCard
+												key={`${keyword}-${idx}:${item.id}`}
+												item={item}
+											/>
+										);
+								  })}
+
+							{/* {dataArr !== null &&
 							dataArr.map((item, idx) => {
 								// console.log(item);
 								return <OneLinePrscrCard key={item.id} item={item} />;
-							})}
+							})} */}
+						</div>
 					</div>
+					{isLoading && <p>Loading...</p>}
+					<div id="cn_target" ref={pageEnd}></div>
 				</div>
-				{isLoading && <p>Loading...</p>}
-				<div id="cn_target" ref={pageEnd}></div>
 			</section>
 		</>
 	);
