@@ -6,7 +6,6 @@ import api from '../../services/api';
 
 // COMPONENTS
 import Header from '../../components/Header';
-import PrescriptionCard from '../../components/Prescription/PrescriptionCard';
 import OneLinePrscrCard from '../../components/Prescription/OneLinePrscrCard';
 
 // STYLE
@@ -21,30 +20,13 @@ const OneLinePrescription = () => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [dataArr, setDataArr] = useState([]);
 
-	const [iconClick, setIconClick] = useState(false);
-
 	const [keyword, setKeyword] = useState('All'); // 지금 선택된 카테고리 여부
-	const [isClick, setIsClick] = useState(false); // 카테고리 선택 여부
 	const [prevClick, setPrevClick] = useState('All'); // 이전에 클릭한 아이콘
 	const [keywordArr, setKeywordArr] = useState([]); // 카테고리별 피드 데이터 읽어서 넣기
 	const [keywordPage, setKeywordPage] = useState(0); // 카테고리 불러올 페이지
 
 	const [searchResArr, setSearchResArr] = useState([]);
 	const [searchPage, setSearchPage] = useState(0);
-
-	const getData = () => {
-		try {
-			api.get(`/api/oneline-prescriptions/all?page=0&size=10`).then((res) => {
-				if (res.data.end) {
-					console.log('데이터 없음');
-				}
-				console.log(res.data);
-				setDataArr(res.data.content);
-			});
-		} catch (err) {
-			console.log(err);
-		}
-	};
 
 	const getCategory = () => {
 		try {
@@ -61,27 +43,8 @@ const OneLinePrescription = () => {
 		getCategory();
 	}, []);
 
-	// useEffect(() => {
-	// 	if (!isLoading) {
-	// 		const handleObserver = (entries) => {
-	// 			const target = entries[0];
-	// 			if (target.isIntersecting && !isLoading) {
-	// 				console.log('visible');
-	// 				setPage((prevPage) => prevPage + 1);
-	// 			}
-	// 		};
-
-	// 		// 로딩되었을 때만 실행
-	// 		const observer = new IntersectionObserver(handleObserver, {
-	// 			threshold: 0.5,
-	// 		});
-
-	// 		observer.observe(pageEnd.current);
-	// 	}
-	// }, []);
-
 	useEffect(() => {
-		if (observerRef.current) observerRef.current.disconnect(); // 👈 기존 observer 해제
+		if (observerRef.current) observerRef.current.disconnect();
 
 		const handleObserver = (entries) => {
 			// console.log(entries);
@@ -109,24 +72,22 @@ const OneLinePrescription = () => {
 
 		const lastElement = document.querySelector(
 			'.OneLinePrscr_content_container > *:last-child',
-		); // 👈 마지막 요소 선택
+		);
 
 		if (lastElement) {
-			observerRef.current.observe(lastElement); // 👈 마지막 요소에 observer 설정
+			observerRef.current.observe(lastElement);
 		}
 
 		return () => {
 			if (observerRef.current) observerRef.current.disconnect();
 		};
-	}, [dataArr, keywordArr]); // 👈 dataArr과 keywordArr가 변경될 때마다 observer 설정
+	}, [dataArr, keywordArr]);
 
 	const handleIcon = (e) => {
-		// console.log('지금 클릭: ', e.target.id);
 		const targetCtg = e.target.id;
 		const target = document.getElementById(`${targetCtg}`);
 		const prevTarget = document.getElementById(`${prevClick}`);
 		const targetText = target.querySelector('.oneLinePrscr_category_text');
-		// setPrevClick(e.target.id);
 
 		if (keyword === 'All') {
 			if (prevClick !== '') {
@@ -374,122 +335,6 @@ const OneLinePrescription = () => {
 									</div>
 								);
 							})}
-							{/* <div className="cns_category" onClick={handleIcon} id="관계/소통">
-								<img
-									src="/icon/prscr-category/관계_소통-icon.svg"
-									alt="관계/소통"
-									className="cns_category_img"
-								/>
-								<span className="cns_category_text">관계/소통</span>
-							</div>
-							<div
-								className="cns_category"
-								onClick={handleIcon}
-								id="소설/에세이"
-							>
-								<img
-									src="/icon/prscr-category/소설_에세이-icon.svg"
-									alt="소설/에세이"
-									className="cns_category_img"
-								/>
-								<span className="cns_category_text">소설/에세이</span>
-							</div>
-							<div className="cns_category" onClick={handleIcon} id="경제/경영">
-								<img
-									src="/icon/prscr-category/경제_경영-icon.svg"
-									alt="경제/경영"
-									className="cns_category_img"
-								/>
-								<span className="cns_category_text">경제/경영</span>
-							</div>
-							<div className="cns_category" onClick={handleIcon} id="자녀/양육">
-								<img
-									src="/icon/prscr-category/자녀_양육-icon.svg"
-									alt="자녀/양육"
-									className="cns_category_img"
-								/>
-								<span className="cns_category_text">자녀/양육</span>
-							</div>
-							<div className="cns_category" onClick={handleIcon} id="사회">
-								<img
-									src="/icon/prscr-category/사회-icon.svg"
-									alt="사회"
-									className="cns_category_img"
-								/>
-								<span className="cns_category_text">사회</span>
-							</div>
-							<div className="cns_category" onClick={handleIcon} id="철학">
-								<img
-									src="/icon/prscr-category/철학-icon.svg"
-									alt="철학"
-									className="cns_category_img"
-								/>
-								<span className="cns_category_text">철학</span>
-							</div>
-							<div className="cns_category" onClick={handleIcon} id="건강">
-								<img
-									src="/icon/prscr-category/건강-icon.svg"
-									alt="건강"
-									className="cns_category_img"
-								/>
-								<span className="cns_category_text">건강</span>
-							</div>
-							<div className="cns_category" onClick={handleIcon} id="역사">
-								<img
-									src="/icon/prscr-category/역사-icon.svg"
-									alt="역사"
-									className="cns_category_img"
-								/>
-								<span className="cns_category_text">역사</span>
-							</div>
-							<div
-								className="cns_category"
-								onClick={handleIcon}
-								id="수학/과학/공학"
-							>
-								<img
-									src="/icon/prscr-category/수학_과학_공학-icon.svg"
-									alt="수학/과학/공학"
-									className="cns_category_img"
-								/>
-								<span className="cns_category_text">수학/과학/공학</span>
-							</div>
-							<div
-								className="cns_category"
-								onClick={handleIcon}
-								id="문제집/수험서"
-							>
-								<img
-									src="/icon/prscr-category/문제집_수험서-icon.svg"
-									alt="문제집/수험서"
-									className="cns_category_img"
-								/>
-								<span className="cns_category_text">문제집/수험서</span>
-							</div>
-							<div className="cns_category" onClick={handleIcon} id="취업">
-								<img
-									src="/icon/prscr-category/취업-icon.svg"
-									alt="취업"
-									className="cns_category_img"
-								/>
-								<span className="cns_category_text">취업</span>
-							</div>
-							<div className="cns_category" onClick={handleIcon} id="취미">
-								<img
-									src="/icon/prscr-category/취미-icon.svg"
-									alt="취미"
-									className="cns_category_img"
-								/>
-								<span className="cns_category_text">취미</span>
-							</div>
-							<div className="cns_category" onClick={handleIcon} id="기타">
-								<img
-									src="/icon/prscr-category/기타-icon.svg"
-									alt="기타"
-									className="cns_category_img"
-								/>
-								<span className="cns_category_text">기타</span>
-							</div> */}
 						</div>
 					</div>
 					<form
@@ -553,12 +398,6 @@ const OneLinePrescription = () => {
 											/>
 										);
 								  })}
-
-							{/* {dataArr !== null &&
-							dataArr.map((item, idx) => {
-								// console.log(item);
-								return <OneLinePrscrCard key={item.id} item={item} />;
-							})} */}
 						</div>
 					</div>
 					{isLoading && <p>Loading...</p>}
