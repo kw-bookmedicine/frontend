@@ -29,6 +29,9 @@ const OneLinePrescription = () => {
 	const [keywordArr, setKeywordArr] = useState([]); // 카테고리별 피드 데이터 읽어서 넣기
 	const [keywordPage, setKeywordPage] = useState(0); // 카테고리 불러올 페이지
 
+	const [searchResArr, setSearchResArr] = useState([]);
+	const [searchPage, setSearchPage] = useState(0);
+
 	const getData = () => {
 		try {
 			api.get(`/api/oneline-prescriptions/all?page=0&size=10`).then((res) => {
@@ -85,9 +88,17 @@ const OneLinePrescription = () => {
 			const target = entries[0];
 			if (target.isIntersecting) {
 				if (keyword === 'All') {
-					setPage((prevPage) => prevPage + 1);
+					if (searchResArr.length !== 0) {
+						setSearchPage((prevPage) => prevPage + 1);
+					} else {
+						setPage((prevPage) => prevPage + 1);
+					}
 				} else {
-					setKeywordPage((prevPage) => prevPage + 1);
+					if (searchResArr.length !== 0) {
+						setSearchPage((prevPage) => prevPage + 1);
+					} else {
+						setKeywordPage((prevPage) => prevPage + 1);
+					}
 				}
 			}
 		};
@@ -160,12 +171,17 @@ const OneLinePrescription = () => {
 
 	useEffect(async () => {
 		if (keyword !== 'All') {
-			setKeywordPage(0);
+			setSearchPage(0);
+			setSearchResArr([]);
 
+			setKeywordPage(0);
 			setKeywordArr([]);
 			fetchData();
 		} else {
 			// 키워드가 바뀌면서 All이 됨.
+			setSearchPage(0);
+			setSearchResArr([]);
+
 			setPage(0);
 			setDataArr([]);
 			fetchData();
@@ -175,7 +191,12 @@ const OneLinePrescription = () => {
 
 	useEffect(() => {
 		if (page > 0 || keywordPage > 0) fetchData();
-	}, [page, keywordPage]);
+		if (searchPage > 0) {
+			setPage(0);
+			setKeywordPage(0);
+			fetchSearchRes();
+		}
+	}, [page, keywordPage, searchPage]);
 
 	const fetchData = async () => {
 		// 키워드가 ALL인 경우, 전체 호출
@@ -276,6 +297,50 @@ const OneLinePrescription = () => {
 			case '전체':
 				setKeyword('All');
 				break;
+		}
+	};
+
+	// 검색 기능
+
+	const onKeyDown = (e) => {
+		// console.log(e.target.value);
+		if (e.key === 'Enter') {
+			setSearchPage(0);
+			setSearchResArr([]);
+			fetchSearchRes(e.target.value);
+		}
+	};
+
+	const fetchSearchRes = (searchText) => {
+		setIsLoading(true);
+		try {
+			if (searchText !== null) {
+				api
+					.get(
+						`/api/oneline-prescriptions/search?name=${searchText}&page=${searchPage}&size=20`,
+					)
+					.then((res) => {
+						if (res.data.totalPages > searchPage) {
+							if (res.data.content.length === 0) {
+								// console.log('검색 데이터가 없습니다.');
+								ctgType('전체');
+								alert('마지막 페이지입니다.');
+							} else {
+								// console.log(res.data.content);
+								setSearchResArr((prevData) => [
+									...prevData,
+									...res.data.content,
+								]);
+							}
+						} else {
+							console.log('마지막 페이지입니다.');
+						}
+					});
+			}
+		} catch (err) {
+			console.log(err);
+		} finally {
+			setIsLoading(false);
 		}
 	};
 
@@ -427,7 +492,12 @@ const OneLinePrescription = () => {
 							</div> */}
 						</div>
 					</div>
-					<form className="oneLinePrscr_searchBar_wrapper">
+					<form
+						className="oneLinePrscr_searchBar_wrapper"
+						onSubmit={(e) => {
+							e.preventDefault();
+						}}
+					>
 						<img
 							src="/icon/black_search_icon.svg"
 							id="oneLinePrscr_searchBar_icon"
@@ -436,6 +506,7 @@ const OneLinePrescription = () => {
 							type="text"
 							className="oneLinePrscr_searchBar"
 							placeholder="Search"
+							onKeyDown={onKeyDown}
 						/>
 					</form>
 					<div className="OneLinePrscr_container">
@@ -448,7 +519,25 @@ const OneLinePrescription = () => {
 						</div>
 						<div className="OneLinePrscr_content_container">
 							{keyword === 'All'
-								? dataArr.map((item, idx) => {
+								? searchResArr.length === 0
+									? dataArr.map((item, idx) => {
+											return (
+												<OneLinePrscrCard
+													key={`${keyword}-${idx}:${item.id}`}
+													item={item}
+												/>
+											);
+									  })
+									: searchResArr.map((item, idx) => {
+											return (
+												<OneLinePrscrCard
+													key={`searchRes-${idx}:${item.id}`}
+													item={item}
+												/>
+											);
+									  })
+								: searchResArr.length === 0
+								? keywordArr.map((item, idx) => {
 										return (
 											<OneLinePrscrCard
 												key={`${keyword}-${idx}:${item.id}`}
@@ -456,10 +545,10 @@ const OneLinePrescription = () => {
 											/>
 										);
 								  })
-								: keywordArr.map((item, idx) => {
+								: searchResArr.map((item, idx) => {
 										return (
 											<OneLinePrscrCard
-												key={`${keyword}-${idx}:${item.id}`}
+												key={`searchRes-${idx}:${item.id}`}
 												item={item}
 											/>
 										);
