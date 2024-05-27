@@ -320,20 +320,15 @@ const Counseling = () => {
 						<CnsFeed />
 					</div> */}
 
-					<div className="cnsWrite_search_wrapper">
-						<div className="cnsWrite_search_right_wrapper">
-							<Link
-								to={'/worry/write'}
-								className="cnsWrite_search_right_wrapper_link"
-							>
-								<img
-									src="/icon/mint_write_icon.svg"
-									alt="고민 작성하기"
-									id="cnsWrite_icon"
-								/>
-								고민작성하기
-							</Link>
-						</div>
+					<div className="cns_writeBtn_wrapper">
+						<Link to={'/worry/write'} className="cns_writeBtn_wrapper_link">
+							<img
+								src="/icon/mint_write_icon.svg"
+								alt="고민 작성하기"
+								id="cnsWrite_icon"
+							/>
+							고민작성하기
+						</Link>
 					</div>
 					<div className="cnsFeed_card_wrapper">
 						{}

@@ -32,9 +32,9 @@
 .cns_category_content_wrapper {
 	display: grid;
 	grid-template-columns: repeat(13, 1fr);
-	margin: 0 40px;
+	/* margin: 0 40px; */
 	height: auto;
-	gap: 10px;
+	gap: 0px;
 }
 
 .cns_category {
@@ -78,7 +78,7 @@
 
 .cns_searchBar_wrapper {
 	display: flex;
-	width: 820px;
+	width: 1080px;
 	border-radius: 15px;
 	justify-content: center;
 	align-items: center;
@@ -95,7 +95,7 @@
 }
 
 #cns_search_text {
-	width: 820px;
+	width: 1080px;
 	height: 50px;
 	padding: 10px 15px;
 	border-radius: 15px;
@@ -111,31 +111,25 @@
 	flex-direction: column;
 	align-items: center;
 	width: 100%;
-	max-width: 1440px;
+	max-width: 1080px;
 	margin-top: 80px;
-	justify-content: center;
+	justify-content: flex-end;
 	/* height: 60vh; */
 }
 
-.cnsWrite_search_wrapper {
+.cns_writeBtn_wrapper {
 	display: flex;
-	justify-content: space-between;
+	justify-content: flex-end;
 	align-items: center;
-	max-width: 1440px;
-	width: 1120px;
-	height: 50px;
-}
-
-.cnsWrite_search_left_wrapper {
-	display: flex;
-	width: 40%;
+	width: 100%;
+	max-width: 1080px;
 }
 
 .cnsWrite_search_right_wrapper {
 	display: flex;
 }
 
-.cnsWrite_search_right_wrapper_link {
+.cns_writeBtn_wrapper_link {
 	display: flex;
 	width: 130px;
 	height: 40px;
@@ -150,7 +144,6 @@
 	font-weight: 600;
 	line-height: 19px;
 	color: black;
-	margin-right: 10px;
 }
 
 .cnsSearchBar_wrapper {
