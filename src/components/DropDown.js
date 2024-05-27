@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import '../styles/DropDown.css';
 import useDetectClose from '../hooks/useDetectClose';
 
-const DropDown = ({ DropDownTitle, type, ctgType }) => {
+const DropDown = ({ DropDownTitle, type, ctgType, onClick }) => {
 	const dropDownRef = useRef(null);
 	const dropDownMenuRef = useRef(null);
 
@@ -14,8 +14,11 @@ const DropDown = ({ DropDownTitle, type, ctgType }) => {
 	const [selectTitle, setSelectTitle] = useState('');
 
 	const setCtg = async (ctg) => {
-		// console.log(ctg);
 		ctgType(ctg);
+	};
+
+	const editableCtg = async (ctg) => {
+		onClick(ctg);
 	};
 
 	const renderJob = () => {
@@ -109,6 +112,7 @@ const DropDown = ({ DropDownTitle, type, ctgType }) => {
 						setIsSelect(isSelect);
 						setSelectTitle('관계/소통');
 						setCtg('관계/소통');
+						editableCtg('관계/소통');
 					}}
 					className={
 						isSelect ? 'dropDown_menu_item_select' : 'dropDown_menu_item'
@@ -123,6 +127,7 @@ const DropDown = ({ DropDownTitle, type, ctgType }) => {
 						setIsSelect(isSelect);
 						setSelectTitle('소설/에세이');
 						setCtg('소설/에세이');
+						editableCtg('소설/에세이');
 					}}
 					className={
 						isSelect ? 'dropDown_menu_item_select' : 'dropDown_menu_item'
@@ -137,6 +142,7 @@ const DropDown = ({ DropDownTitle, type, ctgType }) => {
 						setIsSelect(isSelect);
 						setSelectTitle('경제/경영');
 						setCtg('경제/경영');
+						editableCtg('경제/경영');
 					}}
 					className={
 						isSelect ? 'dropDown_menu_item_select' : 'dropDown_menu_item'
@@ -151,6 +157,7 @@ const DropDown = ({ DropDownTitle, type, ctgType }) => {
 						setIsSelect(isSelect);
 						setSelectTitle('자녀/양육');
 						setCtg('자녀/양육');
+						editableCtg('자녀/양육');
 					}}
 					className={
 						isSelect ? 'dropDown_menu_item_select' : 'dropDown_menu_item'
@@ -165,6 +172,7 @@ const DropDown = ({ DropDownTitle, type, ctgType }) => {
 						setIsSelect(!isSelect);
 						setSelectTitle('사회');
 						setCtg('사회');
+						editableCtg('사회');
 					}}
 					className={
 						isSelect ? 'dropDown_menu_item_select' : 'dropDown_menu_item'
@@ -179,6 +187,7 @@ const DropDown = ({ DropDownTitle, type, ctgType }) => {
 						setIsSelect(!isSelect);
 						setSelectTitle('철학');
 						setCtg('철학');
+						editableCtg('철학');
 					}}
 					className={
 						isSelect ? 'dropDown_menu_item_select' : 'dropDown_menu_item'
@@ -193,6 +202,7 @@ const DropDown = ({ DropDownTitle, type, ctgType }) => {
 						setIsSelect(!isSelect);
 						setSelectTitle('건강');
 						setCtg('건강');
+						editableCtg('건강');
 					}}
 					className={
 						isSelect ? 'dropDown_menu_item_select' : 'dropDown_menu_item'
@@ -207,6 +217,7 @@ const DropDown = ({ DropDownTitle, type, ctgType }) => {
 						setIsSelect(!isSelect);
 						setSelectTitle('역사');
 						setCtg('역사');
+						editableCtg('역사');
 					}}
 					className={
 						isSelect ? 'dropDown_menu_item_select' : 'dropDown_menu_item'
@@ -221,6 +232,7 @@ const DropDown = ({ DropDownTitle, type, ctgType }) => {
 						setIsSelect(!isSelect);
 						setSelectTitle('수학/과학/공학');
 						setCtg('수학/과학/공학');
+						editableCtg('수학/과학/공학');
 					}}
 					className={
 						isSelect ? 'dropDown_menu_item_select' : 'dropDown_menu_item'
@@ -235,6 +247,7 @@ const DropDown = ({ DropDownTitle, type, ctgType }) => {
 						setIsSelect(!isSelect);
 						setSelectTitle('문제집/수험서');
 						setCtg('문제집/수험서');
+						editableCtg('문제집/수험서');
 					}}
 					className={
 						isSelect ? 'dropDown_menu_item_select' : 'dropDown_menu_item'
@@ -249,6 +262,7 @@ const DropDown = ({ DropDownTitle, type, ctgType }) => {
 						setIsSelect(!isSelect);
 						setSelectTitle('취업');
 						setCtg('취업');
+						editableCtg('취업');
 					}}
 					className={
 						isSelect ? 'dropDown_menu_item_select' : 'dropDown_menu_item'
@@ -263,6 +277,7 @@ const DropDown = ({ DropDownTitle, type, ctgType }) => {
 						setIsSelect(!isSelect);
 						setSelectTitle('취미');
 						setCtg('취미');
+						editableCtg('취미');
 					}}
 					className={
 						isSelect ? 'dropDown_menu_item_select' : 'dropDown_menu_item'
@@ -277,6 +292,7 @@ const DropDown = ({ DropDownTitle, type, ctgType }) => {
 						setIsSelect(!isSelect);
 						setSelectTitle('기타');
 						setCtg('기타');
+						editableCtg('기타');
 					}}
 					className={
 						isSelect ? 'dropDown_menu_item_select' : 'dropDown_menu_item'

@@ -13,11 +13,15 @@ export const useLoginForm = () => {
   });
   const { loginUser, loginError } = useLogin();
   const navigate = useNavigate();
+  const [showErrorModal, setShowErrorModal] = useState(false);
 
   const onSubmit = async ({ username, password }) => {
     const response = await loginUser(username, password);
     if (response) {
+      setShowErrorModal(false);
       navigate("/main");
+    } else {
+      setShowErrorModal(true);
     }
   };
 
@@ -26,5 +30,7 @@ export const useLoginForm = () => {
     handleSubmit: handleSubmit(onSubmit),
     errors,
     loginError,
+    showErrorModal,
+    setShowErrorModal,
   };
 };

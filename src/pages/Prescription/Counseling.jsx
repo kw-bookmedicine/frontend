@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
@@ -16,15 +16,20 @@ const Counseling = () => {
 	const [page, setPage] = useState(0);
 	const [isLoading, setIsLoading] = useState(false);
 	const [testArr, setTestArr] = useState([]);
+	const pageEnd = useRef();
 
 	const [iconUrl, setIconUrl] = useState('/icon/white_search_icon.svg');
 	const [iconClick, setIconClick] = useState(false);
 
-	const [clickCtg, setClickCtg] = useState('');
-	const [keyword, setKeyword] = useState('');
+	const [keyword, setKeyword] = useState('All'); // 지금 선택된 카테고리 여부
+	const [isClick, setIsClick] = useState(false); // 카테고리 선택 여부
+	const [prevClick, setPrevClick] = useState(''); // 이전에 클릭한 아이콘
+	const [keywordArr, setKeywordArr] = useState([]); // 카테고리별 피드 데이터 읽어서 넣기
+	const [keywordPage, setKeywordPage] = useState(0); // 카테고리 불러올 페이지
 
-	const [category, setCategory] = useState([]);
+	const [category, setCategory] = useState([]); // 처음으로 가져오는 카테고리
 
+	// 검색창에 이용
 	const handleIconUrl = async () => {
 		if (!iconClick) {
 			setIconUrl('/icon/black_search_icon.svg');
@@ -33,19 +38,7 @@ const Counseling = () => {
 		}
 	};
 
-	const getData = () => {
-		try {
-			api.get(`/api/board/all?size=20&page=0`).then((res) => {
-				if (res.data.end) {
-					console.log('데이터 없음');
-				}
-				setTestArr(res.data);
-			});
-		} catch (err) {
-			console.log(err);
-		}
-	};
-
+	// 카테고리 가져오기
 	const getCategory = () => {
 		try {
 			api.get(`/api/boardKeyword/keyword`).then((res) => {
@@ -56,26 +49,22 @@ const Counseling = () => {
 		}
 	};
 
+	// 첫 렌더링될 때 카테고리 가져옴
 	useEffect(() => {
-		getData();
 		getCategory();
 	}, []);
 
-	// page 변경 감지에 따른 API호출
-	useEffect(() => {
-		fetchData();
-	}, [page]);
-
 	// 타겟을 만날 때마다 API 호출
 	const fetchData = async () => {
-		// 로딩 시작
-		setIsLoading(true);
+		setIsLoading(true); // 로딩 시작
 
 		try {
-			api.get(`/api/board/all?size=20&page=${page + 1}`).then((res) => {
+			console.log(page);
+			api.get(`/api/board/all?size=20&page=${page}`).then((res) => {
 				if (res.data.end) {
 					console.log('데이터 없음');
 				}
+				console.log(res.data);
 				setTestArr((prevData) => [...prevData, ...res.data]);
 			});
 		} catch (error) {
@@ -86,57 +75,75 @@ const Counseling = () => {
 		}
 	};
 
+	// 하단 타겟 인식해서 page 늘려줌
+	// 카테고리 설정된 상태에서 인식되면 카테고리 페이지를 늘려줘야 함.
 	useEffect(() => {
 		const handleObserver = (entries) => {
 			const target = entries[0];
-			// if (target.isIntersecting) {
-			// 	console.log(entries);
-			// }
 			if (target.isIntersecting && !isLoading) {
+				console.log('visible');
 				setPage((prevPage) => prevPage + 1);
 			}
 		};
 
+		// 로딩되었을 때만 실행
 		const observer = new IntersectionObserver(handleObserver, {
 			threshold: 0.5,
 		});
 
-		const target = document.getElementById('cn_target');
-		if (target) {
-			observer.observe(target);
-		}
+		observer.observe(pageEnd.current);
 	}, []);
 
+	// 아이콘 클릭 여부 핸들링 함수
 	const handleIcon = (e) => {
-		// 모든 아이콘 글씨 색 초기화
-		const icons = document.querySelectorAll('.cns_category_text');
-		icons.forEach((icon) => {
-			if (icon.className === 'cns_category_text') {
-				icon.style.color = 'black';
-				icon.style.fontWeight = '400';
-			} else {
-				icon.style.color = 'black';
-				icon.style.fontWeight = '400';
-			}
-		});
+		const targetCtg = e.target.id;
+		const target = document.getElementById(`${targetCtg}`);
+		const prevTarget = document.getElementById(`${prevClick}`);
+		const targetText = target.querySelector('.cns_category_text');
 
-		// 클릭된 아이콘만 색상 설정
-		const clickedIcon = e.currentTarget.querySelector('.cns_category_text');
-		ctgType(clickedIcon.innerText);
-		// console.log(clickedIcon.innerText);
-		clickedIcon.style.color = 'red';
-		clickedIcon.style.fontWeight = '600';
-		clickedIcon.classList.toggle('icon-active');
+		if (keyword === 'All') {
+			if (prevClick !== '') {
+				// console.log('중복');
+				// 동일한 아이콘 2번 눌렀다가 다시 눌렀을 때, 중복처리 되는 거 방지하기 위함.
+				setPrevClick(e.target.id);
+				fetchData();
+			}
+		} else {
+			setPrevClick(e.target.id);
+		}
+
+		// 제일 처음 클릭된 거를 이전 클릭으로 지정
+		if (prevClick === '') {
+			setPrevClick(e.target.id);
+		}
+
+		if (prevClick !== '' && prevClick !== e.target.id && keyword !== 'All') {
+			if (prevTarget !== null) {
+				// 먼저 클릭된 아이콘이 있을 때
+				const prevTargetText = prevTarget.querySelector('.cns_category_text');
+				prevTargetText.classList.remove('icon-active');
+			}
+		}
+
+		if (targetText.className === 'cns_category_text') {
+			// 아이콘이 클릭되었을 때
+			targetText.classList.toggle('icon-active');
+			ctgType(targetText.innerText);
+		} else {
+			// 클릭된 아이콘을 다시 클릭했을 때
+			targetText.classList.toggle('icon-active');
+			setPrevClick(e.target.id);
+			ctgType('전체');
+		}
 	};
 
 	// 선택된 키워드 타입 지정
 	const ctgType = async (ctg) => {
-		console.log('category:' + ctg);
 		switch (ctg) {
 			case '관계/소통':
 				setKeyword('Relationships_Communication');
 				break;
-			case '소셜/에세이':
+			case '소설/에세이':
 				setKeyword('Fiction_Essays');
 				break;
 			case '경제/경영':
@@ -172,29 +179,60 @@ const Counseling = () => {
 			case '기타':
 				setKeyword('ETC');
 				break;
+			case '전체':
+				setKeyword('All');
+				break;
 		}
 	};
 
+	// 키워드가 바뀔 때마다 API 호출
 	useEffect(() => {
-		fetchKeyword();
+		setPage(0);
+		setKeywordPage(0);
+		setTestArr([]);
+		setKeywordArr([]);
+		if (keyword !== 'All') {
+			// window.location.reload();
+			fetchKeyword();
+		}
 	}, [keyword]);
+
+	// page 변경 감지에 따른 API호출
+	useEffect(() => {
+		if (keyword === 'All') {
+			// setPage(0);
+			setTestArr([]);
+
+			fetchData();
+		}
+	}, [page]);
+
+	// useEffect(() => {
+	// 	if (keyword !== 'All') {
+	// 		fetchKeyword();
+	// 	}
+	// },[keywordPage])
 
 	// 키워드별 검색
 	const fetchKeyword = async () => {
 		try {
 			if (keyword !== '') {
 				api
-					.get(`api/board/keyword?keyword=${keyword}&page=0&size=20`)
+					.get(
+						`api/board/keyword?keyword=${keyword}&page=${keywordPage}&size=5`,
+					)
 					.then((res) => {
 						if (res.data.length === 0) {
 							alert('조회된 게시글이 없습니다.');
+							setKeyword('All');
 							// 페이지 새로고침
 							window.location.reload();
 						}
 						if (res.data.end) {
 							console.log('데이터 없음.');
 						}
-						setTestArr(res.data);
+						console.log(res.data);
+						setKeywordArr((prevData) => [...prevData, ...res.data]);
 					});
 			}
 		} catch (err) {
@@ -250,8 +288,11 @@ const Counseling = () => {
 										src={`icon/prscr-category/${changeItem}-icon.svg`}
 										alt={item}
 										className="cns_category_img"
+										id={item}
 									/>
-									<span className="cns_category_text">{item}</span>
+									<span className="cns_category_text" id={item}>
+										{item}
+									</span>
 								</div>
 							);
 						})}
@@ -309,17 +350,21 @@ const Counseling = () => {
 							</Link>
 						</div>
 					</div>
-
-					{testArr.map((item, idx) => {
-						return (
-							<div className="cnsFeed_card_wrapper" key={item.boardId}>
-								<CnsFeed key={item.boardId + idx} item={item} />
-							</div>
-						);
-					})}
+					<div className="cnsFeed_card_wrapper">
+						{}
+						{keywordArr.length > 0
+							? keywordArr.map((item, idx) => {
+									return (
+										<CnsFeed key={`keywordFeed-${idx}-${item}`} item={item} />
+									);
+							  })
+							: testArr.map((item, idx) => {
+									return <CnsFeed key={`${idx}-${item.boardId}`} item={item} />;
+							  })}
+					</div>
 				</div>
 				{isLoading && <p>Loading...</p>}
-				<div id="cn_target"></div>
+				<div id="cn_target" ref={pageEnd}></div>
 			</div>
 		</>
 	);
