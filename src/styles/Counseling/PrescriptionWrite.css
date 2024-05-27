@@ -157,6 +157,7 @@ button {
 }
 
 .prescription_content_bottom_text span {
+  font-weight: normal;
   color: #c2c2c2;
 }
 
