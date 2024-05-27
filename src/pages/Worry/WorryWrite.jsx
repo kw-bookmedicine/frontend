@@ -8,9 +8,10 @@ import styled, { keyframes } from "styled-components";
 import ProcessTitle from "./../../components/Prescription/ProcessTitle";
 import api from "../../services/api";
 import { useNavigate } from "react-router-dom";
-
-const MAX_LENGTH_DESCRIPTION = 1000;
-const MAX_LENGTH_DEFAULT = 255;
+import {
+  MAX_LENGTH_DEFAULT,
+  MAX_LENGTH_DESCRIPTION,
+} from "../../constants/constants";
 
 const getMaxLength = (field) => {
   return field === "description" ? MAX_LENGTH_DESCRIPTION : MAX_LENGTH_DEFAULT;
