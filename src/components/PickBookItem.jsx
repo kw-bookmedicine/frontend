@@ -37,11 +37,11 @@ const PickBookItem = ({
 		setPickBookTitle(clickRef.current.textContent);
 	};
 
-	const addAuthorPick = () => {
-		// console.log('add author:', clickAuthorRef.current);
-		clickAuthorRef.current.focus();
-		setPickBookAuthor(clickAuthorRef.current.textContent);
-	};
+	// const addAuthorPick = () => {
+	// 	// console.log('add author:', clickAuthorRef.current);
+	// 	clickAuthorRef.current.focus();
+	// 	setPickBookAuthor(clickAuthorRef.current.textContent);
+	// };
 
 	// 읽은 목록에서 삭제될 때 선택되는 함수
 	const deletePick = () => {
@@ -62,7 +62,7 @@ const PickBookItem = ({
 	// 제일 처음 읽은 목록 추가 함수
 	const bookUpdateList = () => {
 		updateList(clickRef.current.textContent);
-		updateAuthor(clickAuthorRef.current.textContent);
+		// updateAuthor(clickAuthorRef.current.textContent);
 	};
 
 	// 읽은 목록에서 삭제 버튼 누른 후 필터링 되는 함수
@@ -80,13 +80,13 @@ const PickBookItem = ({
 				>
 					{title}
 				</div>
-				<div
+				{/* <div
 					className={`${listType}-pickBook_author`}
 					ref={clickAuthorRef}
-					title={author}
+					title={updateAuthor}
 				>
-					{author}
-				</div>
+					{updateAuthor}
+				</div> */}
 				{listType === 'long' ? (
 					<button
 						className="Btn-add"
@@ -94,7 +94,7 @@ const PickBookItem = ({
 							// console.log('========== 읽은 목록 추가 ==========');
 							// offClick();
 							addPick();
-							addAuthorPick();
+							// addAuthorPick();
 
 							// console.log(bookList);
 							// updateClickCount();
