@@ -64,17 +64,9 @@ const MyListModal = ({ onClose }) => {
 		return pickBookList.map((book) => book.isbn);
 	};
 
-	// const AddAuthorList = (pickBookAuthor) => {
-	// 	setAddAuthorList(
-	// 		pickAuthorList.includes(pickBookAuthor)
-	// 			? pickAuthorList
-	// 			: pickAuthorList.push(pickBookAuthor),
-	// 	);
-	// };
-
 	// '목록 삭제' 버튼 클릭 시 실행되는 함수
 	const FilterBookList = (list) => {
-		console.log('filter list:', list);
+		// console.log('filter list:', list);
 		setPickBookList(list);
 	};
 

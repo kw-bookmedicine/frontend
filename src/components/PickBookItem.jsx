@@ -40,8 +40,8 @@ const PickBookItem = ({
 
 	const addPick = async () => {
 		const isbnValue = isbnRef.current.textContent;
-		console.log('add:', clickRef.current);
-		console.log('add isbn: ', isbnValue);
+		// console.log('add:', clickRef.current);
+		// console.log('add isbn: ', isbnValue);
 		clickRef.current.focus();
 		setPickBookTitle(clickRef.current.textContent);
 		setPickBookIsbn(isbnValue);
@@ -51,8 +51,8 @@ const PickBookItem = ({
 	const deletePick = () => {
 		const isbnValue = isbnRef.current.textContent;
 
-		console.log('del:', clickRef.current);
-		console.log('del isbn: ', isbnValue);
+		// console.log('del:', clickRef.current);
+		// console.log('del isbn: ', isbnValue);
 		clickRef.current.focus();
 		setPickBookTitle(clickRef.current.textContent);
 		setPickBookIsbn(isbnValue);
@@ -66,7 +66,7 @@ const PickBookItem = ({
 
 	// 읽은 목록에서 삭제 버튼 누른 후 필터링 되는 함수
 	const filterPickList = (pickBookTitle) => {
-		console.log(isbnRef.current.textContent);
+		// console.log(isbnRef.current.textContent);
 
 		// console.log('res', resBookList);
 		updateList(BookList.filter((item) => item.title !== pickBookTitle));
