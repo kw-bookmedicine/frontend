@@ -57,6 +57,12 @@
 	text-overflow: ellipsis;
 }
 
+.long-pickBook_isbn,
+.short-pickBook_isbn {
+	visibility: hidden;
+	width: 5px;
+}
+
 .long-pickBook_author {
 	width: 80px;
 	font-family: var(--basic-font);

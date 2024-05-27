@@ -42,28 +42,39 @@ const MyListModal = ({ onClose }) => {
 		!isClick ? setPickBookList(list) : setFilterBookList(list);
 	};
 
+	// 요청 보낼 때 사용할 선택 책 isbn 리스트
+	const [resBookList, setResBookList] = useState([]);
+	const [pickBookIsbnList, setPickBookIsbnList] = useState([]);
+
 	// 읽은 목록 추가 버튼을 눌렀을 때, 읽은 목록 배열(addBookList)에 요소 추가 함수
-	const AddBookList = (pickBookTitle) => {
-		// console.log('add book: ', pickBookTitle);
+	const AddBookList = (pickBookTitle, pickBookIsbn) => {
 		setAddBookList(
-			pickBookList.includes(pickBookTitle)
+			pickBookList.some(
+				(book) => book.title === pickBookTitle || book.isbn === pickBookIsbn,
+			)
 				? pickBookList
-				: pickBookList.push(pickBookTitle),
+				: pickBookList.push({ title: pickBookTitle, isbn: pickBookIsbn }),
 		);
 	};
 
-	const AddAuthorList = (pickBookAuthor) => {
-		// console.log('add author: ', pickBookAuthor);
-		setAddAuthorList(
-			pickAuthorList.includes(pickBookAuthor)
-				? pickAuthorList
-				: pickAuthorList.push(pickBookAuthor),
-		);
+	// 선택완료 요청
+	// pickBookList에서 isbn만 따로 리스트로 추출하는 함수입니다.
+	// 이 함수의 리턴 값으로 복용내역 요청 보내면 됩니다.
+	const getIsbnList = () => {
+		return pickBookList.map((book) => book.isbn);
 	};
+
+	// const AddAuthorList = (pickBookAuthor) => {
+	// 	setAddAuthorList(
+	// 		pickAuthorList.includes(pickBookAuthor)
+	// 			? pickAuthorList
+	// 			: pickAuthorList.push(pickBookAuthor),
+	// 	);
+	// };
 
 	// '목록 삭제' 버튼 클릭 시 실행되는 함수
 	const FilterBookList = (list) => {
-		// console.log('filter list:', list);
+		console.log('filter list:', list);
 		setPickBookList(list);
 	};
 
@@ -71,7 +82,7 @@ const MyListModal = ({ onClose }) => {
 	const renderSearchList = (e) => {
 		if (input.trim() !== '') {
 			api
-				.get(`/api/search/book?title=${input}&target=page&page=0&size=10`, {
+				.get(`/api/search/book?title=${input}&target=page&page=0&size=20`, {
 					withCredentials: true,
 				})
 				.then((res) => {
@@ -163,12 +174,13 @@ const MyListModal = ({ onClose }) => {
 												return (
 													<PickBookItem
 														key={ele.isbn}
+														isbn={ele.isbn}
 														type="long"
 														title={ele.title}
 														BookList={pickBookList}
 														updateList={AddBookList}
 														author={ele.authors}
-														updateAuthor={AddAuthorList}
+														// updateAuthor={AddAuthorList}
 													/>
 												);
 										  })
@@ -179,9 +191,10 @@ const MyListModal = ({ onClose }) => {
 										? pickBookList.map((item) => {
 												return (
 													<PickBookItem
-														key={item}
+														key={item.title + '-' + item.isbn}
+														isbn={item.isbn}
 														type="short"
-														title={item}
+														title={item.title}
 														// author={author}
 														BookList={pickBookList}
 														updateList={FilterBookList}
