@@ -298,44 +298,29 @@ const Counseling = () => {
 						})}
 					</div>
 				</div>
+				<div className="cns_search_wrapper">
+					<form
+						action=""
+						className="cns_searchBar_wrapper"
+						onSubmit={(e) => {
+							e.preventDefault();
+						}}
+					>
+						<img src="/icon/black_search_icon.svg" id="cns_search_icon" />
+						<input
+							type="text"
+							id="cns_search_text"
+							placeholder="Search"
+							onKeyDown={onKeyDown}
+						/>
+					</form>
+				</div>
 				<div className="counseling_feed_wrapper">
 					{/* <div className="cnsFeed_card_wrapper">
 						<CnsFeed />
 					</div> */}
 
 					<div className="cnsWrite_search_wrapper">
-						<div className="cnsWrite_search_left_wrapper">
-							<form
-								action=""
-								className="cnsSearchBar_wrapper"
-								onSubmit={(e) => {
-									e.preventDefault();
-								}}
-							>
-								<img
-									src={iconUrl}
-									alt="검색"
-									id="cnsSearch_icon"
-									onClick={() => {
-										handleIconUrl();
-										setIconClick(!iconClick);
-										let searchBar = document.querySelector(
-											'.cnsSearchBar_wrapper',
-										);
-										let searchBarText =
-											document.getElementById('cnsSearch_text');
-										searchBar.classList.toggle('searchBar-visible');
-										searchBarText.classList.toggle('searchBar-visible');
-									}}
-								/>
-								<input
-									type="text"
-									id="cnsSearch_text"
-									placeholder="검색어를 입력해주세요"
-									onKeyDown={onKeyDown}
-								/>
-							</form>
-						</div>
 						<div className="cnsWrite_search_right_wrapper">
 							<Link
 								to={'/worry/write'}
