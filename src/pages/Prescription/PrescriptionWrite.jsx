@@ -16,6 +16,11 @@ import api from "../../services/api";
 
 // STYLE
 import "../../styles/Counseling/PrescriptionWrite.css";
+import {
+  MAX_LENGTH_DEFAULT,
+  MAX_LENGTH_DESCRIPTION,
+  MAX_LENGTH_TITLE,
+} from "../../constants/constants";
 
 // todo
 // -focus가 되어있을때, 처방전 작성하기 버튼을 누르면 조금 스크롤 이동이 되는 버그 발생-> css 없애면 잘 작동함..
@@ -91,7 +96,7 @@ const PrescriptionWrite = () => {
     observer.observe(box);
   });
 
-  const { register, handleSubmit, setValue } = useForm({
+  const { register, handleSubmit, setValue, watch } = useForm({
     defaultValues: {
       title: location.state?.title || "",
       description: location.state?.description || "",
@@ -100,6 +105,9 @@ const PrescriptionWrite = () => {
       prescriptionId: location.state?.prescriptionId || undefined,
     },
   });
+
+  const title = watch("title");
+  const description = watch("description");
 
   const postPrscr = async (data) => {
     try {
@@ -277,19 +285,34 @@ const PrescriptionWrite = () => {
           >
             <div id="prscr_write_box">
               <label>
-                <p>제목</p>
+                <p className="prescription_content_bottom_text">
+                  제목{" "}
+                  <span>
+                    [ {title.length} / {MAX_LENGTH_TITLE}자 ]
+                  </span>
+                </p>
                 <input
                   {...register("title", { required: true })}
                   type="text"
                   placeholder="처방 제목을 작성하세요"
+                  maxLength={MAX_LENGTH_TITLE}
+                  minLength={1}
                 />
               </label>
               <label>
-                <p>처방사유</p>
+                <p className="prescription_content_bottom_text">
+                  처방사유{" "}
+                  <span>
+                    [ {description.length} / {MAX_LENGTH_DESCRIPTION}자 ]
+                  </span>
+                </p>
+
                 <textarea
                   {...register("description", { required: true })}
                   type="text"
                   placeholder="처방사유를 작성하세요"
+                  maxLength={MAX_LENGTH_DESCRIPTION}
+                  minLength={1}
                 />
               </label>
             </div>
