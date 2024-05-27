@@ -13,10 +13,11 @@ import api from '../../services/api';
 import '../../styles/Counseling/Counseling.css';
 
 const Counseling = () => {
+	const pageEnd = useRef();
+
 	const [page, setPage] = useState(0);
 	const [isLoading, setIsLoading] = useState(false);
 	const [testArr, setTestArr] = useState([]);
-	const pageEnd = useRef();
 
 	const [iconUrl, setIconUrl] = useState('/icon/white_search_icon.svg');
 	const [iconClick, setIconClick] = useState(false);
@@ -29,21 +30,17 @@ const Counseling = () => {
 
 	const [category, setCategory] = useState([]); // 처음으로 가져오는 카테고리
 
-	// 검색창에 이용
-	const handleIconUrl = async () => {
-		if (!iconClick) {
-			setIconUrl('/icon/black_search_icon.svg');
-		} else {
-			setIconUrl('/icon/white_search_icon.svg');
-		}
-	};
+	const [searchResArr, setSearchResArr] = useState([]);
+	const [searchPage, setSearchPage] = useState(0);
 
 	// 카테고리 가져오기
 	const getCategory = () => {
 		try {
-			api.get(`/api/boardKeyword/keyword`).then((res) => {
-				setCategory(res.data);
-			});
+			api
+				.get(`/api/boardKeyword/keyword`, { withCredentials: true })
+				.then((res) => {
+					setCategory(res.data);
+				});
 		} catch (err) {
 			console.log(err);
 		}
@@ -58,15 +55,58 @@ const Counseling = () => {
 	const fetchData = async () => {
 		setIsLoading(true); // 로딩 시작
 
+		// 이 부분 반영해야 됨.
+		// if (keyword === 'All') {
+		// 	try {
+		// 		await api.get(`/api/board/all?page=${page}&size=20`, { withCredentials: true }).then((res) => {
+		// 			console.log('키워드가 all일 때, 페이지: ', page);
+		// 			if (res.data.totalPages > page) {
+		// 				if (res.data.content.length === 0) {
+		// 					alert('마지막 고민입니다!');
+		// 				} else {
+		// 					setTestArr((prevData) => [...prevData, ...res.data.content]);
+		// 				}
+		// 			} else {
+		// 				alert('마지막 페이지입니다.');
+		// 			}
+		// 		})
+		// 	} catch (err) {
+		// 		console.log(err);
+		// 	} finally {
+		// 		setIsLoading(false);
+		// 	}
+		// } else {
+		// 	// 전체 조회가 아닌, 키워드별 필터링하는 경우
+		// 	try {
+		// 		await api.get(`/api/board/keyword?keyword=${keyword}&page=${keywordPage}&size=5`, { withCredentials: true }).then((res) => {
+		// 			if (res.data.totalPages > keywordPage) {
+		// 				if (res.data.content.length === 0) {
+		// 					alert('마지막 고민입니다.');
+		// 				} else {
+		// 					setKeywordArr((prevData) => [...prevData, ...res.data.content]);
+		// 				}
+		// 			} else {
+		// 				alert('마지막 페이지입니다.');
+		// 			}
+		// 		})
+		// 	} catch (err) {
+		// 		console.log(err);
+		// 	} finally {
+		// 		setIsLoading(false);
+		// 	}
+		// }
+
 		try {
 			console.log(page);
-			api.get(`/api/board/all?size=20&page=${page}`).then((res) => {
-				if (res.data.end) {
-					console.log('데이터 없음');
-				}
-				console.log(res.data);
-				setTestArr((prevData) => [...prevData, ...res.data]);
-			});
+			api
+				.get(`/api/board/all?size=20&page=${page}`, { withCredentials: true })
+				.then((res) => {
+					if (res.data.end) {
+						console.log('데이터 없음');
+					}
+					console.log(res.data);
+					setTestArr((prevData) => [...prevData, ...res.data]);
+				});
 		} catch (error) {
 			console.log(error);
 		} finally {
@@ -75,24 +115,50 @@ const Counseling = () => {
 		}
 	};
 
-	// 하단 타겟 인식해서 page 늘려줌
-	// 카테고리 설정된 상태에서 인식되면 카테고리 페이지를 늘려줘야 함.
+	// 마지막 타겟 인식될 때마다 페이지 늘리기
 	useEffect(() => {
+		if (pageEnd.current) {
+			pageEnd.current.disconnect();
+		}
+
 		const handleObserver = (entries) => {
 			const target = entries[0];
-			if (target.isIntersecting && !isLoading) {
-				console.log('visible');
-				setPage((prevPage) => prevPage + 1);
+			if (target.isIntersecting) {
+				if (keyword === 'All') {
+					if (searchResArr.length !== 0) {
+						setSearchPage((prevPage) => prevPage + 1);
+					} else {
+						setPage((prevPage) => prevPage + 1);
+					}
+				} else {
+					if (searchResArr.length !== 0) {
+						setSearchPage((prevPage) => prevPage + 1);
+					} else {
+						setKeywordPage((prevPage) => prevPage + 1);
+					}
+				}
 			}
 		};
 
-		// 로딩되었을 때만 실행
-		const observer = new IntersectionObserver(handleObserver, {
-			threshold: 0.5,
+		// 마지막 카드가 보였을 때만 실행
+		pageEnd.current = new IntersectionObserver(handleObserver, {
+			threshold: 1,
 		});
 
-		observer.observe(pageEnd.current);
-	}, []);
+		const lastElement = document.querySelector(
+			'.cnsFeed_card_wrapper > *:last-child',
+		);
+
+		if (lastElement) {
+			pageEnd.current.observe(lastElement);
+		}
+
+		return () => {
+			if (pageEnd.current) {
+				pageEnd.current.disconnect();
+			}
+		};
+	}, [testArr, keywordArr]);
 
 	// 아이콘 클릭 여부 핸들링 함수
 	const handleIcon = (e) => {
@@ -103,26 +169,26 @@ const Counseling = () => {
 
 		if (keyword === 'All') {
 			if (prevClick !== '') {
-				// console.log('중복');
 				// 동일한 아이콘 2번 눌렀다가 다시 눌렀을 때, 중복처리 되는 거 방지하기 위함.
 				setPrevClick(e.target.id);
-				fetchData();
+				// fetchData();
 			}
-		} else {
-			setPrevClick(e.target.id);
 		}
 
-		// 제일 처음 클릭된 거를 이전 클릭으로 지정
-		if (prevClick === '') {
-			setPrevClick(e.target.id);
-		}
-
-		if (prevClick !== '' && prevClick !== e.target.id && keyword !== 'All') {
+		if (prevClick !== e.target.id) {
 			if (prevTarget !== null) {
+				setPrevClick(e.target.id);
 				// 먼저 클릭된 아이콘이 있을 때
 				const prevTargetText = prevTarget.querySelector('.cns_category_text');
+				ctgType('전체');
 				prevTargetText.classList.remove('icon-active');
+			} else {
+				setPrevClick(e.target.id);
+				ctgType(e.target.id);
 			}
+		} else {
+			setPrevClick(prevClick);
+			prevTarget.classList.remove('icon-active');
 		}
 
 		if (targetText.className === 'cns_category_text') {
@@ -136,6 +202,37 @@ const Counseling = () => {
 			ctgType('전체');
 		}
 	};
+
+	// 키워드가 바뀔 때마다 API 호출
+	useEffect(async () => {
+		if (keyword !== 'All') {
+			setSearchPage(0);
+			setSearchResArr([]);
+
+			setKeywordPage(0);
+			setKeywordArr([]);
+			fetchData();
+		} else {
+			setSearchPage(0);
+			setSearchResArr([]);
+
+			setPage(0);
+			setTestArr([]);
+			fetchData();
+		}
+	}, [keyword]);
+
+	// 각 page 변경 감지에 따른 API호출
+	useEffect(() => {
+		if (page > 0 || keywordPage > 0) {
+			fetchData();
+		}
+		if (searchPage > 0) {
+			setPage(0);
+			setKeywordPage(0);
+			fetchSearchRes();
+		}
+	}, [page, keywordPage, searchPage]);
 
 	// 선택된 키워드 타입 지정
 	const ctgType = async (ctg) => {
@@ -185,34 +282,6 @@ const Counseling = () => {
 		}
 	};
 
-	// 키워드가 바뀔 때마다 API 호출
-	useEffect(() => {
-		setPage(0);
-		setKeywordPage(0);
-		setTestArr([]);
-		setKeywordArr([]);
-		if (keyword !== 'All') {
-			// window.location.reload();
-			fetchKeyword();
-		}
-	}, [keyword]);
-
-	// page 변경 감지에 따른 API호출
-	useEffect(() => {
-		if (keyword === 'All') {
-			// setPage(0);
-			setTestArr([]);
-
-			fetchData();
-		}
-	}, [page]);
-
-	// useEffect(() => {
-	// 	if (keyword !== 'All') {
-	// 		fetchKeyword();
-	// 	}
-	// },[keywordPage])
-
 	// 키워드별 검색
 	const fetchKeyword = async () => {
 		try {
@@ -243,20 +312,35 @@ const Counseling = () => {
 	// 검색 기능
 	const onKeyDown = (e) => {
 		if (e.key === 'Enter') {
+			setSearchPage(0);
+			setSearchResArr([]);
 			fetchSearchRes(e.target.value);
 		}
 	};
 
 	const fetchSearchRes = (searchText) => {
+		setIsLoading(true);
 		try {
 			if (searchText !== null) {
 				api
-					.get(`/api/board/search?searchKeyword=${searchText}&page=0&size=20`)
+					.get(
+						`/api/board/search?searchKeyword=${searchText}&page=${searchPage}&size=20`,
+						{ withCredentials: true },
+					)
 					.then((res) => {
-						if (res.data.end) {
-							console.log('데이터 없음');
+						if (res.data.totalPages > searchPage) {
+							if (res.data.content.length === 0) {
+								ctgType('전체');
+								alert('마지막 페이지입니다.');
+							} else {
+								setSearchResArr((prevData) => [
+									...prevData,
+									...res.data.content,
+								]);
+							}
+						} else {
+							console.log('마지막 페이지입니다.');
 						}
-						setTestArr(res.data);
 					});
 			} else if (searchText === '') {
 				// 검색어가 비어있을 때 페이지 새로고침
@@ -264,6 +348,8 @@ const Counseling = () => {
 			}
 		} catch (err) {
 			console.log(err);
+		} finally {
+			setIsLoading(false);
 		}
 	};
 
@@ -344,7 +430,7 @@ const Counseling = () => {
 					</div>
 				</div>
 				{isLoading && <p>Loading...</p>}
-				<div id="cn_target" ref={pageEnd}></div>
+				<div id="cn_target"></div>
 			</div>
 		</>
 	);
