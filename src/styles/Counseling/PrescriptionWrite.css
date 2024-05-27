@@ -152,6 +152,14 @@ button {
   height: 50vh;
 }
 
+.prescription_content_bottom_text {
+  color: black;
+}
+
+.prescription_content_bottom_text span {
+  color: #c2c2c2;
+}
+
 .prescription_btn_container {
   display: flex;
   align-items: center;
