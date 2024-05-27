@@ -39,6 +39,10 @@ const OneLinePrscrWrite = () => {
   const [modalIsClick, setModalIsClick] = useState(false);
   let [searchData, setSearchData] = useState(0);
 
+  // 글 작성
+  const [titleInput, setTitleInput] = useState("");
+  const [contentInput, setContentInput] = useState("");
+
   const handleModalClose = async () => {
     setIsShow(false);
   };
@@ -222,9 +226,6 @@ const OneLinePrscrWrite = () => {
       window.location.replace("/oneline/prescription");
     }
   };
-
-  const [titleInput, setTitleInput] = useState("");
-  const [contentInput, setContentInput] = useState("");
 
   return (
     <>
