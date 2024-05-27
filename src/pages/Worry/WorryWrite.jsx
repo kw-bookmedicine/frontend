@@ -8,6 +8,14 @@ import styled, { keyframes } from "styled-components";
 import ProcessTitle from "./../../components/Prescription/ProcessTitle";
 import api from "../../services/api";
 import { useNavigate } from "react-router-dom";
+import {
+  MAX_LENGTH_DEFAULT,
+  MAX_LENGTH_DESCRIPTION,
+} from "../../constants/constants";
+
+const getMaxLength = (field) => {
+  return field === "description" ? MAX_LENGTH_DESCRIPTION : MAX_LENGTH_DEFAULT;
+};
 
 // 화면이 크기가 줄어들지 않게 고정하기
 // 로딩 후 화면 전환 추가
@@ -501,6 +509,8 @@ const SelectOptions = ({
     }
   }, [isOtherSelected]);
 
+  const maxLength = getMaxLength(); // 글자수 제한
+
   return (
     <AnswersContainer>
       <Answers ref={answersRef}>
@@ -511,11 +521,17 @@ const SelectOptions = ({
           </Answer>
         ))}
         {isOtherSelected && (
-          <Input
-            placeholder="여기에 답변을 작성하세요."
-            value={otherText}
-            onChange={handleOtherInputChange}
-          />
+          <>
+            <Input
+              placeholder="여기에 답변을 작성하세요."
+              value={otherText}
+              onChange={handleOtherInputChange}
+              maxLength={maxLength}
+            />
+            <CharCountDisplay>
+              <span>{otherText.length}</span> / {maxLength}자
+            </CharCountDisplay>
+          </>
         )}
       </Answers>
 
@@ -538,21 +554,32 @@ const FreeTextAnswer = ({
   handleInputedAnswer,
   handleNextStep,
 }) => {
-  const maxLength = 1000;
+  const maxLength = getMaxLength(question.field); // question.field 가 description일때 글자수 1,000자 적용
+  const value = userSelections[question.field] || "";
 
+  console.log(
+    question.minLength,
+    userSelections[question.field]?.length,
+    question?.minLength,
+    value.length
+  );
   return (
     <AnswersContainer>
-      <Input
-        placeholder="여기에 답변을 작성하세요."
-        value={userSelections[question.field]}
-        onChange={(e) => handleInputedAnswer(e.target.value)}
-        maxLength={maxLength} // textarea 글자수 제한
-      />
+      <InputWrapper>
+        <Input
+          placeholder="여기에 답변을 작성하세요."
+          value={value}
+          onChange={(e) => handleInputedAnswer(e.target.value)}
+          maxLength={maxLength} // textarea 글자수 제한
+        />
+        <CharCountDisplay>
+          <span>{value.length}</span> / {maxLength}자
+        </CharCountDisplay>
+      </InputWrapper>
+
       <Button
         disabled={
-          question.minLength
-            ? userSelections[question.field]?.length < question?.minLength
-            : false
+          question.minLength ? value.length < question.minLength : false
         }
         onClick={handleNextStep}
       >
@@ -563,7 +590,7 @@ const FreeTextAnswer = ({
 };
 
 // 정규 질문 타입에 대한 컴포넌트
-const NormalQuestion = ({ state, userAnswers, handleNextStep, dispatch }) => {
+const NormalQuestion = ({ state, userAnswers, dispatch }) => {
   const postData = createDataObject(state);
 
   const handleSubmit = async () => {
@@ -597,7 +624,6 @@ const NormalQuestion = ({ state, userAnswers, handleNextStep, dispatch }) => {
       <Button
         onClick={() => {
           handleSubmit();
-          // handleNextStep();
         }}
       >
         제출하기
@@ -691,6 +717,21 @@ const Sticky = styled.div`
   top: 64px;
   z-index: 999;
   background-color: white;
+`;
+
+const CharCountDisplay = styled.p`
+  color: #b5b5b5;
+  text-align: right;
+
+  span {
+    color: var(--primary-color);
+  }
+`;
+
+const InputWrapper = styled.div`
+  /* width: 100%;
+  height: 100%; */
+  margin-bottom: 20px;
 `;
 
 const Loading = styled.div`
