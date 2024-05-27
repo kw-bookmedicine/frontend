@@ -36,6 +36,7 @@ import PrescriptionWriteStep2 from './pages/PrescriptionWriteStep2';
 import PrescriptionDetail from './pages/Prescription/PrescriptionDetail';
 import OneLinePrescription from './pages/Prescription/OneLinePrescription';
 import OneLinePrscrWrite from './pages/Prescription/OneLinePrscrWrite.jsx';
+import OneLinePrscrEdit from './pages/Prescription/OneLinePrscrEdit.jsx';
 import OneLinePrscrDetail from './pages/Prescription/OneLinePrscrDetail.jsx';
 
 // STYLE
@@ -95,6 +96,10 @@ function App() {
 						<Route
 							path="/oneline/prescription/write"
 							element={<OneLinePrscrWrite />}
+						/>
+						<Route
+							path="/oneline/prescription/edit"
+							element={<OneLinePrscrEdit />}
 						/>
 						<Route path="/prescription/write" element={<PrescriptionWrite />} />
 						{/* <Route
