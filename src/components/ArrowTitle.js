@@ -10,17 +10,26 @@ const ArrowTitle = ({ bigCategory, title, type }) => {
 		titleType === 'oneLine'
 			? '/oneline/prescription'
 			: `/book/${bigCategory}/${title}`;
-
-	return (
-		<div className={styles[`${titleType}_container`]}>
-			<div className={styles[`${titleType}_wrapper`]}>
-				<div className={styles['title']}>{title}</div>
-				<Link to={linkUrl}>
-					<div className={styles['arrow']}></div>
-				</Link>
+	if (titleType === 'shadow') {
+		return (
+			<div className={styles[`${titleType}_container`]}>
+				<div className={styles[`${titleType}_wrapper`]}>
+					<div className={styles['title']}>{title}</div>
+				</div>
 			</div>
-		</div>
-	);
+		);
+	} else {
+		return (
+			<div className={styles[`${titleType}_container`]}>
+				<div className={styles[`${titleType}_wrapper`]}>
+					<div className={styles['title']}>{title}</div>
+					<Link to={linkUrl}>
+						<div className={styles['arrow']}></div>
+					</Link>
+				</div>
+			</div>
+		);
+	}
 };
 
 export default ArrowTitle;
