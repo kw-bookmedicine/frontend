@@ -57,63 +57,70 @@ const Counseling = () => {
 
 		// 이 부분 반영해야 됨.
 
-		// if (keyword === 'All') {
-		// 	try {
-		// 		await api.get(`/api/board/all?page=${page}&size=20`, { withCredentials: true }).then((res) => {
-		// 			console.log('키워드가 all일 때, 페이지: ', page);
-		// 			if (res.data.totalPages > page) {
-		// 				if (res.data.content.length === 0) {
-		// 					alert('마지막 고민입니다!');
-		// 				} else {
-		// 					setTestArr((prevData) => [...prevData, ...res.data.content]);
-		// 				}
-		// 			} else {
-		// 				alert('마지막 페이지입니다.');
-		// 			}
-		// 		})
-		// 	} catch (err) {
-		// 		console.log(err);
-		// 	} finally {
-		// 		setIsLoading(false);
-		// 	}
-		// } else {
-		// 	// 전체 조회가 아닌, 키워드별 필터링하는 경우
-		// 	try {
-		// 		await api.get(`/api/board/keyword?keyword=${keyword}&page=${keywordPage}&size=5`, { withCredentials: true }).then((res) => {
-		// 			if (res.data.totalPages > keywordPage) {
-		// 				if (res.data.content.length === 0) {
-		// 					alert('마지막 고민입니다.');
-		// 				} else {
-		// 					setKeywordArr((prevData) => [...prevData, ...res.data.content]);
-		// 				}
-		// 			} else {
-		// 				alert('마지막 페이지입니다.');
-		// 			}
-		// 		})
-		// 	} catch (err) {
-		// 		console.log(err);
-		// 	} finally {
-		// 		setIsLoading(false);
-		// 	}
-		// }
-
-		try {
-			console.log(page);
-			api
-				.get(`/api/board/all?size=20&page=${page}`, { withCredentials: true })
-				.then((res) => {
-					if (res.data.end) {
-						console.log('데이터 없음');
-					}
-					console.log(res.data);
-					setTestArr((prevData) => [...prevData, ...res.data]);
-				});
-		} catch (error) {
-			console.log(error);
-		} finally {
-			// 로딩 종료
-			setIsLoading(false);
+		if (keyword === 'All') {
+			try {
+				await api
+					.get(`/api/board/all?page=${page}&size=20`, { withCredentials: true })
+					.then((res) => {
+						console.log('키워드가 all일 때, 페이지: ', page);
+						if (res.data.totalPages > page) {
+							if (res.data.content.length === 0) {
+								alert('마지막 고민입니다!');
+							} else {
+								setTestArr((prevData) => [...prevData, ...res.data.content]);
+							}
+						} else {
+							// alert('마지막 페이지입니다.');
+						}
+					});
+			} catch (err) {
+				console.log(err);
+			} finally {
+				setIsLoading(false);
+			}
+		} else {
+			// 전체 조회가 아닌, 키워드별 필터링하는 경우
+			try {
+				await api
+					.get(
+						`/api/board/keyword?keyword=${keyword}&page=${keywordPage}&size=5`,
+						{ withCredentials: true },
+					)
+					.then((res) => {
+						if (res.data.totalPages > keywordPage) {
+							if (res.data.content.length === 0) {
+								alert('마지막 고민입니다.');
+							} else {
+								setKeywordArr((prevData) => [...prevData, ...res.data.content]);
+							}
+						} else {
+							alert('마지막 페이지입니다.');
+						}
+					});
+			} catch (err) {
+				console.log(err);
+			} finally {
+				setIsLoading(false);
+			}
 		}
+
+		// try {
+		// 	console.log(page);
+		// 	api
+		// 		.get(`/api/board/all?size=20&page=${page}`, { withCredentials: true })
+		// 		.then((res) => {
+		// 			if (res.data.content.end) {
+		// 				console.log('데이터 없음');
+		// 			}
+		// 			console.log(res.data.content);
+		// 			setTestArr((prevData) => [...prevData, ...res.data.content]);
+		// 		});
+		// } catch (error) {
+		// 	console.log(error);
+		// } finally {
+		// 	// 로딩 종료
+		// 	setIsLoading(false);
+		// }
 	};
 
 	// 마지막 타겟 인식될 때마다 페이지 늘리기
@@ -332,7 +339,7 @@ const Counseling = () => {
 						if (res.data.totalPages > searchPage) {
 							if (res.data.content.length === 0) {
 								ctgType('전체');
-								alert('마지막 페이지입니다.');
+								// alert('마지막 페이지입니다.');
 							} else {
 								setSearchResArr((prevData) => [
 									...prevData,
@@ -418,8 +425,33 @@ const Counseling = () => {
 					</div> */}
 
 					<div className="cnsFeed_card_wrapper">
-						{}
-						{keywordArr.length > 0
+						{keyword === 'All'
+							? searchResArr.length === 0
+								? testArr.map((item, idx) => {
+										return (
+											<CnsFeed key={`keywordFeed-${idx}-${item}`} item={item} />
+										);
+								  })
+								: searchResArr.map((item, idx) => {
+										return (
+											<CnsFeed
+												key={`searchRes-${idx}:${item.id}`}
+												item={item}
+											/>
+										);
+								  })
+							: searchResArr.length === 0
+							? keywordArr.map((item, idx) => {
+									return (
+										<CnsFeed key={`${keyword}-${idx}:${item.id}`} item={item} />
+									);
+							  })
+							: searchResArr.map((item, idx) => {
+									return (
+										<CnsFeed key={`searchRes-${idx}:${item.id}`} item={item} />
+									);
+							  })}
+						{/* {keywordArr.length > 0
 							? keywordArr.map((item, idx) => {
 									return (
 										<CnsFeed key={`keywordFeed-${idx}-${item}`} item={item} />
@@ -427,7 +459,7 @@ const Counseling = () => {
 							  })
 							: testArr.map((item, idx) => {
 									return <CnsFeed key={`${idx}-${item.boardId}`} item={item} />;
-							  })}
+							  })} */}
 					</div>
 				</div>
 				{isLoading && <p>Loading...</p>}
