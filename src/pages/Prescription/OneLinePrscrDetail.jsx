@@ -77,13 +77,23 @@ const OneLinePrscrDetail = () => {
 
 	const deletePrscr = () => {
 		try {
-			api.delete(`/api/oneline-prescriptions/${prscrId}`).then((res) => {
-				console.log(res.data);
-			});
+			api
+				.delete(`/api/oneline-prescriptions/${prscrId}`, {
+					withCredentials: true,
+				})
+				.then((res) => {
+					if (res.data === 'success') {
+						alert('한 줄 처방을 삭제했습니다.').then(
+							navigate('/oneline/prescription'),
+						);
+					} else {
+						alert('한 줄 처방 삭제에 실패했습니다.');
+					}
+				});
 		} catch (err) {
 			console.log(err);
 		}
-		console.log('삭제');
+		// console.log('삭제');
 	};
 
 	return (

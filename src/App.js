@@ -39,6 +39,9 @@ import OneLinePrscrWrite from "./pages/Prescription/OneLinePrscrWrite.jsx";
 import OneLinePrscrEdit from "./pages/Prescription/OneLinePrscrEdit.jsx";
 import OneLinePrscrDetail from "./pages/Prescription/OneLinePrscrDetail.jsx";
 
+// 내 페이지들
+import MyWorryPage from "./pages/profile/MyWorryPage.jsx";
+
 // STYLE
 import GlobalStyles from "./styles/GlobalStyles";
 import "./App.css";
@@ -68,6 +71,7 @@ function App() {
             <Route path="/feed" element={<Feed />} />
             <Route path="/search" element={<Search />} />
             <Route path="/search/:result" element={<SearchResult />} />
+            <Route path="/mypage" element={<Mypage />} />
             <Route path="/myfeed" element={<MyFeed />} />
             <Route path="/myworry" element={<MyWorry />} />
             <Route path="/edit" element={<Edit />} />
