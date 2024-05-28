@@ -1,0 +1,52 @@
+.myWorry_container {
+	width: 100%;
+	height: fit-content;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.myWorry_title_wrapper {
+	width: 100%;
+	height: 150px;
+	display: flex;
+	justify-content: center;
+	padding: 20px 0;
+	align-items: center;
+}
+
+.myWorry_title_wrapper > h2 {
+	font-family: var(--basic-font);
+	font-size: 28px;
+	font-weight: 600;
+	font-style: normal;
+	line-height: 32px;
+}
+
+.myWorry_content_container {
+	width: 100%;
+	height: fit-content;
+	max-width: 1080px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.myWorry_content_container > p {
+	width: 100%;
+	font-size: 18px;
+	font-style: normal;
+	font-weight: 600;
+	display: flex;
+	justify-content: flex-start;
+}
+
+.myWorry_content_wrapper {
+	width: 100%;
+	height: fit-content;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin: 20px 0;
+}
