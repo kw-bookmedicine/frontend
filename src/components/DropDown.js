@@ -18,7 +18,7 @@ const DropDown = ({ DropDownTitle, type, ctgType, onClick }) => {
 	};
 
 	const editableCtg = async (ctg) => {
-		onClick(ctg);
+		ctgType(ctg);
 	};
 
 	const renderJob = () => {
