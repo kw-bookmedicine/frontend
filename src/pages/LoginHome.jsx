@@ -46,8 +46,6 @@ const LoginHome = () => {
     return sessionStorage.getItem("selectedEmotion") || "";
   });
 
-  // 배경색상
-  const [backgroundColor, setBackgroundColor] = useState("#9BD0D8");
   // 로그아웃된 상태라면 로그인 화면으로 이동
   useEffect(() => {
     // if (localStorage.getItem('token') === null) {
@@ -96,12 +94,9 @@ const LoginHome = () => {
   return (
     <>
       <Header />
-      <div className="loginHome-banner-container" style={{ backgroundColor }}>
-        {/* max-width 값 정하고 */}
-        <div className="loginHome-banner-contents">
-          <BannerSlider setBackgroundColor={setBackgroundColor} />
-        </div>
-      </div>
+
+      <BannerSlider />
+
       <div className="loginHome-container">
         <Modal
           isOpen={isModalOpen}
