@@ -4,6 +4,7 @@ import BannerImage1 from "../assets/images/banner/login-home-banner-1.png";
 import BannerImage2 from "../assets/images/banner/login-home-banner-2.png";
 
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
+import { Link } from "react-router-dom";
 
 export const BannerSlider = ({ setBackgroundColor }) => {
   const handleSlideChange = (swiper) => {
@@ -25,10 +26,14 @@ export const BannerSlider = ({ setBackgroundColor }) => {
       modules={[Autoplay, Navigation, Pagination]}
     >
       <SwiperSlide>
-        <img src={BannerImage1} alt="Banner 1" />
+        <Link to={"/worry/write"}>
+          <img src={BannerImage1} alt="Banner 1" />
+        </Link>
       </SwiperSlide>
       <SwiperSlide>
-        <img src={BannerImage2} alt="Banner 2" />
+        <Link to={"/counseling"}>
+          <img src={BannerImage2} alt="Banner 2" />
+        </Link>
       </SwiperSlide>
     </Swiper>
   );

@@ -23,7 +23,8 @@ const LoginHome = () => {
     return sessionStorage.getItem("selectedEmotion") || "";
   });
 
-  const [backgroundColor, setBackgroundColor] = useState("#CCE8EC");
+  // 배경색상
+  const [backgroundColor, setBackgroundColor] = useState("#9BD0D8");
   // 로그아웃된 상태라면 로그인 화면으로 이동
   useEffect(() => {
     // if (localStorage.getItem('token') === null) {
@@ -77,12 +78,12 @@ const LoginHome = () => {
         </div>
       </div>
       <div className="LoginHome-container">
-        {/* <Modal
+        <Modal
           isOpen={isModalOpen}
           onClose={closeModal}
           selectedEmotion={selectedEmotion}
           setSelectedEmotion={setSelectedEmotion}
-        /> */}
+        />
         <div className="LoginHome-main-container">
           <div className="LoginHome-today">
             <div className="LoginHome-today-item">
