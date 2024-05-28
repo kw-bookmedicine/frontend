@@ -103,24 +103,6 @@ const Counseling = () => {
 				setIsLoading(false);
 			}
 		}
-
-		// try {
-		// 	console.log(page);
-		// 	api
-		// 		.get(`/api/board/all?size=20&page=${page}`, { withCredentials: true })
-		// 		.then((res) => {
-		// 			if (res.data.content.end) {
-		// 				console.log('데이터 없음');
-		// 			}
-		// 			console.log(res.data.content);
-		// 			setTestArr((prevData) => [...prevData, ...res.data.content]);
-		// 		});
-		// } catch (error) {
-		// 	console.log(error);
-		// } finally {
-		// 	// 로딩 종료
-		// 	setIsLoading(false);
-		// }
 	};
 
 	// 마지막 타겟 인식될 때마다 페이지 늘리기
@@ -179,7 +161,6 @@ const Counseling = () => {
 			if (prevClick !== '') {
 				// 동일한 아이콘 2번 눌렀다가 다시 눌렀을 때, 중복처리 되는 거 방지하기 위함.
 				setPrevClick(e.target.id);
-				// fetchData();
 			}
 		}
 
@@ -290,33 +271,6 @@ const Counseling = () => {
 		}
 	};
 
-	// 키워드별 검색
-	const fetchKeyword = async () => {
-		try {
-			if (keyword !== '') {
-				api
-					.get(
-						`api/board/keyword?keyword=${keyword}&page=${keywordPage}&size=5`,
-					)
-					.then((res) => {
-						if (res.data.length === 0) {
-							alert('조회된 게시글이 없습니다.');
-							setKeyword('All');
-							// 페이지 새로고침
-							window.location.reload();
-						}
-						if (res.data.end) {
-							console.log('데이터 없음.');
-						}
-						console.log(res.data);
-						setKeywordArr((prevData) => [...prevData, ...res.data]);
-					});
-			}
-		} catch (err) {
-			console.log(err);
-		}
-	};
-
 	// 검색 기능
 	const onKeyDown = (e) => {
 		if (e.key === 'Enter') {
@@ -339,7 +293,6 @@ const Counseling = () => {
 						if (res.data.totalPages > searchPage) {
 							if (res.data.content.length === 0) {
 								ctgType('전체');
-								// alert('마지막 페이지입니다.');
 							} else {
 								setSearchResArr((prevData) => [
 									...prevData,
