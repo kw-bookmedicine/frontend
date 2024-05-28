@@ -23,25 +23,23 @@
 }
 
 /* 로그인 홈 페이지 크기 설정 */
-.LoginHome-container {
+.loginHome-container {
+  width: 100%;
   max-width: 1440px;
   margin: 0 auto;
-  font-family: "Pretendard-Regular";
   box-sizing: border-box;
 }
 
-/* 배너 */
-.LoginHome-banner-container {
-  height: 252px;
-  /* background-color:#FFDADF; */
-  background: linear-gradient(92deg, #d5e0ff 0%, #ffdadf 100%);
+.loginHome-banner-container {
+  width: 100%;
+  height: 230px;
   font-size: 24px;
   font-weight: 700;
   cursor: pointer;
 }
 
 /* 배너 내용 위치 */
-.LoginHome-banner-contents {
+.loginHome-banner-contents {
   max-width: 1440px;
   height: 100%;
   display: flex;
@@ -51,7 +49,7 @@
   padding: 0px 40px;
 }
 
-.LoginHome-banner-title h1 {
+.loginHome-banner-title h1 {
   color: black;
   font-size: 36px;
   font-weight: 700;
@@ -60,7 +58,7 @@
   white-space: nowrap;
 }
 
-.LoginHome-banner-contents h4 {
+.loginHome-banner-contents h4 {
   color: black;
   font-size: 14px;
   font-weight: 500;
@@ -69,7 +67,7 @@
 }
 
 /* 배너 밑의 전체 컨텐츠 */
-.LoginHome-main-container {
+.loginHome-main-container {
   padding: 80px 42px;
   /* background-color: red; */
 }
@@ -82,6 +80,76 @@
 }
 
 /* 오늘의 처방전 */
+.loginHome-prescription-section {
+  padding: 80px 100px;
+}
+
+.loginHome-prescription-title {
+  font-size: 24px;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.loginHome-prescription-subtitle {
+  font-size: 16px;
+  margin-bottom: 30px;
+  color: #757575;
+}
+
+.loginHome-prescription-cards {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.loginHome-card {
+  width: 380px;
+  height: 270px;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.loginHome-card h3 {
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+.loginHome-book-info {
+  display: flex;
+  gap: 10px;
+}
+
+.loginHome-book-image {
+  width: 160px;
+  height: 235px;
+}
+
+.loginHome-book-container {
+  width: 100%;
+}
+
+.loginHome-book-details {
+  height: 155px;
+}
+
+.loginHome-book-title {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.loginHome-book-author {
+  font-size: 14px;
+}
+
+.loginHome-book-button {
+  height: 35px;
+  width: 100%;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
 .LoginHome-today-item {
   width: 30%;
   height: 452px;
@@ -185,13 +253,15 @@
 
 .LoginHome-today-reviews {
   flex: 1;
-  height: 452px;
+  /* height: 452px; */
+  margin-top: 120px;
+
   /* background-color: bisque; */
 }
 
 .LoginHome-today-reviews-top {
   position: relative;
-  margin-bottom: 12px;
+  margin-bottom: 20px;
 }
 
 .LoginHome-today-reviews-top-button {
@@ -208,32 +278,33 @@
 
 .LoginHome-today-reviews-items {
   display: grid;
-  gap: 8px;
+  gap: 20px;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(2, 1fr);
   /* overflow: hidden; */
 }
 
-.LoginHome-today-reviews-items > div {
-  /* height: 190px; */
-  /* border: 1px solid blue; */
-  /* background-color: #d9d9d9; */
+.LoginHome-today-reviews-items > li {
   box-sizing: border-box;
-  background: linear-gradient(111deg, #cafadf 0%, #d5e0ff 100%);
+  /* background: linear-gradient(111deg, #cafadf 0%, #d5e0ff 100%); */
   box-shadow: 1px 1px 4px rgba(118.97, 118.97, 118.97, 0.25);
   border-radius: 10px;
 }
 
 .LoginHome-today-reviews-items-card {
   position: relative;
+  width: 393px;
+}
+.LoginHome-today-reviews-items-card:hover {
+  background-color: #f5f6f7;
 }
 
 .LoginHome-today-reviews-items-card-body {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
-  padding: 9px 6px 0px 11px;
-  height: 160px;
+  padding: 12px 12px 0px 12px;
+  height: 150px;
 }
 
 .LoginHome-today-reviews-items-card-body > p {
@@ -248,6 +319,11 @@
 
 .LoginHome-today-reviews-items-card-book {
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0px 20px;
 }
 
 .LoginHome-today-reviews-items-card-book > img {
@@ -259,13 +335,28 @@
 }
 
 .LoginHome-today-reviews-items-card-book > h2 {
-  font-size: 13px;
+  font-size: 22px;
   font-weight: 600;
-  margin-bottom: 2px;
+  margin-bottom: 16px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  word-break: keep-all;
+  -webkit-line-clamp: 1;
 }
 
 .LoginHome-today-reviews-items-card-book > h3 {
-  font-size: 10px;
+  font-size: 16px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  word-break: keep-all;
+  -webkit-line-clamp: 3;
+  color: #717a76;
 }
 
 .LoginHome-today-reviews-items-card-date {
@@ -278,24 +369,52 @@
 
 .LoginHome-today-reviews-items-card-footer {
   display: flex;
-  background: #fff;
   border-radius: 0px 0px 10px 10px;
-  padding: 8px 16px;
+  padding: 16px 16px;
+  height: 60px;
+  align-items: center;
+  margin-top: -16px;
 }
 
 .LoginHome-today-reviews-items-card-footer > img {
-  width: 20px;
-  height: 20px;
+  width: 35px;
+  height: 35px;
   background: #a4d6dd;
   border-radius: 20px;
-  margin-right: 4px;
+  margin-right: 10px;
+}
+
+.LoginHome-user-img-container {
+  width: 35px;
+  height: 35px;
+  background: #a4d6dd; /* 기본 회색 배경 */
+  border-radius: 20px;
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.LoginHome-user-img-container img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .LoginHome-today-reviews-items-card-footer > p {
   height: 100%;
   line-height: 1.2rem;
-  font-size: 10px;
+  font-size: 20px;
   font-weight: 500;
+  display: flex;
+  align-items: center;
+}
+
+.LoginHome-card-date {
+  font-size: 10px;
+  margin-top: 4px;
+  color: #757575;
 }
 
 .best,
