@@ -56,6 +56,7 @@ const Counseling = () => {
 		setIsLoading(true); // 로딩 시작
 
 		// 이 부분 반영해야 됨.
+
 		// if (keyword === 'All') {
 		// 	try {
 		// 		await api.get(`/api/board/all?page=${page}&size=20`, { withCredentials: true }).then((res) => {
@@ -400,12 +401,6 @@ const Counseling = () => {
 							onKeyDown={onKeyDown}
 						/>
 					</form>
-				</div>
-				<div className="counseling_feed_wrapper">
-					{/* <div className="cnsFeed_card_wrapper">
-						<CnsFeed />
-					</div> */}
-
 					<div className="cns_writeBtn_wrapper">
 						<Link to={'/worry/write'} className="cns_writeBtn_wrapper_link">
 							<img
@@ -416,6 +411,12 @@ const Counseling = () => {
 							고민작성하기
 						</Link>
 					</div>
+				</div>
+				<div className="counseling_feed_wrapper">
+					{/* <div className="cnsFeed_card_wrapper">
+						<CnsFeed />
+					</div> */}
+
 					<div className="cnsFeed_card_wrapper">
 						{}
 						{keywordArr.length > 0
