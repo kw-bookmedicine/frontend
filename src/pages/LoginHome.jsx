@@ -13,9 +13,32 @@ import PrescriptionReviewCard from "../components/PrescriptionReviewCard";
 // CSS
 import "../styles/LoginHome.css";
 import { BannerSlider } from "../components/BannerSlider";
+import TodayPrescriptionCard from "../components/Card/TodayPrescriptionCard";
+import api from "../services/api";
 
 const LoginHome = () => {
   const [isModalOpen, setModalOpen] = useState(false);
+
+  const [recentPosts, setRecentPosts] = useState([]);
+  const [boardLoaing, setBoardLoading] = useState(false);
+
+  const fetchBoardData = async () => {
+    try {
+      const res = await api("/api/board/all?page=0&size=6", {
+        withCredentials: true,
+      });
+      setRecentPosts(res.data.content);
+      console.log(res);
+      setBoardLoading(true);
+    } catch (error) {
+      console.error("고민글 요청 실패", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchBoardData();
+  }, []);
+
   // const [selectedEmotion, setSelectedEmotion] = useState("");
 
   // 세션 스토리지에서 'selectedEmotion' 값을 읽어오고, 없다면 기본값으로 빈 문자열을 사용
@@ -68,118 +91,92 @@ const LoginHome = () => {
     .toString()
     .padStart(2, "0")}.${currentDate.getDate().toString().padStart(2, "0")}`;
 
+  // 최근 고민글 데이터
+
   return (
     <>
       <Header />
-      <div className="LoginHome-banner-container" style={{ backgroundColor }}>
+      <div className="loginHome-banner-container" style={{ backgroundColor }}>
         {/* max-width 값 정하고 */}
-        <div className="LoginHome-banner-contents">
+        <div className="loginHome-banner-contents">
           <BannerSlider setBackgroundColor={setBackgroundColor} />
         </div>
       </div>
-      <div className="LoginHome-container">
+      <div className="loginHome-container">
         <Modal
           isOpen={isModalOpen}
           onClose={closeModal}
           selectedEmotion={selectedEmotion}
           setSelectedEmotion={setSelectedEmotion}
         />
-        <div className="LoginHome-main-container">
-          <div className="LoginHome-today">
-            <div className="LoginHome-today-item">
-              <h2 className="LoginHome-today-item-title">오늘의 처방전</h2>
-              <div className="LoginHome-today-item-contents">
-                <div className="LoginHome-today-item-contents-text">
-                  오늘
-                  <p className="LoginHome-today-item-contents-text-hightlight">
-                    {selectedEmotion === ""
-                      ? "\u00A0\u00A0\u00A0\u00A0"
-                      : emotionMappings[selectedEmotion]}
-                  </p>
-                  당신을 위한 책 처방
-                </div>
-                <img src="" alt="" />
-                <h3 className="LoginHome-today-item-contents-title">책 제목</h3>
-                <h4>저자</h4>
-                <h3 className="LoginHome-today-item-contents-date">
-                  {formattedDate}
-                </h3>
+        <section className="loginHome-prescription-section">
+          <h2 className="loginHome-prescription-title">
+            AI 약사에게 처방 받아보세요!
+          </h2>
+          <p className="loginHome-prescription-subtitle">
+            AI 약사가 당신에게 처방하는 책
+          </p>
+          <ul className="loginHome-prescription-cards">
+            <TodayPrescriptionCard
+              backgroundColor="#CCE8EC"
+              bookTitle="해리포터와 불의 잔"
+              author="J.K. 롤링"
+            />
+            <TodayPrescriptionCard
+              backgroundColor="#d2e7a5"
+              bookTitle="해리포터와 불의 잔"
+              author="J.K. 롤링"
+            />
+            <TodayPrescriptionCard
+              backgroundColor="#F5DAD2"
+              bookTitle="해리포터와 불의 잔"
+              author="J.K. 롤링"
+            />
+          </ul>
+          <div className="LoginHome-today-reviews">
+            <div className="LoginHome-today-reviews-top">
+              <div className="LoginHome-today-reviews-top-title">
+                따끈따끈한 고민 보러가기
               </div>
+              <div className="LoginHome-today-reviews-top-subtitle">
+                다른 사람들의 다양한 고민 상담
+              </div>
+              <Link
+                to={"/counseling"}
+                className="LoginHome-today-reviews-top-button"
+              ></Link>
             </div>
-            <div className="LoginHome-today-reviews">
-              <div className="LoginHome-today-reviews-top">
-                <div className="LoginHome-today-reviews-top-title">
-                  다른 사람들은 어떨까?
-                </div>
-                <div className="LoginHome-today-reviews-top-subtitle">
-                  다른 사람들의 처방전 후기
-                </div>
-                <Link
-                  to={"/feed"}
-                  className="LoginHome-today-reviews-top-button"
-                ></Link>
-              </div>
-              <div className="LoginHome-today-reviews-items">
-                <PrescriptionReviewCard
-                  reviewDate={"2024.01.13"}
-                  bookImg={""}
-                  bookCategory={"서시"}
-                  author={"윤동주"}
-                  review={"죽는 날까지 하늘을 우러러 한 점 부끄럼이 없기를"}
-                  userImg={""}
-                  userNickname={"유저 닉네임"}
-                />
-                <PrescriptionReviewCard
-                  reviewDate={"2024.01.13"}
-                  bookImg={""}
-                  bookCategory={"서시"}
-                  author={"윤동주"}
-                  review={"죽는 날까지 하늘을 우러러 한 점 부끄럼이 없기를"}
-                  userImg={""}
-                  userNickname={"유저 닉네임"}
-                />
-                <PrescriptionReviewCard
-                  reviewDate={"2024.01.13"}
-                  bookImg={""}
-                  bookCategory={"서시"}
-                  author={"윤동주"}
-                  review={"죽는 날까지 하늘을 우러러 한 점 부끄럼이 없기를"}
-                  userImg={""}
-                  userNickname={"유저 닉네임"}
-                />
-                <PrescriptionReviewCard
-                  reviewDate={"2024.01.13"}
-                  bookImg={""}
-                  bookCategory={"서시"}
-                  author={"윤동주"}
-                  review={"죽는 날까지 하늘을 우러러 한 점 부끄럼이 없기를"}
-                  userImg={""}
-                  userNickname={"유저 닉네임"}
-                />
-                <PrescriptionReviewCard
-                  reviewDate={"2024.01.13"}
-                  bookImg={""}
-                  bookCategory={"서시"}
-                  author={"윤동주"}
-                  review={
-                    "죽는 날까지 하늘을 우러러 한 점 부끄럼이 없기를죽는 날까지 하늘을 우러러 한 점 부끄럼이 없기를죽는 날까지 하늘을 우러러 한 점 부끄럼이 없기를죽는 날까지 하늘을 우러러 한 점 부끄럼이 없기를죽는 날까지 하늘을 우러러 한 점 부끄럼이 없기를"
-                  }
-                  userImg={""}
-                  userNickname={"유저 닉네임"}
-                />
-                <PrescriptionReviewCard
-                  reviewDate={"2024.01.13"}
-                  bookImg={""}
-                  bookCategory={"서시"}
-                  author={"윤동주"}
-                  review={"죽는 날까지 하늘을 우러러 한 점 부끄럼이 없기를"}
-                  userImg={""}
-                  userNickname={"유저 닉네임"}
-                />
-              </div>
-            </div>
+            <ul className="LoginHome-today-reviews-items">
+              {boardLoaing ? (
+                recentPosts?.map((post) => (
+                  <PrescriptionReviewCard
+                    key={post.boardId}
+                    createdDate={post.createdDate}
+                    nickname={post.nickname}
+                    title={post.title}
+                    content={` Lorem ipsum dolor sit amet consectetur adipisicing elit. Id dicta
+            maxime totam eos tempora ipsum laudantium. Laudantium veniam dolor a
+            culpa, magnam aspernatur dicta totam adipisci necessitatibus minima,
+            mollitia, odit aliquam. Atque ea, quod vitae velit ullam nostrum
+            tenetur? Rerum, quia! Sapiente accusamus obcaecati, praesentium
+            veritatis odio voluptatem cum blanditiis aspernatur nulla. Rerum
+            architecto nostrum iste, ullam iusto qui itaque repellendus placeat
+            similique, recusandae, consequatur inventore harum unde soluta omnis
+            corporis libero culpa ex neque quia in iure dicta! Impedit quo
+            distinctio optio ducimus, eaque, consectetur expedita esse earum
+            consequatur repellat fugiat reiciendis deserunt id. Voluptatem esse
+            sapiente maiores veritatis!`}
+                    userImg={""}
+                    boardId={post.boardId}
+                  />
+                ))
+              ) : (
+                <div>Loading...</div>
+              )}
+            </ul>
           </div>
-        </div>
+        </section>
+
         <Slider
           title="베스트 셀러"
           subtitle="가장 많이 읽은 책 순위는?"
