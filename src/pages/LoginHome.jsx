@@ -15,10 +15,15 @@ import "../styles/LoginHome.css";
 import { BannerSlider } from "../components/BannerSlider";
 import TodayPrescriptionCard from "../components/Card/TodayPrescriptionCard";
 import api from "../services/api";
+import useNicknameStore from "../store/nickname-store";
 
 const LoginHome = () => {
   const [recentPosts, setRecentPosts] = useState([]); // 최신 고민글 데이터
   const [boardLoaing, setBoardLoading] = useState(false);
+
+  const { fetchNickname } = useNicknameStore(); // 유저 닉네임 가져오기
+
+  // const {nickname} = useNicknameStore(); 이렇게 활용해서 사용하면됩니다.
 
   // 최근 고민글 6개 조회
   const fetchRecentBoardData = async () => {
@@ -36,7 +41,8 @@ const LoginHome = () => {
 
   useEffect(() => {
     fetchRecentBoardData();
-  }, []);
+    fetchNickname();
+  }, [fetchNickname]);
 
   return (
     <>
