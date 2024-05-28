@@ -12,6 +12,7 @@ import PrescriptionReviewCard from "../components/PrescriptionReviewCard";
 
 // CSS
 import "../styles/LoginHome.css";
+import { BannerSlider } from "../components/BannerSlider";
 
 const LoginHome = () => {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -22,6 +23,7 @@ const LoginHome = () => {
     return sessionStorage.getItem("selectedEmotion") || "";
   });
 
+  const [backgroundColor, setBackgroundColor] = useState("#CCE8EC");
   // 로그아웃된 상태라면 로그인 화면으로 이동
   useEffect(() => {
     // if (localStorage.getItem('token') === null) {
@@ -68,26 +70,19 @@ const LoginHome = () => {
   return (
     <>
       <Header />
-      <div className="LoginHome-banner-container" onClick={openModal}>
+      <div className="LoginHome-banner-container" style={{ backgroundColor }}>
         {/* max-width 값 정하고 */}
         <div className="LoginHome-banner-contents">
-          {/* 글 */}
-          <div className="LoginHome-banner-title">
-            <h1>오늘의 감정을 알려주세요.</h1>
-            <h4>기쁨/ 불안/ 즐거움/ 슬픔/ 화남/ 외로움</h4>
-          </div>
-
-          {/* 이미지 */}
-          <img src={LoginHomeBanner} alt="배너 이미지" />
+          <BannerSlider setBackgroundColor={setBackgroundColor} />
         </div>
       </div>
       <div className="LoginHome-container">
-        <Modal
+        {/* <Modal
           isOpen={isModalOpen}
           onClose={closeModal}
           selectedEmotion={selectedEmotion}
           setSelectedEmotion={setSelectedEmotion}
-        />
+        /> */}
         <div className="LoginHome-main-container">
           <div className="LoginHome-today">
             <div className="LoginHome-today-item">
