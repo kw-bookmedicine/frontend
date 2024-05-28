@@ -337,24 +337,24 @@ const OneLinePrescription = () => {
 							})}
 						</div>
 					</div>
-					<form
-						className="oneLinePrscr_searchBar_wrapper"
-						onSubmit={(e) => {
-							e.preventDefault();
-						}}
-					>
-						<img
-							src="/icon/black_search_icon.svg"
-							id="oneLinePrscr_searchBar_icon"
-						/>
-						<input
-							type="text"
-							className="oneLinePrscr_searchBar"
-							placeholder="Search"
-							onKeyDown={onKeyDown}
-						/>
-					</form>
-					<div className="OneLinePrscr_container">
+					<div className="oneLinePrscr_search_wrapper">
+						<form
+							className="oneLinePrscr_searchBar_wrapper"
+							onSubmit={(e) => {
+								e.preventDefault();
+							}}
+						>
+							<img
+								src="/icon/black_search_icon.svg"
+								id="oneLinePrscr_searchBar_icon"
+							/>
+							<input
+								type="text"
+								className="oneLinePrscr_searchBar"
+								placeholder="Search"
+								onKeyDown={onKeyDown}
+							/>
+						</form>
 						<div className="OneLinePrscr_write_wrapper">
 							<Link to={'/oneline/prescription/write'}>
 								<button id="oneLinePrscr_write_btn">
@@ -362,6 +362,8 @@ const OneLinePrescription = () => {
 								</button>
 							</Link>
 						</div>
+					</div>
+					<div className="OneLinePrscr_container">
 						<div className="OneLinePrscr_content_container">
 							{keyword === 'All'
 								? searchResArr.length === 0
