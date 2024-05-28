@@ -17,12 +17,11 @@ import TodayPrescriptionCard from "../components/Card/TodayPrescriptionCard";
 import api from "../services/api";
 
 const LoginHome = () => {
-  const [isModalOpen, setModalOpen] = useState(false);
-
-  const [recentPosts, setRecentPosts] = useState([]);
+  const [recentPosts, setRecentPosts] = useState([]); // 최신 고민글 데이터
   const [boardLoaing, setBoardLoading] = useState(false);
 
-  const fetchBoardData = async () => {
+  // 최근 고민글 6개 조회
+  const fetchRecentBoardData = async () => {
     try {
       const res = await api("/api/board/all?page=0&size=6", {
         withCredentials: true,
@@ -36,74 +35,14 @@ const LoginHome = () => {
   };
 
   useEffect(() => {
-    fetchBoardData();
+    fetchRecentBoardData();
   }, []);
-
-  // const [selectedEmotion, setSelectedEmotion] = useState("");
-
-  // 세션 스토리지에서 'selectedEmotion' 값을 읽어오고, 없다면 기본값으로 빈 문자열을 사용
-  const [selectedEmotion, setSelectedEmotion] = useState(() => {
-    return sessionStorage.getItem("selectedEmotion") || "";
-  });
-
-  // 로그아웃된 상태라면 로그인 화면으로 이동
-  useEffect(() => {
-    // if (localStorage.getItem('token') === null) {
-    // 	window.location.replace('http://localhost:3000/login');
-    // }
-  }, []);
-
-  useEffect(() => {
-    // 'selectedEmotion' 상태가 변경될 때마다 세션 스토리지에 저장
-    sessionStorage.setItem("selectedEmotion", selectedEmotion);
-  }, [selectedEmotion]); // 의존성 배열에 'selectedEmotion'을 추가하여 해당 값이 변경될 때만 실행
-
-  const openModal = () => {
-    setModalOpen(true);
-    setSelectedEmotion(""); // 모달을 열 때 selectedEmotion 초기화
-    document.body.style.overflow = "hidden"; // 스크롤 비활성화
-  };
-
-  const closeModal = () => {
-    setModalOpen(false);
-    document.body.style.overflow = "auto"; // 스크롤 활성화
-  };
-
-  // 감정 매칭 객체
-  const emotionMappings = {
-    화남: "화가나는",
-    슬픔: "슬픈",
-    기쁨: "기쁜",
-    즐거움: "즐거운",
-    불안: "불안한",
-    외로움: "외로운",
-  };
-
-  // 현재 날짜를 가져오기 위해 Date 객체를 사용
-  const currentDate = new Date();
-
-  // 날짜를 포맷에 맞게 문자열로 만들기
-  const formattedDate = `${currentDate.getFullYear()}.${(
-    currentDate.getMonth() + 1
-  )
-    .toString()
-    .padStart(2, "0")}.${currentDate.getDate().toString().padStart(2, "0")}`;
-
-  // 최근 고민글 데이터
 
   return (
     <>
       <Header />
-
       <BannerSlider />
-
       <div className="loginHome-container">
-        <Modal
-          isOpen={isModalOpen}
-          onClose={closeModal}
-          selectedEmotion={selectedEmotion}
-          setSelectedEmotion={setSelectedEmotion}
-        />
         <section className="loginHome-prescription-section">
           <h2 className="loginHome-prescription-title">
             AI 약사에게 처방 받아보세요!
