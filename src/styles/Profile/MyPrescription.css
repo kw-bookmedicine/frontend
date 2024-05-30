@@ -1,5 +1,4 @@
 .myPrescription-background {
-  /* background-color: var(--secondary-color); */
   background-color: #f3fdff;
 }
 
@@ -8,11 +7,6 @@
   margin: 0 auto;
   padding-top: 60px;
   padding-bottom: 60px;
-}
-
-.myPrescription-container ul {
-  list-style-type: none;
-  padding: 0;
 }
 
 .myPrescription-title {
