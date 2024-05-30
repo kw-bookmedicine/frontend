@@ -41,6 +41,7 @@ import OneLinePrscrDetail from "./pages/Prescription/OneLinePrscrDetail.jsx";
 
 // 내 페이지들
 import MyWorryPage from "./pages/profile/MyWorryPage.jsx";
+import MyOneLinePrescription from "./pages/profile/MyOneLinePrescription.jsx";
 
 // STYLE
 import GlobalStyles from "./styles/GlobalStyles";
@@ -49,6 +50,7 @@ import ScrollTop from "./components/ScrollTop";
 import LoginLayout from "./components/LoginLayout";
 import SearchResult from "./pages/Search/SearchResult";
 import LoadingPage from "./pages/Worry/LoadingPage.jsx";
+import MyPrescription from "./pages/profile/MyPrescription.jsx";
 
 function App() {
   // 브라우저 새로고침 스크롤 이벤트
@@ -71,11 +73,7 @@ function App() {
             <Route path="/feed" element={<Feed />} />
             <Route path="/search" element={<Search />} />
             <Route path="/search/:result" element={<SearchResult />} />
-            <Route path="/mypage" element={<Mypage />} />
-            <Route path="/myfeed" element={<MyFeed />} />
             <Route path="/myworry" element={<MyWorry />} />
-            <Route path="/edit" element={<Edit />} />
-            <Route path="/edit/:page" element={<UserInfo />} />
             <Route path="/worry/write" element={<WorryWrite />} />
             <Route path="/counseling" element={<Counseling />} />
             <Route path="/worry-detail" element={<WorryDetail />} />
@@ -89,6 +87,11 @@ function App() {
             <Route path="/myfeed" element={<MyFeed />} />
             <Route path="/edit" element={<Edit />} />
             <Route path="/edit/:page" element={<UserInfo />} />
+            <Route path="/myPrescriptions" element={<MyPrescription />} />
+            <Route
+              path="/myOneLinePrescriptions"
+              element={<MyOneLinePrescription />}
+            />
             {/* 처방전 관련 */}
             <Route path="/counseling" element={<Counseling />} />
             <Route path="/worry/detail" element={<WorryDetail />} />
