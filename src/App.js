@@ -42,6 +42,7 @@ import OneLinePrscrDetail from "./pages/Prescription/OneLinePrscrDetail.jsx";
 // 내 페이지들
 import MyWorryPage from "./pages/profile/MyWorryPage.jsx";
 import MyOneLinePrescription from "./pages/profile/MyOneLinePrescription.jsx";
+import MyPrescription from "./pages/profile/MyPrescription.jsx";
 
 // STYLE
 import GlobalStyles from "./styles/GlobalStyles";
@@ -50,7 +51,6 @@ import ScrollTop from "./components/ScrollTop";
 import LoginLayout from "./components/LoginLayout";
 import SearchResult from "./pages/Search/SearchResult";
 import LoadingPage from "./pages/Worry/LoadingPage.jsx";
-import MyPrescription from "./pages/profile/MyPrescription.jsx";
 
 function App() {
   // 브라우저 새로고침 스크롤 이벤트

@@ -20,14 +20,9 @@ const MyPrescription = () => {
     const fetchMyPrescriptionsData = async () => {
       try {
         const response = await fetchMyPrescriptions();
-        // const response = await api.get(
-        //   `https://api.bookpharmacy.store/api/prescription/my?page=0&size=10`,
-        //   { withCredentials: true }
-        // );
-        console.log(response);
         setData(response);
       } catch (error) {
-        console.error(error);
+        console.error("나의 처방전 조회 요청 실패", error);
       } finally {
         setIsLoading(false);
       }
