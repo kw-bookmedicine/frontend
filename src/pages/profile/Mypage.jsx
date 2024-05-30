@@ -115,7 +115,9 @@ const Mypage = () => {
             <Link to={"/myPrescriptions"}>
               <div className="service_my_list">내가 남긴 처방</div>
             </Link>
-            <div className="service_my_list">내가 남긴 한 줄 처방</div>
+            <Link to={"/myOneLinePrescriptions"}>
+              <div className="service_my_list">내가 남긴 한 줄 처방</div>
+            </Link>
             <div onClick={handleModal} className="service_userReview_text">
               복용내역
             </div>
