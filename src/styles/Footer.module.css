@@ -1,21 +1,19 @@
 .footer_wrapper {
-	max-width: 1080px;
-	/* margin: 0 auto; */
-	padding: 24px 65px 12px;
-	background-color: #ffffff;
-	margin-top: 100px;
-	margin: 100px auto 20px auto;
-	/* margin-right: auto; */
+	display: flex;
+	justify-content: center;
+	width: 100%;
+	height: 200px;
+	background-color: #00b2fc;
 }
 
 .footer_inner {
-	/* width: 100%; */
-	/* max-width: 1080px; */
+	width: 100%;
+	max-width: 1120px;
 	display: flex;
 	flex-direction: column;
-	height: 5vh;
+	height: 100%;
 	justify-content: center;
-	color: #000;
+	color: #fff;
 	font-family: var(--basic-font);
 	font-size: 14px;
 	font-style: normal;
