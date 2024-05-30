@@ -13,16 +13,17 @@ import { styled } from "styled-components";
 import "../../styles/Signup2.css";
 import FormInput from "../../components/Login/FormInput ";
 import ErrorMessage from "../../components/Login/ErrorMessage";
+import useSignupStore from "../../store/signup-store";
 
 const Signup2 = () => {
   // 아이디 및 아이디 중복 확인
-  const [isIdAvailable, setIsIdAvailable] = useState(false);
-
-  // 이름인데 필요한가? 어디에 활용하는거지?
-  const [name, setName] = useState("");
+  const [isUsernameAvailable, setIsUsernameAvailable] = useState(false);
 
   // 닉네임 중복 확인
   const [isNicknameAvailable, setIsNicknameAvailable] = useState(false);
+
+  // 이메일 중복 확인?
+  const [isEmailAvailable, setIsEmailAvailable] = useState(false);
 
   // 생년월일, 성별, 성별 버튼 클릭 판단
   const [isMaleClicked, setIsMaleClicked] = useState(false);
@@ -33,18 +34,8 @@ const Signup2 = () => {
   const [isInputEnabled, setIsInputEnabled] = useState(false);
 
   const navigate = useNavigate();
-
-  const postSignup = async (signUpData) => {
-    try {
-      const res = await api.post("/signup", signUpData, {
-        withCredentials: true,
-      });
-      // console.log(res.data);
-      navigate("/signup/3");
-    } catch (error) {
-      console.error("회원가입 중 오류가 발생했습니다:", error);
-    }
-  };
+  // 회원정보 저장
+  const setUserInfo = useSignupStore((state) => state.setUserInfo);
 
   const {
     setValue,
@@ -55,8 +46,90 @@ const Signup2 = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    const { confirmPassword, emailUsername, birthDate, ...formData } = data;
-    postSignup(formData);
+    if (!isUsernameAvailable) {
+      alert("아이디 중복확인을 해야합니다.");
+      return;
+    }
+    if (!isNicknameAvailable) {
+      alert("닉네임 중복확인을 해야합니다.");
+      return;
+    }
+    if (!isEmailAvailable) {
+      alert("이메일 중복확인을 해야합니다.");
+      return;
+    }
+    const { confirmPassword, emailUsername, ...formData } = data;
+    setUserInfo(formData); // 상태에 회원 정보 저장
+    navigate("/signup/3");
+  };
+  const username = watch("username");
+  const nickname = watch("nickname");
+  const email = watch("email");
+
+  const fetchIsUsernameAvailable = async () => {
+    if (!username) {
+      alert("아이디를 입력해 주세요.");
+      return;
+    }
+    try {
+      const res = await api.get(`/duplicate/username?username=${username}`, {
+        withCredentials: true,
+      });
+      if (!res.data) {
+        // false여야 중복 허용
+        setIsUsernameAvailable(true);
+        alert("사용 가능한 아이디입니다.");
+      } else {
+        setIsUsernameAvailable(false);
+        alert("이미 사용 중인 아이디입니다.");
+      }
+    } catch (error) {
+      console.error("아이디 중복 요청 오류", error);
+    }
+  };
+
+  const fetchIsNicknameAvailable = async () => {
+    if (!nickname) {
+      alert("닉네임을 입력해 주세요.");
+      return;
+    }
+    try {
+      const res = await api.get(`/duplicate/nickname?nickname=${nickname}`, {
+        withCredentials: true,
+      });
+      if (!res.data) {
+        // false여야 중복 허용
+        setIsNicknameAvailable(true);
+        alert("사용 가능한 닉네임입니다.");
+      } else {
+        setIsNicknameAvailable(false);
+        alert("이미 사용 중인 닉네임입니다.");
+      }
+    } catch (error) {
+      console.error("닉네임 중복 요청 오류", error);
+    }
+  };
+
+  const fetchIsEmailAvailable = async () => {
+    if (email === "@" || !email || !emailDomain) {
+      alert("이메일을 입력해 주세요.");
+      return;
+    }
+    try {
+      const res = await api.get(`/duplicate/email?email=${email}`, {
+        withCredentials: true,
+      });
+      if (!res.data) {
+        // false여야 중복 허용
+        setIsEmailAvailable(true);
+        alert("사용 가능한 이메일입니다.");
+      } else {
+        setIsEmailAvailable(false);
+        alert("이미 사용 중인 이메일입니다.");
+      }
+    } catch (error) {
+      console.error("이메일 중복 요청 오류", error);
+    }
   };
 
   // 성별 버튼 클릭 핸들러 함수
@@ -130,7 +203,9 @@ const Signup2 = () => {
               placeholder="아이디"
               errors={errors}
             />
-            <VerifyButton type="button">중복 확인</VerifyButton>
+            <VerifyButton type="button" onClick={fetchIsUsernameAvailable}>
+              중복 확인
+            </VerifyButton>
           </div>
 
           <FormInput
@@ -184,7 +259,9 @@ const Signup2 = () => {
               placeholder="닉네임 입력"
               errors={errors}
             />
-            <VerifyButton type="button">중복 확인</VerifyButton>
+            <VerifyButton type="button" onClick={fetchIsNicknameAvailable}>
+              중복 확인
+            </VerifyButton>
           </div>
 
           <InputFlexWrap>
@@ -264,9 +341,7 @@ const Signup2 = () => {
                   onChange={handleSelectedEmailDomain}
                   defaultValue={"type"}
                 >
-                  <option value="type" disabled>
-                    직접 입력
-                  </option>
+                  <option value="type">직접 입력</option>
                   <option value="naver.com">naver.com</option>
                   <option value="google.com">google.com</option>
                   <option value="hanmail.net">hanmail.net</option>
@@ -274,10 +349,15 @@ const Signup2 = () => {
                   <option value="kakao.com">kakao.com</option>
                 </EmailSelect>
               </EmailWrap>
-              <EmailVerifyButton type="button">인증하기</EmailVerifyButton>
+              <EmailVerifyButton type="button" onClick={fetchIsEmailAvailable}>
+                인증하기
+              </EmailVerifyButton>
               <ErrorMessage>
                 {(errors.emailUsername || errors.emailDomain) && (
-                  <p>{errors.emailUsername.message}</p>
+                  <p>
+                    {errors.emailUsername?.message ||
+                      errors.emailDomain?.message}
+                  </p>
                 )}
               </ErrorMessage>
             </div>

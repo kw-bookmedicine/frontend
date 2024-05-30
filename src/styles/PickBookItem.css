@@ -2,20 +2,22 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	width: 520px;
+	width: 95%;
 	margin: 10px;
+	/* padding: 0 20px; */
 }
 
 .short-pickBookList_wrapper {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	width: 320px;
-	margin: 5px;
+	width: 100%;
+	margin: 8px;
+	padding: 0 15px;
 }
 
 .long-pickBook_title {
-	width: 300px;
+	width: 410px;
 	font-family: var(--basic-font);
 	font-style: normal;
 	font-weight: 300;
@@ -41,7 +43,7 @@
 } */
 
 .short-pickBook_title {
-	width: 200px;
+	width: 245px;
 	font-family: var(--basic-font);
 	font-style: normal;
 	font-weight: 300;
@@ -53,6 +55,12 @@
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
+}
+
+.long-pickBook_isbn,
+.short-pickBook_isbn {
+	visibility: hidden;
+	width: 5px;
 }
 
 .long-pickBook_author {

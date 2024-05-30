@@ -111,8 +111,9 @@ const Mypage = () => {
 					</div>
 					<div className="myPage_service_wrapper">
 						<div className="service_title">서비스 관리</div>
-						<div className="service_my_worry">내가 남긴 고민</div>
-						<div className="service_my_prescription">내가 남긴 처방</div>
+						<div className="service_my_list">내가 남긴 고민</div>
+						<div className="service_my_list">내가 남긴 처방</div>
+						<div className="service_my_list">내가 남긴 한 줄 처방</div>
 						<div onClick={handleModal} className="service_userReview_text">
 							복용내역
 						</div>

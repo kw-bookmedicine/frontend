@@ -9,6 +9,7 @@ import ConfirmModal from '../../components/Modal/ConfirmModal';
 
 // SERVICE
 import api from '../../services/api';
+import useNicknameStore from '../../store/nickname-store';
 
 // STYLE
 import '../../styles/Counseling/WorryDetail.css';
@@ -27,8 +28,20 @@ const WorryDetail = () => {
 	const [searchParams] = useSearchParams();
 	const boardId = searchParams.get('board');
 
+	// 현재 접속한 유저 닉네임
+	const { nickname } = useNicknameStore();
+	// 고민 작성자 닉네임
+	const [fetchNickname, setFetchNickname] = useState(
+		sessionStorage.getItem('nickname') || '',
+	);
+	const [writer, setWriter] = useState(
+		sessionStorage.getItem('worry-writer') || '',
+	);
+	// 삭제 버튼 보이기 여부
+	const [isShow, setIsShow] = useState(false);
+
 	// 해당하는 고민 글 정보 가져오기
-	const fetchData = () => {
+	const fetchData = async () => {
 		try {
 			if (!boardId) {
 				console.error('주소에 boardId가 없습니다.');
@@ -38,6 +51,17 @@ const WorryDetail = () => {
 				.get(`/api/board/${boardId}`, { withCredentials: true })
 				.then((res) => {
 					setBoardData(res.data);
+					setWriter(res.data.nickname);
+					if (res.data.nickname !== writer) {
+						sessionStorage.setItem('worry-writer', res.data.nickname);
+						setIsShow(false);
+					} else {
+						if (writer === nickname) {
+							setIsShow(true);
+						}
+						console.log(writer);
+						console.log(nickname);
+					}
 				});
 		} catch (err) {
 			console.error(err);
@@ -57,22 +81,41 @@ const WorryDetail = () => {
 		}
 	};
 
+	const showBtnHandler = async () => {
+		if (writer !== '') {
+			if (writer !== fetchNickname) {
+				setIsShow(false);
+			} else {
+				setIsShow(true);
+			}
+		} else {
+			console.log('유저 닉네임 정보가 없습니다.');
+		}
+	};
+
 	useEffect(() => {
 		fetchData();
 		fetchPrescription();
+
+		if (nickname !== '') {
+			sessionStorage.setItem('nickname', nickname);
+			setFetchNickname(nickname);
+		}
 	}, []);
+
+	useEffect(() => {
+		showBtnHandler();
+	}, [writer]);
 
 	const navigate = useNavigate();
 
 	const movePrescriptionWrite = () => {
-		// 화면 이동하면서 boardId값 전달
-		navigate('/prescription/write', {
-			state: {
-				boardId,
-			},
-		});
+		navigate(
+			`/prescription/write?boardId=${boardId}&nickname=${boardData.nickname}`,
+		);
 	};
 
+	// 해당 고민 글 삭제
 	const handleBoardIdDelete = async () => {
 		try {
 			await api.delete(`/api/board/${boardId}`, {
@@ -111,18 +154,34 @@ const WorryDetail = () => {
 									</div>
 								</div>
 							</div>
-							<button
-								onClick={() => setIsModalOpen(true)}
-								className="wd_delete_btn"
-							>
-								삭제
-							</button>
+							{isShow && (
+								<>
+									<button
+										onClick={() => setIsModalOpen(true)}
+										className="wd_delete_btn"
+									>
+										삭제
+									</button>
+								</>
+							)}
 						</div>
 						<div className="wd_title_text_wrapper">{boardData.title}</div>
 					</div>
 				</div>
 				<div className="worry_detail_content_wrapper">
 					<div className="wd_content_detail_wrapper">
+						{boardData?.answers
+							?.slice(0, boardData.answers.length - 2)
+							.map((response) => (
+								<div key={response.id}>
+									<span className="wd_content_detail_title">
+										{response.question}
+									</span>
+									<div className="wd_content_detail_text">
+										{response.answer}
+									</div>
+								</div>
+							))}
 						<span className="wd_content_detail_title">고민 내용</span>
 						<div className="wd_content_detail_text">
 							{boardData.description}
@@ -138,15 +197,7 @@ const WorryDetail = () => {
 							</div>
 						</div>
 					)}
-					{/* <button onClick={() => movePrescriptionWrite()} className="prscr_btn"> */}
-					<button
-						onClick={() => {
-							window.location.replace(
-								`/prescription/write?boardId=${boardId}&nickname=${boardData.nickname}`,
-							);
-						}}
-						className="prscr_btn"
-					>
+					<button onClick={() => movePrescriptionWrite()} className="prscr_btn">
 						처방하러 가기
 					</button>
 				</div>

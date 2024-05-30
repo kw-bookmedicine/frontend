@@ -1,34 +1,46 @@
 import React, { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 
 // COMPONENTS
 import Header from '../../components/Header';
 import HashTag from '../../components/HashTag';
+import ConfirmModal from '../../components/Modal/ConfirmModal';
 
 // SERVICE
 import api from '../../services/api';
+import useNicknameStore from '../../store/nickname-store';
 
 // STYLE
 import '../../styles/Prescription/OneLinePrscrDetail.css';
 
 const OneLinePrscrDetail = () => {
+	const navigate = useNavigate();
 	const [searchParams] = useSearchParams();
-	console.log(searchParams);
 	const prscrId = searchParams.get('prscrId');
 	const bookIsbn = searchParams.get('bookIsbn');
-	console.log(bookIsbn);
-	console.log(prscrId);
 
 	const [data, setData] = useState({});
 	const [bookData, setBookData] = useState({});
 	const [keywordArr, setKeywordArr] = useState([]);
 
-	const fetchData = () => {
+	const { nickname } = useNicknameStore();
+	const [fetchNickname, setFetchNickname] = useState(
+		sessionStorage.getItem('nickname') || '',
+	);
+	const [writer, setWriter] = useState(sessionStorage.getItem('writer') || '');
+	const [isShow, setIsShow] = useState(false);
+
+	const fetchData = async () => {
 		try {
-			api.get(`/api/oneline-prescriptions/${prscrId}`).then((res) => {
-				console.log(res.data);
-				setData(res.data);
-			});
+			api
+				.get(`/api/oneline-prescriptions/${prscrId}`, {
+					withCredentials: true,
+				})
+				.then((res) => {
+					setData(res.data);
+					setWriter(res.data.clientNickname);
+					sessionStorage.setItem('writer', res.data.clientNickname);
+				});
 		} catch (err) {
 			console.log(err);
 		}
@@ -37,23 +49,74 @@ const OneLinePrscrDetail = () => {
 	const getBookData = () => {
 		try {
 			if (data.bookIsbn !== null) {
-				api.get(`/api/book/detail?isbn=${bookIsbn}`).then((res) => {
-					setBookData(res.data);
-					if (res.data.keywordItemList.length !== 0) {
-						setKeywordArr(res.data.keywordItemList);
-					}
-					console.log(res.data);
-				});
+				api
+					.get(`/api/book/detail?isbn=${bookIsbn}`, {
+						withCredentials: true,
+					})
+					.then((res) => {
+						setBookData(res.data);
+						if (res.data.keywordItemList.length !== 0) {
+							setKeywordArr(res.data.keywordItemList);
+						}
+					});
 			}
 		} catch (err) {
 			console.log(err);
 		}
 	};
 
+	const showBtnHandler = async () => {
+		if (writer !== '') {
+			if (writer !== fetchNickname) {
+				setIsShow(false);
+			} else {
+				setIsShow(true);
+			}
+		} else {
+			console.log('유저 닉네임 정보가 없습니다.');
+		}
+	};
+
 	useEffect(() => {
 		fetchData();
 		getBookData();
+		setFetchNickname(nickname);
+		if (nickname !== '') {
+			sessionStorage.setItem('nickname', nickname);
+		}
 	}, []);
+
+	useEffect(() => {
+		showBtnHandler();
+	}, []);
+
+	const editPrscr = () => {
+		navigate(
+			`/oneline/prescription/edit?prscrId=${prscrId}&bookIsbn=${bookIsbn}`,
+		);
+		// console.log('수정');
+	};
+
+	const deletePrscr = () => {
+		try {
+			api
+				.delete(`/api/oneline-prescriptions/${prscrId}`, {
+					withCredentials: true,
+				})
+				.then((res) => {
+					if (res.data === 'success') {
+						alert('한 줄 처방을 삭제했습니다.').then(
+							navigate('/oneline/prescription'),
+						);
+					} else {
+						alert('한 줄 처방 삭제에 실패했습니다.');
+					}
+				});
+		} catch (err) {
+			console.log(err);
+		}
+		// console.log('삭제');
+	};
 
 	return (
 		<>
@@ -96,7 +159,18 @@ const OneLinePrscrDetail = () => {
 							<div className="prscr_detail_bookInfo_wrapper">
 								<div className="bookInfo_title_wrapper">
 									<p>{data.bookTitle}</p>
-									<button id="delete-btn">삭제하기</button>
+									<div className="bookInfo_title_btn_wrapper">
+										{isShow && (
+											<>
+												<button id="edit-btn" onClick={editPrscr}>
+													수정하기
+												</button>
+												<button id="delete-btn" onClick={deletePrscr}>
+													삭제하기
+												</button>
+											</>
+										)}
+									</div>
 								</div>
 								<p>{data.bookAuthor}</p>
 								<p>

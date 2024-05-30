@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, Component } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useSearchParams, useLocation, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
@@ -18,30 +18,65 @@ import loading_test_img from '../../assets/loading_test_img.png';
 import api from '../../services/api';
 
 // STYLE
-import '../../styles/Prescription/OneLinePrscrWrite.css';
-import {
-	MAX_LENGTH_DEFAULT,
-	MAX_LENGTH_TITLE,
-} from '../../constants/constants';
+import '../../styles/Prescription/OneLinePrscrEdit.css';
 // import 'sweetalert2/src/sweetalert2.scss';
 
-const OneLinePrscrWrite = () => {
+const OneLinePrscrEdit = () => {
 	const [processValue, setProcessValue] = useState(0);
+	const [searchParams] = useSearchParams();
+	const prscrId = searchParams.get('prscrId');
+	const bookIsbn = searchParams.get('bookIsbn');
+	const [keyword, setKeyword] = useState('');
 
 	const [input, setInput] = useState('');
 	const [isShow, setIsShow] = useState(false); // 검색 모달창
 	const location = useLocation();
 	const navigate = useNavigate(); // 버튼 클릭시 페이지 이동
 
+	const [editablePrscrData, setEditablePrscrData] = useState([]); // 처방전의 수정할 데이터 정보
+	const [bookData, setBookData] = useState([]); // 수정할 책 정보
 	const [choiceItem, setChoiceItem] = useState({});
+
+	// 관련된 한 줄 처방 정보 가져오기
+	const fetchData = () => {
+		try {
+			api
+				.get(`/api/oneline-prescriptions/${prscrId}`, {
+					withCredentials: true,
+				})
+				.then((res) => {
+					setEditablePrscrData(res.data);
+					ctgType(res.data.keyword);
+				});
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
+	const getBookData = () => {
+		try {
+			if (editablePrscrData.bookIsbn !== null) {
+				api
+					.get(`/api/book/detail?isbn=${bookIsbn}`, {
+						withCredentials: true,
+					})
+					.then((res) => {
+						setBookData(res.data);
+					});
+			}
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
+	useEffect(() => {
+		fetchData();
+		getBookData();
+	}, []);
 
 	// 모달창을 클릭한 여부
 	const [modalIsClick, setModalIsClick] = useState(false);
 	let [searchData, setSearchData] = useState(0);
-
-	// 글 작성
-	const [titleInput, setTitleInput] = useState('');
-	const [contentInput, setContentInput] = useState('');
 
 	const handleModalClose = async () => {
 		setIsShow(false);
@@ -63,8 +98,47 @@ const OneLinePrscrWrite = () => {
 	const [category, setCategory] = useState('');
 
 	// 선택된 키워드 타입 지정
-	const ctgType = (ctg) => {
+	const ctgType = async (ctg) => {
 		switch (ctg) {
+			case 'Relationships_Communication':
+				setKeyword('관계/소통');
+				break;
+			case 'Fiction_Essays':
+				setKeyword('소설/에세이');
+				break;
+			case 'Economy_Management':
+				setKeyword('경제/경영');
+				break;
+			case 'Children_Parenting':
+				setKeyword('자녀/양육');
+				break;
+			case 'Society':
+				setKeyword('사회');
+				break;
+			case 'Philosophy':
+				setKeyword('철학');
+				break;
+			case 'Health':
+				setKeyword('건강');
+				break;
+			case 'History':
+				setKeyword('역사');
+				break;
+			case 'Science_Math_Engineering':
+				setKeyword('수학/과학/공학');
+				break;
+			case 'Workbook_Examination':
+				setKeyword('문제집/수험서');
+				break;
+			case 'Employment_Career':
+				setKeyword('취업');
+				break;
+			case 'Hobbies':
+				setKeyword('취미');
+				break;
+			case 'ETC':
+				setKeyword('기타');
+				break;
 			case '관계/소통':
 				setCategory('Relationships_Communication');
 				break;
@@ -107,46 +181,90 @@ const OneLinePrscrWrite = () => {
 		}
 	};
 
-	// 한 줄 처방 작성 요청 보내기
-	const postData = async () => {
-		const inputTitle = document.getElementById('oneLine-prscr-title').value;
+	const [isTitleEditing, setTitleEditing] = useState(false);
+	const [isDscrpEditing, setDscrpEditing] = useState(false);
+	const [isCtgEditing, setCtgEditing] = useState(false);
+
+	// 한 줄 처방 수정 요청 보내기
+	const editData = async () => {
+		let editTitle = '';
+		let editDescription = '';
+		let editCategory = '';
+		const inputTitle = document.getElementById('oneLine-prscr-title');
 
 		const inputDescription = document.getElementById(
 			'oneLine-prscr-description',
-		).value;
+		);
+		console.log(isTitleEditing);
+		if (!isTitleEditing) {
+			editTitle = inputTitle.placeholder;
+			console.log('원래 제목: ', editTitle);
+		} else {
+			editTitle = inputTitle.value;
+			console.log('바뀐 제목: ', editTitle);
+		}
 
-		// console.log(category);
-		// console.log(inputTitle);
-		// console.log(inputDescription);
-		// console.log(choiceItem.isbn);
+		if (!isDscrpEditing) {
+			editDescription = inputDescription.placeholder;
+			console.log('원래 설명: ', editDescription);
+		} else {
+			editDescription = inputDescription.value;
+			console.log('바뀐 설명: ', editDescription);
+		}
 
+		if (!isCtgEditing) {
+			editCategory = keyword;
+			console.log('원래 카테고리: ', editCategory);
+		} else {
+			editCategory = category;
+			console.log('바뀐 카테고리: ', editCategory);
+		}
 		try {
-			if (
-				category !== '' &&
-				inputTitle !== '' &&
-				inputDescription !== '' &&
-				choiceItem.isbn !== null
-			) {
-				api
-					.post(
-						'/api/oneline-prescriptions/new',
-						{
-							title: `${inputTitle}`,
-							description: `${inputDescription}`,
-							bookIsbn: `${choiceItem.isbn}`,
-							keyword: `${category}`,
-						},
-						{ withCredentials: true },
-					)
-					.then((res) => {
-						alert('한 줄 처방전이 작성되었습니다!');
-						// swal('한 줄 처방전이 작성되었습니다!', '', 'success');
-						window.location.replace('/oneline/prescription');
-						console.log('성공');
-						// console.log(res.data);
-					});
+			if (category === null) {
+				alert('카테고리를 지정해주세요');
 			} else {
-				alert('모든 항목을 채워주세요.');
+				// 처방제목이나 처방사유 둘 중 하나라도 바뀐 경우
+				if (isTitleEditing || isDscrpEditing) {
+					// 책은 그대로인 경우
+					if (choiceItem.valueOf.length === 0) {
+						api
+							.put(
+								`/api/oneline-prescriptions/${prscrId}`,
+								{
+									title: `${editTitle}`,
+									description: `${editDescription}`,
+									bookIsbn: `${bookIsbn}`,
+									keyword: `${category}`,
+								},
+								{ withCredentials: true },
+							)
+							.then((res) => {
+								if (res.status.success) {
+									console.log('성공');
+									alert('한 줄 처방전이 수정되었습니다.');
+									// window.location.replace('/oneline/prescription');
+								}
+							});
+					} else {
+						// 책도 변경된 경우
+						api
+							.put(
+								`/api/oneline-prescriptions/${prscrId}`,
+								{
+									title: `${editTitle}`,
+									description: `${editDescription}`,
+									bookIsbn: `${choiceItem.isbn}`,
+									keyword: `${category}`,
+								},
+								{ withCredentials: true },
+							)
+							.then((res) => {
+								alert('한 줄 처방전이 수정되었습니다.');
+								// window.location.replace('/oneline/prescription');
+								console.log(res.data);
+							});
+					}
+				}
 			}
 		} catch (err) {
 			console.log(err);
@@ -158,7 +276,6 @@ const OneLinePrscrWrite = () => {
 			(items) => {
 				items.forEach((item) => {
 					if (item.isIntersecting) {
-						// console.log(item.target, 'is visible!');
 						if (modalIsClick === true) {
 							chTarget.classList.add('oneLine_visible');
 							chTarget.classList.remove('no');
@@ -168,8 +285,6 @@ const OneLinePrscrWrite = () => {
 						}
 					} else {
 						if (modalIsClick === false) {
-							// chTarget.classList.add('no');
-							// chTarget.classList.remove('oneLine_visible');
 							chTarget.classList.add('oneLine_visible');
 						} else {
 							chTarget.classList.add('no');
@@ -195,7 +310,6 @@ const OneLinePrscrWrite = () => {
 			alert('책을 선택해주세요.');
 			return;
 		}
-		// navigate('/prescription/write/2', { state: data });
 	};
 
 	// 검색 결과
@@ -249,7 +363,7 @@ const OneLinePrscrWrite = () => {
 										? choiceItem.imageUrl
 											? choiceItem.imageUrl
 											: loading_img
-										: loading_img
+										: bookData.imageUrl
 								}
 								alt="로딩 썸네일"
 								className="prscr_img_wrapper"
@@ -333,7 +447,15 @@ const OneLinePrscrWrite = () => {
 										{choiceItem.publishingHouse}
 									</p>
 								</div>
-							) : null}
+							) : (
+								<div className="prscr_search_res_wrapper">
+									<p className="search_res_bookTitle">{bookData.title}</p>
+									<p className="search_res_bookAuthor">{bookData.author}</p>
+									<p className="search_res_bookCompany">
+										{bookData.publishingHouse}
+									</p>
+								</div>
+							)}
 						</div>
 					</div>
 				</section>
@@ -346,43 +468,43 @@ const OneLinePrscrWrite = () => {
 							<span>카테고리</span>
 							<div id="choice-category">
 								<DropMenu
-									DropDownTitle={'카테고리를 선택해주세요'}
-									ctgType={(ctg) => ctgType(ctg)}
+									DropDownTitle={keyword}
+									ctgType={ctgType}
+									onClick={(ctg) => {
+										setCtgEditing(true);
+										ctgType(ctg);
+									}}
 								/>
 							</div>
 						</div>
 						<label className="oneLine_prscr_writeBox_title_wrapper">
-							<p className="prescription_content_bottom_text">
-								처방제목{' '}
-								<span>
-									[ {titleInput.length} / {MAX_LENGTH_TITLE}자 ]
-								</span>
-							</p>
-							<input
-								type="text"
-								value={titleInput}
-								onChange={(e) => setTitleInput(e.target.value)}
-								placeholder="한 줄 처방 제목을 작성하세요"
-								id="oneLine-prscr-title"
-								maxLength={MAX_LENGTH_TITLE}
-								minLength={1}
-							/>
+							<p>처방제목</p>
+							{isShow === false && !modalIsClick ? (
+								<input
+									id="oneLine-prscr-title"
+									placeholder={editablePrscrData.title}
+									onChange={() => setTitleEditing(true)}
+								/>
+							) : (
+								<input
+									type="text"
+									placeholder="한 줄 처방 제목을 작성하세요"
+									id="oneLine-prscr-title"
+									onChange={() => setTitleEditing(true)}
+								/>
+							)}
 						</label>
 						<label>
-							<p className="prescription_content_bottom_text">
-								처방사유{' '}
-								<span>
-									[ {contentInput.length} / {MAX_LENGTH_DEFAULT}자 ]
-								</span>
-							</p>
+							<p>처방사유</p>
 							<textarea
 								type="text"
-								value={contentInput}
-								onChange={(e) => setContentInput(e.target.value)}
-								placeholder="처방사유를 작성하세요"
+								placeholder={
+									isShow === false && !modalIsClick
+										? editablePrscrData.description
+										: '처방사유를 작성하세요'
+								}
 								id="oneLine-prscr-description"
-								maxLength={MAX_LENGTH_DEFAULT}
-								minLength={1}
+								onChange={() => setDscrpEditing(true)}
 							/>
 						</label>
 					</div>
@@ -402,10 +524,10 @@ const OneLinePrscrWrite = () => {
 					className="prscr_apply_btn"
 					id="prscr-write-btn"
 					onClick={() => {
-						postData();
+						editData();
 					}}
 				>
-					처방전 작성하기
+					처방전 수정하기
 				</button>
 			</div>
 			{/* </form> */}
@@ -413,4 +535,4 @@ const OneLinePrscrWrite = () => {
 	);
 };
 
-export default OneLinePrscrWrite;
+export default OneLinePrscrEdit;
