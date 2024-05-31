@@ -36,10 +36,10 @@
 
 /* 배너 내용 위치 */
 .loginHome-banner-contents {
-  max-width: 1440px;
+  max-width: 1640px;
   height: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   margin: 0 auto;
   padding: 0px 40px;
