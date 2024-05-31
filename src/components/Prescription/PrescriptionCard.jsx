@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 // STYLE
 import '../../styles/Counseling/PrescriptionCard.css';
 
-const PrescriptionCard = () => {
+const PrescriptionCard = ({ id }) => {
 	const [flipped, setFlipped] = useState(false);
 
 	const toggleFlip = () => {
@@ -25,10 +25,10 @@ const PrescriptionCard = () => {
 					<p className="prscrCard_bookInfo_title">책 제목</p>
 					<p className="prscrCard_bookInfo_author">저자</p>
 					<p className="prscrCard_bookInfo_date">출판사/출판연도</p>
-					<img
+					{/* <img
 						src="/icon/pharmacy_icon_2.png"
 						className="pharmacy_icon_group"
-					/>
+					/> */}
 				</div>
 			</>
 		);
@@ -48,6 +48,7 @@ const PrescriptionCard = () => {
 			<div
 				className={`prscrCard_container ${flipped ? 'flipped' : ''}`}
 				onClick={toggleFlip}
+				id={id !== null ? id : null}
 			>
 				<div className="prscrCard_top_wrapper">
 					<img

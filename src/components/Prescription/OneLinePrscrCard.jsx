@@ -7,13 +7,20 @@ import HashTag from '../HashTag';
 import '../../styles/Prescription/OneLinePrscrCard.css';
 import { Link } from 'react-router-dom';
 
-const OneLinePrscrCard = ({ item }) => {
+const OneLinePrscrCard = ({ type, item }) => {
 	return (
 		<>
 			<Link
-				to={`/oneline/prescription-detail?prscrId=${item.id}&bookIsbn=${item.bookIsbn}`}
+				to={
+					type !== 'landing'
+						? `/oneline/prescription-detail?prscrId=${item.id}&bookIsbn=${item.bookIsbn}`
+						: '/login'
+				}
 			>
-				<div className="OneLinePrscrCard_wrapper">
+				<div
+					className="OneLinePrscrCard_wrapper"
+					id={type !== 'landing' ? null : 'landing_oneline_card'}
+				>
 					<div className="oneLineCard_profile_wrapper">
 						<img
 							src="/icon/profile/basic_profile_img.svg"
