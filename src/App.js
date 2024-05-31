@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 // PAGES
 import LandingPage from './pages/landingPage.jsx';
-import Home from './pages/Home';
+// import Home from './pages/landingPage.jsx';
 import Main from './pages/LoginHome';
 import Feed from './pages/Feed';
 import MyFeed from './pages/MyFeed';
@@ -67,7 +67,7 @@ function App() {
 					<ScrollTop />
 					<Routes>
 						<Route path="/" element={<LandingPage />} />
-						<Route path="/logout" element={<Home />} />
+						<Route path="/logout" element={<LandingPage />} />
 						<Route path="/main" element={<Main />} />
 						<Route path="/feed" element={<Feed />} />
 						<Route path="/search" element={<Search />} />
@@ -90,6 +90,9 @@ function App() {
 						<Route path="/myfeed" element={<MyFeed />} />
 						<Route path="/edit" element={<Edit />} />
 						<Route path="/edit/:page" element={<UserInfo />} />
+
+						<Route path="/my/worry" element={<MyWorryPage />} />
+
 						{/* 처방전 관련 */}
 						<Route path="/counseling" element={<Counseling />} />
 						<Route path="/worry/detail" element={<WorryDetail />} />
