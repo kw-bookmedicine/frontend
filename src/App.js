@@ -26,6 +26,7 @@ import PasswordFind from './pages/Login/PasswordFind';
 import PasswordFindResult from './pages/Login/PasswordFindResult';
 import IdFind from './pages/Login/IdFind';
 import LoginContextProvider from './contexts/LoginContextProvider';
+import OAuthSignup from './pages/Login/OAuthSignup.jsx';
 
 // 처방전 관련 페이지들
 import Counseling from './pages/Prescription/Counseling';
@@ -132,6 +133,10 @@ function App() {
 								element={<PasswordFindResult />}
 							/>
 						</Route>
+
+						{/* OAuth */}
+						<Route path="/test/oauth" element={<OAuthSignup />} />
+
 						<Route path="/test" element={<Registration />} />
 						<Route path="/login" element={<Login />} />
 						<Route path="/signup/1" element={<Signup1 />} />

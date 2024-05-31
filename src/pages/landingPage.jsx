@@ -1,24 +1,43 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 // COMPONENTS
 import Footer from '../components/Footer';
+import OneLinePrscrCard from '../components/Prescription/OneLinePrscrCard';
+import PrscrCard from '../components/Prescription/PrescriptionCard';
 
 // STYLES
 import '../styles/LandingPage.css';
 
 const landingPage = () => {
+	const item = {
+		id: '1',
+		bookIsbn: '978',
+		clientNickname: '팡우니',
+		createdDate: '2024.05.31',
+		title:
+			'“재미있는 판타지 소설을 읽어보고 싶을 땐  해리포터 불의 잔을 읽어보세요”',
+		bookImageUrl: '/loading_thumbnail_x4.png',
+		bookTitle: '해리포터 불의 잔',
+		bookAuthor: 'J.K.롤링',
+	};
+
 	return (
 		<>
 			<section className="landing_container">
 				<section className="landing_top_container">
 					<div className="landing_top_content_wrapper">
 						<div className="landing_top_title_wrapper">
-							<img
-								src="/icon/home/landing_logo_icon.svg"
-								alt="로고"
-								id="landing_logo_icon"
-							/>
-							<span>로그인</span>
+							<Link to={'/'}>
+								<img
+									src="/icon/home/landing_logo_icon.svg"
+									alt="로고"
+									id="landing_logo_icon"
+								/>
+							</Link>
+							<Link to={'/login'}>
+								<span>로그인</span>
+							</Link>
 						</div>
 						<div className="landing_top_content_intro_wrapper">
 							<div className="content_intro_left_wrapper">
@@ -85,10 +104,111 @@ const landingPage = () => {
 							<p>AI와 책 처방사들이 당신만을 위한</p>
 							<p>책 처방을 드립니다!</p>
 						</div>
+						<div className="landing_prscr_content">
+							<div className="landing_prscr_ai_box">
+								<div className="landing_prscr_ai_left_wrapper">
+									<img
+										src="/icon/home/landing_ai_prscr_icon.svg"
+										alt="AI처방 아이콘"
+										id="prscr_ai_icon"
+									/>
+								</div>
+								<div className="landing_prscr_right_wrapper">
+									<div className="ai-bubble">
+										<div className="ai-bubble_left_wrapper">
+											<p id="ai-bubble-title">홍길동 님께 추천드리는 책</p>
+											<p id="ai-bubble-comment">
+												*** 님께서 작성 하신 고민 글에서 ‘스프링’, ‘개발’,
+												‘취업’ 을 주요 키워드로 파악했습니다. <br />
+												<br />
+												*** 님이 관심을 보일 만한 책 ‘자바 ORM 표준 JPA
+												프로그래밍’을 추천드립니다 !
+											</p>
+										</div>
+										<div className="ai-bubble_right_wrapper">
+											<img
+												src="/loading_thumbnail_x4.png"
+												id="ai-bubble_thumbnail"
+											/>
+											<div className="ai-bubble_bookInfo_wrapper">
+												<p id="ai-bubble_book_title">해리포터</p>
+												<p id="ai-bubble_book_author">J.K.롤링</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<OneLinePrscrCard type={'landing'} item={item} />
+						</div>
 					</div>
 				</section>
-				<section className="landing_prscr_write_container"></section>
-				<section className="join_container"></section>
+				<section className="landing_prscr_write_container">
+					<div className="landing_prscr_write_content_wrapper">
+						<div className="landing_prscr_write_left_wrapper">
+							<PrscrCard id={'prscrCard_1'} />
+							<PrscrCard id={'prscrCard_2'} />
+							<PrscrCard id={'prscrCard_3'} />
+						</div>
+						<div className="landing_prscr_write_right_wrapper">
+							<p>책 처방사가 되어</p> <br />
+							<p>직접 책 처방을 지어보세요!</p>
+						</div>
+					</div>
+				</section>
+				<section className="join_container">
+					<div className="join_content_wrapper">
+						<div className="join_title_wrapper">
+							<p>나에게 맞는 책을 처방 받아보세요!</p>
+						</div>
+						<div className="join_content">
+							<div className="join_prscr_card" id="join_today_prscr_card">
+								<div className="join_prscr_card_title">
+									<p>책으로 보내는 하루,</p>
+									<p>오늘의 책 처방전</p>
+								</div>
+								<div className="join_prscr_card_subTitle">
+									<p>당신을 위한 책을 3권 추천해드립니다.</p>
+									<p>오늘의 책 처방으로 하루를 시작해보세요!</p>
+								</div>
+								<img
+									src="/icon/home/today-prscr-icon.svg"
+									alt="오늘의 처방전 아이콘"
+									id="today_prscr_card_icon"
+								/>
+							</div>
+							<div className="join_prscr_card" id="join_ai_prscr_card">
+								<div className="join_prscr_card_title">
+									<p>당신만을 위한,</p>
+									<p>책국 AI 약사가 주는 책 처방</p>
+								</div>
+								<div className="join_prscr_card_subTitle">
+									<p>평소 관심 있어 하는 카테고리와 키워드를 기반</p>
+									<p> 으로 책국 AI 약사가 책을 추천해드립니다!</p>
+								</div>
+								<img
+									src="/icon/home/ai-prscr-icon.svg"
+									alt="ai 처방 아이콘"
+									id="ai_prscr_card_icon"
+								/>
+							</div>
+							<div className="join_prscr_card" id="join_ai_prscr_card">
+								<div className="join_prscr_card_title">
+									<p>고민을 나누면,</p>
+									<p>책 추천이 찾아옵니다!</p>
+								</div>
+								<div className="join_prscr_card_subTitle">
+									<p>고민을 털어 놓아 보세요. 다른 유저들과 함께</p>
+									<p>책 속에서 해답을 찾아보세요!</p>
+								</div>
+								<img
+									src="/icon/home/other-prscr-icon.svg"
+									alt="다른사람 처방 아이콘"
+									id="other_prscr_card_icon"
+								/>
+							</div>
+						</div>
+					</div>
+				</section>
 			</section>
 			<Footer />
 		</>
