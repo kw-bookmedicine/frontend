@@ -66,7 +66,7 @@ function App() {
 					<GlobalStyles />
 					<ScrollTop />
 					<Routes>
-						<Route path="/" element={<Home />} />
+						<Route path="/" element={<LandingPage />} />
 						<Route path="/logout" element={<Home />} />
 						<Route path="/main" element={<Main />} />
 						<Route path="/feed" element={<Feed />} />
