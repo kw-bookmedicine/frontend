@@ -1,5 +1,5 @@
 .loginHome-best-wrapper {
-  padding: 0px 80px;
+  /* padding: 0px 80px; */
 }
 
 .item-wrapper {
@@ -57,7 +57,7 @@
 .loginHome-next-button {
   position: relative;
   top: 210px;
-  right: -1240px;
+  right: -1080px;
   padding: 10px;
   z-index: 10;
   background-color: white;
