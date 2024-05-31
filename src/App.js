@@ -66,9 +66,6 @@ function App() {
 					<GlobalStyles />
 					<ScrollTop />
 					<Routes>
-						{/* 로그인 전 홈 화면 */}
-						<Route path="/landing" element={<LandingPage />} />
-
 						<Route path="/" element={<Home />} />
 						<Route path="/logout" element={<Home />} />
 						<Route path="/main" element={<Main />} />
