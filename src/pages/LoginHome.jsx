@@ -116,26 +116,27 @@ const LoginHome = () => {
             </ul>
           </div>
         </section>
-
-        <Slider
-          title="베스트 셀러"
-          subtitle="가장 많이 읽은 책 순위는?"
-          bookTitle="책제목"
-          bookAuthor="저자"
-          isBestSeller={true}
-        />
-        <Slider
-          title="띵동, 책배달 왔습니다!"
-          subtitle="신간도서 보러가기"
-          bookTitle="책제목"
-          bookAuthor="저자"
-        />
-        <Slider
-          title="나와 비슷한 사람들은 어떤 책을 읽을까?"
-          subtitle="추천도서 모음"
-          bookTitle="책제목"
-          bookAuthor="저자"
-        />
+        <section className="loginHome-slider-container">
+          <Slider
+            title="베스트 셀러"
+            subtitle="가장 많이 읽은 책 순위는?"
+            bookTitle="책제목"
+            bookAuthor="저자"
+            isBestSeller={true}
+          />
+          <Slider
+            title="띵동, 책배달 왔습니다!"
+            subtitle="신간도서 보러가기"
+            bookTitle="책제목"
+            bookAuthor="저자"
+          />
+          <Slider
+            title="나와 비슷한 사람들은 어떤 책을 읽을까?"
+            subtitle="추천도서 모음"
+            bookTitle="책제목"
+            bookAuthor="저자"
+          />
+        </section>
       </div>
     </>
   );
