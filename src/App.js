@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 // PAGES
-import Home from './pages/Home';
+import LandingPage from './pages/MainHome.jsx';
 import Main from './pages/LoginHome';
 import Feed from './pages/Feed';
 import MyFeed from './pages/MyFeed';
@@ -41,8 +41,6 @@ import OneLinePrscrDetail from './pages/Prescription/OneLinePrscrDetail.jsx';
 
 // 내 페이지들
 import MyWorryPage from './pages/profile/MyWorryPage.jsx';
-import MyOneLinePrescription from './pages/profile/MyOneLinePrescription.jsx';
-import MyPrescription from './pages/profile/MyPrescription.jsx';
 
 // STYLE
 import GlobalStyles from './styles/GlobalStyles';
@@ -67,13 +65,17 @@ function App() {
 					<GlobalStyles />
 					<ScrollTop />
 					<Routes>
-						<Route path="/" element={<Home />} />
-						<Route path="/logout" element={<Home />} />
+						<Route path="/" element={<LandingPage />} />
+						<Route path="/logout" element={<LandingPage />} />
 						<Route path="/main" element={<Main />} />
 						<Route path="/feed" element={<Feed />} />
 						<Route path="/search" element={<Search />} />
 						<Route path="/search/:result" element={<SearchResult />} />
+						<Route path="/mypage" element={<Mypage />} />
+						<Route path="/myfeed" element={<MyFeed />} />
 						<Route path="/myworry" element={<MyWorry />} />
+						<Route path="/edit" element={<Edit />} />
+						<Route path="/edit/:page" element={<UserInfo />} />
 						<Route path="/worry/write" element={<WorryWrite />} />
 						<Route path="/counseling" element={<Counseling />} />
 						<Route path="/worry-detail" element={<WorryDetail />} />
@@ -87,12 +89,9 @@ function App() {
 						<Route path="/myfeed" element={<MyFeed />} />
 						<Route path="/edit" element={<Edit />} />
 						<Route path="/edit/:page" element={<UserInfo />} />
-						<Route path="/myPrescriptions" element={<MyPrescription />} />
-						<Route
-							path="/myOneLinePrescriptions"
-							element={<MyOneLinePrescription />}
-						/>
+
 						<Route path="/my/worry" element={<MyWorryPage />} />
+
 						{/* 처방전 관련 */}
 						<Route path="/counseling" element={<Counseling />} />
 						<Route path="/worry/detail" element={<WorryDetail />} />
@@ -132,6 +131,7 @@ function App() {
 								element={<PasswordFindResult />}
 							/>
 						</Route>
+
 						<Route path="/test" element={<Registration />} />
 						<Route path="/login" element={<Login />} />
 						<Route path="/signup/1" element={<Signup1 />} />

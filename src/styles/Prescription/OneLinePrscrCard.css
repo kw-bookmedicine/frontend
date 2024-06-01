@@ -8,6 +8,7 @@
 	box-shadow: 2px 2px 16px 0 rgba(119, 119, 119, 0.25);
 	margin-bottom: 50px;
 	cursor: pointer;
+	background-color: #fff;
 }
 
 .oneLineCard_profile_wrapper {
@@ -169,3 +170,9 @@
 	width: 25px;
 	height: 25px;
 }
+
+/* #landing_oneline_card {
+	position: relative;
+	top: 200px;
+	left: 340px;
+} */
