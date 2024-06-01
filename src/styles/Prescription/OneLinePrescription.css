@@ -103,11 +103,10 @@
 
 .oneLinePrscr_category_content_wrapper {
 	display: grid;
+	gap: 0px;
 	grid-template-columns: repeat(13, 1fr);
-	/* margin: 0 40px; */
-	width: 80%;
 	height: auto;
-	gap: 10px;
+	width: 80%;
 }
 
 .oneLinePrscr_category {
@@ -121,15 +120,17 @@
 	width: 40px;
 	height: 40px;
 	object-fit: contain;
-	margin-bottom: 10px;
 	transition: all 0.2s ease-in-out;
 }
 
 .oneLinePrscr_category_text {
+	color: #000;
 	font-family: var(--basic-font);
+	font-size: 14px;
 	font-style: normal;
 	font-weight: 400;
-	font-size: 13px;
+	line-height: 19px;
+	margin-top: 14px;
 }
 
 .oneLinePrscr_category_img:hover {
