@@ -12,13 +12,17 @@ const OneLinePrscrCard = ({ type, item }) => {
 
 	const handleBookDetailNavigation = (event) => {
 		event.preventDefault();
-		navigate(`/book-detail?isbn=${item.bookIsbn}`);
+		navigate(
+			type !== 'landing' ? `/book-detail?isbn=${item.bookIsbn}` : '/login',
+		);
 	};
 
-	const [likeNum, setLikeNum] = useState(0);
+	const [likeNum, setLikeNum] = useState(type !== 'landing' ? 0 : 24);
 	const [isLike, setIsLike] = useState(false);
 	const [likeIcon, setLikeIcon] = useState(
-		'/icon/oneLine-prscr/before-like.svg',
+		type !== 'landing'
+			? '/icon/oneLine-prscr/before-like.svg'
+			: '/icon/oneLine-prscr/after-like.svg',
 	);
 	const handleLikeUp = (event) => {
 		event.preventDefault();
@@ -38,10 +42,12 @@ const OneLinePrscrCard = ({ type, item }) => {
 		// console.log(likeNum)
 	};
 
-	const [helpNum, setHelpNum] = useState(0);
+	const [helpNum, setHelpNum] = useState(type !== 'landing' ? 0 : 35);
 	const [isHelp, setIsHelp] = useState(false);
 	const [helpIcon, setHelpIcon] = useState(
-		'/icon/oneLine-prscr/before-help.svg',
+		type !== 'landing'
+			? '/icon/oneLine-prscr/before-help.svg'
+			: '/icon/oneLine-prscr/after-help.svg',
 	);
 	const handleHelpUp = (event) => {
 		event.preventDefault();
@@ -121,7 +127,7 @@ const OneLinePrscrCard = ({ type, item }) => {
 							<img
 								src={likeIcon}
 								id="oneLineCard_like_icon"
-								onClick={handleLikeUp}
+								onClick={type !== 'landing' ? handleLikeUp : null}
 							/>
 							<span>좋은 추천이에요</span>
 							<span>{likeNum}</span>
@@ -130,7 +136,7 @@ const OneLinePrscrCard = ({ type, item }) => {
 							<img
 								src={helpIcon}
 								id="oneLineCard_help_icon"
-								onClick={handleHelpUp}
+								onClick={type !== 'landing' ? handleHelpUp : null}
 							/>
 							<span>도움이 되었어요</span>
 							<span>{helpNum}</span>
