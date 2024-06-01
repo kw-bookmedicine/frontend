@@ -39,7 +39,16 @@ const OneLinePrscrDetail = () => {
 				.then((res) => {
 					setData(res.data);
 					setWriter(res.data.clientNickname);
-					sessionStorage.setItem('writer', res.data.clientNickname);
+					if (res.data.clientNickname !== writer) {
+						sessionStorage.setItem('writer', res.data.clientNickname);
+						setIsShow(false);
+					} else {
+						if (writer === nickname) {
+							setIsShow(true);
+						}
+						console.log(writer);
+						console.log(nickname);
+					}
 				});
 		} catch (err) {
 			console.log(err);
@@ -80,15 +89,16 @@ const OneLinePrscrDetail = () => {
 	useEffect(() => {
 		fetchData();
 		getBookData();
-		setFetchNickname(nickname);
+
 		if (nickname !== '') {
 			sessionStorage.setItem('nickname', nickname);
+			setFetchNickname(nickname);
 		}
 	}, []);
 
 	useEffect(() => {
 		showBtnHandler();
-	}, []);
+	}, [writer]);
 
 	const editPrscr = () => {
 		navigate(
