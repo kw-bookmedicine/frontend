@@ -168,7 +168,7 @@ const OneLinePrescription = () => {
 				await api
 					.get(`/api/oneline-prescriptions/all?page=${page}&size=5`)
 					.then((res) => {
-						console.log('키워드 all일 때, 페이지: ', page);
+						// console.log('키워드 all일 때, 페이지: ', page);
 						if (res.data.totalPages > page) {
 							if (res.data.content.length === 0) {
 								alert('마지막 페이지입니다.');
@@ -192,8 +192,8 @@ const OneLinePrescription = () => {
 						`/api/oneline-prescriptions/keyword?keyword=${keyword}&page=${keywordPage}&size=5`,
 					)
 					.then((res) => {
-						console.log(`======(키워드:${keyword})=======`);
-						console.log(res.data);
+						// console.log(`======(키워드:${keyword})=======`);
+						// console.log(res.data);
 						if (res.data.totalPages > keywordPage) {
 							if (res.data.content.length === 0) {
 								alert('마지막 페이지입니다.');

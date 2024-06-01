@@ -16,6 +16,7 @@ export const BannerSlider = () => {
   };
   return (
     <Swiper
+      className="banner-slider"
       centeredSlides={true}
       loop={true}
       autoplay={{

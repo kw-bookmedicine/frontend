@@ -1,0 +1,25 @@
+.myOneLinePrescription-container {
+  width: 1080px;
+  margin: 0 auto;
+  padding-top: 60px;
+  padding-bottom: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.myOneLinePrescription-title {
+  font-size: 2em;
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 4rem;
+}
+
+.myOneLinePrescription-container ul {
+  list-style-type: none;
+}
+
+.myOneLinePrescription-card {
+  width: 100%;
+}

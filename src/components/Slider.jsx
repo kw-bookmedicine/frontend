@@ -56,7 +56,7 @@ const Slider = ({ title, subtitle, isBestSeller, bookTitle, bookAuthor }) => {
         className="loginHome-slider"
         modules={[Navigation, Pagination, Scrollbar, A11y]}
         spaceBetween={0}
-        slidesPerView={7}
+        slidesPerView={6}
         navigation={{
           prevEl: prevRef.current,
           nextEl: nextRef.current,
