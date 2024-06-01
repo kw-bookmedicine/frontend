@@ -159,10 +159,16 @@
 	margin-right: 60px;
 }
 
-#oneLineCard_like_icon,
-#oneLineCard_good_icon {
-	width: 20px;
-	height: 20px;
+#oneLineCard_like_icon {
+	position: relative;
+	width: 30px;
+	height: 25px;
+	top: -2px;
+}
+
+#oneLineCard_help_icon {
+	width: 25px;
+	height: 25px;
 }
 
 #landing_oneline_card {
