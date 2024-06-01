@@ -17,7 +17,7 @@ const LandingPage = () => {
 		createdDate: '2024.05.31',
 		title:
 			'“재미있는 판타지 소설을 읽어보고 싶을 땐  해리포터 불의 잔을 읽어보세요”',
-		bookImageUrl: '/loading_thumbnail_x4.png',
+		bookImageUrl: '/icon/home/other_prscr_book.jpeg',
 		bookTitle: '해리포터 불의 잔',
 		bookAuthor: 'J.K.롤링',
 	};
@@ -26,10 +26,10 @@ const LandingPage = () => {
 		createdDate: '2024.05.31',
 		title: '“새로운 환경에 적응하기 힘들어요!”',
 		title2: '',
-		bookImageUrl: '/loading_thumbnail_x4.png',
-		bookTitle: '해리포터 불의 잔',
-		bookAuthor: 'J.K.롤링',
-		company: '도서관',
+		bookImageUrl: '/icon/home/prscr_back_book.jpeg',
+		bookTitle: '나는 왜 적응하기 힘들까?',
+		bookAuthor: '오카다 다카시',
+		company: '을유문화사',
 		date: '2020.04.30',
 	};
 
@@ -37,23 +37,67 @@ const LandingPage = () => {
 		createdDate: '2024.05.31',
 		title: `“주린이가 쉽게 이해할 수 `,
 		title2: '있는 책이에요!',
-		bookImageUrl: '/loading_thumbnail_x4.png',
-		bookTitle: '해리포터 불의 잔',
-		bookAuthor: 'J.K.롤링',
-		company: '도서관',
-		date: '2020.04.30',
+		bookImageUrl: '/icon/home/prscr_mid_book.jpeg',
+		bookTitle: '주린이도 술술 읽는 친절한 주식책',
+		bookAuthor: '최정희, 이슬기',
+		company: '메이트북스',
+		date: '2020.09.01',
 	};
 
 	const prscrItem3 = {
 		createdDate: '2024.05.31',
 		title: '“스트레스 해소가 필요할 땐 ',
 		title2: '이 책을 한 번 읽어보세요!"',
-		bookImageUrl: '/loading_thumbnail_x4.png',
-		bookTitle: '해리포터 불의 잔',
-		bookAuthor: 'J.K.롤링',
-		company: '도서관',
-		date: '2020.04.30',
+		bookImageUrl: '/icon/home/prscr_front_book.jpeg',
+		bookTitle: '견고한 유연성으로 변화 스트레스 끄기',
+		bookAuthor: '브레드 스털버그',
+		company: '프리렉',
+		date: '2024.05.27',
+		description:
+			'우리는 많은 우여곡절을 겪으며 불안과 걱정, 스트레스를 느끼게 됩니다. 그럴 때 견고한 유연성과 그 바탕에 있는 자질들은 분명 우리가 저마다의 질서, 무질서, 재질서의 순환을, 다시 말해 삶을 능숙하게 헤쳐 나갈 수 있도록 도울 것입니다.',
 	};
+
+	// 인트로 타이틀 감지
+	const introBoxRef = useRef(null);
+	const introTitle1Ref = useRef(null);
+	const introTitle2Ref = useRef(null);
+	const introTitle3Ref = useRef(null);
+	const introIconRef = useRef(null);
+
+	useEffect(() => {
+		const introBox = introBoxRef.current;
+		const introTitle1 = introTitle1Ref.current;
+		const introTitle2 = introTitle2Ref.current;
+		const introTitle3 = introTitle3Ref.current;
+		const introIcon = introIconRef.current;
+
+		const observer = new IntersectionObserver(
+			(entries) => {
+				entries.forEach((entry) => {
+					if (entry.isIntersecting) {
+						introTitle1.classList.add('animation');
+						introTitle2.classList.add('animation');
+						introTitle3.classList.add('animation');
+						introIcon.classList.add('animation');
+					} else {
+						introTitle1.classList.remove('animation');
+						introTitle2.classList.remove('animation');
+						introTitle3.classList.remove('animation');
+						introIcon.classList.remove('animation');
+					}
+				});
+			},
+			{
+				threshold: 0.3,
+			},
+		);
+
+		observer.observe(introBox);
+
+		return () => {
+			if (introBox) observer.unobserve(introBox);
+		};
+	}, []);
 
 	// 고민 글 감지
 	const worryBoxRef = useRef(null);
@@ -92,7 +136,7 @@ const LandingPage = () => {
 				});
 			},
 			{
-				threshold: 0.3,
+				threshold: 0.2,
 			},
 		);
 
@@ -112,7 +156,6 @@ const LandingPage = () => {
 		const prscrBox = prscrRef.current;
 		const aiPrscrBox = aiPrscrRef.current;
 		const otherPrscrBox = otherPrscrRef.current;
-		// console.log(otherPrscrBox);
 
 		const prscrObserver = new IntersectionObserver(
 			(entries) => {
@@ -129,7 +172,7 @@ const LandingPage = () => {
 				});
 			},
 			{
-				threshold: 0.3,
+				threshold: 0.1,
 			},
 		);
 
@@ -137,6 +180,48 @@ const LandingPage = () => {
 
 		return () => {
 			if (prscrBox) prscrObserver.unobserve(prscrBox);
+		};
+	}, []);
+
+	// 처방 작성 섹션 감지
+	const prscrWriteRef = useRef(null);
+	const prscrBackRef = useRef(null);
+	const prscrMidRef = useRef(null);
+	const prscrFrontRef = useRef(null);
+	const prscrWriteTitleRef = useRef(null);
+
+	useEffect(() => {
+		const prscrWriteBox = prscrWriteRef.current;
+		const prscrBackCard = prscrBackRef.current;
+		const prscrMidCard = prscrMidRef.current;
+		const prscrFrontCard = prscrFrontRef.current;
+		const prscrWriteTitle = prscrWriteTitleRef.current;
+
+		const prscrWriteObserver = new IntersectionObserver(
+			(entries) => {
+				entries.forEach((entry) => {
+					if (entry.isIntersecting) {
+						prscrBackCard.classList.add('animation');
+						// prscrMidCard.classList.add('animation');
+						// prscrFrontCard.classList.add('animation');
+						prscrWriteTitle.classList.add('animation');
+					} else {
+						prscrBackCard.classList.remove('animation');
+						// prscrMidCard.classList.remove('animation');
+						// prscrFrontCard.classList.remove('animation');
+						prscrWriteTitle.classList.remove('animation');
+					}
+				});
+			},
+			{
+				threshold: 0.1,
+			},
+		);
+
+		prscrWriteObserver.observe(prscrWriteBox);
+
+		return () => {
+			if (prscrWriteBox) prscrWriteObserver.unobserve(prscrWriteBox);
 		};
 	}, []);
 
@@ -158,19 +243,31 @@ const LandingPage = () => {
 								<span id="logo_login_title">로그인</span>
 							</Link>
 						</div>
-						<div className="landing_top_content_intro_wrapper">
+						<div
+							className="landing_top_content_intro_wrapper"
+							ref={introBoxRef}
+						>
 							<div className="content_intro_left_wrapper">
-								<p>당신의 고민에</p>
-								<p>한걸음 가까이</p>
-								<p id="content_intro_left_sub_title">
+								<p id="intro-title1" ref={introTitle1Ref}>
+									당신의 고민에
+								</p>
+								<p id="intro-title2" ref={introTitle2Ref}>
+									한걸음 가까이
+								</p>
+								<p id="content_intro_left_sub_title" ref={introTitle3Ref}>
 									고민작성부터 고민처방까지 한번에
 								</p>
-								<button id="content_intro_left_btn">책국에서 처방받기 →</button>
+								<Link to={'/login'}>
+									<button id="content_intro_left_btn">
+										책국에서 처방받기 →
+									</button>
+								</Link>
 							</div>
 							<div className="content_intro_right_wrapper">
 								<img
 									src="/icon/home/landing_top_icon.svg"
 									id="landing-page-intro-icon"
+									ref={introIconRef}
 								/>
 							</div>
 						</div>
@@ -185,7 +282,9 @@ const LandingPage = () => {
 							<p id="worry-title2" ref={worryTitle2Ref}>
 								고민들을 작성해보세요!
 							</p>
-							<button id="worry_write_to_btn">고민작성하러가기 →</button>
+							<Link to={'/login'}>
+								<button id="worry_write_to_btn">고민작성하러가기 →</button>
+							</Link>
 						</div>
 						<div className="worry_info_right_wrapper">
 							<div className="worry_ex1" id="worry-ex1" ref={worry1BoxRef}>
@@ -285,7 +384,7 @@ const LandingPage = () => {
 										<div className="ai-bubble_left_wrapper">
 											<p id="ai-bubble-title">류선재 님께 추천드리는 책</p>
 											<p id="ai-bubble-comment">
-												류선재 님께서 작성 하신 고민 글에서 ‘스프링’, ‘개발’,
+												류선재 님께서 작성 하신 고민 글에서 ,‘스프링’, ‘개발’,
 												‘취업’ 을 주요 키워드로 파악했습니다. <br />
 												<br />
 												류선재 님이 관심을 보일 만한 책 ‘자바 ORM 표준 JPA
@@ -294,12 +393,14 @@ const LandingPage = () => {
 										</div>
 										<div className="ai-bubble_right_wrapper">
 											<img
-												src="/loading_thumbnail_x4.png"
+												src="/icon/home/ai_prscr_book.jpeg"
 												id="ai-bubble_thumbnail"
 											/>
 											<div className="ai-bubble_bookInfo_wrapper">
-												<p id="ai-bubble_book_title">해리포터</p>
-												<p id="ai-bubble_book_author">J.K.롤링</p>
+												<p id="ai-bubble_book_title">
+													자바 ORM 표준 JPA 프로그래밍
+												</p>
+												<p id="ai-bubble_book_author">김영한</p>
 											</div>
 										</div>
 									</div>
@@ -316,13 +417,24 @@ const LandingPage = () => {
 					</div>
 				</section>
 				<section className="landing_prscr_write_container">
-					<div className="landing_prscr_write_content_wrapper">
-						<div className="landing_prscr_write_left_wrapper">
+					<div
+						className="landing_prscr_write_content_wrapper"
+						ref={prscrWriteRef}
+					>
+						<div
+							className="landing_prscr_write_left_wrapper"
+							id="prscr-write-card"
+							ref={prscrBackRef}
+						>
 							<PrscrCard id={'prscrCard_1'} item={prscrItem1} />
 							<PrscrCard id={'prscrCard_2'} item={prscrItem2} />
 							<PrscrCard id={'prscrCard_3'} type={'flip'} item={prscrItem3} />
 						</div>
-						<div className="landing_prscr_write_right_wrapper">
+						<div
+							className="landing_prscr_write_right_wrapper"
+							id={'prscr-title'}
+							ref={prscrWriteTitleRef}
+						>
 							<p>책 처방사가 되어</p> <br />
 							<p>직접 책 처방을 지어보세요!</p>
 						</div>

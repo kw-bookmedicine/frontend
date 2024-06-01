@@ -17,11 +17,7 @@ const PrescriptionCard = ({ id, type, item }) => {
 			<>
 				<div id="prscrCard_mid_title">처방전</div>
 				<div className="bookInfo_left_wrapper">
-					<img
-						src="/loading_thumbnail_x4.png"
-						alt=""
-						className="bookInfo_img"
-					/>
+					<img src={item.bookImageUrl} alt="" className="bookInfo_img" />
 				</div>
 				<div className="bookInfo_right_wrapper">
 					<p className="prscrCard_bookInfo_title">

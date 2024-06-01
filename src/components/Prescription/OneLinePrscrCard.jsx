@@ -81,7 +81,11 @@ const OneLinePrscrCard = ({ type, item }) => {
 				>
 					<div className="oneLineCard_profile_wrapper">
 						<img
-							src="/icon/profile/basic_profile_img.svg"
+							src={
+								type !== 'landing'
+									? '/icon/profile/basic_profile_img.svg'
+									: '/icon/home/other_prscr_user.png'
+							}
 							alt="작성자 프로필"
 							id="oneLineCard_profile_img"
 						/>
