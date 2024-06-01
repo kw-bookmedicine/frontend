@@ -128,6 +128,52 @@ const OneLinePrscrDetail = () => {
 		// console.log('삭제');
 	};
 
+	// 좋아요, 도움이 되었어요 반영 여부 핸들러
+	const [likeNum, setLikeNum] = useState(0);
+	const [isLike, setIsLike] = useState(false);
+	const [likeIcon, setLikeIcon] = useState(
+		'/icon/oneLine-prscr/before-like.svg',
+	);
+	const handleLikeUp = (event) => {
+		event.preventDefault();
+
+		if (!isLike) {
+			setLikeNum((prevNum) => prevNum + 1);
+			setLikeIcon('/icon/oneLine-prscr/after-like.svg');
+		} else {
+			if (likeNum > 0) {
+				setLikeNum((prevNum) => prevNum - 1);
+				setLikeIcon('/icon/oneLine-prscr/before-like.svg');
+			} else {
+				setLikeNum(0);
+			}
+		}
+		setIsLike(!isLike);
+		// console.log(likeNum)
+	};
+
+	const [helpNum, setHelpNum] = useState(0);
+	const [isHelp, setIsHelp] = useState(false);
+	const [helpIcon, setHelpIcon] = useState(
+		'/icon/oneLine-prscr/before-help.svg',
+	);
+	const handleHelpUp = (event) => {
+		event.preventDefault();
+		if (!isHelp) {
+			setHelpNum((prevNum) => prevNum + 1);
+			setHelpIcon('/icon/oneLine-prscr/after-help.svg');
+		} else {
+			if (helpNum > 0) {
+				setHelpNum((prevNum) => prevNum - 1);
+				setHelpIcon('/icon/oneLine-prscr/before-help.svg');
+			} else {
+				setHelpNum(0);
+			}
+		}
+		setIsHelp(!isHelp);
+		// console.log(helpNum)
+	};
+
 	return (
 		<>
 			<Header />
@@ -202,15 +248,18 @@ const OneLinePrscrDetail = () => {
 									</p>
 								</div>
 								<div className="prscr_detail_evaluation_wrapper">
-									<button className="prscr_detail_evaluation_btn">
-										<img src="/icon/oneLine-prscr/like.png" id="like-icon" />
+									<button
+										className="prscr_detail_evaluation_btn"
+										onClick={handleLikeUp}
+									>
+										<img src={likeIcon} id="like-icon" />
 										<span>좋은 추천이에요</span>
 									</button>
-									<button className="prscr_detail_evaluation_btn">
-										<img
-											src="/icon/oneLine-prscr/laughing.png"
-											id="laugh-icon"
-										/>
+									<button
+										className="prscr_detail_evaluation_btn"
+										onClick={handleHelpUp}
+									>
+										<img src={helpIcon} id="help-icon" />
 										<span>도움이 되었어요</span>
 									</button>
 								</div>
