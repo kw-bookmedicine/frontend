@@ -54,7 +54,6 @@ const OneLinePrscrCard = ({ item }) => {
 								<div className="showBook_btn_wrapper">
 									{/* <Link to={`/book-detail?isbn=${item.bookIsbn}`}> */}
 									<button
-										// href={`/book-detail?isbn=${item.bookIsbn}`}
 										onClick={handleBookDetailNavigation}
 										id="showBook_btn"
 									>
