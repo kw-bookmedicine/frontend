@@ -17,7 +17,6 @@
 }
 
 .landing_top_content_wrapper {
-	/* background-color: yellow; */
 	width: 100%;
 	max-width: 1120px;
 	height: 80%;
@@ -37,25 +36,19 @@
 	padding: 15px 35px;
 }
 
-#landing_logo_icon {
-	position: relative;
-	left: 20px;
-	width: 50px;
-	height: 50px;
+#logo_title {
+	font-size: 26px;
+	font-family: var(--title-font);
 }
 
-.landing_top_title_wrapper > span {
-	width: 79px;
-	height: 30px;
+#logo_login_title {
 	text-align: center;
 	color: #fff;
-	/* background-color: #fff; */
-	/* color: #00B2FC; */
-	font-weight: 600;
+	font-weight: 400;
 	font-size: 16px;
 	font-style: normal;
 	line-height: 30px;
-	font-family: var(--basic-font);
+	font-family: var(--title-font);
 	border-radius: 10px;
 }
 
@@ -191,6 +184,10 @@
 	left: -85px;
 }
 
+.worry_ex1 > b {
+	font-weight: 600;
+}
+
 .worry_ex1_box {
 	position: static;
 	background: #fff;
@@ -223,9 +220,58 @@
 	height: 84px;
 }
 
+.worry_ex1_comment_wrapper {
+	display: flex;
+	flex-direction: column;
+	position: absolute;
+	top: 18px;
+	left: 75px;
+	width: 73%;
+	height: 100%;
+	line-height: 25px;
+}
+
+.worry_ex1_comment_wrapper > p {
+	font-family: var(--basic-font);
+	font-size: 16px;
+	font-weight: 400;
+	font-style: normal;
+	color: #454545;
+	font-style: normal;
+}
+
+.worry_ex1_profile {
+	display: flex;
+	width: 100%;
+	height: 20%;
+	align-items: center;
+	margin-bottom: 5px;
+}
+
+#worry_ex1_name {
+	font-family: var(--basic-font);
+	font-size: 22px;
+	font-weight: 600;
+	font-style: normal;
+	margin-right: 15px;
+	color: #000;
+}
+
+.worry_ex1_profile > p {
+	font-family: var(--basic-font);
+	font-size: 16px;
+	font-weight: 600;
+	font-style: normal;
+	color: #454545;
+}
+
 .worry_ex2 {
 	position: relative;
 	top: 30px;
+}
+
+.worry_ex2 > b {
+	font-weight: 600;
 }
 
 .worry_ex2_box {
@@ -261,10 +307,59 @@
 	height: 104px;
 }
 
+.worry_ex2_comment_wrapper {
+	display: flex;
+	flex-direction: column;
+	position: absolute;
+	top: 40px;
+	left: 75px;
+	width: 74%;
+	height: 100%;
+}
+
+.worry_ex2_profile {
+	display: flex;
+	width: 100%;
+	height: 20%;
+	align-items: center;
+	margin-bottom: 5px;
+}
+
+.worry_ex2_profile > p {
+	font-family: var(--basic-font);
+	font-size: 16px;
+	font-weight: 600;
+	font-style: normal;
+	color: #454545;
+	line-height: 22px;
+}
+
+#worry_ex2_name {
+	font-family: var(--basic-font);
+	font-size: 24px;
+	font-weight: 600;
+	font-style: normal;
+	margin-right: 15px;
+	color: #000;
+}
+
+.worry_ex2_comment_wrapper > p {
+	font-family: var(--basic-font);
+	font-size: 18px;
+	font-weight: 400;
+	font-style: normal;
+	color: #454545;
+	line-height: 26px;
+}
+
 .worry_ex3 {
 	position: relative;
 	top: 70px;
 	left: -160px;
+}
+
+.worry_ex3_comment_wrapper > strong {
+	font-weight: 600;
 }
 
 .worry_ex3_box {
@@ -298,6 +393,57 @@
 	transform: rotate(-6deg);
 	width: 285px;
 	height: 270px;
+}
+
+.worry_ex3_comment_wrapper {
+	display: flex;
+	flex-direction: column;
+	position: absolute;
+	top: 30px;
+	left: 90px;
+	width: 74%;
+	height: 100%;
+}
+
+.worry_ex3_profile {
+	display: flex;
+	width: 100%;
+	height: 20%;
+	align-items: center;
+	margin-bottom: 5px;
+}
+
+.worry_ex3_profile > p {
+	font-family: var(--basic-font);
+	font-size: 17px;
+	font-weight: 600;
+	font-style: normal;
+	margin-right: 15px;
+	color: #454545;
+}
+
+#worry_ex3_name {
+	font-family: var(--basic-font);
+	font-size: 25px;
+	font-weight: 600;
+	font-style: normal;
+	margin-right: 15px;
+	color: #000;
+}
+
+.worry_ex3_comment_wrapper > p {
+	font-family: var(--basic-font);
+	font-size: 19px;
+	font-weight: 400;
+	font-style: normal;
+	color: #454545;
+	line-height: 26px;
+}
+
+.worry-card-bold {
+	/* font-size: 19.5px; */
+	font-weight: 600;
+	color: #f27474;
 }
 
 .landing_prscr_container {
@@ -346,6 +492,8 @@
 	height: fit-content;
 	max-width: 1120px;
 }
+
+/* ===============================  AI 처방전 설명 */
 
 .landing_prscr_ai_box {
 	position: relative;
@@ -543,6 +691,8 @@
 	color: #000;
 }
 
+/* ===============================  책국과 함께 해보세요 */
+
 .join_container {
 	display: flex;
 	justify-content: center;
@@ -579,12 +729,14 @@
 
 .join_content {
 	position: relative;
-	top: 40px;
+	top: 30px;
 	display: flex;
 	justify-content: space-evenly;
 	width: 100%;
 	height: 80%;
 }
+
+/* ===============================  책국과 함께 해보세요 부분 카드 3가지 */
 
 .join_prscr_card {
 	display: flex;
@@ -595,7 +747,14 @@
 	border-radius: 25px;
 	padding: 20px;
 	box-shadow: 2px 2px 15px 1px rgba(0, 0, 0, 0.25);
+	transition: 0.4s ease-in-out;
 }
+
+.join_prscr_card:hover {
+	transform: scale(1.05);
+	transition: 0.4s ease-in-out;
+}
+
 .join_prscr_card_title {
 	width: 100%;
 }

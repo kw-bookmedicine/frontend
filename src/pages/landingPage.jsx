@@ -29,14 +29,15 @@ const landingPage = () => {
 					<div className="landing_top_content_wrapper">
 						<div className="landing_top_title_wrapper">
 							<Link to={'/'}>
-								<img
+								<span id="logo_title">책국</span>
+								{/* <img
 									src="/icon/home/landing_logo_icon.svg"
 									alt="로고"
 									id="landing_logo_icon"
-								/>
+								/> */}
 							</Link>
 							<Link to={'/login'}>
-								<span>로그인</span>
+								<span id="logo_login_title">로그인</span>
 							</Link>
 						</div>
 						<div className="landing_top_content_intro_wrapper">
@@ -73,6 +74,19 @@ const landingPage = () => {
 											id="intro-icon1"
 										/>
 									</div>
+									<div className="worry_ex1_comment_wrapper">
+										<div className="worry_ex1_profile">
+											<p id="worry_ex1_name">김지현</p>
+											<p>20대 대학생</p>
+										</div>
+										<p>"요즘 뭘 먹기만 해도 살이 쪄서 문제에요.</p>
+										<p>
+											<b className="worry-card-bold">식단 관리</b>를 하면서,{' '}
+											<b className="worry-card-bold">근육</b>도 키우고{' '}
+											<b className="worry-card-bold">체지방</b>도 관리 하기 위해
+											참고할 수 있는 책 좀 추천해주세요."
+										</p>
+									</div>
 								</div>
 							</div>
 							<div className="worry_ex2">
@@ -83,6 +97,21 @@ const landingPage = () => {
 											id="intro-icon2"
 										/>
 									</div>
+									<div className="worry_ex2_comment_wrapper">
+										<div className="worry_ex2_profile">
+											<p id="worry_ex2_name">서은지</p>
+											<p>20대 취준생</p>
+										</div>
+										<p>
+											"다다음주에{' '}
+											<b className="worry-card-bold">정보처리기사</b>
+											시험입니다.
+										</p>
+										<p>
+											<b className="worry-card-bold">단기간</b>에 준비하기에
+											좋은 책을 추천해주실 수 있을까요?"
+										</p>
+									</div>
 								</div>
 							</div>
 							<div className="worry_ex3">
@@ -92,6 +121,18 @@ const landingPage = () => {
 											src="/icon/home/landing_intro_male_icon.png"
 											id="intro-icon3"
 										/>
+									</div>
+									<div className="worry_ex3_comment_wrapper">
+										<div className="worry_ex3_profile">
+											<p id="worry_ex3_name">오주훈</p>
+											<p>30대 직장인</p>
+										</div>
+										<p>"최근에 해외 주식에 관심이 생기기 시작했습니다. </p>
+										<p>
+											<b className="worry-card-bold">해외 주식</b>
+											으로 <b className="worry-card-bold">수익</b>내보고 싶어요!
+											해외 주식 관련된 책 추천 부탁드립니다."
+										</p>
 									</div>
 								</div>
 							</div>
