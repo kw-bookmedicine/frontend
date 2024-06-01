@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 // PAGES
-import LandingPage from './pages/LandingPage.jsx';
+import LandingPage from './pages/MainHome.jsx';
 import Main from './pages/LoginHome';
 import Feed from './pages/Feed';
 import MyFeed from './pages/MyFeed';
