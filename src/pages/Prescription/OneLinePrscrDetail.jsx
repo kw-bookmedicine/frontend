@@ -46,8 +46,8 @@ const OneLinePrscrDetail = () => {
 						if (writer === nickname) {
 							setIsShow(true);
 						}
-						console.log(writer);
-						console.log(nickname);
+						// console.log(writer);
+						// console.log(nickname);
 					}
 				});
 		} catch (err) {
