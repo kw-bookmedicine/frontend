@@ -25,10 +25,6 @@ const PrescriptionCard = ({ id }) => {
 					<p className="prscrCard_bookInfo_title">책 제목</p>
 					<p className="prscrCard_bookInfo_author">저자</p>
 					<p className="prscrCard_bookInfo_date">출판사/출판연도</p>
-					{/* <img
-						src="/icon/pharmacy_icon_2.png"
-						className="pharmacy_icon_group"
-					/> */}
 				</div>
 			</>
 		);
@@ -52,7 +48,7 @@ const PrescriptionCard = ({ id }) => {
 			>
 				<div className="prscrCard_top_wrapper">
 					<img
-						src="/icon/pharmacy_icon.png"
+						src="/icon/pharmacy_icon.svg"
 						alt=""
 						className="prscr_vector_icon"
 					/>
