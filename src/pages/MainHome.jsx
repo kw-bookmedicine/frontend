@@ -63,36 +63,6 @@ const LandingPage = () => {
 	const worryTitle1Ref = useRef(null);
 	const worryTitle2Ref = useRef(null);
 
-	// useEffect(() => {
-	// 	const observerCallback = (entries) => {
-	// 		entries.forEach((entry) => {
-	// 			if (entry.isIntersecting) {
-	// 				entry.target.classList.add('animation');
-	// 			} else {
-	// 				entry.target.classList.remove('animation');
-	// 			}
-	// 		});
-	// 	};
-
-	// 	const observer = new IntersectionObserver(observerCallback, {
-	// 		threshold: 0.3,
-	// 	});
-
-	// 	const worry1Box = worry1BoxRef.current;
-	// 	const worry2Box = worry2BoxRef.current;
-	// 	const worry3Box = worry3BoxRef.current;
-
-	// 	if (worry1Box) observer.observe(worry1Box);
-	// 	if (worry2Box) observer.observe(worry2Box);
-	// 	if (worry3Box) observer.observe(worry3Box);
-
-	// 	return () => {
-	// 		if (worry1Box) observer.unobserve(worry1Box);
-	// 		if (worry2Box) observer.unobserve(worry2Box);
-	// 		if (worry3Box) observer.unobserve(worry3Box);
-	// 	};
-	// }, []);
-
 	useEffect(() => {
 		const worryBox = worryBoxRef.current;
 		const worry1Box = worry1BoxRef.current;
@@ -130,6 +100,43 @@ const LandingPage = () => {
 
 		return () => {
 			if (worryBox) observer.unobserve(worryBox);
+		};
+	}, []);
+
+	// 처방전 섹션 감지
+	const prscrRef = useRef(null);
+	const aiPrscrRef = useRef(null);
+	const otherPrscrRef = useRef(null);
+
+	useEffect(() => {
+		const prscrBox = prscrRef.current;
+		const aiPrscrBox = aiPrscrRef.current;
+		const otherPrscrBox = otherPrscrRef.current;
+		// console.log(otherPrscrBox);
+
+		const prscrObserver = new IntersectionObserver(
+			(entries) => {
+				entries.forEach((entry) => {
+					if (entry.isIntersecting) {
+						prscrBox.classList.add('animation');
+						aiPrscrBox.classList.add('animation');
+						otherPrscrBox.classList.add('animation');
+					} else {
+						prscrBox.classList.remove('animation');
+						aiPrscrBox.classList.remove('animation');
+						otherPrscrBox.classList.remove('animation');
+					}
+				});
+			},
+			{
+				threshold: 0.3,
+			},
+		);
+
+		prscrObserver.observe(prscrBox);
+
+		return () => {
+			if (prscrBox) prscrObserver.unobserve(prscrBox);
 		};
 	}, []);
 
@@ -260,8 +267,12 @@ const LandingPage = () => {
 							<p>AI와 책 처방사들이 당신만을 위한</p>
 							<p>책 처방을 드립니다!</p>
 						</div>
-						<div className="landing_prscr_content">
-							<div className="landing_prscr_ai_box">
+						<div className="landing_prscr_content" ref={prscrRef}>
+							<div
+								className="landing_prscr_ai_box"
+								id="ai-prscr"
+								ref={aiPrscrRef}
+							>
 								<div className="landing_prscr_ai_left_wrapper">
 									<img
 										src="/icon/home/landing_ai_prscr_icon.svg"
@@ -294,7 +305,13 @@ const LandingPage = () => {
 									</div>
 								</div>
 							</div>
-							<OneLinePrscrCard type={'landing'} item={item} />
+							<div
+								className="landing_prscr_other_box"
+								id="other-prscr"
+								ref={otherPrscrRef}
+							>
+								<OneLinePrscrCard className="" type="landing" item={item} />
+							</div>
 						</div>
 					</div>
 				</section>
