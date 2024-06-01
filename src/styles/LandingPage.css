@@ -654,7 +654,7 @@
 	padding-left: 15px;
 	padding-right: 10px;
 	padding-top: 10px;
-	font-size: 18px;
+	font-size: 17px;
 	font-weight: 500;
 	font-family: var(--basic-font);
 	font-style: normal;
@@ -711,8 +711,8 @@
 .landing_prscr_other_box {
 	position: relative;
 	top: 200px;
-	left: 340px;
-	width: 80%;
+	left: 300px;
+	width: 40%;
 }
 
 /* =================================== 처방전 작성 섹션 */
