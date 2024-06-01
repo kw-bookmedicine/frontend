@@ -22,6 +22,39 @@ const LandingPage = () => {
 		bookAuthor: 'J.K.롤링',
 	};
 
+	const prscrItem1 = {
+		createdDate: '2024.05.31',
+		title: '“새로운 환경에 적응하기 힘들어요!”',
+		title2: '',
+		bookImageUrl: '/loading_thumbnail_x4.png',
+		bookTitle: '해리포터 불의 잔',
+		bookAuthor: 'J.K.롤링',
+		company: '도서관',
+		date: '2020.04.30',
+	};
+
+	const prscrItem2 = {
+		createdDate: '2024.05.31',
+		title: `“주린이가 쉽게 이해할 수 `,
+		title2: '있는 책이에요!',
+		bookImageUrl: '/loading_thumbnail_x4.png',
+		bookTitle: '해리포터 불의 잔',
+		bookAuthor: 'J.K.롤링',
+		company: '도서관',
+		date: '2020.04.30',
+	};
+
+	const prscrItem3 = {
+		createdDate: '2024.05.31',
+		title: '“스트레스 해소가 필요할 땐 ',
+		title2: '이 책을 한 번 읽어보세요!"',
+		bookImageUrl: '/loading_thumbnail_x4.png',
+		bookTitle: '해리포터 불의 잔',
+		bookAuthor: 'J.K.롤링',
+		company: '도서관',
+		date: '2020.04.30',
+	};
+
 	return (
 		<>
 			<section className="landing_container">
@@ -157,12 +190,12 @@ const LandingPage = () => {
 								<div className="landing_prscr_right_wrapper">
 									<div className="ai-bubble">
 										<div className="ai-bubble_left_wrapper">
-											<p id="ai-bubble-title">홍길동 님께 추천드리는 책</p>
+											<p id="ai-bubble-title">류선재 님께 추천드리는 책</p>
 											<p id="ai-bubble-comment">
-												*** 님께서 작성 하신 고민 글에서 ‘스프링’, ‘개발’,
+												류선재 님께서 작성 하신 고민 글에서 ‘스프링’, ‘개발’,
 												‘취업’ 을 주요 키워드로 파악했습니다. <br />
 												<br />
-												*** 님이 관심을 보일 만한 책 ‘자바 ORM 표준 JPA
+												류선재 님이 관심을 보일 만한 책 ‘자바 ORM 표준 JPA
 												프로그래밍’을 추천드립니다 !
 											</p>
 										</div>
@@ -186,9 +219,9 @@ const LandingPage = () => {
 				<section className="landing_prscr_write_container">
 					<div className="landing_prscr_write_content_wrapper">
 						<div className="landing_prscr_write_left_wrapper">
-							<PrscrCard id={'prscrCard_1'} />
-							<PrscrCard id={'prscrCard_2'} />
-							<PrscrCard id={'prscrCard_3'} />
+							<PrscrCard id={'prscrCard_1'} item={prscrItem1} />
+							<PrscrCard id={'prscrCard_2'} item={prscrItem2} />
+							<PrscrCard id={'prscrCard_3'} type={'flip'} item={prscrItem3} />
 						</div>
 						<div className="landing_prscr_write_right_wrapper">
 							<p>책 처방사가 되어</p> <br />

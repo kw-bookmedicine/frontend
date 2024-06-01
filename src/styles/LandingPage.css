@@ -119,6 +119,7 @@
 	color: #00b2fc;
 }
 
+/* ============================  고민을 남겨보세요 섹션 */
 .landing_worry_info_container {
 	display: flex;
 	justify-content: center;
@@ -446,6 +447,7 @@
 	color: #f27474;
 }
 
+/* ===============================  AI 처방과 한 줄 처방 섹션 */
 .landing_prscr_container {
 	display: flex;
 	justify-content: center;

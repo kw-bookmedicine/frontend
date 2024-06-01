@@ -3,11 +3,13 @@ import React, { useState } from 'react';
 // STYLE
 import '../../styles/Counseling/PrescriptionCard.css';
 
-const PrescriptionCard = ({ id }) => {
+const PrescriptionCard = ({ id, type, item }) => {
 	const [flipped, setFlipped] = useState(false);
 
 	const toggleFlip = () => {
-		setFlipped(!flipped);
+		if (type === 'flip') {
+			setFlipped(!flipped);
+		}
 	};
 
 	const renderFront = () => {
@@ -22,9 +24,17 @@ const PrescriptionCard = ({ id }) => {
 					/>
 				</div>
 				<div className="bookInfo_right_wrapper">
-					<p className="prscrCard_bookInfo_title">책 제목</p>
-					<p className="prscrCard_bookInfo_author">저자</p>
-					<p className="prscrCard_bookInfo_date">출판사/출판연도</p>
+					<p className="prscrCard_bookInfo_title">
+						{item.bookTitle !== null ? item.bookTitle : '책 제목'}
+					</p>
+					<p className="prscrCard_bookInfo_author">
+						{item.bookAuthor !== null ? item.bookAuthor : '저자'}
+					</p>
+					<p className="prscrCard_bookInfo_date">
+						{item.date !== null && item.company !== null
+							? `${item.company}/${item.date}`
+							: '출판사/출판연도'}
+					</p>
 				</div>
 			</>
 		);
@@ -34,7 +44,9 @@ const PrescriptionCard = ({ id }) => {
 		return (
 			<>
 				<div id="prscrCard_mid_title">처방사유</div>
-				<div className="prscrCard_reason_wrapper">이 책을 처방한 이유는</div>
+				<div className="prscrCard_reason_wrapper">
+					{item.description !== null ? item.description : '처방사유'}
+				</div>
 			</>
 		);
 	};
@@ -54,9 +66,15 @@ const PrescriptionCard = ({ id }) => {
 					/>
 					<div className="prscrCard_title_wrapper">
 						<div className="prscrCard_title">
-							"새로운 곳에
-							<br />
-							적응하기 힘들어요"
+							{item.title !== null ? (
+								<p>
+									{item.title}
+									<br />
+									{item.title2}
+								</p>
+							) : (
+								'고민제목'
+							)}
 						</div>
 						{/* <div className="prscrCard_user_name_wrapper">
 							우리 모두에게 전하는 이야기
@@ -69,7 +87,7 @@ const PrescriptionCard = ({ id }) => {
 					</div>
 				</div>
 				<div className="prscrCard_bottom_wrapper">
-					<div className="prscrCard_update_date">2000 년 00 월 00일</div>
+					<div className="prscrCard_update_date">{item.createdDate}</div>
 				</div>
 			</div>
 		</>
