@@ -120,6 +120,19 @@
 }
 
 /* ============================  고민을 남겨보세요 섹션 */
+@keyframes fadeIn {
+	0% {
+		-webkit-transform: translate3d(0, 50%, 0);
+		transform: translate3d(0, 50%, 0);
+		opacity: 0;
+	}
+	100% {
+		-webkit-transform: translateZ(0);
+		transform: translateZ(0);
+		opacity: 1;
+	}
+}
+
 .landing_worry_info_container {
 	display: flex;
 	justify-content: center;
@@ -183,6 +196,15 @@
 .worry_ex1 {
 	position: relative;
 	left: -85px;
+}
+
+#worry-title1.animation,
+#worry-title2.animation,
+#worry-ex1.animation,
+#worry-ex2.animation,
+#worry-ex3.animation {
+	-webkit-animation: fadeIn 2s forwards;
+	animation: fadeIn 2s forwards;
 }
 
 .worry_ex1 > b {

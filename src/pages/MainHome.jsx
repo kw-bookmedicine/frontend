@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 
 // COMPONENTS
@@ -55,6 +55,84 @@ const LandingPage = () => {
 		date: '2020.04.30',
 	};
 
+	// 고민 글 감지
+	const worryBoxRef = useRef(null);
+	const worry1BoxRef = useRef(null);
+	const worry2BoxRef = useRef(null);
+	const worry3BoxRef = useRef(null);
+	const worryTitle1Ref = useRef(null);
+	const worryTitle2Ref = useRef(null);
+
+	// useEffect(() => {
+	// 	const observerCallback = (entries) => {
+	// 		entries.forEach((entry) => {
+	// 			if (entry.isIntersecting) {
+	// 				entry.target.classList.add('animation');
+	// 			} else {
+	// 				entry.target.classList.remove('animation');
+	// 			}
+	// 		});
+	// 	};
+
+	// 	const observer = new IntersectionObserver(observerCallback, {
+	// 		threshold: 0.3,
+	// 	});
+
+	// 	const worry1Box = worry1BoxRef.current;
+	// 	const worry2Box = worry2BoxRef.current;
+	// 	const worry3Box = worry3BoxRef.current;
+
+	// 	if (worry1Box) observer.observe(worry1Box);
+	// 	if (worry2Box) observer.observe(worry2Box);
+	// 	if (worry3Box) observer.observe(worry3Box);
+
+	// 	return () => {
+	// 		if (worry1Box) observer.unobserve(worry1Box);
+	// 		if (worry2Box) observer.unobserve(worry2Box);
+	// 		if (worry3Box) observer.unobserve(worry3Box);
+	// 	};
+	// }, []);
+
+	useEffect(() => {
+		const worryBox = worryBoxRef.current;
+		const worry1Box = worry1BoxRef.current;
+		const worry2Box = worry2BoxRef.current;
+		const worry3Box = worry3BoxRef.current;
+		const worryTitle1 = worryTitle1Ref.current;
+		const worryTitle2 = worryTitle2Ref.current;
+
+		if (!worryBox) return;
+
+		const observer = new IntersectionObserver(
+			(entries) => {
+				entries.forEach((entry) => {
+					if (entry.isIntersecting) {
+						worry1Box.classList.add('animation');
+						worry2Box.classList.add('animation');
+						worry3Box.classList.add('animation');
+						worryTitle1.classList.add('animation');
+						worryTitle2.classList.add('animation');
+					} else {
+						worry1Box.classList.remove('animation');
+						worry2Box.classList.remove('animation');
+						worry3Box.classList.remove('animation');
+						worryTitle1.classList.remove('animation');
+						worryTitle2.classList.remove('animation');
+					}
+				});
+			},
+			{
+				threshold: 0.3,
+			},
+		);
+
+		observer.observe(worryBox);
+
+		return () => {
+			if (worryBox) observer.unobserve(worryBox);
+		};
+	}, []);
+
 	return (
 		<>
 			<section className="landing_container">
@@ -92,14 +170,18 @@ const LandingPage = () => {
 					</div>
 				</section>
 				<section className="landing_worry_info_container">
-					<div className="landing_worry_info_content_wrapper">
+					<div className="landing_worry_info_content_wrapper" ref={worryBoxRef}>
 						<div className="worry_info_left_wrapper">
-							<p>다양한 분야의</p>
-							<p>고민들을 작성해보세요!</p>
+							<p id="worry-title1" ref={worryTitle1Ref}>
+								다양한 분야의
+							</p>
+							<p id="worry-title2" ref={worryTitle2Ref}>
+								고민들을 작성해보세요!
+							</p>
 							<button id="worry_write_to_btn">고민작성하러가기 →</button>
 						</div>
 						<div className="worry_info_right_wrapper">
-							<div className="worry_ex1">
+							<div className="worry_ex1" id="worry-ex1" ref={worry1BoxRef}>
 								<div className="worry_ex1_box">
 									<div id="mimoji_icon1_wrapper">
 										<img
@@ -122,7 +204,7 @@ const LandingPage = () => {
 									</div>
 								</div>
 							</div>
-							<div className="worry_ex2">
+							<div className="worry_ex2" id="worry-ex2" ref={worry2BoxRef}>
 								<div className="worry_ex2_box">
 									<div id="mimoji_icon2_wrapper">
 										<img
@@ -147,7 +229,7 @@ const LandingPage = () => {
 									</div>
 								</div>
 							</div>
-							<div className="worry_ex3">
+							<div className="worry_ex3" id="worry-ex3" ref={worry3BoxRef}>
 								<div className="worry_ex3_box">
 									<div id="mimoji_icon3_wrapper">
 										<img
