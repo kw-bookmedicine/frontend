@@ -186,5 +186,8 @@
 .myPage_footer {
 	display: flex;
 	justify-content: center;
-	margin-top: 40px;
+	width: 100%;
+	height: fit-content;
+	position: absolute;
+	bottom: -700px;
 }
