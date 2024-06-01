@@ -5,9 +5,16 @@ import HashTag from '../HashTag';
 
 // STYLE
 import '../../styles/Prescription/OneLinePrscrCard.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const OneLinePrscrCard = ({ item }) => {
+	const navigate = useNavigate();
+
+	const handleBookDetailNavigation = (event) => {
+		event.preventDefault();
+		navigate(`/book-detail?isbn=${item.bookIsbn}`);
+	};
+
 	return (
 		<>
 			<Link
@@ -47,7 +54,8 @@ const OneLinePrscrCard = ({ item }) => {
 								<div className="showBook_btn_wrapper">
 									{/* <Link to={`/book-detail?isbn=${item.bookIsbn}`}> */}
 									<button
-										href={`/book-detail?isbn=${item.bookIsbn}`}
+										// href={`/book-detail?isbn=${item.bookIsbn}`}
+										onClick={handleBookDetailNavigation}
 										id="showBook_btn"
 									>
 										책 보러가기
