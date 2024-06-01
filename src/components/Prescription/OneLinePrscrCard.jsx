@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 // COMPONENTS
 import HashTag from '../HashTag';
@@ -13,6 +13,51 @@ const OneLinePrscrCard = ({ item }) => {
 	const handleBookDetailNavigation = (event) => {
 		event.preventDefault();
 		navigate(`/book-detail?isbn=${item.bookIsbn}`);
+	};
+
+	const [likeNum, setLikeNum] = useState(0);
+	const [isLike, setIsLike] = useState(false);
+	const [likeIcon, setLikeIcon] = useState(
+		'/icon/oneLine-prscr/before-like.svg',
+	);
+	const handleLikeUp = (event) => {
+		event.preventDefault();
+
+		if (!isLike) {
+			setLikeNum((prevNum) => prevNum + 1);
+			setLikeIcon('/icon/oneLine-prscr/after-like.svg');
+		} else {
+			if (likeNum > 0) {
+				setLikeNum((prevNum) => prevNum - 1);
+				setLikeIcon('/icon/oneLine-prscr/before-like.svg');
+			} else {
+				setLikeNum(0);
+			}
+		}
+		setIsLike(!isLike);
+		// console.log(likeNum)
+	};
+
+	const [helpNum, setHelpNum] = useState(0);
+	const [isHelp, setIsHelp] = useState(false);
+	const [helpIcon, setHelpIcon] = useState(
+		'/icon/oneLine-prscr/before-help.svg',
+	);
+	const handleHelpUp = (event) => {
+		event.preventDefault();
+		if (!isHelp) {
+			setHelpNum((prevNum) => prevNum + 1);
+			setHelpIcon('/icon/oneLine-prscr/after-help.svg');
+		} else {
+			if (helpNum > 0) {
+				setHelpNum((prevNum) => prevNum - 1);
+				setHelpIcon('/icon/oneLine-prscr/before-help.svg');
+			} else {
+				setHelpNum(0);
+			}
+		}
+		setIsHelp(!isHelp);
+		// console.log(helpNum)
 	};
 
 	return (
@@ -62,29 +107,26 @@ const OneLinePrscrCard = ({ item }) => {
 									{/* </Link> */}
 								</div>
 							</div>
-							{/* <div className="oneLineCard_bookInfo_keyword_wrapper">
-							<HashTag text={'저주'} type={'keyword'} />
-							<HashTag text={'해리포터'} type={'keyword'} />
-							<HashTag text={'판타지'} type={'keyword'} />
-						</div> */}
 						</div>
 					</div>
 					<div className="oneLineCard_evaluation_wrapper">
 						<div className="evaluation_wrapper">
 							<img
-								src="/icon/oneLine-prscr/like.png"
+								src={likeIcon}
 								id="oneLineCard_like_icon"
+								onClick={handleLikeUp}
 							/>
 							<span>좋은 추천이에요</span>
-							<span>20</span>
+							<span>{likeNum}</span>
 						</div>
 						<div className="evaluation_wrapper">
 							<img
-								src="/icon/oneLine-prscr/laughing.png"
-								id="oneLineCard_good_icon"
+								src={helpIcon}
+								id="oneLineCard_help_icon"
+								onClick={handleHelpUp}
 							/>
 							<span>도움이 되었어요</span>
-							<span>10</span>
+							<span>{helpNum}</span>
 						</div>
 					</div>
 				</div>
