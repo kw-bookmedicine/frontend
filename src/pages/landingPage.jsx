@@ -9,7 +9,7 @@ import PrscrCard from '../components/Prescription/PrescriptionCard';
 // STYLES
 import '../styles/LandingPage.css';
 
-const landingPage = () => {
+const LandingPage = () => {
 	const item = {
 		id: '1',
 		bookIsbn: '978',
@@ -256,4 +256,4 @@ const landingPage = () => {
 	);
 };
 
-export default landingPage;
+export default LandingPage;
