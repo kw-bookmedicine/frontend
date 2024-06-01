@@ -3,7 +3,6 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 // PAGES
 import LandingPage from './pages/LandingPage.jsx';
-// import Home from './pages/landingPage.jsx';
 import Main from './pages/LoginHome';
 import Feed from './pages/Feed';
 import MyFeed from './pages/MyFeed';
