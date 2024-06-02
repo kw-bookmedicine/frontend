@@ -1,54 +1,114 @@
-import React, { useEffect, useState } from "react";
-import api from "../../services/api";
-import Header from "../../components/Header";
-import WidePrescriptionCard from "../../components/Prescription/WidePrescriptionCard";
+import React, { useState, useEffect, useRef } from 'react';
 
-import "../../styles/Profile/MyPrescription.css";
+// COMPONENTS
+import Header from '../../components/Header';
+import WidePrescriptionCard from '../../components/Prescription/WidePrescriptionCard';
 
-const fetchMyPrescriptions = async () => {
-  const response = await api.get(
-    `https://api.bookpharmacy.store/api/prescription/my?page=0&size=10`,
-    { withCredentials: true }
-  );
-  return response.data;
-};
+// SERVICE
+import api from '../../services/api';
+
+// SERVICE
+import '../../styles/Profile/MyPrescription.css';
 
 const MyPrescription = () => {
-  const [data, setData] = useState();
-  const [isLoading, setIsLoading] = useState(true);
-  useEffect(() => {
-    const fetchMyPrescriptionsData = async () => {
-      try {
-        const response = await fetchMyPrescriptions();
-        setData(response);
-      } catch (error) {
-        console.error("나의 처방전 조회 요청 실패", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchMyPrescriptionsData();
-  }, []);
+	const pageEnd = useRef();
+	const [page, setPage] = useState(0);
+	const [totalElem, setTotalElem] = useState('');
+	const [data, setData] = useState([]);
+	const [isLoading, setIsLoading] = useState(false);
 
-  if (isLoading) return <div>Loading...</div>;
+	const fetchMyPrescriptions = async () => {
+		setIsLoading(true);
+		try {
+			await api
+				.get(`/api/prescription/my?page=${page}&size=10`, {
+					withCredentials: true,
+				})
+				.then((res) => {
+					if (res.data.totalPages > page) {
+						if (res.data.content.length === 0) {
+							alert('처방전이 없습니다.');
+						} else {
+							setTotalElem(res.data.totalElements);
+							setData((prevData) => [...prevData, ...res.data.content]);
+						}
+					} else {
+						alert('마지막 페이지입니다.');
+					}
+				});
+		} catch (err) {
+			console.log(err);
+		} finally {
+			setIsLoading(false);
+		}
+	};
 
-  return (
-    <>
-      <Header />
-      <section className="myPrescription-background">
-        <div className="myPrescription-container">
-          <h1 className="myPrescription-title">나의 처방전 목록</h1>
-          <ul>
-            {data.map((prescription) => (
-              <li className="myPrescription-card" key={prescription.id}>
-                <WidePrescriptionCard props={prescription} />
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-    </>
-  );
+	useEffect(() => {
+		fetchMyPrescriptions();
+	}, [page]);
+
+	useEffect(() => {
+		if (pageEnd.current) pageEnd.current.disconnect();
+
+		const handleObserver = (entries) => {
+			const target = entries[0];
+			if (target.isIntersecting) {
+				if (data.length !== 0) {
+					setPage((prevPage) => prevPage + 1);
+				}
+			}
+		};
+
+		pageEnd.current = new IntersectionObserver(handleObserver, {
+			threshold: 1,
+		});
+
+		const lastElement = document.querySelector(
+			'.myPrescription_content_wrapper > *:last-child',
+		);
+
+		if (lastElement) {
+			pageEnd.current.observe(lastElement);
+		}
+
+		return () => {
+			if (pageEnd.current) pageEnd.current.disconnect();
+		};
+	}, [data]);
+
+	if (isLoading) return <div>Loading...</div>;
+
+	return (
+		<>
+			<Header />
+			<div className="myPrescription-container">
+				<h1 className="myPrescription-title">나의 처방전 목록</h1>
+				<div className="myPrescription_content_container">
+					<p>내 처방전 개수 : {totalElem}</p>
+					<div className="myPrescription_content_wrapper">
+						{data.length !== 0
+							? data.map((item) => {
+									return (
+										<WidePrescriptionCard
+											props={item}
+											key={`myPrscr-${item}-${item.id}`}
+										/>
+									);
+							  })
+							: null}
+					</div>
+				</div>
+
+				{/* <ul>
+					{data.map((prescription) => (
+						<li className="myPrescription-card" key={prescription.id}>
+							<WidePrescriptionCard props={prescription} />
+						</li>
+					))}
+				</ul> */}
+			</div>
+		</>
+	);
 };
 
 export default MyPrescription;
