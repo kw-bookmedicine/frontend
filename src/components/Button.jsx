@@ -47,7 +47,7 @@ const Button = ({ text, type }) => {
 		if (type === 'add' || type === 'delete' || type === 'exp') {
 			return <button className={styles[`Btn-${type}`]}>{text}</button>;
 		} else {
-			if (type === 'logout') {
+			if (type === 'logout' || type === 'profile_logout') {
 				return (
 					<button
 						onClick={() => {
