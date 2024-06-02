@@ -17,6 +17,8 @@ import '../../styles/Profile/MyPage.css';
 
 const Mypage = () => {
 	const [modalOn, setModalOn] = useState(false);
+	const [boardCnt, setBoardCnt] = useState('');
+	const [prscrCnt, setPrscrCnt] = useState('');
 
 	const handleModal = () => {
 		setModalOn(!modalOn);
@@ -54,6 +56,8 @@ const Mypage = () => {
 		api.get('/client', { withCredentials: true }).then((res) => {
 			// console.log(res.data);
 			// console.log(res.data.nickname);
+			setBoardCnt(res.data.boardCount);
+			setPrscrCnt(res.data.prescriptionCount);
 
 			res.data.nickname === null
 				? setNickname('사용자 닉네임')
@@ -99,12 +103,12 @@ const Mypage = () => {
 								<div className="dashboard_worry_wrapper">
 									<img src="/icon/profile/profile_worry_icon.svg" alt="" />
 									나의 고민 개수
-									<p className="dashboard_number">20개</p>
+									<p className="dashboard_number">{boardCnt}개</p>
 								</div>
 								<div className="dashboard_prscr_wrapper">
 									<img src="/icon/profile/profile_prscr_icon.svg" alt="" />
 									내가 남긴 처방전 개수
-									<p className="dashboard_number">20개</p>
+									<p className="dashboard_number">{prscrCnt}개</p>
 								</div>
 							</div>
 						</div>
