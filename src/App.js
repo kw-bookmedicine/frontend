@@ -41,6 +41,8 @@ import OneLinePrscrDetail from './pages/Prescription/OneLinePrscrDetail.jsx';
 
 // 내 페이지들
 import MyWorryPage from './pages/profile/MyWorryPage.jsx';
+import MyPrescription from './pages/profile/MyPrescription.jsx';
+import MyOneLinePrescription from './pages/profile/MyOneLinePrescription.jsx';
 
 // STYLE
 import GlobalStyles from './styles/GlobalStyles';
@@ -91,6 +93,11 @@ function App() {
 						<Route path="/edit/:page" element={<UserInfo />} />
 
 						<Route path="/my/worry" element={<MyWorryPage />} />
+						<Route path="/myPrescriptions" element={<MyPrescription />} />
+						<Route
+							path="/myOneLinePrescriptions"
+							element={<MyOneLinePrescription />}
+						/>
 
 						{/* 처방전 관련 */}
 						<Route path="/counseling" element={<Counseling />} />
