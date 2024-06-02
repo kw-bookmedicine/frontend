@@ -36,8 +36,8 @@ const Button = ({ text, type }) => {
 
 	const logout = () => {
 		console.log('logout!');
-		localStorage.clear();
-		api.get('/logout').then((res) => {
+		sessionStorage.clear();
+		api.get('/logout', { withCredentials: true }).then((res) => {
 			console.log(res.data);
 		});
 		navigate('/');
