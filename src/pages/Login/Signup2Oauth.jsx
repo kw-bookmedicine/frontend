@@ -96,16 +96,6 @@ const Signup2Oauth = () => {
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)}>
-          <FormInput
-            type="name"
-            register={register}
-            name="name"
-            rules={{
-              required: "이름을 입력해주세요",
-            }}
-            placeholder="이름"
-            errors={errors}
-          />
           <div style={{ position: "relative" }}>
             <FormInput
               type="nickname"
