@@ -1,35 +1,35 @@
 .long-pickBookList_wrapper {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	width: 95%;
-	margin: 10px;
-	/* padding: 0 20px; */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 95%;
+  margin: 10px;
+  /* padding: 0 20px; */
 }
 
 .short-pickBookList_wrapper {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	width: 100%;
-	margin: 8px;
-	padding: 0 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin: 10px;
+  padding: 0 15px;
 }
 
 .long-pickBook_title {
-	width: 410px;
-	font-family: var(--basic-font);
-	font-style: normal;
-	font-weight: 300;
-	font-size: 12px;
-	line-height: 14px;
-	color: #000000;
-	/* cursor: grab; */
+  width: 410px;
+  font-family: var(--basic-font);
+  font-style: normal;
+  font-weight: 300;
+  font-size: 12px;
+  line-height: 14px;
+  color: #000000;
+  /* cursor: grab; */
 
-	/* 긴 제목 ... 표시 */
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
+  /* 긴 제목 ... 표시 */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 /* 
 .long-pickBook_title:hover {
@@ -43,104 +43,104 @@
 } */
 
 .short-pickBook_title {
-	width: 245px;
-	font-family: var(--basic-font);
-	font-style: normal;
-	font-weight: 300;
-	font-size: 12px;
-	line-height: 14px;
-	color: #000000;
+  width: 245px;
+  font-family: var(--basic-font);
+  font-style: normal;
+  font-weight: 300;
+  font-size: 12px;
+  line-height: 14px;
+  color: #000000;
 
-	/* 긴 제목 ... 표시 */
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
+  /* 긴 제목 ... 표시 */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .long-pickBook_isbn,
 .short-pickBook_isbn {
-	visibility: hidden;
-	width: 5px;
+  visibility: hidden;
+  width: 5px;
 }
 
 .long-pickBook_author {
-	width: 80px;
-	font-family: var(--basic-font);
-	font-style: normal;
-	font-weight: 300;
-	font-size: 12px;
-	line-height: 14px;
-	color: #777777;
+  width: 80px;
+  font-family: var(--basic-font);
+  font-style: normal;
+  font-weight: 300;
+  font-size: 12px;
+  line-height: 14px;
+  color: #777777;
 
-	/* 긴 작가명 ... 표시 */
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
+  /* 긴 작가명 ... 표시 */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .short-pickBook_author {
-	width: 30px;
-	font-family: var(--basic-font);
-	font-style: normal;
-	font-weight: 300;
-	font-size: 12px;
-	line-height: 14px;
-	color: #777777;
+  width: 30px;
+  font-family: var(--basic-font);
+  font-style: normal;
+  font-weight: 300;
+  font-size: 12px;
+  line-height: 14px;
+  color: #777777;
 
-	/* 긴 작가명 ... 표시 */
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
+  /* 긴 작가명 ... 표시 */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* 모달 창 책 리스트 추가 및 삭제 버튼 */
 .Btn-add {
-	display: flex;
-	justify-content: center;
-	margin: 0;
-	border: none;
-	cursor: pointer;
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  border: none;
+  cursor: pointer;
 
-	width: 100px;
-	height: 20px;
-	background-color: #c8edf2;
-	border-radius: 10px;
-	opacity: 1;
+  width: 100px;
+  height: 20px;
+  background-color: #c8edf2;
+  border-radius: 10px;
+  opacity: 1;
 
-	text-align: center;
-	font-size: 14px;
-	font-style: normal;
-	font-weight: 300;
-	line-height: normal;
-	font-family: var(--basic-font);
-	color: #000000;
+  text-align: center;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+  font-family: var(--basic-font);
+  color: #000000;
 }
 
 .Btn-add:hover {
-	background-color: #a4d6dd;
+  background-color: #a4d6dd;
 }
 
 .Btn-delete {
-	margin: 0;
-	border: none;
-	cursor: pointer;
+  margin: 0;
+  border: none;
+  cursor: pointer;
 
-	width: 75px;
-	height: 20px;
-	background-color: #ffdadf;
-	border-radius: 10px;
-	opacity: 1;
+  width: 75px;
+  height: 20px;
+  background-color: #ffdadf;
+  border-radius: 10px;
+  opacity: 1;
 
-	/* Font */
-	text-align: center;
-	font-size: 14px;
-	font-style: normal;
-	font-weight: 300;
-	line-height: normal;
-	font-family: var(--basic-font);
-	color: #000000;
+  /* Font */
+  text-align: center;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+  font-family: var(--basic-font);
+  color: #000000;
 }
 
 .Btn-delete:hover {
-	background-color: #f8b0b9;
+  background-color: #f8b0b9;
 }
