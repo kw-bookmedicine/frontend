@@ -12,6 +12,7 @@ import PickBookItem from "../PickBookItem.jsx";
 // STYLES
 import "../../styles/MyListModal.css";
 import Pagination from "./../Pagination";
+import LoadingSpinner from "../Loading/LoadingSpinner.jsx";
 
 const MyListModal = ({ onClose }) => {
   const [input, setInput] = useState("");
@@ -41,6 +42,9 @@ const MyListModal = ({ onClose }) => {
   // 읽은 목록 페이지네이션 현재 페이지 및 총 페이지
   const [currentPickBookListPage, setCurrentPickBookListPage] = useState(1);
   const totalPickBookListPages = Math.ceil(pickBookList.length / itemsPerPage);
+
+  // 로딩 상태
+  const [isLoading, setIsLoading] = useState(false);
 
   // '목록 삭제' 버튼 눌렀을 때 실행되는 함수
   const updateClick = () => {
@@ -85,6 +89,7 @@ const MyListModal = ({ onClose }) => {
   // 엔터 눌렀을 때 검색 결과 보이기
   const renderSearchList = (page = 1) => {
     if (input.trim() !== "") {
+      setIsLoading(true);
       api
         .get(
           `/api/search/book?title=${input}&target=page&page=${
@@ -100,10 +105,12 @@ const MyListModal = ({ onClose }) => {
           setIsEnter(true); // 엔터 눌렀을 때 렌더링
           setBookCount(res.data.totalElements); // 검색 결과로 나온 책 권수
           setTotalPages(res.data.totalPages); // 전체 페이지 수
-
-          // 페이지네이션으로 페이지 번호 클릭하면 요청 주소의 page 파라미터 수 변경
+          setIsLoading(false);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          console.log(err);
+          setIsLoading(false);
+        });
     }
   };
 
@@ -242,23 +249,26 @@ const MyListModal = ({ onClose }) => {
               <h4>{bookCount}권의 책을 찾았어요!</h4>
               {/*  */}
               <div className="inputList_container">
-                <div className="left_inputList_box">
-                  {searchBookResult.length > 0 && isEnter
-                    ? searchBookResult.map((ele) => {
-                        return (
-                          <PickBookItem
-                            key={ele.isbn}
-                            isbn={ele.isbn}
-                            type="long"
-                            title={ele.title}
-                            BookList={pickBookList}
-                            updateList={AddBookList}
-                            author={ele.authors}
-                            // updateAuthor={AddAuthorList}
-                          />
-                        );
-                      })
-                    : ""}
+                <div className="left_inputList_box spinner-container">
+                  {isLoading && <LoadingSpinner />}
+                  {!isLoading &&
+                    (searchBookResult.length > 0 && isEnter
+                      ? searchBookResult.map((ele) => {
+                          return (
+                            <PickBookItem
+                              key={ele.isbn}
+                              isbn={ele.isbn}
+                              type="long"
+                              title={ele.title}
+                              BookList={pickBookList}
+                              updateList={AddBookList}
+                              author={ele.authors}
+                              // updateAuthor={AddAuthorList}
+                            />
+                          );
+                        })
+                      : "")}
+
                   {totalPages > 1 && (
                     <div className="left_inputList_box_pagination">
                       <Pagination
