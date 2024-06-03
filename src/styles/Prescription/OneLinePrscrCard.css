@@ -11,6 +11,19 @@
 	background-color: #fff;
 }
 
+.bookDetail_OneLinePrscrCard_wrapper {
+	display: flex;
+	flex-direction: column;
+	width: 1030px;
+	height: 380px;
+	padding: 10px 20px;
+	border-radius: 15px;
+	box-shadow: 2px 2px 16px 0 rgba(119, 119, 119, 0.25);
+	margin-bottom: 50px;
+	cursor: pointer;
+	background-color: #fff;
+}
+
 .oneLineCard_profile_wrapper {
 	display: flex;
 	align-items: center;

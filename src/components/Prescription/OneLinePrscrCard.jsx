@@ -17,11 +17,20 @@ const OneLinePrscrCard = ({ type, item }) => {
 		);
 	};
 
-	const [likeNum, setLikeNum] = useState(type !== 'landing' ? 0 : 24);
+	const [likeNum, setLikeNum] = useState(
+		type !== 'landing' ? item.likeCount : 24,
+	);
 	const [isLike, setIsLike] = useState(false);
+	// const [likeIcon, setLikeIcon] = useState(
+	// 	type !== 'landing'
+	// 		? '/icon/oneLine-prscr/before-like.svg'
+	// 		: '/icon/oneLine-prscr/after-like.svg',
+	// );
 	const [likeIcon, setLikeIcon] = useState(
 		type !== 'landing'
-			? '/icon/oneLine-prscr/before-like.svg'
+			? item.like === false
+				? '/icon/oneLine-prscr/before-like.svg'
+				: '/icon/oneLine-prscr/after-like.svg'
 			: '/icon/oneLine-prscr/after-like.svg',
 	);
 	const handleLikeUp = (event) => {
@@ -42,11 +51,15 @@ const OneLinePrscrCard = ({ type, item }) => {
 		// console.log(likeNum)
 	};
 
-	const [helpNum, setHelpNum] = useState(type !== 'landing' ? 0 : 35);
+	const [helpNum, setHelpNum] = useState(
+		type !== 'landing' ? item.helpfulCount : 35,
+	);
 	const [isHelp, setIsHelp] = useState(false);
 	const [helpIcon, setHelpIcon] = useState(
 		type !== 'landing'
-			? '/icon/oneLine-prscr/before-help.svg'
+			? item.helpful === false
+				? '/icon/oneLine-prscr/before-help.svg'
+				: '/icon/oneLine-prscr/after-help.svg'
 			: '/icon/oneLine-prscr/after-help.svg',
 	);
 	const handleHelpUp = (event) => {
@@ -76,7 +89,11 @@ const OneLinePrscrCard = ({ type, item }) => {
 				}
 			>
 				<div
-					className="OneLinePrscrCard_wrapper"
+					className={
+						type !== 'bookDetail'
+							? 'OneLinePrscrCard_wrapper'
+							: 'bookDetail_OneLinePrscrCard_wrapper'
+					}
 					id={type !== 'landing' ? null : 'landing_oneline_card'}
 				>
 					<div className="oneLineCard_profile_wrapper">
@@ -115,12 +132,15 @@ const OneLinePrscrCard = ({ type, item }) => {
 								</div>
 								<div className="showBook_btn_wrapper">
 									{/* <Link to={`/book-detail?isbn=${item.bookIsbn}`}> */}
-									<button
-										onClick={handleBookDetailNavigation}
-										id="showBook_btn"
-									>
-										책 보러가기
-									</button>
+									{type !== 'bookDetail' ? (
+										<button
+											onClick={handleBookDetailNavigation}
+											id="showBook_btn"
+										>
+											책 보러가기
+										</button>
+									) : null}
+
 									{/* </Link> */}
 								</div>
 							</div>
@@ -131,7 +151,11 @@ const OneLinePrscrCard = ({ type, item }) => {
 							<img
 								src={likeIcon}
 								id="oneLineCard_like_icon"
-								onClick={type !== 'landing' ? handleLikeUp : null}
+								onClick={
+									type !== 'landing' && type !== 'bookDetail'
+										? handleLikeUp
+										: null
+								}
 							/>
 							<span>좋은 추천이에요</span>
 							<span>{likeNum}</span>
@@ -140,7 +164,11 @@ const OneLinePrscrCard = ({ type, item }) => {
 							<img
 								src={helpIcon}
 								id="oneLineCard_help_icon"
-								onClick={type !== 'landing' ? handleHelpUp : null}
+								onClick={
+									type !== 'landing' && type !== 'bookDetail'
+										? handleHelpUp
+										: null
+								}
 							/>
 							<span>도움이 되었어요</span>
 							<span>{helpNum}</span>
