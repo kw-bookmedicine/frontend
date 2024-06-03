@@ -1,39 +1,81 @@
 import React from "react";
 import styled from "styled-components";
 
-const Pagination = ({ totalBooks, paginate, currentPage }) => {
+const Pagination = ({ paginate, currentPage, totalPages }) => {
   const pageNumbers = [];
   const maxPageNumberLimit = 10; // 한 번에 보여줄 최대 페이지 번호 개수
-  const totalPages = Math.ceil(totalBooks / maxPageNumberLimit);
+
+  // 현재 페이지 기준으로 시작 페이지와 끝 페이지를 계산
   let startPage = Math.max(currentPage - Math.floor(maxPageNumberLimit / 2), 1);
   let endPage = Math.min(startPage + maxPageNumberLimit - 1, totalPages);
 
-  // 시작 페이지 재조정: 끝 페이지가 최대 페이지에 도달했지만, 시작 페이지가 아직 여유가 있는 경우
-  if (endPage - startPage + 1 < maxPageNumberLimit) {
-    startPage = Math.max(endPage - maxPageNumberLimit + 1, 1);
-  }
-
+  // 페이지 번호를 배열에 추가
   for (let i = startPage; i <= endPage; i++) {
     pageNumbers.push(i);
   }
 
-  return (
-    <PaginationContainer className="pagination">
-      {pageNumbers.map((number) => {
-        return (
+  const renderPaginationItems = () => {
+    const items = [];
+
+    // 첫 페이지
+    items.push(
+      <PageItem
+        key={1}
+        $iscurrent={currentPage === 1}
+        onClick={() => paginate(1)}
+      >
+        1
+      </PageItem>
+    );
+
+    if (startPage > 2) {
+      items.push(<PageItem key="start-ellipsis">...</PageItem>);
+    }
+
+    // 현재 페이지 주변의 페이지 번호
+    pageNumbers.forEach((number) => {
+      if (number !== 1 && number !== totalPages) {
+        items.push(
           <PageItem
             key={number}
-            className="page-item"
             $iscurrent={number === currentPage}
-            onClick={() => {
-              window.scrollTo(0, 0);
-              paginate(number);
-            }}
+            onClick={() => paginate(number)}
           >
             {number}
           </PageItem>
         );
-      })}
+      }
+    });
+
+    if (endPage < totalPages - 1) {
+      items.push(<PageItem key="end-ellipsis">...</PageItem>);
+    }
+
+    // 마지막 페이지
+    if (totalPages > 1) {
+      items.push(
+        <PageItem
+          key={totalPages}
+          $iscurrent={currentPage === totalPages}
+          onClick={() => paginate(totalPages)}
+        >
+          {totalPages}
+        </PageItem>
+      );
+    }
+
+    return items;
+  };
+
+  return (
+    <PaginationContainer className="pagination">
+      {currentPage > 1 && (
+        <PageItem onClick={() => paginate(currentPage - 1)}>&laquo;</PageItem>
+      )}
+      {renderPaginationItems()}
+      {currentPage < totalPages && (
+        <PageItem onClick={() => paginate(currentPage + 1)}>&raquo;</PageItem>
+      )}
     </PaginationContainer>
   );
 };

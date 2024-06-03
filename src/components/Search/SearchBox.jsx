@@ -59,7 +59,7 @@ const SearchBox = () => {
         endpoint = `/api/search/book?author=${searchInput}&target=modal`;
       }
       if (searchType === "keyword") {
-        endpoint = `/api/search/keyword?name=${searchInput}&target=modal`;
+        endpoint = `/api/search/keyword/keyword?name=${searchInput}&target=modal`;
       }
 
       try {
@@ -92,12 +92,13 @@ const SearchBox = () => {
       fetchBooks(input);
       if (input.length > 0 && selectedKeywords.length === 0)
         navigate(`/search/result?type=${searchType}&query=${input}`);
-      if (selectedKeywords.length > 0)
+      if (selectedKeywords.length === 1)
         navigate(
           `/search/result?type=${searchType}&query=${selectedKeywords.join(
             " "
           )} ${input}`
         );
+
       if (input.length === 0 && searchType !== "keyword")
         alert("검색 키워드가 없습니다!");
       if (searchType === "keyword" && selectedKeywords.length === 0)
@@ -108,8 +109,17 @@ const SearchBox = () => {
 
   // 키워드 선택
   const handleSelectKeyword = (keyword) => {
-    setSelectedKeywords([...selectedKeywords, keyword]);
-    setSelectedKeywordSet(new Set([...selectedKeywordSet, keyword]));
+    if (selectedKeywords.length !== 0) {
+      alert("키워드는 하나만 선택할 수 있습니다.");
+    }
+    // 키워드 여러개 입력가능
+    // setSelectedKeywords([...selectedKeywords, keyword]);
+    // setSelectedKeywordSet(new Set([...selectedKeywordSet, keyword]));
+
+    // 키워드 한개 입력 가능
+
+    setSelectedKeywords([keyword]);
+    setSelectedKeywordSet(new Set([keyword]));
     setInput("");
     setSearchData([]);
     inputRef.current.focus();
