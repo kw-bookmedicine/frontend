@@ -17,6 +17,8 @@ import BookCard from '../components/BookCard';
 import Footer from '../components/Footer';
 import ModalPortal from '../components/Modal/Portal';
 import ExpModal from '../components/Modal/Experience';
+import LoadingSpinner from '../components/Loading/LoadingSpinner';
+import OneLinePrscrCard from '../components/Prescription/OneLinePrscrCard';
 
 // STYLES
 import '../styles/BookDetail.css';
@@ -34,9 +36,11 @@ const BookDetail = () => {
 		setModalOn(!modalOn);
 	};
 
+	const [isLoading, setIsLoading] = useState(false);
 	const [searchParams, setSearchParams] = useSearchParams();
 	const [bookInfo, setBookInfo] = useState([]);
 	const [bookKeywordList, setBookKeywordList] = useState([]);
+	const [oneLinePrscrArr, setOneLinePrscrArr] = useState([]);
 
 	const getIsbn = () => {
 		let isbn = searchParams.get('isbn');
@@ -52,8 +56,29 @@ const BookDetail = () => {
 			});
 	};
 
+	const getOneLinePrscr = () => {
+		let isbn = searchParams.get('isbn');
+		setIsLoading(true);
+		try {
+			api
+				.get(`/api/oneline-prescriptions/book?isbn=${isbn}`, {
+					withCredentials: true,
+				})
+				.then((res) => {
+					if (res.data.content.length !== 0) {
+						setOneLinePrscrArr(res.data.content);
+					}
+				});
+		} catch (err) {
+			console.log(err);
+		} finally {
+			setIsLoading(false);
+		}
+	};
+
 	useEffect(() => {
 		getIsbn();
+		getOneLinePrscr();
 	}, []);
 
 	return (
@@ -151,41 +176,41 @@ const BookDetail = () => {
 						</div>
 					</div>
 				</section>
-				<section className="bookComment">
+				<section className="book_oneLinePrscr">
 					<div
-						className="bookComment_wrapper"
+						className="book_oneLinePrscr_wrapper"
 						ref={(el) => {
 							scrollRef.current[1] = el;
 						}}
 					>
 						<Title title={'한 줄 처방'} type="oneLine" />
-						<div className="bookComment_container">
-							<Review
+						{/* <div className="book_oneLinePrscr_container"> */}
+						{oneLinePrscrArr.length !== 0 ? (
+							<div className="book_oneLinePrscr_container">
+								{oneLinePrscrArr.map((item) => {
+									return (
+										<OneLinePrscrCard
+											item={item}
+											key={item.id}
+											type={'bookDetail'}
+										/>
+									);
+								})}
+							</div>
+						) : (
+							<div className="book_no_oneLinePrscr_wrapper">
+								<p>한 줄 처방을 남겨보세요!</p>
+								<img
+									src="/images/book-detail/write_prscr_img.png"
+									id="book_no_prscr_img"
+								/>
+							</div>
+						)}
+						{/* <Review
 								nickname={'닉네임'}
 								date={'2024.01.01'}
 								text={'환상적인 마법학교로의 모험을 떠날 수 있었다!'}
-							/>
-							<Review
-								nickname={'1번'}
-								date={'2024.01.10'}
-								text={'환상적인 마법학교로의 모험을 떠날 수 있었다!'}
-							/>
-							<Review
-								nickname={'닉네임 2번'}
-								date={'2024.01.22'}
-								text={'환상적인 마법학교로의 모험을 떠날 수 있었다!'}
-							/>
-							<Review
-								nickname={'닉네임 3번'}
-								date={'2024.01.22'}
-								text={'환상적인 마법학교로의 모험을 떠날 수 있었다!'}
-							/>
-							<Review
-								nickname={'닉네임 4번'}
-								date={'2024.01.22'}
-								text={'환상적인 마법학교로의 모험을 떠날 수 있었다!'}
-							/>
-						</div>
+							/> */}
 					</div>
 				</section>
 				<section className="relationBookList">
