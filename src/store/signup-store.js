@@ -7,7 +7,7 @@ const useSignupStore = create((set) => ({
     password: "",
     name: "",
     nickname: "",
-    birthDate: "",
+    birth: "",
     gender: "",
     email: "",
     occupation: "",
