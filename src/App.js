@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 // PAGES
-import Home from "./pages/Home";
+import LandingPage from "./pages/MainHome.jsx";
 import Main from "./pages/LoginHome";
 import Feed from "./pages/Feed";
 import MyFeed from "./pages/MyFeed";
@@ -18,6 +18,7 @@ import UserInfo from "./pages/profile/UserInfo";
 import Login from "./pages/Login/Login";
 import Signup1 from "./pages/Login/Signup1";
 import Signup2 from "./pages/Login/Signup2";
+import Signup2Oauth from "./pages/Login/Signup2Oauth.jsx";
 import Signup3 from "./pages/Login/Signup3";
 import Registration from "./pages/Registration";
 import LoginFindResult from "./pages/Login/IdFindResult";
@@ -39,13 +40,17 @@ import OneLinePrscrWrite from "./pages/Prescription/OneLinePrscrWrite.jsx";
 import OneLinePrscrEdit from "./pages/Prescription/OneLinePrscrEdit.jsx";
 import OneLinePrscrDetail from "./pages/Prescription/OneLinePrscrDetail.jsx";
 
+// 내 페이지들
+import MyWorryPage from "./pages/profile/MyWorryPage.jsx";
+import MyPrescription from "./pages/profile/MyPrescription.jsx";
+import MyOneLinePrescription from "./pages/profile/MyOneLinePrescription.jsx";
+
 // STYLE
 import GlobalStyles from "./styles/GlobalStyles";
 import "./App.css";
 import ScrollTop from "./components/ScrollTop";
 import LoginLayout from "./components/LoginLayout";
 import SearchResult from "./pages/Search/SearchResult";
-import Signup2Oauth from "./pages/Login/Signup2Oauth.jsx";
 
 function App() {
   // 브라우저 새로고침 스크롤 이벤트
@@ -62,8 +67,8 @@ function App() {
           <GlobalStyles />
           <ScrollTop />
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/logout" element={<Home />} />
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/logout" element={<LandingPage />} />
             <Route path="/main" element={<Main />} />
             <Route path="/feed" element={<Feed />} />
             <Route path="/search" element={<Search />} />
@@ -86,6 +91,14 @@ function App() {
             <Route path="/myfeed" element={<MyFeed />} />
             <Route path="/edit" element={<Edit />} />
             <Route path="/edit/:page" element={<UserInfo />} />
+
+            <Route path="/my/worry" element={<MyWorryPage />} />
+            <Route path="/myPrescriptions" element={<MyPrescription />} />
+            <Route
+              path="/myOneLinePrescriptions"
+              element={<MyOneLinePrescription />}
+            />
+
             {/* 처방전 관련 */}
             <Route path="/counseling" element={<Counseling />} />
             <Route path="/worry/detail" element={<WorryDetail />} />
@@ -125,6 +138,7 @@ function App() {
                 element={<PasswordFindResult />}
               />
             </Route>
+
             <Route path="/test" element={<Registration />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup/1" element={<Signup1 />} />

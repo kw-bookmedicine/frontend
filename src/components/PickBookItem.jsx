@@ -7,67 +7,69 @@ import Btn from './Button';
 import '../styles/PickBookItem.css';
 
 const PickBookItem = ({
+	isbn,
 	type,
 	title,
 	author,
 	updateTitle,
 	BookList,
 	updateList,
-	updateAuthor,
-	clicked,
-	clickCount,
 }) => {
 	let listType = ['long', 'short'].includes(type) ? type : 'default';
 
 	const clickRef = useRef(null);
+	const isbnRef = useRef(null);
 	const clickAuthorRef = useRef(null);
 
 	// 오른쪽에 보여줄 선택된 책 제목
 	const [pickBookTitle, setPickBookTitle] = useState('');
+	const [pickBookIsbn, setPickBookIsbn] = useState('');
 	const [pickBookAuthor, setPickBookAuthor] = useState('');
 	const [bookList, setBookList] = useState([]);
 
+	const [resBookList, setResBookList] = useState([]);
+	const [pickBookIsbnList, setPickBookIsbnList] = useState([]);
+
 	useEffect(() => {
 		setBookList(BookList);
-	});
+	}, [BookList]);
 
-	const addPick = () => {
+	useEffect(() => {
+		// console.log(isbn);
+	}, []);
+
+	const addPick = async () => {
+		const isbnValue = isbnRef.current.textContent;
 		// console.log('add:', clickRef.current);
+		// console.log('add isbn: ', isbnValue);
 		clickRef.current.focus();
 		setPickBookTitle(clickRef.current.textContent);
-	};
-
-	const addAuthorPick = () => {
-		// console.log('add author:', clickAuthorRef.current);
-		clickAuthorRef.current.focus();
-		setPickBookAuthor(clickAuthorRef.current.textContent);
+		setPickBookIsbn(isbnValue);
 	};
 
 	// 읽은 목록에서 삭제될 때 선택되는 함수
 	const deletePick = () => {
+		const isbnValue = isbnRef.current.textContent;
+
+		// console.log('del:', clickRef.current);
+		// console.log('del isbn: ', isbnValue);
 		clickRef.current.focus();
-		// console.log('del:', clickRef.current.textContent);
 		setPickBookTitle(clickRef.current.textContent);
-	};
-
-	// 목록 삭제 버튼 클릭 시 활성 여부
-	const onClick = () => {
-		clicked(true);
-	};
-
-	const offClick = () => {
-		clicked(false);
+		setPickBookIsbn(isbnValue);
 	};
 
 	// 제일 처음 읽은 목록 추가 함수
 	const bookUpdateList = () => {
-		updateList(clickRef.current.textContent);
-		updateAuthor(clickAuthorRef.current.textContent);
+		// console.log(isbnRef.current.textContent);
+		updateList(clickRef.current.textContent, isbnRef.current.textContent);
 	};
 
 	// 읽은 목록에서 삭제 버튼 누른 후 필터링 되는 함수
 	const filterPickList = (pickBookTitle) => {
-		updateList(BookList.filter((item) => item !== pickBookTitle));
+		// console.log(isbnRef.current.textContent);
+
+		// console.log('res', resBookList);
+		updateList(BookList.filter((item) => item.title !== pickBookTitle));
 	};
 
 	return (
@@ -78,26 +80,18 @@ const PickBookItem = ({
 					ref={clickRef}
 					title={title}
 				>
-					{title}
+					<p id="title">{title}</p>
 				</div>
-				<div
-					className={`${listType}-pickBook_author`}
-					ref={clickAuthorRef}
-					title={author}
-				>
-					{author}
+				<div className={`${listType}-pickBook_isbn`}>
+					<span id="isbn" ref={isbnRef} style={{ visibility: 'hidden' }}>
+						{isbn}
+					</span>
 				</div>
 				{listType === 'long' ? (
 					<button
 						className="Btn-add"
 						onClick={() => {
-							// console.log('========== 읽은 목록 추가 ==========');
-							// offClick();
 							addPick();
-							addAuthorPick();
-
-							// console.log(bookList);
-							// updateClickCount();
 							bookUpdateList();
 						}}
 					>
@@ -107,9 +101,6 @@ const PickBookItem = ({
 					<button
 						className="Btn-delete"
 						onClick={() => {
-							// 해당 책 데이터가 삭제되어야 함.
-							// console.log('========== 목록 삭제 ==========');
-							// onClick();
 							deletePick();
 							filterPickList(clickRef.current.textContent);
 						}}

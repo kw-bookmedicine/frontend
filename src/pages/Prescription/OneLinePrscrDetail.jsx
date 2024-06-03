@@ -8,6 +8,7 @@ import ConfirmModal from '../../components/Modal/ConfirmModal';
 
 // SERVICE
 import api from '../../services/api';
+import useNicknameStore from '../../store/nickname-store';
 
 // STYLE
 import '../../styles/Prescription/OneLinePrscrDetail.css';
@@ -22,7 +23,14 @@ const OneLinePrscrDetail = () => {
 	const [bookData, setBookData] = useState({});
 	const [keywordArr, setKeywordArr] = useState([]);
 
-	const fetchData = () => {
+	const { nickname } = useNicknameStore();
+	const [fetchNickname, setFetchNickname] = useState(
+		sessionStorage.getItem('nickname') || '',
+	);
+	const [writer, setWriter] = useState(sessionStorage.getItem('writer') || '');
+	const [isShow, setIsShow] = useState(false);
+
+	const fetchData = async () => {
 		try {
 			api
 				.get(`/api/oneline-prescriptions/${prscrId}`, {
@@ -30,6 +38,17 @@ const OneLinePrscrDetail = () => {
 				})
 				.then((res) => {
 					setData(res.data);
+					setWriter(res.data.clientNickname);
+					if (res.data.clientNickname !== writer) {
+						sessionStorage.setItem('writer', res.data.clientNickname);
+						setIsShow(false);
+					} else {
+						if (writer === nickname) {
+							setIsShow(true);
+						}
+						// console.log(writer);
+						// console.log(nickname);
+					}
 				});
 		} catch (err) {
 			console.log(err);
@@ -55,35 +74,104 @@ const OneLinePrscrDetail = () => {
 		}
 	};
 
+	const showBtnHandler = async () => {
+		if (writer !== '') {
+			if (writer !== fetchNickname) {
+				setIsShow(false);
+			} else {
+				setIsShow(true);
+			}
+		} else {
+			console.log('유저 닉네임 정보가 없습니다.');
+		}
+	};
+
 	useEffect(() => {
 		fetchData();
 		getBookData();
+
+		if (nickname !== '') {
+			sessionStorage.setItem('nickname', nickname);
+			setFetchNickname(nickname);
+		}
 	}, []);
+
+	useEffect(() => {
+		showBtnHandler();
+	}, [writer]);
 
 	const editPrscr = () => {
 		navigate(
 			`/oneline/prescription/edit?prscrId=${prscrId}&bookIsbn=${bookIsbn}`,
 		);
-		// try {
-		// 	api.put(`/api/oneline-prescriptions/${prscrId}`).then((res) => {
-		// 		console.log(res.data);
-		// 		// window.location.replace('/oneline/prescription/write');
-		// 	});
-		// } catch (err) {
-		// 	console.log(err);
-		// }
-		console.log('수정');
+		// console.log('수정');
 	};
 
 	const deletePrscr = () => {
 		try {
-			api.delete(`/api/oneline-prescriptions/${prscrId}`).then((res) => {
-				console.log(res.data);
-			});
+			api
+				.delete(`/api/oneline-prescriptions/${prscrId}`, {
+					withCredentials: true,
+				})
+				.then((res) => {
+					if (res.data === 'success') {
+						alert('한 줄 처방을 삭제했습니다.').then(
+							navigate('/oneline/prescription'),
+						);
+					} else {
+						alert('한 줄 처방 삭제에 실패했습니다.');
+					}
+				});
 		} catch (err) {
 			console.log(err);
 		}
-		console.log('삭제');
+		// console.log('삭제');
+	};
+
+	// 좋아요, 도움이 되었어요 반영 여부 핸들러
+	const [likeNum, setLikeNum] = useState(0);
+	const [isLike, setIsLike] = useState(false);
+	const [likeIcon, setLikeIcon] = useState(
+		'/icon/oneLine-prscr/before-like.svg',
+	);
+	const handleLikeUp = (event) => {
+		event.preventDefault();
+
+		if (!isLike) {
+			setLikeNum((prevNum) => prevNum + 1);
+			setLikeIcon('/icon/oneLine-prscr/after-like.svg');
+		} else {
+			if (likeNum > 0) {
+				setLikeNum((prevNum) => prevNum - 1);
+				setLikeIcon('/icon/oneLine-prscr/before-like.svg');
+			} else {
+				setLikeNum(0);
+			}
+		}
+		setIsLike(!isLike);
+		// console.log(likeNum)
+	};
+
+	const [helpNum, setHelpNum] = useState(0);
+	const [isHelp, setIsHelp] = useState(false);
+	const [helpIcon, setHelpIcon] = useState(
+		'/icon/oneLine-prscr/before-help.svg',
+	);
+	const handleHelpUp = (event) => {
+		event.preventDefault();
+		if (!isHelp) {
+			setHelpNum((prevNum) => prevNum + 1);
+			setHelpIcon('/icon/oneLine-prscr/after-help.svg');
+		} else {
+			if (helpNum > 0) {
+				setHelpNum((prevNum) => prevNum - 1);
+				setHelpIcon('/icon/oneLine-prscr/before-help.svg');
+			} else {
+				setHelpNum(0);
+			}
+		}
+		setIsHelp(!isHelp);
+		// console.log(helpNum)
 	};
 
 	return (
@@ -128,12 +216,16 @@ const OneLinePrscrDetail = () => {
 								<div className="bookInfo_title_wrapper">
 									<p>{data.bookTitle}</p>
 									<div className="bookInfo_title_btn_wrapper">
-										<button id="edit-btn" onClick={editPrscr}>
-											수정하기
-										</button>
-										<button id="delete-btn" onClick={deletePrscr}>
-											삭제하기
-										</button>
+										{isShow && (
+											<>
+												<button id="edit-btn" onClick={editPrscr}>
+													수정하기
+												</button>
+												<button id="delete-btn" onClick={deletePrscr}>
+													삭제하기
+												</button>
+											</>
+										)}
 									</div>
 								</div>
 								<p>{data.bookAuthor}</p>
@@ -156,15 +248,18 @@ const OneLinePrscrDetail = () => {
 									</p>
 								</div>
 								<div className="prscr_detail_evaluation_wrapper">
-									<button className="prscr_detail_evaluation_btn">
-										<img src="/icon/oneLine-prscr/like.png" id="like-icon" />
+									<button
+										className="prscr_detail_evaluation_btn"
+										onClick={handleLikeUp}
+									>
+										<img src={likeIcon} id="like-icon" />
 										<span>좋은 추천이에요</span>
 									</button>
-									<button className="prscr_detail_evaluation_btn">
-										<img
-											src="/icon/oneLine-prscr/laughing.png"
-											id="laugh-icon"
-										/>
+									<button
+										className="prscr_detail_evaluation_btn"
+										onClick={handleHelpUp}
+									>
+										<img src={helpIcon} id="help-icon" />
 										<span>도움이 되었어요</span>
 									</button>
 								</div>

@@ -106,10 +106,10 @@ const Search = () => {
         <SearchBox />
 
         {/* 추천 검색어 */}
-        {renderKeywordList("추천검색어", recommendedSearchKeywords)}
+        {/* {renderKeywordList("추천검색어", recommendedSearchKeywords)} */}
 
         {/* 사용자 추천 키워드 */}
-        {renderKeywordList("사용자 추천 키워드", userRecommendedKeywords)}
+        {/* {renderKeywordList("사용자 추천 키워드", userRecommendedKeywords)} */}
 
         {/* 카테고리 */}
         <BookCategories

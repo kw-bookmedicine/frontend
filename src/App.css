@@ -1,29 +1,39 @@
-@import url("https://webfontworld.github.io/gmarket/GmarketSans.css");
+@import url('https://webfontworld.github.io/gmarket/GmarketSans.css');
 
 @font-face {
-  font-family: "recipekorea";
-  src: url("./font/Recipekorea\ 레코체\ FONT.ttf");
+	font-family: 'recipekorea';
+	src: url('./font/Recipekorea\ 레코체\ FONT.ttf');
+}
+
+@font-face {
+	font-family: 'KCC-Hanbit';
+	src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2403-2@1.0/KCC-Hanbit.woff2')
+		format('woff2');
+	font-weight: normal;
+	font-style: normal;
 }
 
 :root {
-  --fontSize-sm: 0.875rem;
-  --fontSize-md: 1.25rem;
-  --fontSize-lg: 2rem;
+	--fontSize-sm: 0.875rem;
+	--fontSize-md: 1.25rem;
+	--fontSize-lg: 2rem;
 
-  --border-sm: 33px;
+	--border-sm: 33px;
 
-  --basic-font: "Pretendard-Regular";
+	--basic-font: 'Pretendard-Regular';
+	--title-font: 'KCC-Hanbit';
 
-  --primary-color: #67b6c1;
-  --secondary-color: #c8edf2;
+	--primary-color: #67b6c1;
+	/* --primary-color: #00b2fc; */
+	--secondary-color: #c8edf2;
 }
 
 /* Header */
 
 header {
-  padding-top: 20px;
-  padding-bottom: 20px;
-  display: flex;
-  align-items: center;
-  border-bottom: 1px solid #e2e2e2;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	display: flex;
+	align-items: center;
+	border-bottom: 1px solid #e2e2e2;
 }

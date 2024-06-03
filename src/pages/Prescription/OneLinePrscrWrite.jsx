@@ -19,6 +19,10 @@ import api from '../../services/api';
 
 // STYLE
 import '../../styles/Prescription/OneLinePrscrWrite.css';
+import {
+	MAX_LENGTH_DEFAULT,
+	MAX_LENGTH_TITLE,
+} from '../../constants/constants';
 // import 'sweetalert2/src/sweetalert2.scss';
 
 const OneLinePrscrWrite = () => {
@@ -34,6 +38,10 @@ const OneLinePrscrWrite = () => {
 	// 모달창을 클릭한 여부
 	const [modalIsClick, setModalIsClick] = useState(false);
 	let [searchData, setSearchData] = useState(0);
+
+	// 글 작성
+	const [titleInput, setTitleInput] = useState('');
+	const [contentInput, setContentInput] = useState('');
 
 	const handleModalClose = async () => {
 		setIsShow(false);
@@ -107,6 +115,11 @@ const OneLinePrscrWrite = () => {
 			'oneLine-prscr-description',
 		).value;
 
+		// console.log(category);
+		// console.log(inputTitle);
+		// console.log(inputDescription);
+		// console.log(choiceItem.isbn);
+
 		try {
 			if (
 				category !== '' &&
@@ -132,6 +145,8 @@ const OneLinePrscrWrite = () => {
 						console.log('성공');
 						// console.log(res.data);
 					});
+			} else {
+				alert('모든 항목을 채워주세요.');
 			}
 		} catch (err) {
 			console.log(err);
@@ -332,24 +347,42 @@ const OneLinePrscrWrite = () => {
 							<div id="choice-category">
 								<DropMenu
 									DropDownTitle={'카테고리를 선택해주세요'}
-									ctgType={ctgType}
+									ctgType={(ctg) => ctgType(ctg)}
 								/>
 							</div>
 						</div>
 						<label className="oneLine_prscr_writeBox_title_wrapper">
-							<p>처방제목</p>
+							<p className="prescription_content_bottom_text">
+								처방제목{' '}
+								<span>
+									[ {titleInput.length} / {MAX_LENGTH_TITLE}자 ]
+								</span>
+							</p>
 							<input
 								type="text"
+								value={titleInput}
+								onChange={(e) => setTitleInput(e.target.value)}
 								placeholder="한 줄 처방 제목을 작성하세요"
 								id="oneLine-prscr-title"
+								maxLength={MAX_LENGTH_TITLE}
+								minLength={1}
 							/>
 						</label>
 						<label>
-							<p>처방사유</p>
+							<p className="prescription_content_bottom_text">
+								처방사유{' '}
+								<span>
+									[ {contentInput.length} / {MAX_LENGTH_DEFAULT}자 ]
+								</span>
+							</p>
 							<textarea
 								type="text"
+								value={contentInput}
+								onChange={(e) => setContentInput(e.target.value)}
 								placeholder="처방사유를 작성하세요"
 								id="oneLine-prscr-description"
+								maxLength={MAX_LENGTH_DEFAULT}
+								minLength={1}
 							/>
 						</label>
 					</div>
