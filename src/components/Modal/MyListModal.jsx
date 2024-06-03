@@ -35,6 +35,13 @@ const MyListModal = ({ onClose }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
 
+  // 요청하는 책의 사이즈
+  const itemsPerPage = 9;
+
+  // 읽은 목록 페이지네이션 현재 페이지 및 총 페이지
+  const [currentPickBookListPage, setCurrentPickBookListPage] = useState(1);
+  const totalPickBookListPages = Math.ceil(pickBookList.length / itemsPerPage);
+
   // '목록 삭제' 버튼 눌렀을 때 실행되는 함수
   const updateClick = () => {
     // '목록 삭제' 버튼 클릭 후에는 '읽은 목록 추가' 버튼 재활성
@@ -80,7 +87,9 @@ const MyListModal = ({ onClose }) => {
     if (input.trim() !== "") {
       api
         .get(
-          `/api/search/book?title=${input}&target=page&page=${page - 1}&size=9`,
+          `/api/search/book?title=${input}&target=page&page=${
+            page - 1
+          }&size=${itemsPerPage}`,
           {
             withCredentials: true,
           }
@@ -114,16 +123,68 @@ const MyListModal = ({ onClose }) => {
     }
   };
 
-  // 페이지 변경
+  // 검색 결과 페이지 변경
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
     renderSearchList(pageNumber);
   };
 
+  // 검색 시, 첫 번째 페이지로 이동
   const handleSearch = () => {
     setCurrentPage(1);
     renderSearchList(1);
   };
+
+  useEffect(() => {
+    // 독서 경험 조회
+    const fetchExperiencesData = async () => {
+      try {
+        const response = await api.get(
+          `/api/experiences/list?page=0&size=${itemsPerPage}`,
+          {
+            withCredentials: true,
+          }
+        );
+        console.log(response.data);
+        console.log(response.data.content);
+        setPickBookList(response.data.content);
+        // setPickBookList([{ title: "test", isbn: "9788958853404" }]);
+      } catch (error) {
+        console.error("독서 경험 조회 실패", error);
+      }
+    };
+    fetchExperiencesData();
+  }, []);
+
+  // 독서 경험 업데이트 요청
+  const postExperiencesData = async () => {
+    const data = {
+      bookIsbnList: pickBookList.map((book) => book.isbn),
+    };
+    console.log(data);
+
+    try {
+      const response = await api.get(`/api/experiences/list`, data, {
+        withCredentials: true,
+      });
+      console.log(response, pickBookList);
+    } catch (error) {
+      console.error("독서 경험 요청 실패", error);
+    }
+  };
+
+  // 읽은 목록 페이지 변경
+  const handlePickBookListPageChange = (pageNumber) => {
+    setCurrentPickBookListPage(pageNumber);
+  };
+
+  // 현재 페이지에 해당하는 읽은 목록 항목 자르기
+  const indexOfLastItem = currentPickBookListPage * itemsPerPage; // 9
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage; // 0
+  const currentPickBookList = pickBookList.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
 
   return (
     <>
@@ -199,16 +260,18 @@ const MyListModal = ({ onClose }) => {
                       })
                     : ""}
                   {totalPages > 1 && (
-                    <Pagination
-                      paginate={handlePageChange}
-                      currentPage={currentPage}
-                      totalPages={totalPages}
-                    />
+                    <div className="left_inputList_box_pagination">
+                      <Pagination
+                        paginate={handlePageChange}
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                      />
+                    </div>
                   )}
                 </div>
                 <div className="right_selectList">
                   {pickBookList.length > 0
-                    ? pickBookList.map((item) => {
+                    ? currentPickBookList.map((item) => {
                         return (
                           <PickBookItem
                             key={item.title + "-" + item.isbn}
@@ -216,19 +279,31 @@ const MyListModal = ({ onClose }) => {
                             type="short"
                             title={item.title}
                             // author={author}
-                            BookList={pickBookList}
+                            // BookList={pickBookList}
+                            BookList={currentPickBookList}
                             updateList={FilterBookList}
                             updateAuthor={pickAuthorList}
                           />
                         );
                       })
                     : ""}
+                  {totalPickBookListPages > 1 && (
+                    <div className="right_selectList_pagination">
+                      <Pagination
+                        paginate={handlePickBookListPageChange}
+                        currentPage={currentPickBookListPage}
+                        totalPages={totalPickBookListPages}
+                      />
+                    </div>
+                  )}
                 </div>
                 {/*  */}
               </div>
             </div>
             <div className="select_complete_wrapper">
-              <button className="select_complete">선택완료</button>
+              <button className="select_complete" onClick={postExperiencesData}>
+                선택완료
+              </button>
             </div>
           </div>
         </div>
