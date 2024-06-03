@@ -44,7 +44,7 @@ const Signup3 = () => {
     try {
       const signUpData = {
         ...userInfo,
-        interests: pickItemList, // 선택한 관심사 추가
+        interestList: pickItemList, // 선택한 관심사 추가
       };
       const res = await api.post("/signup", signUpData, {
         withCredentials: true,
