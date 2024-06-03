@@ -11,6 +11,7 @@ import Pill from "../../components/Pill";
 
 // ASSET
 import defaultBookCover from "../../assets/loading_thumbnail_not_rounded.png";
+import LoadingSpinner from "../../components/Loading/LoadingSpinner";
 
 const SearchResult = () => {
   const navigate = useNavigate();
@@ -22,7 +23,7 @@ const SearchResult = () => {
   const [currentPage, setCurrentPage] = useState(0); // 현재 페이지
   const [booksPerPage, setBooksPerPage] = useState(10); // 페이지당 책 수
 
-  const [loading, setLoading] = useState(false); // 로딩 상태
+  const [isLoading, setIsLoading] = useState(false); // 로딩 상태
   const [isError, setIsError] = useState(false); // 로딩 후 응답상태
 
   const [searchedSelectedKeywords, setSearchedSelectedKeywords] = useState([]); // 선택된 키워드 배열
@@ -59,7 +60,7 @@ const SearchResult = () => {
   // 콘텐츠 내용 API 호출
   useEffect(() => {
     const getSearchResults = async () => {
-      setLoading(true);
+      setIsLoading(true);
       setIsError(false);
       try {
         let endpoint;
@@ -76,7 +77,7 @@ const SearchResult = () => {
         searchResultsCount.current = response.data.totalElements; // 결과에 대한 모든 책의 수
         setTotalPages(response.data.totalPages);
         setTotalBooksCount(response.data.totalElements);
-        setLoading(false);
+        setIsLoading(false);
       } catch (error) {
         searchResultsCount.current = 0;
         console.error("책 데이터 GET 요청 실패", error);
@@ -94,7 +95,7 @@ const SearchResult = () => {
     let booksPerPage = 9999;
 
     const getSearchResults = async () => {
-      setLoading(true);
+      setIsLoading(true);
       setIsError(false);
       try {
         let endpoint;
@@ -108,7 +109,7 @@ const SearchResult = () => {
         const response = await api.get(endpoint, { withCredentials: true });
         setData(response.data.content);
 
-        setLoading(false);
+        setIsLoading(false);
       } catch (error) {
         searchResultsCount.current = 0;
         console.error("책 데이터 GET 요청 실패", error);
@@ -255,9 +256,13 @@ const SearchResult = () => {
             )}
 
             {/* 콘텐츠 영역 */}
-            {loading ? (
-              <LoadingText>
-                {isError ? "책 데이터 요청에 실패되었습니다." : "Loading..."}
+            {isLoading ? (
+              <LoadingText className="spinner-container">
+                {isError ? (
+                  "책 데이터 요청에 실패되었습니다."
+                ) : (
+                  <LoadingSpinner />
+                )}
               </LoadingText>
             ) : (
               <>
