@@ -230,10 +230,10 @@ const BookDetail = () => {
 						</div>
 					</div>
 				</section>
-				<section className="bookDetail_footer">
-					<Footer />
-				</section>
 			</div>
+			<section className="bookDetail_footer">
+				<Footer />
+			</section>
 		</>
 	);
 };
