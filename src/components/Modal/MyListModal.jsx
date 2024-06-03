@@ -154,8 +154,11 @@ const MyListModal = ({ onClose }) => {
         );
         console.log(response.data);
         console.log(response.data.content);
-        setPickBookList(response.data.content);
-        // setPickBookList([{ title: "test", isbn: "9788958853404" }]);
+        const transformedData = response.data.content.map((book) => ({
+          title: book.bookTitle,
+          isbn: book.bookIsbn,
+        }));
+        setPickBookList(transformedData);
       } catch (error) {
         console.error("독서 경험 조회 실패", error);
       }
@@ -171,9 +174,13 @@ const MyListModal = ({ onClose }) => {
     console.log(data);
 
     try {
-      const response = await api.get(`/api/experiences/list`, data, {
-        withCredentials: true,
-      });
+      const response = await api.post(
+        `/api/experiences/list?page=0&size=999`,
+        data,
+        {
+          withCredentials: true,
+        }
+      );
       console.log(response, pickBookList);
     } catch (error) {
       console.error("독서 경험 요청 실패", error);
@@ -269,7 +276,7 @@ const MyListModal = ({ onClose }) => {
                         })
                       : "")}
 
-                  {totalPages > 1 && (
+                  {bookCount > 0 && (
                     <div className="left_inputList_box_pagination">
                       <Pagination
                         paginate={handlePageChange}
