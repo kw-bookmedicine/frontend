@@ -129,12 +129,12 @@ const Signup2Oauth = () => {
                 <BirthInput
                   type="date"
                   max="9999-12-31"
-                  {...register("birthDate", {
+                  {...register("birth", {
                     required: "생년월일을 입력해주세요.",
                   })}
                 />
                 <ErrorMessage>
-                  {errors.birthDate && <p>{errors.birthDate.message}</p>}
+                  {errors.birth && <p>{errors.birth.message}</p>}
                 </ErrorMessage>
               </BirthInputWrapper>
               <GenderInput>
