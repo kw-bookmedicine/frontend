@@ -1,7 +1,7 @@
 .bookDetail_content {
 	box-sizing: border-box;
 	max-width: 1080px;
-	height: 2100px;
+	height: 2350px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -228,11 +228,9 @@
 }
 
 .relationBookList_wrapper {
-	/* width: 1338px; */
-	/* width: 100%; */
+	height: 435px;
+	margin: 220px auto 0;
 	width: 1080px;
-	height: 508px;
-	margin: 260px auto 0 auto;
 }
 
 .BookList_container {
