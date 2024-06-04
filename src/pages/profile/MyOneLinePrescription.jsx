@@ -34,7 +34,7 @@ const MyOneLinePrescription = () => {
 							setData((prevData) => [...prevData, ...res.data.content]);
 						}
 					} else {
-						alert('마지막 글입니다.');
+						// alert('마지막 글입니다.');
 					}
 				});
 		} catch (error) {

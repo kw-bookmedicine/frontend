@@ -34,7 +34,7 @@ const MyWorryPage = () => {
 							setDataArr((prevData) => [...prevData, ...res.data.content]);
 						}
 					} else {
-						alert('마지막 페이지입니다.');
+						// alert('마지막 페이지입니다.');
 					}
 				});
 		} catch (err) {
