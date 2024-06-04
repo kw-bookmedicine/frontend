@@ -17,11 +17,12 @@ import BookCard from "../components/BookCard";
 import Footer from "../components/Footer";
 import ModalPortal from "../components/Modal/Portal";
 import ExpModal from "../components/Modal/Experience";
+import LoadingSpinner from "../components/Loading/LoadingSpinner";
+import OneLinePrscrCard from "../components/Prescription/OneLinePrscrCard";
+import ScrollToTop from "./../components/ScrollToTop";
 
 // STYLES
 import "../styles/BookDetail.css";
-import { Swiper, SwiperSlide } from "swiper/react";
-import ScrollToTop from "./../components/ScrollToTop";
 
 const BookDetail = () => {
   const scrollRef = useRef([]);
@@ -35,9 +36,11 @@ const BookDetail = () => {
     setModalOn(!modalOn);
   };
 
+  const [isLoading, setIsLoading] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const [bookInfo, setBookInfo] = useState([]);
   const [bookKeywordList, setBookKeywordList] = useState([]);
+  const [oneLinePrscrArr, setOneLinePrscrArr] = useState([]);
 
   const getIsbn = () => {
     let isbn = searchParams.get("isbn");
@@ -53,24 +56,40 @@ const BookDetail = () => {
       });
   };
 
+  const getOneLinePrscr = () => {
+    let isbn = searchParams.get("isbn");
+    setIsLoading(true);
+    try {
+      api
+        .get(`/api/oneline-prescriptions/book?isbn=${isbn}`, {
+          withCredentials: true,
+        })
+        .then((res) => {
+          if (res.data.content.length !== 0) {
+            setOneLinePrscrArr(res.data.content);
+          }
+        });
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
     getIsbn();
+    getOneLinePrscr();
   }, []);
 
   return (
     <>
       <Header />
-      <div className="bookDetail_content">
+      <div className="bookDetail_content spinner-container">
+        {isLoading && <LoadingSpinner />}
         <section className="bookSummary">
           <div className="bookSummary_wrapper">
             <div className="bookDt_summary_left_wrapper">
-              <img
-                src={
-                  bookInfo.imageUrl === null
-                    ? "/loading_thumbnail_x4.png"
-                    : bookInfo.imageUrl
-                }
-              />
+              <img src={bookInfo.imageUrl ?? "/loading_thumbnail_x4.png"} />
             </div>
             <div className="summary_right_wrapper">
               <div className="summary_right_up_wrapper">

@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 // COMPONENTS
 import HashTag from '../HashTag';
+
+// SERVICE
+import api from '../../services/api';
 
 // STYLE
 import '../../styles/Prescription/OneLinePrscrCard.css';
@@ -17,23 +20,48 @@ const OneLinePrscrCard = ({ type, item }) => {
 		);
 	};
 
-	const [likeNum, setLikeNum] = useState(type !== 'landing' ? 0 : 24);
-	const [isLike, setIsLike] = useState(false);
+	const [likeNum, setLikeNum] = useState(
+		type !== 'landing' ? item.likeCount : 24,
+	);
+	const [isLike, setIsLike] = useState(item.like);
 	const [likeIcon, setLikeIcon] = useState(
 		type !== 'landing'
-			? '/icon/oneLine-prscr/before-like.svg'
+			? item.like === false
+				? '/icon/oneLine-prscr/before-like.svg'
+				: '/icon/oneLine-prscr/after-like.svg'
 			: '/icon/oneLine-prscr/after-like.svg',
 	);
+
 	const handleLikeUp = (event) => {
 		event.preventDefault();
 
 		if (!isLike) {
-			setLikeNum((prevNum) => prevNum + 1);
-			setLikeIcon('/icon/oneLine-prscr/after-like.svg');
+			// 좋아요 반영 보내기
+			api
+				.get(`/api/oneline-emotion/like/${item.id}`, {
+					withCredentials: true,
+				})
+				.then((res) => {
+					console.log('like up:', res.data);
+					if (res.data === 'success') {
+						setLikeNum((prevNum) => prevNum + 1);
+						setLikeIcon('/icon/oneLine-prscr/after-like.svg');
+					}
+				});
 		} else {
 			if (likeNum > 0) {
-				setLikeNum((prevNum) => prevNum - 1);
-				setLikeIcon('/icon/oneLine-prscr/before-like.svg');
+				// 좋아요 취소하기
+				api
+					.delete(`/api/oneline-emotion/like/${item.id}`, {
+						withCredentials: true,
+					})
+					.then((res) => {
+						console.log(res.data);
+						if (res.data === 'success') {
+							setLikeNum((prevNum) => prevNum - 1);
+							setLikeIcon('/icon/oneLine-prscr/before-like.svg');
+						}
+					});
 			} else {
 				setLikeNum(0);
 			}
@@ -42,22 +70,44 @@ const OneLinePrscrCard = ({ type, item }) => {
 		// console.log(likeNum)
 	};
 
-	const [helpNum, setHelpNum] = useState(type !== 'landing' ? 0 : 35);
-	const [isHelp, setIsHelp] = useState(false);
+	const [helpNum, setHelpNum] = useState(
+		type !== 'landing' ? item.helpfulCount : 35,
+	);
+	const [isHelp, setIsHelp] = useState(item.helpful);
 	const [helpIcon, setHelpIcon] = useState(
 		type !== 'landing'
-			? '/icon/oneLine-prscr/before-help.svg'
+			? item.helpful === false
+				? '/icon/oneLine-prscr/before-help.svg'
+				: '/icon/oneLine-prscr/after-help.svg'
 			: '/icon/oneLine-prscr/after-help.svg',
 	);
 	const handleHelpUp = (event) => {
 		event.preventDefault();
 		if (!isHelp) {
-			setHelpNum((prevNum) => prevNum + 1);
-			setHelpIcon('/icon/oneLine-prscr/after-help.svg');
+			//도움이 되었어요 추가
+			api
+				.get(`/api/oneline-emotion/helpful/${item.id}`, {
+					withCredentials: true,
+				})
+				.then((res) => {
+					if (res.data === 'success') {
+						setHelpNum((prevNum) => prevNum + 1);
+						setHelpIcon('/icon/oneLine-prscr/after-help.svg');
+					}
+				});
 		} else {
 			if (helpNum > 0) {
-				setHelpNum((prevNum) => prevNum - 1);
-				setHelpIcon('/icon/oneLine-prscr/before-help.svg');
+				// 도움이 되었어요 취소하기
+				api
+					.delete(`/api/oneline-emotion/helpful/${item.id}`, {
+						withCredentials: true,
+					})
+					.then((res) => {
+						if (res.data === 'success') {
+							setHelpNum((prevNum) => prevNum - 1);
+							setHelpIcon('/icon/oneLine-prscr/before-help.svg');
+						}
+					});
 			} else {
 				setHelpNum(0);
 			}
@@ -76,7 +126,11 @@ const OneLinePrscrCard = ({ type, item }) => {
 				}
 			>
 				<div
-					className="OneLinePrscrCard_wrapper"
+					className={
+						type !== 'bookDetail'
+							? 'OneLinePrscrCard_wrapper'
+							: 'bookDetail_OneLinePrscrCard_wrapper'
+					}
 					id={type !== 'landing' ? null : 'landing_oneline_card'}
 				>
 					<div className="oneLineCard_profile_wrapper">
@@ -115,12 +169,15 @@ const OneLinePrscrCard = ({ type, item }) => {
 								</div>
 								<div className="showBook_btn_wrapper">
 									{/* <Link to={`/book-detail?isbn=${item.bookIsbn}`}> */}
-									<button
-										onClick={handleBookDetailNavigation}
-										id="showBook_btn"
-									>
-										책 보러가기
-									</button>
+									{type !== 'bookDetail' ? (
+										<button
+											onClick={handleBookDetailNavigation}
+											id="showBook_btn"
+										>
+											책 보러가기
+										</button>
+									) : null}
+
 									{/* </Link> */}
 								</div>
 							</div>
@@ -131,7 +188,11 @@ const OneLinePrscrCard = ({ type, item }) => {
 							<img
 								src={likeIcon}
 								id="oneLineCard_like_icon"
-								onClick={type !== 'landing' ? handleLikeUp : null}
+								onClick={
+									type !== 'landing' && type !== 'bookDetail'
+										? handleLikeUp
+										: null
+								}
 							/>
 							<span>좋은 추천이에요</span>
 							<span>{likeNum}</span>
@@ -140,7 +201,11 @@ const OneLinePrscrCard = ({ type, item }) => {
 							<img
 								src={helpIcon}
 								id="oneLineCard_help_icon"
-								onClick={type !== 'landing' ? handleHelpUp : null}
+								onClick={
+									type !== 'landing' && type !== 'bookDetail'
+										? handleHelpUp
+										: null
+								}
 							/>
 							<span>도움이 되었어요</span>
 							<span>{helpNum}</span>
