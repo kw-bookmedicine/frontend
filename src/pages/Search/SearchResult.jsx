@@ -19,16 +19,20 @@ const SearchResult = () => {
   const query = searchParams.get("query"); // 'query' 쿼리 파라미터의 값을 가져옴
   const [viewMode, setViewMode] = useState(true); // 책 뷰 선택(리스트/카드)
   const [books, setBooks] = useState([]); // 책 정보
-  const [currentPage, setCurrentPage] = useState(1); // 현재 페이지
+  const [currentPage, setCurrentPage] = useState(0); // 현재 페이지
   const [booksPerPage, setBooksPerPage] = useState(10); // 페이지당 책 수
 
   const [loading, setLoading] = useState(false); // 로딩 상태
   const [isError, setIsError] = useState(false); // 로딩 후 응답상태
 
-  const [searchedSelectedKeywords, setSearchedSelectedKeywords] = useState([]);
+  const [searchedSelectedKeywords, setSearchedSelectedKeywords] = useState([]); // 선택된 키워드 배열
+  const [totalPages, setTotalPages] = useState(0);
+  const [totalBooksCount, setTotalBooksCount] = useState(0);
+
+  const [data, setData] = useState([]);
 
   // 키워드로 책 필터링
-  const filteredBooks = books.filter((book) =>
+  const filteredBooks = books?.filter((book) =>
     searchedSelectedKeywords.every(
       (keyword) =>
         book.keywordItemList?.some(
@@ -49,7 +53,9 @@ const SearchResult = () => {
   // 페이지 변경
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  // 책 페이지수
   const searchResultsCount = useRef(null);
+
   // 콘텐츠 내용 API 호출
   useEffect(() => {
     const getSearchResults = async () => {
@@ -63,11 +69,45 @@ const SearchResult = () => {
         } else if (type === "author") {
           endpoint = `/api/search/book?author=${query}&target=page&page=${currentPage}&size=${booksPerPage}`;
         } else if (type === "keyword") {
-          endpoint = `/api/search/keyword?name=${query}&target=page&page=${currentPage}&size=${booksPerPage}`;
+          endpoint = `/api/search/book/keyword?name=${query}&target=page&page=${currentPage}&size=${booksPerPage}`;
         }
         const response = await api.get(endpoint, { withCredentials: true });
         setBooks(response.data.content);
         searchResultsCount.current = response.data.totalElements; // 결과에 대한 모든 책의 수
+        setTotalPages(response.data.totalPages);
+        setTotalBooksCount(response.data.totalElements);
+        setLoading(false);
+      } catch (error) {
+        searchResultsCount.current = 0;
+        console.error("책 데이터 GET 요청 실패", error);
+        setIsError(true);
+      }
+    };
+    if (searchedSelectedKeywords.length === 0) {
+      getSearchResults();
+    }
+  }, [type, query, currentPage, booksPerPage, searchedSelectedKeywords]);
+
+  // 임시 키워드 전체 검색을 위한 조치
+  useEffect(() => {
+    let currentPage = 0;
+    let booksPerPage = 9999;
+
+    const getSearchResults = async () => {
+      setLoading(true);
+      setIsError(false);
+      try {
+        let endpoint;
+        if (type === "title") {
+          endpoint = `/api/search/book?title=${query}&target=page&page=${currentPage}&size=${booksPerPage}`;
+        } else if (type === "author") {
+          endpoint = `/api/search/book?author=${query}&target=page&page=${currentPage}&size=${booksPerPage}`;
+        } else if (type === "keyword") {
+          endpoint = `/api/search/book/keyword?name=${query}&target=page&page=${currentPage}&size=${booksPerPage}`;
+        }
+        const response = await api.get(endpoint, { withCredentials: true });
+        setData(response.data.content);
+
         setLoading(false);
       } catch (error) {
         searchResultsCount.current = 0;
@@ -76,12 +116,46 @@ const SearchResult = () => {
       }
     };
     getSearchResults();
-  }, [type, query, currentPage, booksPerPage]);
+  }, [type, query]);
 
   // 10개, 50개, 100개에 따른 한페이지에 보여주는 책의 수
   const handlebooksPerPageChange = (event) => {
     setBooksPerPage(event.target.value);
   };
+
+  useEffect(() => {
+    const postkeyword = async () => {
+      const requestData = {
+        searchWord: query,
+        keywordList: searchedSelectedKeywords,
+      };
+
+      try {
+        const response = await api.post(
+          `/api/search/book?page=${currentPage}&size=${booksPerPage}`,
+          requestData,
+          {
+            withCredentials: true,
+          }
+        );
+        setTotalPages(
+          Math.max(
+            1,
+            Math.ceil((response.data.content?.length || 0) / booksPerPage)
+          )
+        );
+      } catch (error) {
+        console.error("Failed to post keyword search:", error);
+      }
+    };
+
+    if (searchedSelectedKeywords.length > 0) {
+      postkeyword();
+    }
+  }, [query, searchedSelectedKeywords, currentPage, booksPerPage]);
+
+  console.log("t", totalPages);
+  console.log("b", filteredBooks, books);
 
   return (
     <>
@@ -111,7 +185,13 @@ const SearchResult = () => {
             {/* 헤더 영역 */}
             <HeaderArea>
               <ContentTitle>
-                전체 <Highlight>{filteredBooks.length}</Highlight>건
+                전체{" "}
+                <Highlight>
+                  {searchedSelectedKeywords.length === 0
+                    ? searchResultsCount.current
+                    : filteredBooks.length}
+                </Highlight>
+                건
               </ContentTitle>
               <div>
                 <div style={{ display: "flex" }}>
@@ -184,7 +264,7 @@ const SearchResult = () => {
                 <div>
                   {viewMode ? (
                     <ListUIWrap>
-                      {filteredBooks.map((book, index) => (
+                      {filteredBooks?.map((book, index) => (
                         <BookListItem key={index}>
                           <Link
                             // key={index}
@@ -243,7 +323,7 @@ const SearchResult = () => {
                     </ListUIWrap>
                   ) : (
                     <CardUIWrap>
-                      {filteredBooks.map((book, index) => (
+                      {filteredBooks?.map((book, index) => (
                         <li key={index} style={{ width: "170px" }}>
                           <Link to={`/book-detail?isbn=${book.isbn}`}>
                             <CardImageContainer>
@@ -265,9 +345,9 @@ const SearchResult = () => {
                   )}
                 </div>
                 <Pagination
-                  totalBooks={searchResultsCount.current}
                   paginate={paginate}
                   currentPage={currentPage}
+                  totalPages={totalPages === 1 ? 1 : totalPages - 1}
                 />
               </>
             )}
@@ -293,6 +373,9 @@ const KeywordSearchBox = ({
   const buttonRef = useRef(null);
 
   useEffect(() => {
+    if (!bookData) {
+      return;
+    }
     setTotalBooksOfKeywords([]); // 키워드 초기화
     const newKeywords = bookData.flatMap((data) => {
       const keywords =
@@ -339,8 +422,6 @@ const KeywordSearchBox = ({
       !selectedKeywords.includes(keyword) &&
       keyword.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
-  console.log();
 
   return (
     <>

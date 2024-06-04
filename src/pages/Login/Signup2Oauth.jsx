@@ -15,23 +15,13 @@ import FormInput from "../../components/Login/FormInput ";
 import ErrorMessage from "../../components/Login/ErrorMessage";
 import useSignupStore from "../../store/signup-store";
 
-const Signup2 = () => {
-  // 아이디 및 아이디 중복 확인
-  const [isUsernameAvailable, setIsUsernameAvailable] = useState(false);
-
+const Signup2Oauth = () => {
   // 닉네임 중복 확인
   const [isNicknameAvailable, setIsNicknameAvailable] = useState(false);
-
-  // 이메일 중복 확인?
-  const [isEmailAvailable, setIsEmailAvailable] = useState(false);
 
   // 생년월일, 성별, 성별 버튼 클릭 판단
   const [isMaleClicked, setIsMaleClicked] = useState(false);
   const [isFemaleClicked, setIsFemaleClicked] = useState(false);
-
-  // 이메일 및 이메일 유저이름과 도메인
-  const [emailDomain, setEmailDomain] = useState("");
-  const [isInputEnabled, setIsInputEnabled] = useState(false);
 
   const navigate = useNavigate();
   // 회원정보 저장
@@ -46,47 +36,15 @@ const Signup2 = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    if (!isUsernameAvailable) {
-      alert("아이디 중복확인을 해야합니다.");
-      return;
-    }
     if (!isNicknameAvailable) {
       alert("닉네임 중복확인을 해야합니다.");
-      return;
-    }
-    if (!isEmailAvailable) {
-      alert("이메일 중복확인을 해야합니다.");
       return;
     }
     const { confirmPassword, emailUsername, ...formData } = data;
     setUserInfo(formData); // 상태에 회원 정보 저장
     navigate("/signup/3");
   };
-  const username = watch("username");
   const nickname = watch("nickname");
-  const email = watch("email");
-
-  const fetchIsUsernameAvailable = async () => {
-    if (!username) {
-      alert("아이디를 입력해 주세요.");
-      return;
-    }
-    try {
-      const res = await api.get(`/duplicate/username?username=${username}`, {
-        withCredentials: true,
-      });
-      if (!res.data) {
-        // false여야 중복 허용
-        setIsUsernameAvailable(true);
-        alert("사용 가능한 아이디입니다.");
-      } else {
-        setIsUsernameAvailable(false);
-        alert("이미 사용 중인 아이디입니다.");
-      }
-    } catch (error) {
-      console.error("아이디 중복 요청 오류", error);
-    }
-  };
 
   const fetchIsNicknameAvailable = async () => {
     if (!nickname) {
@@ -110,28 +68,6 @@ const Signup2 = () => {
     }
   };
 
-  const fetchIsEmailAvailable = async () => {
-    if (email === "@" || !email || !emailDomain) {
-      alert("이메일을 입력해 주세요.");
-      return;
-    }
-    try {
-      const res = await api.get(`/duplicate/email?email=${email}`, {
-        withCredentials: true,
-      });
-      if (!res.data) {
-        // false여야 중복 허용
-        setIsEmailAvailable(true);
-        alert("사용 가능한 이메일입니다.");
-      } else {
-        setIsEmailAvailable(false);
-        alert("이미 사용 중인 이메일입니다.");
-      }
-    } catch (error) {
-      console.error("이메일 중복 요청 오류", error);
-    }
-  };
-
   // 성별 버튼 클릭 핸들러 함수
   const handleGenderButtonClick = (genderValue) => {
     setValue("gender", genderValue);
@@ -143,30 +79,6 @@ const Signup2 = () => {
       setIsFemaleClicked(true);
     }
   };
-
-  const handleEmailDomain = (e) => {
-    const input = e.target.value;
-    setEmailDomain(input);
-  };
-
-  const handleSelectedEmailDomain = (e) => {
-    const selectedDomain = e.target.value;
-    if (selectedDomain !== "type") {
-      setEmailDomain(selectedDomain);
-      setIsInputEnabled(true);
-    } else {
-      setEmailDomain("");
-      setIsInputEnabled(false);
-    }
-  };
-
-  const emailUsername = watch("emailUsername");
-  const password = watch("password");
-
-  useEffect(() => {
-    // setEmailDomain이 변경될 때마다 실행
-    setValue("email", `${emailUsername}@${emailDomain}`);
-  }, [emailUsername, emailDomain]);
 
   return (
     <LoginContainer>
@@ -184,70 +96,6 @@ const Signup2 = () => {
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div style={{ position: "relative" }}>
-            <FormInput
-              type="text"
-              name="username"
-              register={register}
-              rules={{
-                required: "아이디를 입력해 주세요.",
-                maxLength: {
-                  value: 12,
-                  message: "ID 12글자 이하로 입력해주세요",
-                },
-                minLength: {
-                  value: 6,
-                  message: "ID 6글자 이상으로 입력해주세요",
-                },
-              }}
-              placeholder="아이디"
-              errors={errors}
-            />
-            <VerifyButton type="button" onClick={fetchIsUsernameAvailable}>
-              중복 확인
-            </VerifyButton>
-          </div>
-
-          <FormInput
-            type="password"
-            register={register}
-            name="password"
-            rules={{
-              required: "Password를 입력해주세요",
-              pattern: {
-                value:
-                  /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,20}$/,
-                message:
-                  "비밀번호는 8자 이상이며, 영문, 숫자, 특수문자를 포함해야 합니다.",
-              },
-            }}
-            placeholder="비밀번호"
-            errors={errors}
-          />
-
-          <FormInput
-            type="password"
-            register={register}
-            name="confirmPassword"
-            rules={{
-              required: "비밀번호 확인을 입력해주세요",
-              validate: (value) =>
-                value === password || "비밀번호가 일치하지 않습니다",
-            }}
-            placeholder="비밀번호 확인"
-            errors={errors}
-          />
-
-          <FormInput
-            type="name"
-            register={register}
-            name="name"
-            rules={{
-              required: "이름을 입력해주세요",
-            }}
-            placeholder="이름"
-            errors={errors}
-          />
           <div style={{ position: "relative" }}>
             <FormInput
               type="nickname"
@@ -318,68 +166,6 @@ const Signup2 = () => {
             />
           </InputFlexWrap>
 
-          <InputFlexWrap>
-            <div style={{ position: "relative" }}>
-              <EmailWrap>
-                <input
-                  type="text"
-                  placeholder="이메일 입력"
-                  {...register("emailUsername", {
-                    required: "이메일 주소를 정확히 입력해주세요.",
-                  })}
-                />
-                <AtSymbol>@</AtSymbol>
-                <input
-                  type="text"
-                  value={emailDomain}
-                  onChange={handleEmailDomain}
-                  disabled={isInputEnabled}
-                />
-                <EmailSelect
-                  name="emailDomain"
-                  id="emailDomain"
-                  onChange={handleSelectedEmailDomain}
-                  defaultValue={"type"}
-                >
-                  <option value="type">직접 입력</option>
-                  <option value="naver.com">naver.com</option>
-                  <option value="google.com">google.com</option>
-                  <option value="hanmail.net">hanmail.net</option>
-                  <option value="nate.com">nate.com</option>
-                  <option value="kakao.com">kakao.com</option>
-                </EmailSelect>
-              </EmailWrap>
-              <EmailVerifyButton type="button" onClick={fetchIsEmailAvailable}>
-                인증하기
-              </EmailVerifyButton>
-              <ErrorMessage>
-                {(errors.emailUsername || errors.emailDomain) && (
-                  <p>
-                    {errors.emailUsername?.message ||
-                      errors.emailDomain?.message}
-                  </p>
-                )}
-              </ErrorMessage>
-            </div>
-          </InputFlexWrap>
-
-          <InputWrap>
-            <div style={{ position: "relative" }}>
-              <HalfWidthInput
-                type="text"
-                placeholder="인증번호 입력"
-                onInput={(event) => {
-                  // 숫자만 입력
-                  event.currentTarget.value = event.currentTarget.value.replace(
-                    /\D/g,
-                    ""
-                  );
-                }}
-              ></HalfWidthInput>
-              <VerifyButton type="button">인증</VerifyButton>
-            </div>
-          </InputWrap>
-
           <InputWrap>
             <OptionTitle>직업 선택</OptionTitle>
             <JobSelect
@@ -410,7 +196,7 @@ const Signup2 = () => {
   );
 };
 
-export default Signup2;
+export default Signup2Oauth;
 
 const LoginContainer = styled.div`
   display: flex;
@@ -523,40 +309,7 @@ const GenderWrap = styled.div`
   }
 `;
 
-const EmailWrap = styled.div`
-  display: flex;
-  align-items: center;
-  width: 75%;
-  input {
-    width: 50%;
-    height: 56px;
-    border: 1px solid #d9d9d9;
-    border-radius: 4px;
-    font-family: var(--basic-font);
-    font-size: 20px;
-    padding: 10px;
-    margin-right: 10px;
-  }
-`;
-
-const AtSymbol = styled.p`
-  width: auto;
-  line-height: 56px;
-  text-align: center;
-  margin-right: 10px;
-`;
-
-const EmailSelect = styled.select`
-  width: 50%;
-  height: 56px;
-  border: 1px solid #d9d9d9;
-  border-radius: 4px;
-  font-family: var(--basic-font);
-  font-size: 20px;
-  padding: 10px;
-`;
-
-const EmailVerifyButton = styled.button`
+const VerifyButton = styled.button`
   width: 20%;
   height: 56px;
   background: #d9d9d9;
@@ -571,12 +324,6 @@ const EmailVerifyButton = styled.button`
   top: 0;
   right: 0%;
 `;
-
-const HalfWidthInput = styled(Input)`
-  /* width: 34%; */
-`;
-
-const VerifyButton = styled(EmailVerifyButton)``;
 
 const JobSelect = styled.select`
   margin-top: 10px;

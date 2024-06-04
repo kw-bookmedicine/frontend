@@ -183,23 +183,48 @@
 	line-height: 29px;
 }
 
-.bookComment_wrapper {
-	width: 100%;
-	max-width: 1080px;
-	margin-top: 100px;
-	padding-top: 70px;
+.book_oneLinePrscr_wrapper {
+	width: 1080px;
+	height: 100%;
 	display: flex;
 	flex-direction: column;
+	margin-top: 80px;
+	padding-top: 70px;
 	align-items: flex-start;
 }
 
-.bookComment_title {
-	color: #000;
-	font-family: var(--basic-font);
-	font-size: 24px;
+.book_oneLinePrscr_container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	height: 600px;
+	margin-top: 50px;
+	padding-top: 20px;
+	overflow-y: scroll;
+	overflow-x: hidden;
+	scrollbar-width: none;
+}
+
+.book_no_oneLinePrscr_wrapper {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	height: 350px;
+	margin-top: 100px;
+	font-size: 28px;
+	font-family: var(--title-font);
+	font-weight: 400;
 	font-style: normal;
-	font-weight: 700;
-	line-height: normal;
+	line-height: 44px;
+}
+
+#book_no_prscr_img {
+	position: relative;
+	width: 500px;
+	height: 470px;
+	top: -80px;
 }
 
 .relationBookList_wrapper {
