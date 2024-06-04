@@ -73,7 +73,7 @@ const OneLinePrscrCard = ({ type, item }) => {
 	const [helpNum, setHelpNum] = useState(
 		type !== 'landing' ? item.helpfulCount : 35,
 	);
-	const [isHelp, setIsHelp] = useState(false);
+	const [isHelp, setIsHelp] = useState(item.helpful);
 	const [helpIcon, setHelpIcon] = useState(
 		type !== 'landing'
 			? item.helpful === false
