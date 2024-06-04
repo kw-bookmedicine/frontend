@@ -19,6 +19,7 @@ const Edit = () => {
 	const [birth, setBirth] = useState('');
 	const [email, setEmail] = useState('');
 	const [userId, setUserId] = useState('');
+	const [description, setDescription] = useState('');
 
 	const getUserData = () => {
 		api.get('/client', { withCredentials: true }).then((res) => {
@@ -34,6 +35,7 @@ const Edit = () => {
 			setBirth(res.data.birth);
 			setEmail(res.data.email);
 			setUserId(res.data.loginId);
+			setDescription(res.data.description);
 		});
 	};
 
@@ -41,22 +43,28 @@ const Edit = () => {
 	const getChangeData = () => {
 		const changeComment = document.getElementById('comment_inputBox').value;
 		const changeJob = document.getElementById('job-box').innerText;
-		console.log(changeComment);
-		console.log(changeJob);
+		// console.log(changeComment);
+		// console.log(changeJob);
 
-		const response = api
+		api
 			.put(
 				'/client/info',
 				{
-					occupation: `${changeComment}`,
-					description: `${changeJob}`,
+					occupation: changeJob,
+					description: changeComment,
 				},
 				{
 					withCredentials: true,
 				},
 			)
 			.then((res) => {
-				console.log(res.data);
+				if (res.data === 'success') {
+					alert('회원정보가 변경되었습니다.');
+
+					// 페이지 이동
+					window.location.replace('/mypage');
+				}
+				// console.log(res.data);
 			});
 	};
 
@@ -93,7 +101,9 @@ const Edit = () => {
 								id="comment_inputBox"
 								cols="30"
 								rows="10"
-								placeholder="자기소개를 입력하세요"
+								placeholder={
+									description !== '' ? description : '자기소개를 입력하세요'
+								}
 							></textarea>
 						</div>
 						<div className="user_id_wrapper">
