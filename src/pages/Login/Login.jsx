@@ -32,8 +32,9 @@ const Login = () => {
   });
 
   const getOauth = () => {
-    console.log("oauth");
-    window.open("https://api.bookpharmacy.store/oauth2/authorization/naver");
+    const oauthUrl =
+      "https://api.bookpharmacy.store/oauth2/authorization/naver";
+    window.location.href = oauthUrl;
   };
 
   return (
