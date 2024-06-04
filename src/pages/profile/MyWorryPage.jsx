@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 // COMPONENTS
 import Header from '../../components/Header';
+import LoadingSpinner from '../../components/Loading/LoadingSpinner';
 import CnsFeed from '../../components/Prescription/CounselingView';
 
 // SERVICES
@@ -19,7 +20,7 @@ const MyWorryPage = () => {
 	const [isLoading, setIsLoading] = useState(false);
 
 	const fetchMyData = () => {
-		console.log(page);
+		// console.log(page);
 		setIsLoading(true);
 		try {
 			api
@@ -84,7 +85,7 @@ const MyWorryPage = () => {
 				<div className="myWorry_title_wrapper">
 					<h2>내가 남긴 고민</h2>
 				</div>
-				<div className="myWorry_content_container">
+				<div className="myWorry_content_container spinner-container">
 					<p>내 고민 개수 : {totalElem}</p>
 					<div className="myWorry_content_wrapper">
 						{dataArr.length !== 0
@@ -93,6 +94,7 @@ const MyWorryPage = () => {
 							  })
 							: null}
 					</div>
+					{isLoading && <LoadingSpinner />}
 				</div>
 			</div>
 		</>

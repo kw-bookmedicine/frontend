@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 
 // COMPONENTS
 import Header from '../../components/Header';
+import LoadingSpinner from '../../components/Loading/LoadingSpinner';
 import OneLinePrscrCard from './../../components/Prescription/OneLinePrscrCard';
 
 // SERVICE
@@ -77,8 +78,6 @@ const MyOneLinePrescription = () => {
 		};
 	}, [data]);
 
-	// if (!isLoading) return <div>Loading...</div>;
-
 	return (
 		<>
 			<Header />
@@ -87,7 +86,7 @@ const MyOneLinePrescription = () => {
 					<h1 className="myOneLinePrescription-title">나의 처방전 목록</h1>
 					<div className="myOneLinePrscr_content_container">
 						<p>내 한 줄 처방 개수 : {totalElem}</p>
-						<div className="myOneLinePrscr_content_wrapper">
+						<div className="myOneLinePrscr_content_wrapper spinner-container">
 							{data.length !== 0
 								? data.map((item, idx) => {
 										return (
@@ -99,6 +98,7 @@ const MyOneLinePrescription = () => {
 								  })
 								: null}
 						</div>
+						{isLoading && <LoadingSpinner />}
 					</div>
 				</div>
 			</div>

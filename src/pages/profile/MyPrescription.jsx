@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 
 // COMPONENTS
 import Header from '../../components/Header';
+import LoadingSpinner from '../../components/Loading/LoadingSpinner';
 import WidePrescriptionCard from '../../components/Prescription/WidePrescriptionCard';
 
 // SERVICE
@@ -33,7 +34,7 @@ const MyPrescription = () => {
 							setData((prevData) => [...prevData, ...res.data.content]);
 						}
 					} else {
-						alert('마지막 페이지입니다.');
+						// alert('마지막 페이지입니다.');
 					}
 				});
 		} catch (err) {
@@ -76,7 +77,7 @@ const MyPrescription = () => {
 		};
 	}, [data]);
 
-	if (isLoading) return <div>Loading...</div>;
+	// if (isLoading) return <div>Loading...</div>;
 
 	return (
 		<>
@@ -85,7 +86,7 @@ const MyPrescription = () => {
 				<h1 className="myPrescription-title">나의 처방전 목록</h1>
 				<div className="myPrescription_content_container">
 					<p>내 처방전 개수 : {totalElem}</p>
-					<div className="myPrescription_content_wrapper">
+					<div className="myPrescription_content_wrapper  spinner-container">
 						{data.length !== 0
 							? data.map((item) => {
 									return (
@@ -97,6 +98,7 @@ const MyPrescription = () => {
 							  })
 							: null}
 					</div>
+					{isLoading && <LoadingSpinner />}
 				</div>
 
 				{/* <ul>
