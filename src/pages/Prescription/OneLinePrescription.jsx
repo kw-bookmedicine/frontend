@@ -8,6 +8,7 @@ import api from '../../services/api';
 import Header from '../../components/Header';
 import OneLinePrscrCard from '../../components/Prescription/OneLinePrscrCard';
 import LoadingSpinner from '../../components/Loading/LoadingSpinner';
+import TopBtn from '../../components/ScrollToTop';
 
 // STYLE
 import '../../styles/Prescription/OneLinePrescription.css';
@@ -179,7 +180,7 @@ const OneLinePrescription = () => {
 								setDataArr((prevData) => [...prevData, ...res.data.content]);
 							}
 						} else {
-							alert('마지막 페이지입니다.');
+							// alert('마지막 페이지입니다.');
 						}
 					});
 			} catch (err) {
@@ -407,6 +408,7 @@ const OneLinePrescription = () => {
 								  })}
 						</div>
 						{isLoading && <LoadingSpinner />}
+						<TopBtn />
 					</div>
 
 					<div id="cn_target" ref={pageEnd}></div>

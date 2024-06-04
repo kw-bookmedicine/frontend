@@ -6,6 +6,7 @@ import axios from 'axios';
 import Header from '../../components/Header';
 import CnsFeed from '../../components/Prescription/CounselingView';
 import LoadingSpinner from '../../components/Loading/LoadingSpinner';
+import TopBtn from '../../components/ScrollToTop';
 
 // SERVICE
 import api from '../../services/api';
@@ -95,7 +96,7 @@ const Counseling = () => {
 								setKeywordArr((prevData) => [...prevData, ...res.data.content]);
 							}
 						} else {
-							alert('마지막 페이지입니다.');
+							// alert('마지막 페이지입니다.');
 						}
 					});
 			} catch (err) {
@@ -417,6 +418,7 @@ const Counseling = () => {
 					</div>
 					{isLoading && <LoadingSpinner />}
 				</div>
+				<TopBtn />
 			</div>
 		</>
 	);
