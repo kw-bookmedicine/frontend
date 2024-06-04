@@ -5,6 +5,7 @@ import axios from 'axios';
 // COMPONENTS
 import Header from '../../components/Header';
 import CnsFeed from '../../components/Prescription/CounselingView';
+import LoadingSpinner from '../../components/Loading/LoadingSpinner';
 
 // SERVICE
 import api from '../../services/api';
@@ -372,7 +373,7 @@ const Counseling = () => {
 						</Link>
 					</div>
 				</div>
-				<div className="counseling_feed_wrapper">
+				<div className="counseling_feed_wrapper spinner-container">
 					{/* <div className="cnsFeed_card_wrapper">
 						<CnsFeed />
 					</div> */}
@@ -414,9 +415,8 @@ const Counseling = () => {
 									return <CnsFeed key={`${idx}-${item.boardId}`} item={item} />;
 							  })} */}
 					</div>
+					{isLoading && <LoadingSpinner />}
 				</div>
-				{isLoading && <p>Loading...</p>}
-				<div id="cn_target"></div>
 			</div>
 		</>
 	);

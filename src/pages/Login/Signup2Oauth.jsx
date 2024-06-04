@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 // SERVICE
 import api from "../../services/api";
@@ -24,8 +24,21 @@ const Signup2Oauth = () => {
   const [isFemaleClicked, setIsFemaleClicked] = useState(false);
 
   const navigate = useNavigate();
-  // 회원정보 저장
-  const setUserInfo = useSignupStore((state) => state.setUserInfo);
+  const location = useLocation(); // 이메일 쿼리값 받기
+
+  const userInfo = useSignupStore((state) => state.userInfo); // 회원정보 가져오기
+  const setUserInfo = useSignupStore((state) => state.setUserInfo); // 회원정보 업데이트
+
+  // 쿼리 파라미터에서 이메일 가져오기
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const email = queryParams.get("email");
+    if (email) {
+      setUserInfo({ email });
+    }
+  }, [location.search, setUserInfo]);
+
+  console.log(userInfo);
 
   const {
     setValue,
@@ -40,8 +53,8 @@ const Signup2Oauth = () => {
       alert("닉네임 중복확인을 해야합니다.");
       return;
     }
-    const { confirmPassword, emailUsername, ...formData } = data;
-    setUserInfo(formData); // 상태에 회원 정보 저장
+
+    setUserInfo(data); // 상태에 회원 정보 저장
     navigate("/signup/3");
   };
   const nickname = watch("nickname");
@@ -96,16 +109,6 @@ const Signup2Oauth = () => {
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)}>
-          <FormInput
-            type="name"
-            register={register}
-            name="name"
-            rules={{
-              required: "이름을 입력해주세요",
-            }}
-            placeholder="이름"
-            errors={errors}
-          />
           <div style={{ position: "relative" }}>
             <FormInput
               type="nickname"
