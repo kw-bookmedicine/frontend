@@ -221,7 +221,7 @@ const BookDetail = () => {
 							scrollRef.current[2] = el;
 						}}
 					>
-						<Title title={'연관 책 리스트'} />
+						<Title title={'연관 책 리스트'} type={'recommend'} />
 						<div className="BookList_container">
 							<BookCard
 								title={'책 제목 1'}
