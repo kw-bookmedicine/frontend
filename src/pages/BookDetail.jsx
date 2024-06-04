@@ -89,7 +89,10 @@ const BookDetail = () => {
         <section className="bookSummary">
           <div className="bookSummary_wrapper">
             <div className="bookDt_summary_left_wrapper">
-              <img src={bookInfo.imageUrl ?? "/loading_thumbnail_x4.png"} />
+              <img
+                src={bookInfo.imageUrl ?? "/loading_thumbnail_x4.png"}
+                alt="책 이미지"
+              />
             </div>
             <div className="summary_right_wrapper">
               <div className="summary_right_up_wrapper">
