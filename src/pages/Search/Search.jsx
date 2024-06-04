@@ -3,8 +3,11 @@ import { Link } from "react-router-dom";
 
 // COMPONENTS
 import Header from "../../components/Header";
-import api from "../../services/api";
+import Footer from "../../components/Footer";
 import SearchBox from "../../components/Search/SearchBox";
+
+// SERVICES
+import api from "../../services/api";
 
 // STYLES
 import "../../styles/SearchStyles.css";
@@ -117,6 +120,7 @@ const Search = () => {
           renderCategoryItem={renderCategoryItem}
         />
       </section>
+      <Footer />
     </div>
   );
 };
