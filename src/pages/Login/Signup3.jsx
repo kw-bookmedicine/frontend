@@ -13,7 +13,7 @@ import api from "../../services/api";
 import { styled } from "styled-components";
 import "../../styles/Signup3.css";
 import useSignupStore from "../../store/signup-store";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const categoryList = ["general", "philosophy", "religion"];
 
@@ -29,6 +29,7 @@ const Signup3 = () => {
   const [backClicked, setbackClicked] = useState(false);
 
   const navigate = useNavigate();
+
   const userInfo = useSignupStore((state) => state.userInfo); // 회원정보 가져오기
 
   // 특정 카테고리별 중분류 보여주는 함수
@@ -42,15 +43,33 @@ const Signup3 = () => {
   // 회원가입 요청
   const postSignup = async () => {
     try {
-      const signUpData = {
+      let signUpData = {
         ...userInfo,
         interestList: pickItemList, // 선택한 관심사 추가
       };
-      const res = await api.post("/signup", signUpData, {
-        withCredentials: true,
-      });
-      console.log(res);
-      if (res.status === 200) {
+      if (!userInfo.username && !userInfo.password && !userInfo.name) {
+        // 소셜 로그인일 경우, 불필요한 필드 제거
+        const { username, password, name, ...rest } = signUpData;
+        signUpData = rest;
+      }
+
+      let response;
+      if (userInfo.username && userInfo.password && userInfo.name) {
+        // 일반 로그인
+        response = await api.post("/signup", signUpData, {
+          withCredentials: true,
+        });
+      } else {
+        // 소셜 로그인
+        response = await api.post(
+          `/signup/oauth?email=${userInfo.email}`,
+          signUpData,
+          {
+            withCredentials: true,
+          }
+        );
+      }
+      if (response.status === 200) {
         alert("회원가입을 축하합니다");
         navigate("/main");
       }
