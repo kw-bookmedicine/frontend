@@ -1,0 +1,44 @@
+/* ScrollToTop.css */
+.scroll-to-top-container {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  cursor: pointer;
+}
+
+.scroll-to-top-button {
+  font-size: 1.4rem;
+  padding: 0.625rem 1.25rem;
+  background-color: #00b2fc;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  height: 6rem;
+  width: 6rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 1;
+  transition: background-color 0.3s, opacity 0.3s;
+}
+
+.scroll-to-top-button:hover {
+  background-color: #0092d6;
+}
+
+.scroll-to-top-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 178, 252, 0.5);
+}
+
+.scroll-to-top-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.scroll-to-top-button svg {
+  width: 24px;
+  height: 24px;
+  stroke: white; /* SVG 색상 설정 */
+}
