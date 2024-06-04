@@ -10,6 +10,7 @@ import api from '../services/api';
 // COMPONENTS
 import Header from '../components/Header';
 import Card from '../components/BookDetailCard';
+import LoadingSpinner from '../components/Loading/LoadingSpinner';
 
 // STYLES
 import '../styles/SmallCategory.css';
@@ -115,7 +116,7 @@ const SmallCategory = () => {
 	return (
 		<>
 			<Header />
-			<div className="smCategory_content">
+			<div className="smCategory_content  spinner-container">
 				<div className="smCategory_title_wrapper">
 					<div className="title_big">{title}</div>
 					<div className="title_mdCategory">
@@ -142,9 +143,8 @@ const SmallCategory = () => {
 						})}
 					</div>
 				</div>
-				{isLoading && <p>Loading...</p>}
-				<div id="sm_target"></div>
 			</div>
+			{isLoading && <LoadingSpinner />}
 		</>
 	);
 };

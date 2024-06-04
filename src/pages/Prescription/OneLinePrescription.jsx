@@ -7,6 +7,7 @@ import api from '../../services/api';
 // COMPONENTS
 import Header from '../../components/Header';
 import OneLinePrscrCard from '../../components/Prescription/OneLinePrscrCard';
+import LoadingSpinner from '../../components/Loading/LoadingSpinner';
 
 // STYLE
 import '../../styles/Prescription/OneLinePrescription.css';
@@ -367,7 +368,7 @@ const OneLinePrescription = () => {
 							</Link>
 						</div>
 					</div>
-					<div className="OneLinePrscr_container">
+					<div className="OneLinePrscr_container spinner-container">
 						<div className="OneLinePrscr_content_container">
 							{keyword === 'All'
 								? searchResArr.length === 0
@@ -405,8 +406,9 @@ const OneLinePrescription = () => {
 										);
 								  })}
 						</div>
+						{isLoading && <LoadingSpinner />}
 					</div>
-					{isLoading && <p>Loading...</p>}
+
 					<div id="cn_target" ref={pageEnd}></div>
 				</div>
 			</section>
