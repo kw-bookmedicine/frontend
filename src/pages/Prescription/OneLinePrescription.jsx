@@ -288,10 +288,10 @@ const OneLinePrescription = () => {
 					)
 					.then((res) => {
 						if (res.data.totalPages > searchPage) {
-							if (res.data.content.length === 0) {
+							if (res.data.totalElements === 0) {
 								// console.log('검색 데이터가 없습니다.');
 								ctgType('전체');
-								alert('마지막 페이지입니다.');
+								alert('검색 결과가 없습니다.');
 							} else {
 								// console.log(res.data.content);
 								setSearchResArr((prevData) => [
@@ -300,6 +300,10 @@ const OneLinePrescription = () => {
 								]);
 							}
 						} else {
+							if (res.data.totalElements === 0) {
+								alert('검색 결과가 없습니다.');
+								window.location.reload();
+							}
 							console.log('마지막 페이지입니다.');
 						}
 					});
