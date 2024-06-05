@@ -69,7 +69,8 @@ const UserInfo = () => {
 					withCredentials: true,
 				})
 				.then((res) => {
-					if (!res.data) {
+					// console.log(res.data);
+					if (res.data === false) {
 						postNickname(changeNickname);
 					} else {
 						alert('닉네임이 중복되었습니다!\n다시 입력해주세요.');
@@ -85,7 +86,7 @@ const UserInfo = () => {
 			api
 				.put(
 					`/client/nickname?nickname=${changeNickname}`,
-					{},
+					{ nickname: changeNickname },
 					{
 						withCredentials: true,
 					},
@@ -142,7 +143,7 @@ const UserInfo = () => {
 				.put(
 					'/client/password',
 					{
-						changePw,
+						password: changePw,
 					},
 					{
 						withCredentials: true,

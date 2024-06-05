@@ -37,9 +37,7 @@ const SearchResult = () => {
       (keyword) =>
         book.keywordItemList?.some(
           (bookKeyword) => bookKeyword.name === keyword
-        ) ||
-        keyword === book.middleCategoryName ||
-        keyword === book.bigCategoryName
+        ) || keyword === book.middleCategoryName
     )
   );
 
@@ -65,7 +63,6 @@ const SearchResult = () => {
         let endpoint;
         if (type === "title") {
           endpoint = `/api/search/book?title=${query}&target=page&page=${currentPage}&size=${booksPerPage}`;
-          // endpoint = `/api/search/book?title=${query}&target=page&page=${currentPage}&size=700`;
         } else if (type === "author") {
           endpoint = `/api/search/book?author=${query}&target=page&page=${currentPage}&size=${booksPerPage}`;
         } else if (type === "keyword") {
@@ -154,9 +151,14 @@ const SearchResult = () => {
     }
   }, [query, searchedSelectedKeywords, currentPage, booksPerPage]);
 
-  console.log("t", totalPages);
-  console.log("b", filteredBooks, books);
-
+  let searchType;
+  if (type === "title") {
+    searchType = "책 제목";
+  } else if (type === "author") {
+    searchType = "작가";
+  } else if (type === "keyword") {
+    searchType = "키워드";
+  }
   return (
     <>
       <Header />
@@ -167,7 +169,7 @@ const SearchResult = () => {
         {/* 검색 결과의 헤더 */}
         <SearchTitle id="search-title">
           <Title>
-            <Highlight>"{query}"</Highlight> 에 대한
+            {searchType} <Highlight>"{query}"</Highlight> 에 대한
             <Highlight> {searchResultsCount.current} 개의 검색 결과</Highlight>
           </Title>
         </SearchTitle>
@@ -380,7 +382,7 @@ const KeywordSearchBox = ({
     const newKeywords = bookData.flatMap((data) => {
       const keywords =
         data.keywordItemList?.map((keyword) => keyword.name) ?? [];
-      return [data.bigCategoryName, data.middleCategoryName, ...keywords];
+      return [data.middleCategoryName, ...keywords];
     });
     setTotalBooksOfKeywords((prev) => [...prev, ...new Set(newKeywords)]); // 중복 제거
   }, [bookData]);

@@ -58,13 +58,13 @@ const DropDown = ({ DropDownTitle, type, ctgType, onClick }) => {
 					onClick={() => {
 						setIsOpen(!isOpen);
 						setIsSelect(isSelect);
-						setSelectTitle('자영업');
+						setSelectTitle('자영업자');
 					}}
 					className={
 						isSelect ? 'dropDown_menu_item_select' : 'dropDown_menu_item'
 					}
 				>
-					자영업
+					자영업자
 				</li>
 				<li
 					ref={dropDownMenuRef}
