@@ -42,7 +42,7 @@ const Header = () => {
 	return (
 		<div className="head">
 			<div className="head_logo">
-				<Link to={'/'}>
+				<Link to={'/main'}>
 					<img
 						src="/header_logo.png"
 						alt="책국 로고"
