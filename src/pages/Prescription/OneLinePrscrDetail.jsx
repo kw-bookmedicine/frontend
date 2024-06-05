@@ -77,6 +77,7 @@ const OneLinePrscrDetail = () => {
 					}
 				});
 		} catch (err) {
+			window.location.replace('/login');
 			console.log(err);
 		}
 	};
@@ -96,6 +97,7 @@ const OneLinePrscrDetail = () => {
 					});
 			}
 		} catch (err) {
+			window.location.replace('/login');
 			console.log(err);
 		}
 	};
@@ -149,6 +151,7 @@ const OneLinePrscrDetail = () => {
 					}
 				});
 		} catch (err) {
+			// window.location.replace('/login');
 			console.log(err);
 		}
 		// console.log('삭제');

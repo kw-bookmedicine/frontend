@@ -44,6 +44,7 @@ const Counseling = () => {
 					setCategory(res.data);
 				});
 		} catch (err) {
+			window.location.replace('/login');
 			console.log(err);
 		}
 	};
@@ -74,6 +75,7 @@ const Counseling = () => {
 						}
 					});
 			} catch (err) {
+				window.location.replace('/login');
 				console.log(err);
 			} finally {
 				setIsLoading(false);
@@ -111,6 +113,7 @@ const Counseling = () => {
 						// }
 					});
 			} catch (err) {
+				window.location.replace('/login');
 				console.log(err);
 			} finally {
 				setIsLoading(false);
@@ -326,6 +329,7 @@ const Counseling = () => {
 				window.location.reload();
 			}
 		} catch (err) {
+			window.location.replace('/login');
 			console.log(err);
 		} finally {
 			setIsLoading(false);

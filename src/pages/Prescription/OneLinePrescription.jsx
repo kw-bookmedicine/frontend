@@ -39,9 +39,19 @@ const OneLinePrescription = () => {
 			console.log(err);
 		}
 	};
-
-	useEffect(() => {
-		// getData();
+	function getCookie(name) {
+		let matches = document.cookie.match(
+			new RegExp(
+				'(?:^|; )' +
+					name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') +
+					'=([^;]*)',
+			),
+		);
+		return matches ? decodeURIComponent(matches[1]) : undefined;
+	}
+	https: useEffect(() => {
+		console.log(getCookie('Refresh'));
+		console.log(document.cookie);
 		getCategory();
 	}, []);
 
@@ -173,6 +183,9 @@ const OneLinePrescription = () => {
 						withCredentials: true,
 					})
 					.then((res) => {
+						if (res.data.err) {
+							console.log('error');
+						}
 						if (res.data.totalPages > page) {
 							if (res.data.content.length === 0) {
 								// alert('마지막 페이지입니다.');
@@ -182,6 +195,7 @@ const OneLinePrescription = () => {
 						}
 					});
 			} catch (err) {
+				window.location.replace('/login');
 				console.log(err);
 			} finally {
 				setIsLoading(false);
@@ -210,6 +224,7 @@ const OneLinePrescription = () => {
 						}
 					});
 			} catch (err) {
+				window.location.replace('/login');
 				console.log(err);
 			} finally {
 				setIsLoading(false);
@@ -308,11 +323,37 @@ const OneLinePrescription = () => {
 					});
 			}
 		} catch (err) {
+			window.location.replace('/login');
 			console.log(err);
 		} finally {
 			setIsLoading(false);
 		}
 	};
+
+	// 쿠키 있는 지 여부 확인 함수
+
+	function checkCookies() {
+		// Get all cookies from the document
+		let cookies = document.cookie.split(';');
+		console.log(document.cookie);
+
+		// Iterate through the cookies to find the 'auth' cookie
+		for (let i = 0; i < cookies.length; i++) {
+			let cookie = cookies[i].trim();
+			if (cookie.startsWith('Authorization=')) {
+				return true; // 'auth' cookie found
+			}
+		}
+
+		return false; // 'auth' cookie not found
+	}
+
+	// Usage
+	if (checkCookies()) {
+		console.log('Auth cookie is present.');
+	} else {
+		console.log('Auth cookie is not present.');
+	}
 
 	return (
 		<>

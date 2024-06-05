@@ -39,6 +39,7 @@ const MyOneLinePrescription = () => {
 					}
 				});
 		} catch (error) {
+			window.location.replace('/login');
 			console.log('나의 한 줄 처방 요청 실패', error);
 		} finally {
 			setIsLoading(false);

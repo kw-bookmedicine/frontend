@@ -22,21 +22,25 @@ const Edit = () => {
 	const [description, setDescription] = useState('');
 
 	const getUserData = () => {
-		api.get('/client', { withCredentials: true }).then((res) => {
-			console.log(res.data);
-			// console.log(res.data.nickname);
+		try {
+			api.get('/client', { withCredentials: true }).then((res) => {
+				console.log(res.data);
+				// console.log(res.data.nickname);
 
-			res.data.nickname === null
-				? setNickname('닉네임을 설정해주세요')
-				: setNickname(res.data.nickname);
+				res.data.nickname === null
+					? setNickname('닉네임을 설정해주세요')
+					: setNickname(res.data.nickname);
 
-			res.data.gender === 'M' ? setGender('남성') : setGender('여성');
+				res.data.gender === 'M' ? setGender('남성') : setGender('여성');
 
-			setBirth(res.data.birth);
-			setEmail(res.data.email);
-			setUserId(res.data.loginId);
-			setDescription(res.data.description);
-		});
+				setBirth(res.data.birth);
+				setEmail(res.data.email);
+				setUserId(res.data.loginId);
+				setDescription(res.data.description);
+			});
+		} catch (err) {
+			window.location.replace('/login');
+		}
 	};
 
 	// 자기소개랑 직업정보 가져오기
@@ -45,27 +49,30 @@ const Edit = () => {
 		const changeJob = document.getElementById('job-box').innerText;
 		// console.log(changeComment);
 		// console.log(changeJob);
+		try {
+			api
+				.put(
+					'/client/info',
+					{
+						occupation: changeJob,
+						description: changeComment,
+					},
+					{
+						withCredentials: true,
+					},
+				)
+				.then((res) => {
+					if (res.data === 'success') {
+						alert('회원정보가 변경되었습니다.');
 
-		api
-			.put(
-				'/client/info',
-				{
-					occupation: changeJob,
-					description: changeComment,
-				},
-				{
-					withCredentials: true,
-				},
-			)
-			.then((res) => {
-				if (res.data === 'success') {
-					alert('회원정보가 변경되었습니다.');
-
-					// 페이지 이동
-					window.location.replace('/mypage');
-				}
-				// console.log(res.data);
-			});
+						// 페이지 이동
+						window.location.replace('/mypage');
+					}
+					// console.log(res.data);
+				});
+		} catch (err) {
+			window.location.replace('/login');
+		}
 	};
 
 	useEffect(() => {
