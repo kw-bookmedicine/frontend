@@ -93,6 +93,7 @@ const MyPrescription = () => {
 										<WidePrescriptionCard
 											props={item}
 											key={`myPrscr-${item}-${item.id}`}
+											styleId={'myPrscr'}
 										/>
 									);
 							  })
