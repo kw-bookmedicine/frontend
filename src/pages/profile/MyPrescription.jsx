@@ -38,6 +38,7 @@ const MyPrescription = () => {
 					}
 				});
 		} catch (err) {
+			window.location.replace('/login');
 			console.log(err);
 		} finally {
 			setIsLoading(false);

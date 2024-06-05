@@ -28,17 +28,21 @@ const UserInfo = () => {
 
 	// 유저 데이터 가져오기
 	const getUserData = () => {
-		api
-			.get('/client', {
-				withCredentials: true,
-			})
-			.then((res) => {
-				res.data.nickname === null
-					? setNickname('닉네임을 설정해주세요')
-					: setNickname(res.data.nickname);
+		try {
+			api
+				.get('/client', {
+					withCredentials: true,
+				})
+				.then((res) => {
+					res.data.nickname === null
+						? setNickname('닉네임을 설정해주세요')
+						: setNickname(res.data.nickname);
 
-				setUserId(res.data.loginId);
-			});
+					setUserId(res.data.loginId);
+				});
+		} catch (err) {
+			window.location.replace('/login');
+		}
 	};
 
 	useEffect(() => {

@@ -14,6 +14,7 @@ import DropDown from '../../components/DropDown';
 import '../../styles/Profile/Edit.css';
 
 const Edit = () => {
+	const [name, setName] = useState('');
 	const [nickname, setNickname] = useState('');
 	const [gender, setGender] = useState('');
 	const [birth, setBirth] = useState('');
@@ -22,21 +23,26 @@ const Edit = () => {
 	const [description, setDescription] = useState('');
 
 	const getUserData = () => {
-		api.get('/client', { withCredentials: true }).then((res) => {
-			console.log(res.data);
-			// console.log(res.data.nickname);
+		try {
+			api.get('/client', { withCredentials: true }).then((res) => {
+				console.log(res.data);
+				// console.log(res.data.nickname);
 
-			res.data.nickname === null
-				? setNickname('닉네임을 설정해주세요')
-				: setNickname(res.data.nickname);
+				res.data.nickname === null
+					? setNickname('닉네임을 설정해주세요')
+					: setNickname(res.data.nickname);
 
-			res.data.gender === 'M' ? setGender('남성') : setGender('여성');
+				res.data.gender === 'M' ? setGender('남성') : setGender('여성');
 
-			setBirth(res.data.birth);
-			setEmail(res.data.email);
-			setUserId(res.data.loginId);
-			setDescription(res.data.description);
-		});
+				setName(res.data.name);
+				setBirth(res.data.birth);
+				setEmail(res.data.email);
+				setUserId(res.data.loginId);
+				setDescription(res.data.description);
+			});
+		} catch (err) {
+			window.location.replace('/login');
+		}
 	};
 
 	// 자기소개랑 직업정보 가져오기
@@ -45,27 +51,30 @@ const Edit = () => {
 		const changeJob = document.getElementById('job-box').innerText;
 		// console.log(changeComment);
 		// console.log(changeJob);
+		try {
+			api
+				.put(
+					'/client/info',
+					{
+						occupation: changeJob,
+						description: changeComment,
+					},
+					{
+						withCredentials: true,
+					},
+				)
+				.then((res) => {
+					if (res.data === 'success') {
+						alert('회원정보가 변경되었습니다.');
 
-		api
-			.put(
-				'/client/info',
-				{
-					occupation: changeJob,
-					description: changeComment,
-				},
-				{
-					withCredentials: true,
-				},
-			)
-			.then((res) => {
-				if (res.data === 'success') {
-					alert('회원정보가 변경되었습니다.');
-
-					// 페이지 이동
-					window.location.replace('/mypage');
-				}
-				// console.log(res.data);
-			});
+						// 페이지 이동
+						window.location.replace('/mypage');
+					}
+					// console.log(res.data);
+				});
+		} catch (err) {
+			window.location.replace('/login');
+		}
 	};
 
 	useEffect(() => {
@@ -105,6 +114,12 @@ const Edit = () => {
 									description !== '' ? description : '자기소개를 입력하세요'
 								}
 							></textarea>
+						</div>
+						<div className="user_id_wrapper" id="user_name_wrapper">
+							<div className="input_title">이름</div>
+							<div className="id_input_wrapper">
+								<div className="id_text">{name}</div>
+							</div>
 						</div>
 						<div className="user_id_wrapper">
 							<div className="input_title">아이디</div>

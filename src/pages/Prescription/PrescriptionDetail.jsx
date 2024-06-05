@@ -58,6 +58,7 @@ const PrescriptionDetail = () => {
 			});
 			setPrescriptionData(response.data);
 		} catch (error) {
+			window.location.replace('/login');
 			console.error('처방전 데이터 불러오기 실패', error);
 		}
 	};
@@ -71,6 +72,7 @@ const PrescriptionDetail = () => {
 
 			setWorryTitle(response.data.title);
 		} catch (error) {
+			window.location.replace('/login');
 			console.error('처방전 데이터 불러오기 실패', error);
 		}
 	};

@@ -44,6 +44,7 @@ const Counseling = () => {
 					setCategory(res.data);
 				});
 		} catch (err) {
+			window.location.replace('/login');
 			console.log(err);
 		}
 	};
@@ -64,18 +65,17 @@ const Counseling = () => {
 				await api
 					.get(`/api/board/all?page=${page}&size=20`, { withCredentials: true })
 					.then((res) => {
-						console.log('키워드가 all일 때, 페이지: ', page);
+						// console.log('키워드가 all일 때, 페이지: ', page);
 						if (res.data.totalPages > page) {
 							if (res.data.content.length === 0) {
 								// alert('마지막 고민입니다!');
 							} else {
 								setTestArr((prevData) => [...prevData, ...res.data.content]);
 							}
-						} else {
-							// alert('마지막 페이지입니다.');
 						}
 					});
 			} catch (err) {
+				window.location.replace('/login');
 				console.log(err);
 			} finally {
 				setIsLoading(false);
@@ -89,18 +89,31 @@ const Counseling = () => {
 						{ withCredentials: true },
 					)
 					.then((res) => {
-						if (res.data.totalPages > keywordPage) {
-							if (res.data.content.length === 0) {
-								// alert('마지막 고민입니다.');
+						if (res.data.totalPages >= keywordPage) {
+							if (res.data.totalElements !== 0) {
+								if (res.data.content.length !== 0) {
+									setKeywordArr((prevData) => [
+										...prevData,
+										...res.data.content,
+									]);
+								}
 							} else {
-								setKeywordArr((prevData) => [...prevData, ...res.data.content]);
+								alert('검색 결과가 없습니다.');
+								window.location.reload();
 							}
-						} else {
-							alert('검색 결과가 없습니다.');
-							window.location.reload();
+							// if (res.data.content.length === 0) {
+							// 	alert('마지막 고민입니다.');
+							// } else {
+							// 	setKeywordArr((prevData) => [...prevData, ...res.data.content]);
+							// }
 						}
+						//  else {
+						// 	alert('검색 결과가 없습니다.11');
+						// 	window.location.reload();
+						// }
 					});
 			} catch (err) {
+				window.location.replace('/login');
 				console.log(err);
 			} finally {
 				setIsLoading(false);
@@ -187,6 +200,7 @@ const Counseling = () => {
 			// 아이콘이 클릭되었을 때
 			targetText.classList.toggle('icon-active');
 			ctgType(targetText.innerText);
+			setKeywordPage(0);
 		} else {
 			// 클릭된 아이콘을 다시 클릭했을 때
 			targetText.classList.toggle('icon-active');
@@ -295,7 +309,6 @@ const Counseling = () => {
 					.then((res) => {
 						if (res.data.totalPages > searchPage) {
 							if (res.data.totalElements === 0) {
-								alert('검색 결과가 없습니다.');
 								ctgType('전체');
 							} else {
 								setSearchResArr((prevData) => [
@@ -305,7 +318,6 @@ const Counseling = () => {
 							}
 						} else {
 							if (res.data.totalElements === 0) {
-								alert('검색 결과가 없습니다.');
 								// ctgType('전체');
 								window.location.reload();
 							}
@@ -317,6 +329,7 @@ const Counseling = () => {
 				window.location.reload();
 			}
 		} catch (err) {
+			window.location.replace('/login');
 			console.log(err);
 		} finally {
 			setIsLoading(false);

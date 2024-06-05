@@ -49,6 +49,7 @@ const OneLinePrscrEdit = () => {
 					ctgType(res.data.keyword);
 				});
 		} catch (err) {
+			window.location.replace('/login');
 			console.log(err);
 		}
 	};
@@ -65,6 +66,7 @@ const OneLinePrscrEdit = () => {
 					});
 			}
 		} catch (err) {
+			window.location.replace('/login');
 			console.log(err);
 		}
 	};
@@ -267,6 +269,7 @@ const OneLinePrscrEdit = () => {
 				}
 			}
 		} catch (err) {
+			window.location.replace('/login');
 			console.log(err);
 		}
 	};
@@ -332,6 +335,7 @@ const OneLinePrscrEdit = () => {
 					}
 				});
 		} catch (err) {
+			window.location.replace('/login');
 			console.log(err);
 		}
 	};

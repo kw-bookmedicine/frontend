@@ -59,6 +59,7 @@ const WorryDetail = () => {
 					}
 				});
 		} catch (err) {
+			window.location.replace('/login');
 			console.error(err);
 		}
 	};
@@ -89,6 +90,7 @@ const WorryDetail = () => {
 					}
 				});
 		} catch (error) {
+			window.location.replace('/login');
 			console.log('해당 글 처방전 조회 실패', error);
 		}
 	};
@@ -202,6 +204,7 @@ const WorryDetail = () => {
 					console.log(res.data);
 				});
 		} catch (err) {
+			window.location.replace('/login');
 			console.log(err);
 		}
 	};

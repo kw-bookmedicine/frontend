@@ -39,9 +39,19 @@ const OneLinePrescription = () => {
 			console.log(err);
 		}
 	};
-
-	useEffect(() => {
-		// getData();
+	function getCookie(name) {
+		let matches = document.cookie.match(
+			new RegExp(
+				'(?:^|; )' +
+					name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') +
+					'=([^;]*)',
+			),
+		);
+		return matches ? decodeURIComponent(matches[1]) : undefined;
+	}
+	https: useEffect(() => {
+		console.log(getCookie('Refresh'));
+		console.log(document.cookie);
 		getCategory();
 	}, []);
 
@@ -124,6 +134,7 @@ const OneLinePrescription = () => {
 			// 아이콘이 클릭되었을 때
 			targetText.classList.toggle('icon-active');
 			ctgType(targetText.innerText);
+			setKeywordPage(0);
 		} else {
 			// 클릭된 아이콘을 다시 클릭했을 때
 			targetText.classList.toggle('icon-active');
@@ -172,20 +183,19 @@ const OneLinePrescription = () => {
 						withCredentials: true,
 					})
 					.then((res) => {
-						// console.log('키워드 all일 때, 페이지: ', page);
+						if (res.data.err) {
+							console.log('error');
+						}
 						if (res.data.totalPages > page) {
 							if (res.data.content.length === 0) {
 								// alert('마지막 페이지입니다.');
 							} else {
 								setDataArr((prevData) => [...prevData, ...res.data.content]);
 							}
-						} else {
-							// alert('마지막 페이지입니다.');
-							alert('검색 결과가 없습니다.');
-							window.location.reload();
 						}
 					});
 			} catch (err) {
+				window.location.replace('/login');
 				console.log(err);
 			} finally {
 				setIsLoading(false);
@@ -199,22 +209,22 @@ const OneLinePrescription = () => {
 						{ withCredentials: true },
 					)
 					.then((res) => {
-						// console.log(`======(키워드:${keyword})=======`);
-						// console.log(res.data);
-						if (res.data.totalPages > keywordPage) {
-							if (res.data.content.length === 0) {
-								// alert('마지막 페이지입니다.');
+						if (res.data.totalPages >= keywordPage) {
+							if (res.data.totalElements !== 0) {
+								if (res.data.content.length !== 0) {
+									setKeywordArr((prevData) => [
+										...prevData,
+										...res.data.content,
+									]);
+								}
 							} else {
-								setKeywordArr((prevData) => [...prevData, ...res.data.content]);
+								alert('검색 결과가 없습니다.');
+								window.location.reload();
 							}
-						} else {
-							alert('검색 결과가 없습니다.');
-							window.location.reload();
-							// alert('마지막 페이지입니다.');
-							// ctgType('전체');
 						}
 					});
 			} catch (err) {
+				window.location.replace('/login');
 				console.log(err);
 			} finally {
 				setIsLoading(false);
@@ -313,11 +323,37 @@ const OneLinePrescription = () => {
 					});
 			}
 		} catch (err) {
+			window.location.replace('/login');
 			console.log(err);
 		} finally {
 			setIsLoading(false);
 		}
 	};
+
+	// 쿠키 있는 지 여부 확인 함수
+
+	function checkCookies() {
+		// Get all cookies from the document
+		let cookies = document.cookie.split(';');
+		console.log(document.cookie);
+
+		// Iterate through the cookies to find the 'auth' cookie
+		for (let i = 0; i < cookies.length; i++) {
+			let cookie = cookies[i].trim();
+			if (cookie.startsWith('Authorization=')) {
+				return true; // 'auth' cookie found
+			}
+		}
+
+		return false; // 'auth' cookie not found
+	}
+
+	// Usage
+	if (checkCookies()) {
+		console.log('Auth cookie is present.');
+	} else {
+		console.log('Auth cookie is not present.');
+	}
 
 	return (
 		<>
