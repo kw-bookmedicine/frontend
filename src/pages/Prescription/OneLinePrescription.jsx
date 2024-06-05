@@ -175,12 +175,14 @@ const OneLinePrescription = () => {
 						// console.log('키워드 all일 때, 페이지: ', page);
 						if (res.data.totalPages > page) {
 							if (res.data.content.length === 0) {
-								alert('마지막 페이지입니다.');
+								// alert('마지막 페이지입니다.');
 							} else {
 								setDataArr((prevData) => [...prevData, ...res.data.content]);
 							}
 						} else {
 							// alert('마지막 페이지입니다.');
+							alert('검색 결과가 없습니다.');
+							window.location.reload();
 						}
 					});
 			} catch (err) {
@@ -201,12 +203,14 @@ const OneLinePrescription = () => {
 						// console.log(res.data);
 						if (res.data.totalPages > keywordPage) {
 							if (res.data.content.length === 0) {
-								alert('마지막 페이지입니다.');
+								// alert('마지막 페이지입니다.');
 							} else {
 								setKeywordArr((prevData) => [...prevData, ...res.data.content]);
 							}
 						} else {
-							alert('마지막 페이지입니다.');
+							alert('검색 결과가 없습니다.');
+							window.location.reload();
+							// alert('마지막 페이지입니다.');
 							// ctgType('전체');
 						}
 					});
@@ -291,7 +295,7 @@ const OneLinePrescription = () => {
 							if (res.data.totalElements === 0) {
 								// console.log('검색 데이터가 없습니다.');
 								ctgType('전체');
-								alert('검색 결과가 없습니다.');
+								// alert('검색 결과가 없습니다.');
 							} else {
 								// console.log(res.data.content);
 								setSearchResArr((prevData) => [
@@ -304,7 +308,7 @@ const OneLinePrescription = () => {
 								alert('검색 결과가 없습니다.');
 								window.location.reload();
 							}
-							console.log('마지막 페이지입니다.');
+							// console.log('마지막 페이지입니다.');
 						}
 					});
 			}
