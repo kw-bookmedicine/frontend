@@ -45,6 +45,7 @@ const BookList = () => {
 				});
 			});
 		} catch (error) {
+			window.location.replace('/login');
 			console.log(error);
 		} finally {
 			// 로딩 종료

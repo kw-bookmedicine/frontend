@@ -40,6 +40,7 @@ const LoginHome = () => {
 			console.log(res);
 			setBoardLoading(true);
 		} catch (error) {
+			window.location.replace('/login');
 			console.error('고민글 요청 실패', error);
 		}
 	};

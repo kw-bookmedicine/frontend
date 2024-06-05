@@ -149,6 +149,7 @@ const OneLinePrscrWrite = () => {
 				alert('모든 항목을 채워주세요.');
 			}
 		} catch (err) {
+			window.location.replace('/login');
 			console.log(err);
 		}
 	};
@@ -218,6 +219,7 @@ const OneLinePrscrWrite = () => {
 					}
 				});
 		} catch (err) {
+			window.location.replace('/login');
 			console.log(err);
 		}
 	};
