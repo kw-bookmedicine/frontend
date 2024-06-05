@@ -1,6 +1,6 @@
 .WidePrscrCard_container {
 	display: flex;
-	width: 1125px;
+	width: 1060px;
 	height: 420px;
 	border: 5px solid #00b2fc;
 	border-radius: 10px;
@@ -104,7 +104,7 @@
 	align-items: center;
 	width: 30%;
 	height: 100%;
-	margin-left: 75px;
+	margin-left: 50px;
 }
 
 .wide_prscr_rl_wrapper > img {

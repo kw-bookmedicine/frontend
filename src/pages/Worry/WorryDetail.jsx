@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 // COMPONENTS
@@ -19,12 +19,6 @@ const WorryDetail = () => {
 	const [boardData, setBoardData] = useState({});
 	const [prescriptionData, setPrescriptionData] = useState([]);
 	const [isModalOpen, setIsModalOpen] = useState(false);
-
-	// const currentUrl = window.location.href;
-
-	// // URL에서 boardId 쿼리 파라미터 값을 추출
-	// const urlParams = new URLSearchParams(new URL(currentUrl).search);
-	// const boardId = urlParams.get("board");
 
 	const [searchParams] = useSearchParams();
 	const boardId = searchParams.get('board');
@@ -69,20 +63,64 @@ const WorryDetail = () => {
 		}
 	};
 
+	const pageEnd = useRef();
+	const [page, setPage] = useState(0);
+	const [totalElem, setTotalElem] = useState('');
+
+	useEffect(() => {
+		fetchPrescription();
+	}, [page]);
+
 	// 해당 고민 글의 처방전 조회
 	const fetchPrescription = async () => {
 		try {
 			await api
-				.get(`/api/prescription?page=0&size=20&boardId=${boardId}`, {
+				.get(`/api/prescription?page=${page}&size=5&boardId=${boardId}`, {
 					withCredentials: true,
 				})
 				.then((res) => {
-					setPrescriptionData(res.data.content);
+					if (res.data.totalPages > page) {
+						if (res.data.content.length !== 0) {
+							setPrescriptionData((prevData) => [
+								...prevData,
+								...res.data.content,
+							]);
+						}
+					}
 				});
 		} catch (error) {
 			console.log('해당 글 처방전 조회 실패', error);
 		}
 	};
+
+	useEffect(() => {
+		if (pageEnd.current) pageEnd.current.disconnect();
+
+		const handleObserver = (entries) => {
+			const target = entries[0];
+			if (target.isIntersecting) {
+				if (prescriptionData.length !== 0) {
+					setPage((prevPage) => prevPage + 1);
+				}
+			}
+		};
+
+		pageEnd.current = new IntersectionObserver(handleObserver, {
+			threshold: 1,
+		});
+
+		const lastElement = document.querySelector(
+			'.wd_prscr_list_wrapper > *:last-child',
+		);
+
+		if (lastElement) {
+			pageEnd.current.observe(lastElement);
+		}
+
+		return () => {
+			if (pageEnd.current) pageEnd.current.disconnect();
+		};
+	}, [prescriptionData]);
 
 	const showBtnHandler = async () => {
 		if (writer !== '') {
@@ -98,7 +136,6 @@ const WorryDetail = () => {
 
 	useEffect(() => {
 		fetchData();
-		fetchPrescription();
 		getAiPrscr();
 
 		if (nickname !== '') {
@@ -135,9 +172,6 @@ const WorryDetail = () => {
 
 	// AI 처방전
 	const [aiPrscrArr, setPrscrArr] = useState([]);
-	const [aiPrscrId, setAiPrscrId] = useState('');
-	const [aiPrscrIsbn, setAiPrscrIsbn] = useState('');
-	const [aiPrscrTitle, setAiPrscrTitle] = useState('');
 	const [isRecommending, setIsRecommending] = useState(false);
 	const [isNoRecommendBook, setIsNoRecommendBook] = useState(false);
 
