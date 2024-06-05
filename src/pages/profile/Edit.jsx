@@ -14,6 +14,7 @@ import DropDown from '../../components/DropDown';
 import '../../styles/Profile/Edit.css';
 
 const Edit = () => {
+	const [name, setName] = useState('');
 	const [nickname, setNickname] = useState('');
 	const [gender, setGender] = useState('');
 	const [birth, setBirth] = useState('');
@@ -33,6 +34,7 @@ const Edit = () => {
 
 				res.data.gender === 'M' ? setGender('남성') : setGender('여성');
 
+				setName(res.data.name);
 				setBirth(res.data.birth);
 				setEmail(res.data.email);
 				setUserId(res.data.loginId);
@@ -112,6 +114,12 @@ const Edit = () => {
 									description !== '' ? description : '자기소개를 입력하세요'
 								}
 							></textarea>
+						</div>
+						<div className="user_id_wrapper" id="user_name_wrapper">
+							<div className="input_title">이름</div>
+							<div className="id_input_wrapper">
+								<div className="id_text">{name}</div>
+							</div>
 						</div>
 						<div className="user_id_wrapper">
 							<div className="input_title">아이디</div>
