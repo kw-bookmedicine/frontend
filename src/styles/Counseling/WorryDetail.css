@@ -127,7 +127,7 @@
 	min-width: 1000px;
 	height: 750px;
 	padding: 40px 150px 0px 150px;
-	margin-top: 10px;
+	margin-top: 20px;
 	margin-bottom: 20px;
 	/* background-color: #fff; */
 	/* border-radius: 20px; */
@@ -145,18 +145,29 @@
 .wd_prscr_list_wrapper {
 	display: grid;
 	width: 104%;
-	height: 690px;
-	overflow-y: scroll;
+	height: 800px;
+	overflow-y: auto;
 	grid-row-gap: 40px;
 	/* padding: 20px 0; */
 	/* grid-template-columns: repeat(1, 1fr); */
-	align-self: center;
+	align-items: center;
 	justify-content: center;
 	margin-bottom: 20px;
 }
 
 .wd_prscr_list_wrapper::-webkit-scrollbar {
 	visibility: hidden;
+}
+
+.wd_prscr_list_wrapper > p {
+	margin-top: 80px;
+	font-family: var(--title-font);
+	font-size: 26px;
+	font-weight: 400;
+	font-style: normal;
+	line-height: 48px;
+	text-align: center;
+	color: #000;
 }
 
 .worry_detail_no_prscr_wrapper {
@@ -188,8 +199,8 @@
 #no_prscr_img {
 	position: relative;
 	width: 520px;
-	height: 550px;
-	top: -45px;
+	height: 510px;
+	top: -130px;
 }
 
 .prscr_btn {

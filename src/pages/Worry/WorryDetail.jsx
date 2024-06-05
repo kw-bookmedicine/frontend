@@ -146,7 +146,9 @@ const WorryDetail = () => {
 					if (res.data.recommending === true) {
 						// 처방 진행 중
 						setIsRecommending(false);
+						setIsNoRecommendBook(true);
 					} else {
+						// 처방은 됨.
 						if (res.data.id === null) {
 							// 추천된 책이 없음
 							setIsNoRecommendBook(true);
