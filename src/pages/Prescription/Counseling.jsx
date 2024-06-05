@@ -293,7 +293,8 @@ const Counseling = () => {
 					)
 					.then((res) => {
 						if (res.data.totalPages > searchPage) {
-							if (res.data.content.length === 0) {
+							if (res.data.totalElements === 0) {
+								alert('검색 결과가 없습니다.');
 								ctgType('전체');
 							} else {
 								setSearchResArr((prevData) => [
@@ -302,7 +303,12 @@ const Counseling = () => {
 								]);
 							}
 						} else {
-							console.log('마지막 페이지입니다.');
+							if (res.data.totalElements === 0) {
+								alert('검색 결과가 없습니다.');
+								// ctgType('전체');
+								window.location.reload();
+							}
+							// console.log('마지막 페이지입니다.');
 						}
 					});
 			} else if (searchText === '') {
