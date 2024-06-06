@@ -81,7 +81,7 @@ const SearchBox = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       fetchBooks(input);
-    }, 100);
+    }, 300);
 
     // cleanup 함수를 반환하여 컴포넌트가 언마운트될 때 타이머를 해제합니다.
     return () => {
