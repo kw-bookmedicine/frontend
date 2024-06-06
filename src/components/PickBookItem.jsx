@@ -61,11 +61,10 @@ const PickBookItem = ({
   };
 
   // 읽은 목록에서 삭제 버튼 누른 후 필터링 되는 함수
-  const filterPickList = (pickBookTitle) => {
-    // console.log(isbnRef.current.textContent);
-
-    // console.log('res', resBookList);
-    updateList(BookList.filter((item) => item.title !== pickBookTitle));
+  const filterPickList = () => {
+    updateList((prevList) =>
+      prevList.filter((item) => item.title !== clickRef.current.textContent)
+    );
   };
 
   const isBookAdded = BookList.some(
