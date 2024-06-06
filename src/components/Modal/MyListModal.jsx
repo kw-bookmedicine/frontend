@@ -92,7 +92,7 @@ const MyListModal = ({ onClose }) => {
       setIsLoading(true);
       api
         .get(
-          `/api/search/book?title=${input}&target=page&page=${
+          `/api/search/book?title=${input}&target=page&sort=view-count&page=${
             page - 1
           }&size=${itemsPerPage}`,
           {
@@ -171,10 +171,10 @@ const MyListModal = ({ onClose }) => {
     };
 
     try {
-      const response = await api.post(`/api/experiences/list`, data, {
+      await api.post(`/api/experiences/list`, data, {
         withCredentials: true,
       });
-      alert("독서 경험 업데이트 되었습니다!");
+      alert("독서 경험 업데이트되었습니다!");
     } catch (error) {
       console.error("독서 경험 요청 실패", error);
     }
