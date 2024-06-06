@@ -1,15 +1,15 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from "react";
+import styled from "styled-components";
 
 const Pill = ({ text, onClick }) => {
   return (
     <KeywordPill className="user-pill" onClick={onClick}>
-      {text} &times;
+      #{text} &times;
     </KeywordPill>
   );
-}
+};
 
-export default Pill
+export default Pill;
 
 const KeywordPill = styled.span`
   height: 30px;
