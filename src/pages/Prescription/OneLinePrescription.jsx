@@ -50,8 +50,6 @@ const OneLinePrescription = () => {
 		return matches ? decodeURIComponent(matches[1]) : undefined;
 	}
 	https: useEffect(() => {
-		console.log(getCookie('Refresh'));
-		console.log(document.cookie);
 		getCategory();
 	}, []);
 
