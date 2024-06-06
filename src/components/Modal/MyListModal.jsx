@@ -64,12 +64,12 @@ const MyListModal = ({ onClose }) => {
 
   // 읽은 목록 추가 버튼을 눌렀을 때, 읽은 목록 배열(addBookList)에 요소 추가 함수
   const AddBookList = (pickBookTitle, pickBookIsbn) => {
-    setAddBookList(
-      pickBookList.some(
+    setPickBookList((prevList) =>
+      prevList.some(
         (book) => book.title === pickBookTitle || book.isbn === pickBookIsbn
       )
-        ? pickBookList
-        : pickBookList.push({ title: pickBookTitle, isbn: pickBookIsbn })
+        ? prevList
+        : [{ title: pickBookTitle, isbn: pickBookIsbn }, ...prevList]
     );
   };
 
@@ -291,7 +291,7 @@ const MyListModal = ({ onClose }) => {
                             // author={author}
                             // BookList={pickBookList}
                             BookList={currentPickBookList}
-                            updateList={FilterBookList}
+                            updateList={setPickBookList}
                             updateAuthor={pickAuthorList}
                           />
                         );
