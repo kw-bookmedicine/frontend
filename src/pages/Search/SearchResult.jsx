@@ -20,7 +20,7 @@ const SearchResult = () => {
   const query = searchParams.get("query"); // 'query' 쿼리 파라미터의 값을 가져옴
   const [viewMode, setViewMode] = useState(true); // 책 뷰 선택(리스트/카드)
   const [books, setBooks] = useState([]); // 책 정보
-  const [currentPage, setCurrentPage] = useState(0); // 현재 페이지
+  const [currentPage, setCurrentPage] = useState(1); // 현재 페이지
   const [booksPerPage, setBooksPerPage] = useState(10); // 페이지당 책 수
 
   const [isLoading, setIsLoading] = useState(false); // 로딩 상태
@@ -32,15 +32,12 @@ const SearchResult = () => {
 
   const [sortOption, setSortOption] = useState("view-count"); // 정렬 옵션
 
-  const [data, setData] = useState([]);
+  const [data, setData] = useState([]); // (임시) 키워드 검색에서 책 전체를 가져와 키워드만 뽑기 위함
 
   // 키워드로 책 필터링
   const filteredBooks = books?.filter((book) =>
-    searchedSelectedKeywords.every(
-      (keyword) =>
-        book.keywordItemList?.some(
-          (bookKeyword) => bookKeyword.name === keyword
-        ) || keyword === book.middleCategoryName
+    searchedSelectedKeywords.every((keyword) =>
+      book.keywordItemList?.some((bookKeyword) => bookKeyword.name === keyword)
     )
   );
 
@@ -64,11 +61,17 @@ const SearchResult = () => {
     try {
       let endpoint;
       if (type === "title") {
-        endpoint = `/api/search/book?title=${query}&target=page&sort=${sortOption}&page=${currentPage}&size=${booksPerPage}`;
+        endpoint = `/api/search/book?title=${query}&target=page&sort=${sortOption}&page=${
+          currentPage - 1
+        }&size=${booksPerPage}`;
       } else if (type === "author") {
-        endpoint = `/api/search/book?author=${query}&target=page&sort=${sortOption}&page=${currentPage}&size=${booksPerPage}`;
+        endpoint = `/api/search/book?author=${query}&target=page&sort=${sortOption}&page=${
+          currentPage - 1
+        }&size=${booksPerPage}`;
       } else if (type === "keyword") {
-        endpoint = `/api/search/book/keyword?name=${query}&target=page&sort=${sortOption}&page=${currentPage}&size=${booksPerPage}`;
+        endpoint = `/api/search/book/keyword?name=${query}&target=page&sort=${sortOption}&page=${
+          currentPage - 1
+        }&size=${booksPerPage}`;
       }
       const response = await api.get(endpoint, { withCredentials: true });
       setBooks(response.data.content);
@@ -85,9 +88,17 @@ const SearchResult = () => {
     }
   };
 
+  // 책 새롭게 검색하면 페이지 1로 설정
+  useEffect(() => {
+    if (currentPage !== 1) {
+      setCurrentPage(1);
+    }
+  }, query);
+
   useEffect(() => {
     if (searchedSelectedKeywords.length === 0) {
       getSearchResults();
+      getSearchResultsForKeywordSearch();
     }
   }, [
     type,
@@ -99,34 +110,29 @@ const SearchResult = () => {
   ]);
 
   // 임시 키워드 전체 검색을 위한 조치
-  useEffect(() => {
-    let currentPage = 0;
-    let booksPerPage = 9999;
 
-    const getSearchResults = async () => {
-      // setIsLoading(true);
-      // setIsError(false);
-      try {
-        let endpoint;
-        if (type === "title") {
-          endpoint = `/api/search/book?title=${query}&target=page&sort=${sortOption}&page=${currentPage}&size=${booksPerPage}`;
-        } else if (type === "author") {
-          endpoint = `/api/search/book?author=${query}&target=page&sort=${sortOption}&page=${currentPage}&size=${booksPerPage}`;
-        } else if (type === "keyword") {
-          endpoint = `/api/search/book/keyword?name=${query}&target=page&sort=${sortOption}&page=${currentPage}&size=${booksPerPage}`;
-        }
-        const response = await api.get(endpoint, { withCredentials: true });
-        setData(response.data.content);
-
-        // setIsLoading(false);
-      } catch (error) {
-        searchResultsCount.current = 0;
-        console.error("책 데이터 GET 요청 실패", error);
-        // setIsError(true);
+  const getSearchResultsForKeywordSearch = async () => {
+    // setIsLoading(true);
+    // setIsError(false);
+    try {
+      let endpoint;
+      if (type === "title") {
+        endpoint = `/api/search/book?title=${query}&target=page&sort=${sortOption}&page=${0}&size=${9999}`;
+      } else if (type === "author") {
+        endpoint = `/api/search/book?author=${query}&target=page&sort=${sortOption}&page=${0}&size=${9999}`;
+      } else if (type === "keyword") {
+        endpoint = `/api/search/book/keyword?name=${query}&target=page&sort=${sortOption}&page=${0}&size=${9999}`;
       }
-    };
-    getSearchResults();
-  }, [type, query]);
+      const response = await api.get(endpoint, { withCredentials: true });
+      setData(response.data.content);
+
+      // setIsLoading(false);
+    } catch (error) {
+      searchResultsCount.current = 0;
+      console.error("책 데이터 GET 요청 실패", error);
+      // setIsError(true);
+    }
+  };
 
   // 10개, 50개, 100개에 따른 한페이지에 보여주는 책의 수
   const handlebooksPerPageChange = (event) => {
@@ -142,7 +148,9 @@ const SearchResult = () => {
 
       try {
         const response = await api.post(
-          `/api/search/book?page=${currentPage}&size=${booksPerPage}`,
+          `/api/search/book?sort=${sortOption}&page=${
+            currentPage - 1
+          }&size=${booksPerPage}`,
           requestData,
           {
             withCredentials: true,
@@ -154,6 +162,9 @@ const SearchResult = () => {
             Math.ceil((response.data.content?.length || 0) / booksPerPage)
           )
         );
+        setBooks(response.data.content);
+        console.log(response.data.content);
+        setData(response.data.content);
       } catch (error) {
         console.error("검색 결과 후 키워드 검색 요청 실패:", error);
       }
@@ -162,7 +173,7 @@ const SearchResult = () => {
     if (searchedSelectedKeywords.length > 0) {
       postkeyword();
     }
-  }, [query, searchedSelectedKeywords, currentPage, booksPerPage]);
+  }, [query, searchedSelectedKeywords, currentPage, booksPerPage, sortOption]);
 
   let searchType;
   if (type === "title") {
@@ -177,6 +188,13 @@ const SearchResult = () => {
   const handleSortChange = (event) => {
     setSortOption(event.target.value);
   };
+
+  // 키워드 필터
+  const filteredBooksKeyword = data?.filter((book) =>
+    searchedSelectedKeywords.every((keyword) =>
+      book.keywordItemList?.some((bookKeyword) => bookKeyword.name === keyword)
+    )
+  );
 
   return (
     <>
@@ -196,7 +214,7 @@ const SearchResult = () => {
           <aside>
             <ContentTitle>키워드 검색</ContentTitle>
             <KeywordSearchBox
-              bookData={filteredBooks}
+              bookData={filteredBooksKeyword}
               selectedKeywords={searchedSelectedKeywords}
               setSelectedKeywords={setSearchedSelectedKeywords}
             />
@@ -328,7 +346,7 @@ const SearchResult = () => {
                                     );
                                   }}
                                 >
-                                  #{book.middleCategoryName}
+                                  #1{book.middleCategoryName}
                                 </BookKeyword>
                                 {book.keywordItemList.map((keyword, index) => {
                                   return (
@@ -341,7 +359,7 @@ const SearchResult = () => {
                                         );
                                       }}
                                     >
-                                      #{keyword.name}
+                                      #2{keyword.name}
                                     </BookKeyword>
                                   );
                                 })}
@@ -408,12 +426,12 @@ const KeywordSearchBox = ({
     }
     setTotalBooksOfKeywords([]); // 키워드 초기화
     const newKeywords = bookData.flatMap((data) => {
-      const keywords =
-        data.keywordItemList?.map((keyword) => keyword.name) ?? [];
-      return [data.middleCategoryName, ...keywords];
+      return data.keywordItemList?.map((keyword) => keyword.name) ?? [];
     });
     setTotalBooksOfKeywords((prev) => [...prev, ...new Set(newKeywords)]); // 중복 제거
   }, [bookData]);
+
+  console.log("#", totalBooksOfKeywords);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -441,6 +459,10 @@ const KeywordSearchBox = ({
   };
 
   const handleSelectKeyword = (keyword) => {
+    if (selectedKeywords.length >= 10) {
+      alert("키워드는 최대 10개까지 선택할 수 있습니다.");
+      return;
+    }
     if (!selectedKeywords.includes(keyword)) {
       setSelectedKeywords((prevKeywords) => [...prevKeywords, keyword]);
     }
