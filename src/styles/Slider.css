@@ -12,6 +12,7 @@
   box-sizing: border-box;
   height: 210px;
   border-radius: 5px;
+  -webkit-line-clamp: 1;
 }
 
 .item-detail {
@@ -22,6 +23,12 @@
   font-size: 16px;
   font-weight: 700;
   margin-bottom: 4px;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .item-author {

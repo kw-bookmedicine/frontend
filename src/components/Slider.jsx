@@ -39,7 +39,7 @@ const Slider = ({ title, subtitle, isBestSeller, books }) => {
     <SwiperSlide key={index}>
       <div className="item-wrapper">
         <div className="item-image">
-          <img src={book.image ?? loading_thumbnail} alt="책 이미지" />
+          <img src={book.imageUrl ?? loading_thumbnail} alt="책 이미지" />
         </div>
         <div className="item-detail">
           <div className="item-title">{book.title}</div>
