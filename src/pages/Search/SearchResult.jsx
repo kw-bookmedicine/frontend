@@ -110,10 +110,7 @@ const SearchResult = () => {
   ]);
 
   // 임시 키워드 전체 검색을 위한 조치
-
   const getSearchResultsForKeywordSearch = async () => {
-    // setIsLoading(true);
-    // setIsError(false);
     try {
       let endpoint;
       if (type === "title") {
@@ -125,12 +122,9 @@ const SearchResult = () => {
       }
       const response = await api.get(endpoint, { withCredentials: true });
       setData(response.data.content);
-
-      // setIsLoading(false);
     } catch (error) {
       searchResultsCount.current = 0;
       console.error("책 데이터 GET 요청 실패", error);
-      // setIsError(true);
     }
   };
 
@@ -346,7 +340,7 @@ const SearchResult = () => {
                                     );
                                   }}
                                 >
-                                  #1{book.middleCategoryName}
+                                  #{book.middleCategoryName}
                                 </BookKeyword>
                                 {book.keywordItemList.map((keyword, index) => {
                                   return (
@@ -359,7 +353,7 @@ const SearchResult = () => {
                                         );
                                       }}
                                     >
-                                      #2{keyword.name}
+                                      #{keyword.name}
                                     </BookKeyword>
                                   );
                                 })}
