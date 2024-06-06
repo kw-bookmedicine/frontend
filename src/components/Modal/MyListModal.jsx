@@ -147,13 +147,11 @@ const MyListModal = ({ onClose }) => {
     const fetchExperiencesData = async () => {
       try {
         const response = await api.get(
-          `/api/experiences/list?page=0&size=${itemsPerPage}`,
+          `/api/experiences/list?page=0&size=${999}`,
           {
             withCredentials: true,
           }
         );
-        console.log(response.data);
-        console.log(response.data.content);
         const transformedData = response.data.content.map((book) => ({
           title: book.bookTitle,
           isbn: book.bookIsbn,
@@ -171,17 +169,12 @@ const MyListModal = ({ onClose }) => {
     const data = {
       bookIsbnList: pickBookList.map((book) => book.isbn),
     };
-    console.log(data);
 
     try {
-      const response = await api.post(
-        `/api/experiences/list?page=0&size=999`,
-        data,
-        {
-          withCredentials: true,
-        }
-      );
-      console.log(response, pickBookList);
+      const response = await api.post(`/api/experiences/list`, data, {
+        withCredentials: true,
+      });
+      alert("독서 경험 업데이트 되었습니다!");
     } catch (error) {
       console.error("독서 경험 요청 실패", error);
     }
