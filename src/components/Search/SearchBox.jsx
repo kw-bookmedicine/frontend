@@ -68,13 +68,15 @@ const SearchBox = () => {
           // 마운트 상태 확인
           setSearchData(response.data);
         }
-        console.log(response);
+        // console.log(response);
       } catch (error) {
-        console.error("Failed to fetch books:", error);
+        console.error("책 검색 조회 실패:", error);
       }
     },
     [searchType, isMounted, input]
   );
+
+  console.log(fetchBooks);
 
   useEffect(() => {
     const timer = setTimeout(() => {
