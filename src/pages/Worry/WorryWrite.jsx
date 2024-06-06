@@ -250,12 +250,16 @@ const WorryWrite = () => {
         const categoryQuestion = categoryQuestions[index - 1];
 
         if (question.field === questionField && categoryQuestion) {
+          // '작성해주세요'라는 options라면 freeText type로 변경
+          const isFreeText =
+            categoryQuestion.distractor.length === 1 &&
+            categoryQuestion.distractor[0] === "작성해주세요";
           return {
             ...question,
             question: categoryQuestion.question,
             options: categoryQuestion.distractor,
             selected: false,
-            type: "multipleChoice",
+            type: isFreeText ? "freeText" : "multipleChoice",
           };
         } else if (question.field === questionField) {
           return {
