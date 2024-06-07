@@ -23,7 +23,6 @@ import ScrollToTop from './../components/ScrollToTop';
 
 // STYLES
 import '../styles/BookDetail.css';
-import { Swiper, SwiperSlide } from 'swiper/react';
 
 const BookDetail = () => {
 	const scrollRef = useRef([]);
@@ -81,9 +80,29 @@ const BookDetail = () => {
 		}
 	};
 
+	const [recommendBookList, setRecommendBookList] = useState([]);
+
+	const getRecommendBookList = () => {
+		let isbn = searchParams.get('isbn');
+
+		setIsLoading(true);
+		try {
+			api.get(`/api/recommend/book/bookbased?isbn=${isbn}`).then((res) => {
+				if (res.data.content.length !== 0) {
+					setRecommendBookList(res.data.content.slice(0, 6));
+				}
+			});
+		} catch (err) {
+			console.log(err);
+		} finally {
+			setIsLoading(false);
+		}
+	};
+
 	useEffect(() => {
 		getIsbn();
 		getOneLinePrscr();
+		// getRecommendBookList();
 	}, []);
 
 	return (
@@ -227,6 +246,11 @@ const BookDetail = () => {
 					>
 						<Title title={'연관 책 리스트'} type={'recommend'} />
 						<div className="BookList_container">
+							{/* {recommendBookList.map((item) => {
+								return (
+									<BookCard key={item.id} title={item.title} author={item.author} img={item.imageUrl ?? loading_thumbnail}/>
+								)
+							})} */}
 							<BookCard
 								title={'책 제목 1'}
 								author={'저자'}
