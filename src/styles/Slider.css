@@ -50,10 +50,13 @@
   left: -25px;
   z-index: 100;
   letter-spacing: -5px;
+  color: white;
+  text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.2), 1px -1px 0 rgba(0, 0, 0, 0.2),
+    -1px 1px 0 rgba(0, 0, 0, 0.2), 1px 1px 0 rgba(0, 0, 0, 0.2); /* Subtle gray shadow */
 }
 
 .loginHome-slider {
-  padding-left: 20px;
+  padding-left: 24px;
 }
 
 .loginHome-prev-button {

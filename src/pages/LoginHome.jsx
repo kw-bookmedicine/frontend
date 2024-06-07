@@ -131,29 +131,15 @@ const LoginHome = () => {
               todayPrescription.map((book, index) => (
                 <TodayPrescriptionCard
                   key={index}
+                  book={book}
                   backgroundColor={backgroundColors[index]}
-                  bookTitle={book.title}
-                  author={book.author}
-                  bookImage={book.image}
                 />
               ))}
             {todayPrescription.length === 0 && (
               <>
-                <TodayPrescriptionCard
-                  backgroundColor="#CCE8EC"
-                  bookTitle="해리포터와 불의 잔"
-                  author="J.K. 롤링"
-                />
-                <TodayPrescriptionCard
-                  backgroundColor="#d2e7a5"
-                  bookTitle="해리포터와 불의 잔"
-                  author="J.K. 롤링"
-                />
-                <TodayPrescriptionCard
-                  backgroundColor="#F5DAD2"
-                  bookTitle="해리포터와 불의 잔"
-                  author="J.K. 롤링"
-                />
+                <TodayPrescriptionCard book={""} backgroundColor="#CCE8EC" />
+                <TodayPrescriptionCard book={""} backgroundColor="#d2e7a5" />
+                <TodayPrescriptionCard book={""} backgroundColor="#F5DAD2" />
               </>
             )}
           </ul>
@@ -171,21 +157,11 @@ const LoginHome = () => {
               ></Link>
             </div>
             <ul className="LoginHome-today-reviews-items spinner-container">
-              {boardLoading ? (
+              {boardLoading &&
                 recentPosts?.map((post) => (
-                  <PrescriptionReviewCard
-                    key={post.boardId}
-                    createdDate={post.createdDate}
-                    nickname={post.nickname}
-                    title={post.title}
-                    content={post.description}
-                    userImg={""}
-                    boardId={post.boardId}
-                  />
-                ))
-              ) : (
-                <LoadingSpinner />
-              )}
+                  <PrescriptionReviewCard key={post.boardId} post={post} />
+                ))}
+              {!boardLoading && <LoadingSpinner />}
             </ul>
           </div>
         </section>
