@@ -50,8 +50,6 @@ const OneLinePrescription = () => {
 		return matches ? decodeURIComponent(matches[1]) : undefined;
 	}
 	https: useEffect(() => {
-		console.log(getCookie('Refresh'));
-		console.log(document.cookie);
 		getCategory();
 	}, []);
 
@@ -329,31 +327,6 @@ const OneLinePrescription = () => {
 			setIsLoading(false);
 		}
 	};
-
-	// 쿠키 있는 지 여부 확인 함수
-
-	function checkCookies() {
-		// Get all cookies from the document
-		let cookies = document.cookie.split(';');
-		console.log(document.cookie);
-
-		// Iterate through the cookies to find the 'auth' cookie
-		for (let i = 0; i < cookies.length; i++) {
-			let cookie = cookies[i].trim();
-			if (cookie.startsWith('Authorization=')) {
-				return true; // 'auth' cookie found
-			}
-		}
-
-		return false; // 'auth' cookie not found
-	}
-
-	// Usage
-	if (checkCookies()) {
-		console.log('Auth cookie is present.');
-	} else {
-		console.log('Auth cookie is not present.');
-	}
 
 	return (
 		<>
