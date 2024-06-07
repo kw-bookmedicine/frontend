@@ -28,15 +28,6 @@ const Slider = ({ title, subtitle, isBestSeller, books }) => {
     }
   }, []);
 
-  // isbn이 없으면 페이지 이동하지 않고 alert로 경고
-  const handleLinkClick = (isbn) => {
-    if (isbn === "undefined") {
-      alert("현재 준비중입니다.");
-      return false;
-    }
-    return true;
-  };
-
   const slides = (
     books && books.length > 0
       ? books
@@ -115,3 +106,12 @@ const Slider = ({ title, subtitle, isBestSeller, books }) => {
 };
 
 export default Slider;
+
+// isbn이 없으면 페이지 이동하지 않고 alert로 경고
+export const handleLinkClick = (isbn) => {
+  if (isbn === "undefined") {
+    alert("현재 준비중입니다.");
+    return false;
+  }
+  return true;
+};
