@@ -51,3 +51,39 @@
 .myOneLinePrescription-card {
 	width: 100%;
 }
+
+.myOneLinePrscr_no_container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	max-width: 820px;
+	height: 600px;
+}
+
+.myOneLinePrscr_no_container > img {
+	width: 520px;
+	height: 530px;
+	position: relative;
+	top: -120px;
+}
+
+#myOneLinePrscr_no_btn {
+	position: relative;
+	top: -190px;
+	width: 320px;
+	height: 64px;
+	background: var(--secondary-color);
+	border-radius: 20px;
+	font-family: var(--basic-font);
+	font-size: 23px;
+	font-weight: 600;
+	line-height: 61px;
+	text-align: center;
+	color: black;
+}
+
+#myOneLinePrscr_no_btn:hover {
+	background: hsl(187, 78%, 79%);
+	font-weight: 900;
+}

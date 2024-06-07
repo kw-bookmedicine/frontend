@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 
 // COMPONENTS
 import Header from '../../components/Header';
@@ -86,19 +87,32 @@ const MyOneLinePrescription = () => {
 				<div className="myOneLinePrescription-container">
 					<h1 className="myOneLinePrescription-title">나의 처방전 목록</h1>
 					<div className="myOneLinePrscr_content_container">
-						<p>내 한 줄 처방 개수 : {totalElem}</p>
-						<div className="myOneLinePrscr_content_wrapper spinner-container">
-							{data.length !== 0
-								? data.map((item, idx) => {
+						{data.length !== 0 && !isLoading ? (
+							<>
+								<p>내 한 줄 처방 개수 : {totalElem}</p>
+								<div className="myOneLinePrscr_content_wrapper spinner-container">
+									{data.map((item, idx) => {
 										return (
 											<OneLinePrscrCard
 												item={item}
 												key={`myOneLinePrscr-${item}-${idx}`}
 											/>
 										);
-								  })
-								: null}
-						</div>
+									})}
+								</div>
+							</>
+						) : // !isLoading && (
+						// 	<>
+						// 		<div className="myOneLinePrscr_no_container">
+						// 			<img src="/images/book-detail/write_prscr_img.png" />
+						// 			<Link to={'/oneline/prescription'}>
+						// 				<p id="myOneLinePrscr_no_btn">한 줄 처방을 남겨보세요!</p>
+						// 			</Link>
+						// 		</div>
+						// 	</>
+						// )
+						null}
+
 						{isLoading && <LoadingSpinner />}
 					</div>
 				</div>
