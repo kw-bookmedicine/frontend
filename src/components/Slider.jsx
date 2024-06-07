@@ -11,8 +11,10 @@ import { Swiper, SwiperSlide } from "swiper/react";
 // ASSETS
 import rightArrowIcon from "../assets/icons/login-home/right_arrow_icon.png";
 import leftArrowIcon from "../assets/icons/login-home/left_arrow_icon.png";
+import loading_thumbnail from "../assets/loading_thumbnail_x4.png";
+import { Link } from "react-router-dom";
 
-const Slider = ({ title, subtitle, isBestSeller, bookTitle, bookAuthor }) => {
+const Slider = ({ title, subtitle, isBestSeller, books }) => {
   const numberOfSlides = 10;
 
   const prevRef = useRef(null);
@@ -26,14 +28,43 @@ const Slider = ({ title, subtitle, isBestSeller, bookTitle, bookAuthor }) => {
     }
   }, []);
 
-  const slides = Array.from({ length: numberOfSlides }, (_, index) => (
+  const slides = (
+    books && books.length > 0
+      ? books
+      : Array.from({ length: numberOfSlides }, (_, index) => ({
+          isbn: "undefined",
+          title: "",
+          author: "",
+          imageUrl: loading_thumbnail,
+        }))
+  ).map((book, index) => (
     <SwiperSlide key={index}>
       <div className="item-wrapper">
-        <div className="item-image"></div>
-        <div className="item-detail">
-          <div className="item-title">{bookTitle}</div>
-          <div className="item-author">{bookAuthor}</div>
-        </div>
+        <Link
+          to={`/book-detail?isbn=${book.isbn}`}
+          onClick={(e) => {
+            if (!handleLinkClick(book.isbn)) {
+              e.preventDefault();
+            }
+          }}
+        >
+          <div className="item-image">
+            <img src={book.imageUrl ?? loading_thumbnail} alt="책 이미지" />
+          </div>
+        </Link>
+        <Link
+          to={`/book-detail?isbn=${book.isbn}`}
+          onClick={(e) => {
+            if (!handleLinkClick(book.isbn)) {
+              e.preventDefault();
+            }
+          }}
+        >
+          <div className="item-detail">
+            <div className="item-title">{book.title}</div>
+            <div className="item-author">{book.author}</div>
+          </div>
+        </Link>
         {isBestSeller && <div className="item-rank">{index + 1}</div>}
       </div>
     </SwiperSlide>
@@ -75,3 +106,12 @@ const Slider = ({ title, subtitle, isBestSeller, bookTitle, bookAuthor }) => {
 };
 
 export default Slider;
+
+// isbn이 없으면 페이지 이동하지 않고 alert로 경고
+export const handleLinkClick = (isbn) => {
+  if (!isbn || isbn === "undefined") {
+    alert("현재 준비중입니다.");
+    return false;
+  }
+  return true;
+};

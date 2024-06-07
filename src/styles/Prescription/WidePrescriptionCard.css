@@ -1,203 +1,207 @@
 .WidePrscrCard_container {
-  display: flex;
-  width: 1125px;
-  height: 420px;
-  border: 5px solid #a4d6dd;
-  border-radius: 10px;
-  margin-left: 15px;
-  background-color: #fff;
+	display: flex;
+	width: 1060px;
+	height: 420px;
+	border: 5px solid #00b2fc;
+	border-radius: 10px;
+	margin-left: 15px;
+	background-color: #fff;
+}
+
+#myPrscr {
+	margin-bottom: 50px;
 }
 
 .wide_prscr_left_wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 40%;
-  /* background-color: yellow; */
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 40%;
+	/* background-color: yellow; */
 }
 
 .wide_prscr_left_img {
-  width: 100%;
-  height: 50px;
-  display: flex;
-  justify-content: flex-start;
-  padding: 10px;
+	width: 100%;
+	height: 50px;
+	display: flex;
+	justify-content: flex-start;
+	padding: 10px;
 }
 
 .wide_prscr_left_img > img {
-  width: 30px;
-  height: 30px;
+	width: 50px;
+	height: 50px;
 }
 
 .wide_prscr_left_title {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 280px;
-  font-family: var(--basic-font);
-  font-weight: 600;
-  font-size: 24px;
-  font-style: normal;
-  line-height: 40px;
-  color: #000;
-  padding: 50px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 280px;
+	font-family: var(--basic-font);
+	font-weight: 600;
+	font-size: 24px;
+	font-style: normal;
+	line-height: 40px;
+	color: #000;
+	padding: 50px;
 }
 
 .wide_prscr_left_profile {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 80px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 80px;
 }
 
 .wide_prscr_profile_img {
-  width: 30px;
-  height: 30px;
-  border-radius: 100%;
-  background-color: #a4d6dd;
-  margin-right: 10px;
+	width: 30px;
+	height: 30px;
+	border-radius: 100%;
+	background-color: #00b2fc;
+	margin-right: 10px;
 }
 
 .wide_prscr_profileInfo_wrapper {
-  display: flex;
-  flex-direction: column;
-  font-family: var(--basic-font);
-  font-style: normal;
+	display: flex;
+	flex-direction: column;
+	font-family: var(--basic-font);
+	font-style: normal;
 }
 
 .profileInfo_nickname {
-  color: #000;
-  font-weight: 600;
-  font-size: 15px;
-  line-height: 18px;
+	color: #000;
+	font-weight: 600;
+	font-size: 15px;
+	line-height: 18px;
 }
 
 .profileInfo_date {
-  color: #868686;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 16px;
+	color: #868686;
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 16px;
 }
 
 .wide_prscr_mid_line {
-  width: 3px;
-  height: 365px;
-  margin: 25px 0;
-  background-color: #a4d6dd;
+	width: 3px;
+	height: 365px;
+	margin: 25px 0;
+	background-color: #00b2fc;
 }
 
 .wide_prscr_right_wrapper {
-  display: flex;
-  padding: 20px 10px;
-  width: 60%;
-  height: 100%;
+	display: flex;
+	padding: 20px 10px;
+	width: 60%;
+	height: 100%;
 }
 
 .wide_prscr_rl_wrapper {
-  display: flex;
-  align-items: center;
-  width: 30%;
-  height: 100%;
-  margin-left: 75px;
+	display: flex;
+	align-items: center;
+	width: 30%;
+	height: 100%;
+	margin-left: 50px;
 }
 
 .wide_prscr_rl_wrapper > img {
-  width: 200px;
-  height: 280px;
-  border: 1px solid rgb(221, 221, 221);
-  border-radius: 4px;
+	width: 200px;
+	height: 280px;
+	border: 1px solid rgb(221, 221, 221);
+	border-radius: 4px;
 }
 
 .wide_prscr_rr_wrapper {
-  display: flex;
-  flex-direction: column;
-  width: 70%;
-  height: 100%;
-  margin-left: 30px;
-  font-family: var(--basic-font);
-  font-style: normal;
+	display: flex;
+	flex-direction: column;
+	width: 70%;
+	height: 100%;
+	margin-left: 30px;
+	font-family: var(--basic-font);
+	font-style: normal;
 }
 
 .wide_prscr_rr_top_wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  margin-top: 45px;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	margin-top: 45px;
 }
 
 .wide_prscr_bookInfo_title {
-  margin-bottom: 10px;
-  font-family: var(--basic-font);
-  font-style: normal;
-  font-weight: 700;
-  font-size: 22px;
-  line-height: 24px;
-  color: #000;
+	margin-bottom: 10px;
+	font-family: var(--basic-font);
+	font-style: normal;
+	font-weight: 700;
+	font-size: 22px;
+	line-height: 24px;
+	color: #000;
 }
 
 .wide_prscr_bookInfo_author,
 .wide_prscr_bookInfo_date {
-  font-family: var(--basic-font);
-  font-style: normal;
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 21px;
-  color: #868686;
+	font-family: var(--basic-font);
+	font-style: normal;
+	font-weight: 600;
+	font-size: 16px;
+	line-height: 21px;
+	color: #868686;
 }
 
 .wide_prscr_rr_bottom_wrapper {
-  position: sticky;
-  width: 100%;
-  height: 80%;
-  display: flex;
-  flex-direction: column;
-  margin-top: 20px;
+	position: sticky;
+	width: 100%;
+	height: 80%;
+	display: flex;
+	flex-direction: column;
+	margin-top: 20px;
 }
 
 .wide_prscr_rr_reason_title {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  top: -12px;
-  left: 20px;
-  width: 80px;
-  height: 30px;
-  font-family: "HakgyoansimWoojuR";
-  font-weight: 700;
-  font-size: 16px;
-  font-style: normal;
-  line-height: 19px;
-  background-color: #fff;
-  color: #a4d6dd;
-  z-index: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	top: -12px;
+	left: 20px;
+	width: 80px;
+	height: 30px;
+	font-family: 'HakgyoansimWoojuR';
+	font-weight: 700;
+	font-size: 16px;
+	font-style: normal;
+	line-height: 19px;
+	background-color: #fff;
+	color: #00b2fc;
+	z-index: 1;
 }
 
 .wide_prscr_rr_reason_box {
-  width: 320px;
-  height: 185px;
-  border: 3px solid #a4d6dd;
-  border-radius: 10px;
+	width: 320px;
+	height: 185px;
+	border: 3px solid #00b2fc;
+	border-radius: 10px;
 }
 
 .wide_prscr_rr_reason_box_content {
-  padding: 20px;
+	padding: 20px;
 }
 
 .wide_prscr_rr_reason_box_content p {
-  display: -webkit-box;
-  -webkit-line-clamp: 9;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 9;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .wide_prscr_pharmacy_icon_group {
-  position: relative;
-  top: 352px;
-  right: 13px;
-  width: 50px;
-  height: 50px;
+	position: relative;
+	top: 352px;
+	right: 13px;
+	width: 50px;
+	height: 50px;
 }

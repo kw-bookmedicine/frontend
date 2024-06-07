@@ -68,6 +68,7 @@
 	max-width: 1080px;
 }
 
+#user_name_wrapper,
 .user_nickname_wrapper,
 .user_comment_wrapper,
 .user_id_wrapper,
@@ -133,6 +134,7 @@
 	line-height: normal;
 }
 
+.oauth_password_input_wrapper,
 .id_text,
 .email_text {
 	display: flex;

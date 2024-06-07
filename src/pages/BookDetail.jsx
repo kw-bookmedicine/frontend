@@ -19,10 +19,10 @@ import ModalPortal from '../components/Modal/Portal';
 import ExpModal from '../components/Modal/Experience';
 import LoadingSpinner from '../components/Loading/LoadingSpinner';
 import OneLinePrscrCard from '../components/Prescription/OneLinePrscrCard';
+import ScrollToTop from './../components/ScrollToTop';
 
 // STYLES
 import '../styles/BookDetail.css';
-import { Swiper, SwiperSlide } from 'swiper/react';
 
 const BookDetail = () => {
 	const scrollRef = useRef([]);
@@ -45,15 +45,18 @@ const BookDetail = () => {
 	const getIsbn = () => {
 		let isbn = searchParams.get('isbn');
 		// console.log(isbn);
-
-		api
-			.get(`/api/book/detail?isbn=${isbn}`, { withCredentials: true })
-			.then((res) => {
-				// console.log(res.data.title);
-				// console.log(res.data);
-				setBookInfo(res.data);
-				setBookKeywordList(res.data.keywordItemList);
-			});
+		try {
+			api
+				.get(`/api/book/detail?isbn=${isbn}`, { withCredentials: true })
+				.then((res) => {
+					// console.log(res.data.title);
+					// console.log(res.data);
+					setBookInfo(res.data);
+					setBookKeywordList(res.data.keywordItemList);
+				});
+		} catch (err) {
+			window.location.replace('/login');
+		}
 	};
 
 	const getOneLinePrscr = () => {
@@ -70,6 +73,26 @@ const BookDetail = () => {
 					}
 				});
 		} catch (err) {
+			window.location.replace('/login');
+			console.log(err);
+		} finally {
+			setIsLoading(false);
+		}
+	};
+
+	const [recommendBookList, setRecommendBookList] = useState([]);
+
+	const getRecommendBookList = () => {
+		let isbn = searchParams.get('isbn');
+
+		setIsLoading(true);
+		try {
+			api.get(`/api/recommend/book/bookbased?isbn=${isbn}`).then((res) => {
+				if (res.data.content.length !== 0) {
+					setRecommendBookList(res.data.content.slice(0, 6));
+				}
+			});
+		} catch (err) {
 			console.log(err);
 		} finally {
 			setIsLoading(false);
@@ -79,12 +102,13 @@ const BookDetail = () => {
 	useEffect(() => {
 		getIsbn();
 		getOneLinePrscr();
+		// getRecommendBookList();
 	}, []);
 
 	return (
 		<>
 			<Header />
-			<div className="bookDetail_content">
+			<div className="bookDetail_content spinner-container">
 				<section className="bookSummary">
 					<div className="bookSummary_wrapper">
 						<div className="bookDt_summary_left_wrapper">
@@ -143,7 +167,7 @@ const BookDetail = () => {
 											handleScroll(scrollRef.current[1]);
 										}}
 									>
-										리뷰 보러가기
+										한 줄 처방 보러가기
 									</div>
 									<div className="bottom_text_separate" />{' '}
 									<div
@@ -220,8 +244,13 @@ const BookDetail = () => {
 							scrollRef.current[2] = el;
 						}}
 					>
-						<Title title={'연관 책 리스트'} />
+						<Title title={'연관 책 리스트'} type={'recommend'} />
 						<div className="BookList_container">
+							{/* {recommendBookList.map((item) => {
+								return (
+									<BookCard key={item.id} title={item.title} author={item.author} img={item.imageUrl ?? loading_thumbnail}/>
+								)
+							})} */}
 							<BookCard
 								title={'책 제목 1'}
 								author={'저자'}
@@ -256,6 +285,8 @@ const BookDetail = () => {
 					</div>
 				</section>
 			</div>
+			{isLoading && <LoadingSpinner />}
+			<ScrollToTop />
 			<section className="bookDetail_footer">
 				<Footer />
 			</section>

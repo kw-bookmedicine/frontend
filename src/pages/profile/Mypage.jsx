@@ -16,6 +16,17 @@ import MyListModal from '../../components/Modal/MyListModal';
 import '../../styles/Profile/MyPage.css';
 
 const Mypage = () => {
+	function getCookie(name) {
+		let matches = document.cookie.match(
+			new RegExp(
+				'(?:^|; )' +
+					name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') +
+					'=([^;]*)',
+			),
+		);
+		return matches ? decodeURIComponent(matches[1]) : undefined;
+	}
+
 	const [modalOn, setModalOn] = useState(false);
 	const [boardCnt, setBoardCnt] = useState('');
 	const [prscrCnt, setPrscrCnt] = useState('');
@@ -42,6 +53,7 @@ const Mypage = () => {
 	const textAreaRef = useRef(null);
 
 	const [nickname, setNickname] = useState('');
+	const [description, setDescription] = useState('');
 
 	useEffect(() => {
 		if (isEdit) {
@@ -53,16 +65,29 @@ const Mypage = () => {
 	}, [isEdit]);
 
 	const getUserData = () => {
-		api.get('/client', { withCredentials: true }).then((res) => {
-			// console.log(res.data);
-			// console.log(res.data.nickname);
-			setBoardCnt(res.data.boardCount);
-			setPrscrCnt(res.data.prescriptionCount);
+		try {
+			api.get('/client', { withCredentials: true }).then((res) => {
+				// console.log(res.data);
+				// console.log(res.data.nickname);
+				setBoardCnt(res.data.boardCount);
+				setPrscrCnt(res.data.prescriptionCount);
 
-			res.data.nickname === null
-				? setNickname('사용자 닉네임')
-				: setNickname(res.data.nickname);
-		});
+				if (res.data.nickname === null) {
+					setNickname('사용자 닉네임');
+				} else {
+					setNickname(res.data.nickname);
+				}
+
+				if (res.data.description === '') {
+					setDescription('자기소개를 추가해주세요!');
+				} else {
+					setDescription(res.data.description);
+				}
+			});
+		} catch (err) {
+			console.log(err);
+			window.location.replace('/login');
+		}
 	};
 
 	useEffect(() => {
@@ -93,11 +118,7 @@ const Mypage = () => {
 						<div className="user_right_wrapper">
 							<div className="right_userInfo_title_wrapper">
 								<p className="userInfo_name_text">{nickname}</p>
-								<p>
-									나는 어디에서 왔을까? 내가 제일 좋아하는 색깔은 검정검정.나는
-									어디에서 왔을까? 내가 제일 좋아하는 색깔은 검정검정.나는
-									어디에서
-								</p>
+								<p>{description ?? '자기소개를 작성해주세요'}</p>
 							</div>
 							<div className="right_userInfo_dashboard_wrapper">
 								<div className="dashboard_worry_wrapper">
