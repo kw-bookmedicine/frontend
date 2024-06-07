@@ -40,7 +40,6 @@ const LoginHome = () => {
 				withCredentials: true,
 			});
 			setTodayPrescription(res.data);
-			console.log('오늘의 처방전 데이터:', res);
 		} catch (error) {
 			console.error('오늘의 처방전 요청 실패', error);
 		}
@@ -53,7 +52,6 @@ const LoginHome = () => {
 				withCredentials: true,
 			});
 			setRecentPosts(res.data.content);
-			console.log('최근 고민글 데이터:', res);
 			setBoardLoading(true);
 		} catch (error) {
 			window.location.replace('/login');
@@ -68,7 +66,6 @@ const LoginHome = () => {
 				withCredentials: true,
 			});
 			setBestSellers(res.data);
-			console.log('베스트셀러 데이터:', res);
 		} catch (error) {
 			console.error('베스트셀러 요청 실패', error);
 		}
@@ -81,7 +78,6 @@ const LoginHome = () => {
 				withCredentials: true,
 			});
 			setNewBooks(res.data);
-			console.log('신간도서 데이터:', res);
 		} catch (error) {
 			console.error('신간도서 요청 실패', error);
 		}
@@ -94,7 +90,6 @@ const LoginHome = () => {
 				withCredentials: true,
 			});
 			setSimilarBooks(res.data);
-			console.log('나와 비슷한 사람들의 책 데이터:', res);
 		} catch (error) {
 			console.error('나와 비슷한 사람들의 책 요청 실패', error);
 		}
