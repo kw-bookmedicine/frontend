@@ -54,8 +54,6 @@ const WorryDetail = () => {
 						if (writer === nickname) {
 							setIsShow(true);
 						}
-						console.log(writer);
-						console.log(nickname);
 					}
 				});
 		} catch (err) {
@@ -132,7 +130,7 @@ const WorryDetail = () => {
 				setIsShow(true);
 			}
 		} else {
-			console.log('유저 닉네임 정보가 없습니다.');
+			// console.log('유저 닉네임 정보가 없습니다.');
 		}
 	};
 
@@ -182,7 +180,6 @@ const WorryDetail = () => {
 			api
 				.get(`/api/recommend/book/boardbased?boardId=${boardId}`)
 				.then((res) => {
-					console.log(res.data);
 					if (res.data.recommending === true) {
 						// 처방 진행 중
 						setIsRecommending(false);
@@ -201,7 +198,6 @@ const WorryDetail = () => {
 					} else {
 						setIsRecommending(true);
 					}
-					console.log(res.data);
 				});
 		} catch (err) {
 			window.location.replace('/login');

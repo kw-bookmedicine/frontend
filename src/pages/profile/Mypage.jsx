@@ -16,17 +16,6 @@ import MyListModal from '../../components/Modal/MyListModal';
 import '../../styles/Profile/MyPage.css';
 
 const Mypage = () => {
-	function getCookie(name) {
-		let matches = document.cookie.match(
-			new RegExp(
-				'(?:^|; )' +
-					name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') +
-					'=([^;]*)',
-			),
-		);
-		return matches ? decodeURIComponent(matches[1]) : undefined;
-	}
-
 	const [modalOn, setModalOn] = useState(false);
 	const [boardCnt, setBoardCnt] = useState('');
 	const [prscrCnt, setPrscrCnt] = useState('');
@@ -37,6 +26,11 @@ const Mypage = () => {
 
 	const [intro, setIntro] = useState('여기에 자기소개를 입력하세요.');
 	const [isEdit, setIsEdit] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
+
+	useEffect(() => {
+		getUserData();
+	}, []);
 
 	const handleEditClick = () => {
 		setIsEdit(true);
@@ -64,11 +58,10 @@ const Mypage = () => {
 		}
 	}, [isEdit]);
 
-	const getUserData = () => {
+	const getUserData = async () => {
+		setIsLoading(true);
 		try {
-			api.get('/client', { withCredentials: true }).then((res) => {
-				// console.log(res.data);
-				// console.log(res.data.nickname);
+			await api.get('/client', { withCredentials: true }).then((res) => {
 				setBoardCnt(res.data.boardCount);
 				setPrscrCnt(res.data.prescriptionCount);
 
@@ -85,14 +78,11 @@ const Mypage = () => {
 				}
 			});
 		} catch (err) {
-			console.log(err);
 			window.location.replace('/login');
+		} finally {
+			setIsLoading(false);
 		}
 	};
-
-	useEffect(() => {
-		getUserData();
-	}, []);
 
 	return (
 		<>

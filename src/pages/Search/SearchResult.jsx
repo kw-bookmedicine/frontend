@@ -220,9 +220,9 @@ const SearchResult = () => {
               <ContentTitle>
                 전체{" "}
                 <Highlight>
-                  {searchedSelectedKeywords.length === 0
-                    ? searchResultsCount.current
-                    : filteredBooks.length}
+                  {searchedSelectedKeywords.length === 0 &&
+                    searchResultsCount.current}
+                  {searchedSelectedKeywords.length > 0 && filteredBooks.length}
                 </Highlight>
                 건
               </ContentTitle>
@@ -271,7 +271,6 @@ const SearchResult = () => {
                 </div>
               </div>
             </HeaderArea>
-
             {/* 키워드 영역 */}
             {searchedSelectedKeywords.length !== 0 && (
               <div
@@ -291,106 +290,119 @@ const SearchResult = () => {
                 </ul>
               </div>
             )}
-
             {/* 콘텐츠 영역 */}
-            {isLoading ? (
+            {isLoading && (
               <LoadingText>
-                {isError ? (
-                  "책 데이터 요청에 실패되었습니다."
-                ) : (
-                  <LoadingSpinner />
-                )}
+                {isError && "책 데이터 요청에 실패되었습니다."}
+                {!isError && <LoadingSpinner />}
               </LoadingText>
-            ) : (
+            )}
+
+            {!isLoading && (
               <>
-                <div>
-                  {viewMode ? (
-                    <ListUIWrap>
-                      {filteredBooks?.map((book, index) => (
-                        <BookListItem key={index}>
-                          <Link
-                            // key={index}
-                            to={`/book-detail?isbn=${book.isbn}`}
-                          >
-                            <BookImage
-                              src={book.imageUrl || defaultBookCover}
-                              alt="책 표지 이미지"
-                            />
-                          </Link>
-                          <BookDetails>
-                            <div>
-                              <Link
-                                key={index}
-                                to={`/book-detail?isbn=${book.isbn}`}
-                              >
-                                <BookTitleOfListUI>
-                                  {book.title}
-                                </BookTitleOfListUI>
+                {filteredBooks.length === 0 && (
+                  <NoResultsMessage>검색 결과가 없습니다.</NoResultsMessage>
+                )}
+                {filteredBooks.length > 0 && (
+                  <>
+                    <div>
+                      {viewMode ? (
+                        <ListUIWrap>
+                          {filteredBooks?.map((book, index) => (
+                            <BookListItem key={index}>
+                              <Link to={`/book-detail?isbn=${book.isbn}`}>
+                                <BookImage
+                                  src={book.imageUrl || defaultBookCover}
+                                  alt="책 표지 이미지"
+                                />
                               </Link>
-                              <BookAuthor>{book.author}</BookAuthor>
-                              <BookPublicYear>{book.publicYear}</BookPublicYear>
-                            </div>
-                            <div style={{ marginBottom: "40px" }}>
-                              <ul style={{ display: "flex", flexWrap: "wrap" }}>
-                                <BookKeyword
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                    navigate(
-                                      `/search/result?type=keyword&query=${book.middleCategoryName}`
-                                    );
-                                  }}
-                                >
-                                  #{book.middleCategoryName}
-                                </BookKeyword>
-                                {book.keywordItemList.map((keyword, index) => {
-                                  return (
+                              <BookDetails>
+                                <div>
+                                  <Link to={`/book-detail?isbn=${book.isbn}`}>
+                                    <BookTitleOfListUI>
+                                      {book.title}
+                                    </BookTitleOfListUI>
+                                  </Link>
+                                  <BookAuthor>{book.author}</BookAuthor>
+                                  <BookPublicYear>
+                                    {book.publicYear}
+                                  </BookPublicYear>
+                                </div>
+                                <div style={{ marginBottom: "40px" }}>
+                                  <ul
+                                    style={{
+                                      display: "flex",
+                                      flexWrap: "wrap",
+                                    }}
+                                  >
                                     <BookKeyword
-                                      key={index}
                                       onClick={(e) => {
                                         e.preventDefault();
                                         navigate(
-                                          `/search/result?type=keyword&query=${keyword.name}`
+                                          `/search/result?type=keyword&query=${book.middleCategoryName}`
                                         );
                                       }}
                                     >
-                                      #{keyword.name}
+                                      #{book.middleCategoryName}
                                     </BookKeyword>
-                                  );
-                                })}
-                              </ul>
-                            </div>
-                          </BookDetails>
-                        </BookListItem>
-                      ))}
-                    </ListUIWrap>
-                  ) : (
-                    <CardUIWrap>
-                      {filteredBooks?.map((book, index) => (
-                        <li key={index} style={{ width: "170px" }}>
-                          <Link to={`/book-detail?isbn=${book.isbn}`}>
-                            <CardImageContainer>
-                              <BookCardImage
-                                src={book.imageUrl || defaultBookCover}
-                                alt="책 표지 이미지"
-                              />
-                            </CardImageContainer>
-                            <BookTitleOfCardUI>{book.title}</BookTitleOfCardUI>
-                          </Link>
-                          <h3
-                            style={{ color: "#6B6B6B", marginBottom: "10px" }}
-                          >
-                            {book.author}
-                          </h3>
-                        </li>
-                      ))}
-                    </CardUIWrap>
-                  )}
-                </div>
-                <Pagination
-                  paginate={paginate}
-                  currentPage={currentPage}
-                  totalPages={totalPages === 1 ? 1 : totalPages - 1}
-                />
+                                    {book.keywordItemList.map(
+                                      (keyword, index) => {
+                                        return (
+                                          <BookKeyword
+                                            key={index}
+                                            onClick={(e) => {
+                                              e.preventDefault();
+                                              navigate(
+                                                `/search/result?type=keyword&query=${keyword.name}`
+                                              );
+                                            }}
+                                          >
+                                            #{keyword.name}
+                                          </BookKeyword>
+                                        );
+                                      }
+                                    )}
+                                  </ul>
+                                </div>
+                              </BookDetails>
+                            </BookListItem>
+                          ))}
+                        </ListUIWrap>
+                      ) : (
+                        <CardUIWrap>
+                          {filteredBooks?.map((book, index) => (
+                            <li key={index} style={{ width: "170px" }}>
+                              <Link to={`/book-detail?isbn=${book.isbn}`}>
+                                <CardImageContainer>
+                                  <BookCardImage
+                                    src={book.imageUrl || defaultBookCover}
+                                    alt="책 표지 이미지"
+                                  />
+                                </CardImageContainer>
+                                <BookTitleOfCardUI>
+                                  {book.title}
+                                </BookTitleOfCardUI>
+                              </Link>
+                              <h3
+                                style={{
+                                  color: "#6B6B6B",
+                                  marginBottom: "10px",
+                                }}
+                              >
+                                {book.author}
+                              </h3>
+                            </li>
+                          ))}
+                        </CardUIWrap>
+                      )}
+                    </div>
+                    <Pagination
+                      paginate={paginate}
+                      currentPage={currentPage}
+                      totalPages={totalPages === 1 ? 1 : totalPages - 1}
+                    />
+                  </>
+                )}
               </>
             )}
           </Section>
@@ -571,6 +583,13 @@ const HeaderArea = styled.div`
   align-items: center;
   padding-bottom: 20px;
   border-bottom: 1px solid #c4bebe;
+`;
+
+const NoResultsMessage = styled.div`
+  text-align: center;
+  font-size: 18px;
+  color: #666;
+  margin-top: 100px;
 `;
 
 const LoadingText = styled.div`

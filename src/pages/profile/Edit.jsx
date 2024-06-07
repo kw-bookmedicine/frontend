@@ -139,14 +139,14 @@ const Edit = () => {
 							}
 						>
 							<div className="input_title">비밀번호</div>
-							<div
-								className={
-									handleOauth
-										? 'oauth_password_input_wrapper'
-										: 'password_input_wrapper'
-								}
-							>
-								<div className="password_text">{password}</div>
+							<div className={handleOauth ? '' : 'password_input_wrapper'}>
+								<div
+									className={
+										handleOauth ? 'oauth_password_text' : 'password_text'
+									}
+								>
+									{password}
+								</div>
 								{!handleOauth && <Btn text={'수정하기'} type="password" />}
 							</div>
 						</div>
