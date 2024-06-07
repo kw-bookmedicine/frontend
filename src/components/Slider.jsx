@@ -28,6 +28,7 @@ const Slider = ({ title, subtitle, isBestSeller, books }) => {
     }
   }, []);
 
+  // isbn이 없으면 페이지 이동하지 않고 alert로 경고
   const handleLinkClick = (isbn) => {
     if (isbn === "undefined") {
       alert("현재 준비중입니다.");
@@ -48,12 +49,26 @@ const Slider = ({ title, subtitle, isBestSeller, books }) => {
   ).map((book, index) => (
     <SwiperSlide key={index}>
       <div className="item-wrapper">
-        <Link to={`/book-detail?isbn=${book.isbn}`}>
+        <Link
+          to={`/book-detail?isbn=${book.isbn}`}
+          onClick={(e) => {
+            if (!handleLinkClick(book.isbn)) {
+              e.preventDefault();
+            }
+          }}
+        >
           <div className="item-image">
             <img src={book.imageUrl ?? loading_thumbnail} alt="책 이미지" />
           </div>
         </Link>
-        <Link to={`/book-detail?isbn=${book.isbn}`}>
+        <Link
+          to={`/book-detail?isbn=${book.isbn}`}
+          onClick={(e) => {
+            if (!handleLinkClick(book.isbn)) {
+              e.preventDefault();
+            }
+          }}
+        >
           <div className="item-detail">
             <div className="item-title">{book.title}</div>
             <div className="item-author">{book.author}</div>
