@@ -103,8 +103,8 @@ const SearchBox = () => {
 
       if (input.length === 0 && searchType !== "keyword")
         alert("검색 키워드가 없습니다!");
-      if (searchType === "keyword" && selectedKeywords.length === 0)
-        alert("키워드를 선택하여 검색해주세요!");
+      // if (searchType === "keyword" && selectedKeywords.length === 0)
+      //   alert("키워드를 선택하여 검색해주세요!");
       setIsModalOpen(false);
     }
   };
@@ -219,7 +219,8 @@ const SearchBox = () => {
           ) : null}
         </SearchInputWrap>
       </label>
-      {input.length > 0 && isModalOpen && searchData.length > 0 ? (
+      {/* {input.length > 0 && isModalOpen && searchData.length > 0 ? ( */}
+      {input.length > 0 && isModalOpen ? (
         <SearchResultListModal
           book={searchData}
           addInput={handleSelectKeyword}
