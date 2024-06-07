@@ -109,7 +109,7 @@ export default Slider;
 
 // isbn이 없으면 페이지 이동하지 않고 alert로 경고
 export const handleLinkClick = (isbn) => {
-  if (isbn === "undefined") {
+  if (!isbn || isbn === "undefined") {
     alert("현재 준비중입니다.");
     return false;
   }
