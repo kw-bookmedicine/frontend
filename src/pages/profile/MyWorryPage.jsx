@@ -87,14 +87,26 @@ const MyWorryPage = () => {
 					<h2>내가 남긴 고민</h2>
 				</div>
 				<div className="myWorry_content_container spinner-container">
-					<p>내 고민 개수 : {totalElem}</p>
-					<div className="myWorry_content_wrapper">
-						{dataArr.length !== 0
-							? dataArr.map((item, idx) => {
+					{dataArr.length !== 0 ? (
+						<>
+							<p>내 고민 개수 : {totalElem}</p>
+							<div className="myWorry_content_wrapper">
+								{dataArr.map((item, idx) => {
 									return <CnsFeed key={`myWorry-${item}-${idx}`} item={item} />;
-							  })
-							: null}
-					</div>
+								})}
+							</div>
+						</>
+					) : (
+						<>
+							<div className="myWorry_no_container">
+								<img src="/images/book-detail/write_prscr_img.png" />
+								<Link to={'/counseling'}>
+									<p id="myWorry_no_btn">고민을 남겨보세요!</p>
+								</Link>
+							</div>
+						</>
+					)}
+
 					{isLoading && <LoadingSpinner />}
 				</div>
 			</div>
