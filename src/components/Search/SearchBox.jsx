@@ -81,7 +81,7 @@ const SearchBox = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       fetchBooks(input);
-    }, 100);
+    }, 300);
 
     // cleanup 함수를 반환하여 컴포넌트가 언마운트될 때 타이머를 해제합니다.
     return () => {
@@ -103,8 +103,8 @@ const SearchBox = () => {
 
       if (input.length === 0 && searchType !== "keyword")
         alert("검색 키워드가 없습니다!");
-      if (searchType === "keyword" && selectedKeywords.length === 0)
-        alert("키워드를 선택하여 검색해주세요!");
+      // if (searchType === "keyword" && selectedKeywords.length === 0)
+      //   alert("키워드를 선택하여 검색해주세요!");
       setIsModalOpen(false);
     }
   };
@@ -219,7 +219,8 @@ const SearchBox = () => {
           ) : null}
         </SearchInputWrap>
       </label>
-      {input.length > 0 && isModalOpen && searchData.length > 0 ? (
+      {/* {input.length > 0 && isModalOpen && searchData.length > 0 ? ( */}
+      {input.length > 0 && isModalOpen ? (
         <SearchResultListModal
           book={searchData}
           addInput={handleSelectKeyword}
