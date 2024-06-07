@@ -21,6 +21,8 @@ const Edit = () => {
 	const [email, setEmail] = useState('');
 	const [userId, setUserId] = useState('');
 	const [description, setDescription] = useState('');
+	const [password, setPassword] = useState('');
+	const [handleOauth, setHandleOauth] = useState(false);
 
 	const getUserData = () => {
 		try {
@@ -39,6 +41,8 @@ const Edit = () => {
 				setEmail(res.data.email);
 				setUserId(res.data.loginId);
 				setDescription(res.data.description);
+				setHandleOauth(res.data.isOauth);
+				setPassword('*'.repeat(res.data.passwordLength));
 			});
 		} catch (err) {
 			window.location.replace('/login');
@@ -127,11 +131,23 @@ const Edit = () => {
 								<div className="id_text">{userId}</div>
 							</div>
 						</div>
-						<div className="user_password_wrapper">
+						<div
+							className={
+								handleOauth
+									? 'oauth_password_input_wrapper'
+									: 'user_password_wrapper'
+							}
+						>
 							<div className="input_title">비밀번호</div>
-							<div className="password_input_wrapper">
-								<div className="password_text">********</div>
-								<Btn text={'수정하기'} type="password" />
+							<div
+								className={
+									handleOauth
+										? 'oauth_password_input_wrapper'
+										: 'password_input_wrapper'
+								}
+							>
+								<div className="password_text">{password}</div>
+								{!handleOauth && <Btn text={'수정하기'} type="password" />}
 							</div>
 						</div>
 						<div className="user_email_wrapper">

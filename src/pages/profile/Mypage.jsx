@@ -85,12 +85,12 @@ const Mypage = () => {
 				}
 			});
 		} catch (err) {
+			console.log(err);
 			window.location.replace('/login');
 		}
 	};
 
 	useEffect(() => {
-		console.log(getCookie('Refresh'));
 		getUserData();
 	}, []);
 

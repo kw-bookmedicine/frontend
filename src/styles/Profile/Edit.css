@@ -134,6 +134,7 @@
 	line-height: normal;
 }
 
+.oauth_password_input_wrapper,
 .id_text,
 .email_text {
 	display: flex;
