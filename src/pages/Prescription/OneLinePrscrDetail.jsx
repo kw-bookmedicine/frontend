@@ -110,7 +110,7 @@ const OneLinePrscrDetail = () => {
 				setIsShow(true);
 			}
 		} else {
-			console.log('유저 닉네임 정보가 없습니다.');
+			// console.log('유저 닉네임 정보가 없습니다.');
 		}
 	};
 
