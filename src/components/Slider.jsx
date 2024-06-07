@@ -12,6 +12,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import rightArrowIcon from "../assets/icons/login-home/right_arrow_icon.png";
 import leftArrowIcon from "../assets/icons/login-home/left_arrow_icon.png";
 import loading_thumbnail from "../assets/loading_thumbnail_x4.png";
+import { Link } from "react-router-dom";
 
 const Slider = ({ title, subtitle, isBestSeller, books }) => {
   const numberOfSlides = 10;
@@ -27,24 +28,37 @@ const Slider = ({ title, subtitle, isBestSeller, books }) => {
     }
   }, []);
 
+  const handleLinkClick = (isbn) => {
+    if (isbn === "undefined") {
+      alert("현재 준비중입니다.");
+      return false;
+    }
+    return true;
+  };
+
   const slides = (
     books && books.length > 0
       ? books
       : Array.from({ length: numberOfSlides }, (_, index) => ({
+          isbn: "undefined",
           title: "",
           author: "",
-          image: loading_thumbnail,
+          imageUrl: loading_thumbnail,
         }))
   ).map((book, index) => (
     <SwiperSlide key={index}>
       <div className="item-wrapper">
-        <div className="item-image">
-          <img src={book.imageUrl ?? loading_thumbnail} alt="책 이미지" />
-        </div>
-        <div className="item-detail">
-          <div className="item-title">{book.title}</div>
-          <div className="item-author">{book.author}</div>
-        </div>
+        <Link to={`/book-detail?isbn=${book.isbn}`}>
+          <div className="item-image">
+            <img src={book.imageUrl ?? loading_thumbnail} alt="책 이미지" />
+          </div>
+        </Link>
+        <Link to={`/book-detail?isbn=${book.isbn}`}>
+          <div className="item-detail">
+            <div className="item-title">{book.title}</div>
+            <div className="item-author">{book.author}</div>
+          </div>
+        </Link>
         {isBestSeller && <div className="item-rank">{index + 1}</div>}
       </div>
     </SwiperSlide>
