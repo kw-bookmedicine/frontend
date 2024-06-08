@@ -219,7 +219,8 @@ const OneLinePrscrWrite = () => {
       api
         .get(
           // `/api/search/book?title=${input}&target=page&sort=view-count&page=${0}&size=${10}`
-          `/api/search/book?title=${input}&target=modal`
+          `/api/search/book?title=${input}&target=modal`,
+          { withCredentials: true }
         )
         .then((res) => {
           // if (res.data.content.length > 0) {
