@@ -191,14 +191,9 @@ const PrescriptionWrite = () => {
     }
   };
 
-  // const imageUrl =
-  //   location.state?.imageUrl ??
-  //   (modalIsClick ? choiceItem.imageUrl ?? loading_img : loading_img);
   const imageUrl = modalIsClick
     ? choiceItem.imageUrl ?? loading_img
     : location.state?.imageUrl ?? loading_img;
-
-  console.log(imageUrl);
 
   return (
     <>
