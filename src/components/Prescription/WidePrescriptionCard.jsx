@@ -8,7 +8,7 @@ function useQuery() {
 	return new URLSearchParams(useLocation().search);
 }
 
-const WidePrescriptionCard = ({ props, styleId }) => {
+const WidePrescriptionCard = ({ props, styleId, type }) => {
 	const {
 		id,
 		title,
@@ -28,7 +28,11 @@ const WidePrescriptionCard = ({ props, styleId }) => {
 	return (
 		<>
 			<Link
-				to={`/prescription/detail?boardId=${boardId}&prescriptionId=${prescriptionId}`}
+				to={
+					type === 'myPrscr'
+						? ''
+						: `/prescription/detail?boardId=${boardId}&prescriptionId=${prescriptionId}`
+				}
 			>
 				<div className="WidePrscrCard_container" id={styleId ?? ''}>
 					<div className="wide_prscr_left_wrapper">

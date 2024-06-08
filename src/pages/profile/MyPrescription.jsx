@@ -95,6 +95,7 @@ const MyPrescription = () => {
 											props={item}
 											key={`myPrscr-${item}-${item.id}`}
 											styleId={'myPrscr'}
+											type={'myPrscr'}
 										/>
 									);
 							  })
