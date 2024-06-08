@@ -16,15 +16,18 @@ import useNicknameStore from '../../store/nickname-store';
 import '../../styles/Counseling/WorryDetail.css';
 
 const WorryDetail = () => {
-	const [boardData, setBoardData] = useState({});
-	const [prescriptionData, setPrescriptionData] = useState([]);
-	const [isModalOpen, setIsModalOpen] = useState(false);
+	const navigate = useNavigate();
 
 	const [searchParams] = useSearchParams();
 	const boardId = searchParams.get('board');
 
+	const [boardData, setBoardData] = useState({});
+	const [prescriptionData, setPrescriptionData] = useState([]);
+	const [isModalOpen, setIsModalOpen] = useState(false);
+
 	// 현재 접속한 유저 닉네임
 	const { nickname } = useNicknameStore();
+
 	// 고민 작성자 닉네임
 	const [fetchNickname, setFetchNickname] = useState(
 		sessionStorage.getItem('nickname') || '',
@@ -34,6 +37,14 @@ const WorryDetail = () => {
 	);
 	// 삭제 버튼 보이기 여부
 	const [isShow, setIsShow] = useState(false);
+
+	const pageEnd = useRef();
+	const [page, setPage] = useState(0);
+	const [totalElem, setTotalElem] = useState('');
+
+	const [aiPrscrArr, setPrscrArr] = useState([]);
+	const [isRecommending, setIsRecommending] = useState(false);
+	const [isNoRecommendBook, setIsNoRecommendBook] = useState(false);
 
 	// 해당하는 고민 글 정보 가져오기
 	const fetchData = async () => {
@@ -61,10 +72,6 @@ const WorryDetail = () => {
 			console.error(err);
 		}
 	};
-
-	const pageEnd = useRef();
-	const [page, setPage] = useState(0);
-	const [totalElem, setTotalElem] = useState('');
 
 	useEffect(() => {
 		fetchPrescription();
@@ -135,20 +142,8 @@ const WorryDetail = () => {
 	};
 
 	useEffect(() => {
-		fetchData();
-		getAiPrscr();
-
-		if (nickname !== '') {
-			sessionStorage.setItem('nickname', nickname);
-			setFetchNickname(nickname);
-		}
-	}, []);
-
-	useEffect(() => {
 		showBtnHandler();
 	}, [writer]);
-
-	const navigate = useNavigate();
 
 	const movePrescriptionWrite = () => {
 		navigate(
@@ -171,10 +166,6 @@ const WorryDetail = () => {
 	};
 
 	// AI 처방전
-	const [aiPrscrArr, setPrscrArr] = useState([]);
-	const [isRecommending, setIsRecommending] = useState(false);
-	const [isNoRecommendBook, setIsNoRecommendBook] = useState(false);
-
 	const getAiPrscr = () => {
 		try {
 			api
@@ -188,7 +179,7 @@ const WorryDetail = () => {
 						// 처방은 됨.
 						if (res.data.id === null) {
 							// 추천된 책이 없음
-							setIsNoRecommendBook(true);
+							setIsNoRecommendBook(false);
 						} else {
 							setPrscrArr(res.data);
 						}
@@ -204,6 +195,16 @@ const WorryDetail = () => {
 			console.log(err);
 		}
 	};
+
+	useEffect(() => {
+		fetchData();
+		getAiPrscr();
+
+		let userNickname = sessionStorage.getItem('userNickname');
+		if (userNickname !== '') {
+			setFetchNickname(nickname);
+		}
+	}, []);
 
 	return (
 		<>
@@ -296,10 +297,10 @@ const WorryDetail = () => {
 											{/* false이면서 null */}
 											<p>고민에 맞는 책을 찾지 못했어요</p>
 											<p id="no_ai_recommend_text">
-												제안하고 싶은 도서가 있다면, 1:1 문의를 이용해주세요{' '}
+												제안하고 싶은 도서가 있다면, 1:1 문의를 이용해주세요
 											</p>
 											<img
-												src="/images/book-detail/write_prscr_img_2.png"
+												src="/images/book-detail/write_prscr_img.png"
 												id="no_ai_recommend_book_img"
 											/>
 										</>
