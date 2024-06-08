@@ -26,10 +26,10 @@ const PrescriptionDetail = () => {
 	const [prescriptionData, setPrescriptionData] = useState(null);
 	const [worryTitle, setWorryTitle] = useState(null);
 	const [isModalOpen, setIsModalOpen] = useState(false);
-	const [fromNickname, setFromNickname] = useState(
-		sessionStorage.getItem('userNickname') || '',
+	const [fromNickname, setFromNickname] = useState('');
+	const [targetNickname, setTargetNickname] = useState(
+		sessionStorage.getItem('worry-writer') || '',
 	);
-	const [targetNickname, setTargetNickname] = useState('');
 
 	const deletePrescription = async () => {
 		try {
@@ -61,7 +61,7 @@ const PrescriptionDetail = () => {
 				withCredentials: true,
 			});
 			setPrescriptionData(response.data);
-			setTargetNickname(response.data.nickname);
+			setFromNickname(response.data.nickname);
 		} catch (error) {
 			window.location.replace('/login');
 			console.error('처방전 데이터 불러오기 실패', error);
