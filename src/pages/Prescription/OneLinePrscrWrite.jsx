@@ -218,11 +218,15 @@ const OneLinePrscrWrite = () => {
 
       api
         .get(
-          `/api/search/book?title=${input}&target=page&sort=view-count&page=${0}&size=${10}`
+          // `/api/search/book?title=${input}&target=page&sort=view-count&page=${0}&size=${10}`
+          `/api/search/book?title=${input}&target=modal`
         )
         .then((res) => {
-          if (res.data.content.length > 0) {
-            setSearchResult(res.data.content);
+          // if (res.data.content.length > 0) {
+          //   setSearchResult(res.data.content);
+          // }
+          if (res.data.length > 0) {
+            setSearchResult(res.data);
           }
           setIsLoading(false);
         });
