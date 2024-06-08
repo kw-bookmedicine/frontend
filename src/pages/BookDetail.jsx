@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, Link } from 'react-router-dom';
 import 'swiper/css';
 
 // ASSETS
@@ -246,9 +246,9 @@ const BookDetail = () => {
 						}}
 					>
 						<Title title={'연관 책 리스트'} type={'recommend'} />
-						<div className="BookList_container">
-							{recommendBookList.length !== 0 ? (
-								recommendBookList.map((item) => {
+						{recommendBookList.length !== 0 ? (
+							<div className="BookList_container">
+								{recommendBookList.map((item) => {
 									return (
 										<BookCard
 											key={item.id}
@@ -257,42 +257,15 @@ const BookDetail = () => {
 											img={item.imageUrl ?? loading_thumbnail}
 										/>
 									);
-								})
-							) : (
-								<>
-									<BookCard
-										title={'책 제목 1'}
-										author={'저자'}
-										img={loading_thumbnail}
-									/>
-									<BookCard
-										title={'책 제목 2'}
-										author={'저자'}
-										img={loading_thumbnail}
-									/>
-									<BookCard
-										title={'책 제목 3'}
-										author={'저자'}
-										img={loading_thumbnail}
-									/>
-									<BookCard
-										title={'책 제목 4'}
-										author={'저자'}
-										img={loading_thumbnail}
-									/>
-									<BookCard
-										title={'책 제목 5'}
-										author={'저자'}
-										img={loading_thumbnail}
-									/>
-									<BookCard
-										title={'책 제목 6'}
-										author={'저자'}
-										img={loading_thumbnail}
-									/>
-								</>
-							)}
-						</div>
+								})}{' '}
+							</div>
+						) : (
+							<>
+								<div className="No_BookList_container">
+									<p>연관 책 리스트를 준비 중이에요!</p>
+								</div>
+							</>
+						)}
 					</div>
 				</section>
 			</div>
