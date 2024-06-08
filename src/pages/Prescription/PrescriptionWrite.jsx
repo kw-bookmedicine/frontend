@@ -150,7 +150,6 @@ const PrescriptionWrite = () => {
           { withCredentials: true }
         )
         .then((res) => {
-          console.log(res);
           // if (res.data.content.length > 0) {
           //   setSearchResult(res.data.content);
           // }
