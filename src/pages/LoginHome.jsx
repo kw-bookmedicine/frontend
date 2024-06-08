@@ -95,6 +95,19 @@ const LoginHome = () => {
 		}
 	};
 
+	const getUserNickname = () => {
+		try {
+			api.get('/client/main', { withCredentials: true }).then((res) => {
+				if (res.data !== null) {
+					sessionStorage.setItem('userNickname', res.data.nickname);
+					// setUserNickname(res.data.nickname);
+				}
+			});
+		} catch {
+			window.location.replace('/login');
+		}
+	};
+
 	useEffect(() => {
 		fetchRecentBoardData();
 		fetchNickname();
@@ -103,6 +116,10 @@ const LoginHome = () => {
 		fetchNewBooks();
 		fetchSimilarBooks();
 	}, [fetchNickname]);
+
+	useEffect(() => {
+		getUserNickname();
+	}, []);
 
 	return (
 		<>
