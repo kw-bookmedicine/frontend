@@ -26,6 +26,10 @@ const PrescriptionDetail = () => {
 	const [prescriptionData, setPrescriptionData] = useState(null);
 	const [worryTitle, setWorryTitle] = useState(null);
 	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [fromNickname, setFromNickname] = useState('');
+	const [targetNickname, setTargetNickname] = useState(
+		sessionStorage.getItem('worry-writer') || '',
+	);
 
 	const deletePrescription = async () => {
 		try {
@@ -57,6 +61,7 @@ const PrescriptionDetail = () => {
 				withCredentials: true,
 			});
 			setPrescriptionData(response.data);
+			setFromNickname(response.data.nickname);
 		} catch (error) {
 			window.location.replace('/login');
 			console.error('처방전 데이터 불러오기 실패', error);
@@ -95,7 +100,11 @@ const PrescriptionDetail = () => {
 	return (
 		<>
 			<Header />
-			<Title type={'detail'} />
+			<Title
+				type={'detail'}
+				fromNickname={fromNickname}
+				targetNickname={targetNickname}
+			/>
 			<div className="prscr_detail_top_container">
 				<div className="prscr_detail_top_info_wrapper">
 					<div className="prscr_detail_top_wrapper">

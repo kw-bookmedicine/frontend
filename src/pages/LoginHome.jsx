@@ -22,7 +22,7 @@ import LoadingSpinner from "../components/Loading/LoadingSpinner";
 const backgroundColors = ["#CCE8EC", "#d2e7a5", "#F5DAD2"];
 
 const LoginHome = () => {
-  const { revalidate } = useNickname();
+  const { revalidate } = useNickname(); // React Query의 쿼리 캐시를 무효화하고 닉네임 데이터를 다시 가져옴.
 
   const [recentPosts, setRecentPosts] = useState([]); // 최신 고민글 데이터
 

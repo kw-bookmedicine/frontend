@@ -14,7 +14,7 @@ import '../../styles/Profile/MyPrescription.css';
 const MyPrescription = () => {
 	const pageEnd = useRef();
 	const [page, setPage] = useState(0);
-	const [totalElem, setTotalElem] = useState('');
+	const [totalElem, setTotalElem] = useState(0);
 	const [data, setData] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
 
@@ -95,6 +95,7 @@ const MyPrescription = () => {
 											props={item}
 											key={`myPrscr-${item}-${item.id}`}
 											styleId={'myPrscr'}
+											type={'myPrscr'}
 										/>
 									);
 							  })
