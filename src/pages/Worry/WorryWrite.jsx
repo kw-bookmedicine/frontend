@@ -106,7 +106,7 @@ const apiEndpointMap = {
   취업: "Employment_Career",
   "문제집/수험서": "Workbook_Examination",
   "관계/소통": "Relationships_Communication",
-  "소셜/에세이": "Fiction_Essays",
+  "소설/에세이": "Fiction_Essays",
   철학: "Philosophy",
   역사: "History",
   "수학/과학/공학": "Science_Math_Engineering",
@@ -561,12 +561,6 @@ const FreeTextAnswer = ({
   const maxLength = getMaxLength(question.field); // question.field 가 description일때 글자수 1,000자 적용
   const value = userSelections[question.field] || "";
 
-  console.log(
-    question.minLength,
-    userSelections[question.field]?.length,
-    question?.minLength,
-    value.length
-  );
   return (
     <AnswersContainer>
       <InputWrapper>
@@ -602,7 +596,6 @@ const NormalQuestion = ({ state, userAnswers, dispatch }) => {
       const response = await api.post("/api/board/new", postData, {
         withCredentials: true,
       });
-      console.log("Response:", response);
       // alert("데이터가 성공적으로 전송되었습니다!");
       dispatch(actionCreators.setIsLoading(true));
       navigate("/counseling");
