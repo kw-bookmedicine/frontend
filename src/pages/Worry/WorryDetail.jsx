@@ -25,14 +25,8 @@ const WorryDetail = () => {
 
   // 현재 접속한 유저 닉네임
   const { nickname } = useNickname();
-
-  // 고민 작성자 닉네임
-  const [fetchNickname, setFetchNickname] = useState(
-    sessionStorage.getItem("nickname") || ""
-  );
-  const [writer, setWriter] = useState(
-    sessionStorage.getItem("worry-writer") || ""
-  );
+  // 작성자의 글인지 판단
+  const isMyPost = nickname === boardData?.nickname; // 현재 유저 닉네임 - 글 작성자 닉네임 비교
 
   // 해당하는 고민 글 정보 가져오기
   const fetchData = async () => {
@@ -45,10 +39,6 @@ const WorryDetail = () => {
         .get(`/api/board/${boardId}`, { withCredentials: true })
         .then((res) => {
           setBoardData(res.data);
-          setWriter(res.data.nickname);
-          if (res.data.nickname !== writer) {
-            sessionStorage.setItem("worry-writer", res.data.nickname);
-          }
         });
     } catch (err) {
       window.location.replace("/login");
@@ -177,9 +167,6 @@ const WorryDetail = () => {
       console.log(err);
     }
   };
-
-  // 작성자의 글인지 판단
-  const isMyPost = nickname === boardData?.nickname;
 
   return (
     <>

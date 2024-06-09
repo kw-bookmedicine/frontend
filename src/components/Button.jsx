@@ -39,7 +39,6 @@ const Button = ({ text, type }) => {
 
   const logout = () => {
     console.log("logout!");
-    sessionStorage.clear();
     revalidate(); // 로그아웃 후 쿼리 무효화
     api.get("/logout", { withCredentials: true }).then((res) => {
       console.log(res.data);
@@ -51,7 +50,6 @@ const Button = ({ text, type }) => {
     let isWithdraw = window.confirm("정말로 회원탈퇴 하시나요?");
     if (isWithdraw) {
       console.log("withdraw!");
-      sessionStorage.clear();
       api.delete("/client", { withCredentials: true }).then((res) => {
         console.log(res.data);
         if (res.data === "success") {

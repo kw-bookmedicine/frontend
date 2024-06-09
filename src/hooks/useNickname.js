@@ -22,7 +22,7 @@ export const useNickname = () => {
 
   // 데이터가 있는 경우 닉네임과 revalidate 함수를 반환합니다.
   return {
-    nickname: data, // 닉네임 데이터를 반환합니다.
+    nickname: data.nickname, // 닉네임 데이터를 반환합니다.
     revalidate: () =>
       queryClient.invalidateQueries({
         queryKey: queryKeys.nickname, // 쿼리 키를 사용하여 쿼리를 무효화합니다.

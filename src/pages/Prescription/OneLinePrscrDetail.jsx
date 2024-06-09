@@ -23,12 +23,8 @@ const OneLinePrscrDetail = () => {
   const [bookData, setBookData] = useState({});
   const [keywordArr, setKeywordArr] = useState([]);
 
-  const [fetchNickname, setFetchNickname] = useState(
-    sessionStorage.getItem("nickname") || ""
-  );
-  const { nickname } = useNickname();
-  const [writer, setWriter] = useState(sessionStorage.getItem("writer") || "");
-  const [isShow, setIsShow] = useState(false);
+  const { nickname } = useNickname(); // 현재 사용자 닉네임 정보
+  const isMyPost = nickname === data?.clientNickname; // 현재 닉네임과 고민 작성자의 닉네임 비교
 
   const [likeNum, setLikeNum] = useState(0);
   const [isLike, setIsLike] = useState(false);
@@ -64,17 +60,6 @@ const OneLinePrscrDetail = () => {
               : "/icon/oneLine-prscr/before-help.svg"
           );
           setData(res.data);
-          setWriter(res.data.clientNickname);
-          if (res.data.clientNickname !== writer) {
-            sessionStorage.setItem("writer", res.data.clientNickname);
-            setIsShow(false);
-          } else {
-            if (writer === nickname) {
-              setIsShow(true);
-            }
-            // console.log(writer);
-            // console.log(nickname);
-          }
         });
     } catch (err) {
       window.location.replace("/login");
@@ -102,31 +87,10 @@ const OneLinePrscrDetail = () => {
     }
   };
 
-  const showBtnHandler = async () => {
-    if (writer !== "") {
-      if (writer !== fetchNickname) {
-        setIsShow(false);
-      } else {
-        setIsShow(true);
-      }
-    } else {
-      // console.log('유저 닉네임 정보가 없습니다.');
-    }
-  };
-
   useEffect(() => {
     fetchData();
     getBookData();
-
-    if (nickname !== "") {
-      sessionStorage.setItem("nickname", nickname);
-      setFetchNickname(nickname);
-    }
   }, []);
-
-  useEffect(() => {
-    showBtnHandler();
-  }, [writer]);
 
   const editPrscr = () => {
     navigate(
@@ -269,7 +233,7 @@ const OneLinePrscrDetail = () => {
                 <div className="bookInfo_title_wrapper">
                   <p>{data.bookTitle}</p>
                   <div className="bookInfo_title_btn_wrapper">
-                    {isShow && (
+                    {isMyPost && (
                       <>
                         <button id="edit-btn" onClick={editPrscr}>
                           수정하기
