@@ -12,9 +12,13 @@ import api from '../../services/api';
 // STYLE
 import { styled } from 'styled-components';
 import '../../styles/Signup3.css';
+import useSignupStore from '../../store/signup-store';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const categoryList = ['general', 'philosophy', 'religion'];
 
+// todo
+// - 회원가입 요청에서 관심사 필드값 수정필요할 수도?
 const Signup3 = () => {
 	const [choiceItem, setChoiceItem] = useState('');
 	const [pickItemList, setPickItemList] = useState([]);
@@ -24,12 +28,54 @@ const Signup3 = () => {
 	const [clicked, setClicked] = useState(false);
 	const [backClicked, setbackClicked] = useState(false);
 
+	const navigate = useNavigate();
+
+	const userInfo = useSignupStore((state) => state.userInfo); // 회원정보 가져오기
+
 	// 특정 카테고리별 중분류 보여주는 함수
 	const choiceCtgHandler = (event) => {
 		setClicked(true);
 		setbackClicked(false);
 		fetchMidCtg(event.target.innerText);
 		setChoiceItem(event.target.innerText);
+	};
+
+	// 회원가입 요청
+	const postSignup = async () => {
+		try {
+			let signUpData = {
+				...userInfo,
+				interestList: pickItemList, // 선택한 관심사 추가
+			};
+			if (!userInfo.username && !userInfo.password && !userInfo.name) {
+				// 소셜 로그인일 경우, 불필요한 필드 제거
+				const { username, password, name, ...rest } = signUpData;
+				signUpData = rest;
+			}
+
+			let response;
+			if (userInfo.username && userInfo.password && userInfo.name) {
+				// 일반 로그인
+				response = await api.post('/signup', signUpData, {
+					withCredentials: true,
+				});
+			} else {
+				// 소셜 로그인
+				response = await api.post(
+					`/signup/oauth?email=${userInfo.email}`,
+					signUpData,
+					{
+						withCredentials: true,
+					},
+				);
+			}
+			if (response.status === 200) {
+				alert('회원가입을 축하합니다');
+				navigate('/login');
+			}
+		} catch (error) {
+			console.error('회원가입 중 오류가 발생했습니다:', error);
+		}
 	};
 
 	const fetchMidCtg = async (ctg) => {
@@ -75,8 +121,7 @@ const Signup3 = () => {
 				alert('관심사를 선택해주세요');
 			}
 		} else {
-			alert('회원가입을 축하합니다');
-			window.location.replace('/main');
+			postSignup(); // 회원가입 요청
 		}
 	};
 

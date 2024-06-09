@@ -17,6 +17,8 @@ import '../../styles/Profile/MyPage.css';
 
 const Mypage = () => {
 	const [modalOn, setModalOn] = useState(false);
+	const [boardCnt, setBoardCnt] = useState('');
+	const [prscrCnt, setPrscrCnt] = useState('');
 
 	const handleModal = () => {
 		setModalOn(!modalOn);
@@ -24,6 +26,11 @@ const Mypage = () => {
 
 	const [intro, setIntro] = useState('여기에 자기소개를 입력하세요.');
 	const [isEdit, setIsEdit] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
+
+	useEffect(() => {
+		getUserData();
+	}, []);
 
 	const handleEditClick = () => {
 		setIsEdit(true);
@@ -40,6 +47,7 @@ const Mypage = () => {
 	const textAreaRef = useRef(null);
 
 	const [nickname, setNickname] = useState('');
+	const [description, setDescription] = useState('');
 
 	useEffect(() => {
 		if (isEdit) {
@@ -50,20 +58,31 @@ const Mypage = () => {
 		}
 	}, [isEdit]);
 
-	const getUserData = () => {
-		api.get('/client', { withCredentials: true }).then((res) => {
-			// console.log(res.data);
-			// console.log(res.data.nickname);
+	const getUserData = async () => {
+		setIsLoading(true);
+		try {
+			await api.get('/client', { withCredentials: true }).then((res) => {
+				setBoardCnt(res.data.boardCount);
+				setPrscrCnt(res.data.prescriptionCount);
 
-			res.data.nickname === null
-				? setNickname('사용자 닉네임')
-				: setNickname(res.data.nickname);
-		});
+				if (res.data.nickname === null) {
+					setNickname('사용자 닉네임');
+				} else {
+					setNickname(res.data.nickname);
+				}
+
+				if (res.data.description === '') {
+					setDescription('자기소개를 추가해주세요!');
+				} else {
+					setDescription(res.data.description);
+				}
+			});
+		} catch (err) {
+			window.location.replace('/login');
+		} finally {
+			setIsLoading(false);
+		}
 	};
-
-	useEffect(() => {
-		getUserData();
-	}, []);
 
 	return (
 		<>
@@ -89,30 +108,33 @@ const Mypage = () => {
 						<div className="user_right_wrapper">
 							<div className="right_userInfo_title_wrapper">
 								<p className="userInfo_name_text">{nickname}</p>
-								<p>
-									나는 어디에서 왔을까? 내가 제일 좋아하는 색깔은 검정검정.나는
-									어디에서 왔을까? 내가 제일 좋아하는 색깔은 검정검정.나는
-									어디에서
-								</p>
+								<p>{description ?? '자기소개를 작성해주세요'}</p>
 							</div>
 							<div className="right_userInfo_dashboard_wrapper">
 								<div className="dashboard_worry_wrapper">
 									<img src="/icon/profile/profile_worry_icon.svg" alt="" />
 									나의 고민 개수
-									<p className="dashboard_number">20개</p>
+									<p className="dashboard_number">{boardCnt}개</p>
 								</div>
 								<div className="dashboard_prscr_wrapper">
 									<img src="/icon/profile/profile_prscr_icon.svg" alt="" />
 									내가 남긴 처방전 개수
-									<p className="dashboard_number">20개</p>
+									<p className="dashboard_number">{prscrCnt}개</p>
 								</div>
 							</div>
 						</div>
 					</div>
 					<div className="myPage_service_wrapper">
 						<div className="service_title">서비스 관리</div>
-						<div className="service_my_worry">내가 남긴 고민</div>
-						<div className="service_my_prescription">내가 남긴 처방</div>
+						<Link to={'/my/worry'}>
+							<div className="service_my_list">내가 남긴 고민</div>
+						</Link>
+						<Link to={'/myPrescriptions'}>
+							<div className="service_my_list">내가 남긴 처방</div>
+						</Link>
+						<Link to={'/myOneLinePrescriptions'}>
+							<div className="service_my_list">내가 남긴 한 줄 처방</div>
+						</Link>
 						<div onClick={handleModal} className="service_userReview_text">
 							복용내역
 						</div>
@@ -134,10 +156,10 @@ const Mypage = () => {
 						<Btn text={'회원탈퇴'} type="withdraw" />
 						<Btn text={'로그아웃'} type="profile_logout" />
 					</div>
-					<section className="myPage_footer">
-						<Footer />
-					</section>
 				</div>
+				<section className="myPage_footer">
+					<Footer />
+				</section>
 			</div>
 		</>
 	);

@@ -1,5 +1,5 @@
 .loginHome-best-wrapper {
-  padding: 0px 80px;
+  /* padding: 0px 80px; */
 }
 
 .item-wrapper {
@@ -7,11 +7,12 @@
   height: 269px;
 }
 
-.item-image {
+.item-image img {
   background-color: #d9d9d9;
   box-sizing: border-box;
   height: 210px;
   border-radius: 5px;
+  -webkit-line-clamp: 1;
 }
 
 .item-detail {
@@ -22,11 +23,21 @@
   font-size: 16px;
   font-weight: 700;
   margin-bottom: 4px;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .item-author {
   font-size: 14px;
   font-weight: 500;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .item-rank {
@@ -39,10 +50,13 @@
   left: -25px;
   z-index: 100;
   letter-spacing: -5px;
+  color: white;
+  text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.2), 1px -1px 0 rgba(0, 0, 0, 0.2),
+    -1px 1px 0 rgba(0, 0, 0, 0.2), 1px 1px 0 rgba(0, 0, 0, 0.2); /* Subtle gray shadow */
 }
 
 .loginHome-slider {
-  padding-left: 20px;
+  padding-left: 24px;
 }
 
 .loginHome-prev-button {
@@ -57,7 +71,7 @@
 .loginHome-next-button {
   position: relative;
   top: 210px;
-  right: -1240px;
+  right: -1080px;
   padding: 10px;
   z-index: 10;
   background-color: white;

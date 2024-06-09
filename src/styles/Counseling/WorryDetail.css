@@ -84,7 +84,7 @@
   height: 100%;
   background-color: #f3fdff;
   position: static;
-  padding-bottom: 200px;
+  padding-bottom: 100px;
 }
 
 .wd_content_detail_wrapper {
@@ -121,13 +121,13 @@
   display: flex;
   flex-direction: column;
   position: relative;
-  top: -20px;
+  top: -50px;
   width: 100%;
   max-width: 1440px;
   min-width: 1000px;
-  height: 750px;
+  /* height: 750px; */
   padding: 40px 150px 0px 150px;
-  margin-top: 10px;
+  margin-top: 20px;
   margin-bottom: 20px;
   /* background-color: #fff; */
   /* border-radius: 20px; */
@@ -144,13 +144,13 @@
 
 .wd_prscr_list_wrapper {
   display: grid;
-  width: 104%;
-  height: 690px;
-  overflow-y: scroll;
+  width: 100%;
+  height: 700px;
+  overflow-y: auto;
   grid-row-gap: 40px;
   /* padding: 20px 0; */
   /* grid-template-columns: repeat(1, 1fr); */
-  align-self: center;
+  align-items: center;
   justify-content: center;
   margin-bottom: 20px;
 }
@@ -159,12 +159,85 @@
   visibility: hidden;
 }
 
+.wd_prscr_list_wrapper > p {
+  margin-top: 80px;
+  font-family: var(--title-font);
+  font-size: 26px;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 48px;
+  text-align: center;
+  color: #000;
+}
+
+/* AI 처방에 맞는 책이 없는 경우 */
+.worry_detail_AI_recommendBook_wrapper {
+  margin-bottom: 80px;
+  font-family: var(--title-font);
+  font-size: 26px;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 48px;
+  text-align: center;
+  color: #000;
+}
+
+#no_ai_recommend_book_img {
+  width: 500px;
+  height: 500px;
+}
+
+.worry_detail_no_ai_prscr_wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 1120px;
+  height: 420px;
+}
+
+/* 다른 사람 처방이 없는 경우 */
+.worry_detail_no_prscr_wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 200px;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.worry_detail_no_prscr_title_wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.worry_detail_no_prscr_title_wrapper > p {
+  font-family: var(--title-font);
+  font-size: 26px;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 48px;
+  color: #000;
+}
+
+#no_prscr_img {
+  position: relative;
+  width: 520px;
+  height: 510px;
+  top: -45px;
+}
+
 .prscr_btn {
   width: 1120px;
   height: 70px;
-  background-color: #c8edf2;
+  /* background-color: #c8edf2; */
+  background-color: #daf4ff;
   border-radius: 11px;
-  margin-top: -60px;
+  margin-top: 30px;
 
   font-family: var(--basic-font);
   font-weight: 700;

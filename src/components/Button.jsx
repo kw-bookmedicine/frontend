@@ -36,22 +36,47 @@ const Button = ({ text, type }) => {
 
 	const logout = () => {
 		console.log('logout!');
-		localStorage.clear();
-		api.get('/logout').then((res) => {
+		sessionStorage.clear();
+		api.get('/logout', { withCredentials: true }).then((res) => {
 			console.log(res.data);
 		});
 		navigate('/');
+	};
+
+	const withdraw = () => {
+		let isWithdraw = window.confirm('정말로 회원탈퇴 하시나요?');
+		if (isWithdraw) {
+			console.log('withdraw!');
+			sessionStorage.clear();
+			api.delete('/client', { withCredentials: true }).then((res) => {
+				console.log(res.data);
+				if (res.data === 'success') {
+					navigate('/');
+				}
+			});
+		}
 	};
 
 	const renderButton = (url, type) => {
 		if (type === 'add' || type === 'delete' || type === 'exp') {
 			return <button className={styles[`Btn-${type}`]}>{text}</button>;
 		} else {
-			if (type === 'logout') {
+			if (type === 'logout' || type === 'profile_logout') {
 				return (
 					<button
 						onClick={() => {
 							logout();
+						}}
+						className={styles[`Btn-${type}`]}
+					>
+						{text}
+					</button>
+				);
+			} else if (type === 'withdraw') {
+				return (
+					<button
+						onClick={() => {
+							withdraw();
 						}}
 						className={styles[`Btn-${type}`]}
 					>

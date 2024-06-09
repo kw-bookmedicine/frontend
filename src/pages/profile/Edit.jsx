@@ -14,50 +14,71 @@ import DropDown from '../../components/DropDown';
 import '../../styles/Profile/Edit.css';
 
 const Edit = () => {
+	const [name, setName] = useState('');
 	const [nickname, setNickname] = useState('');
 	const [gender, setGender] = useState('');
 	const [birth, setBirth] = useState('');
 	const [email, setEmail] = useState('');
 	const [userId, setUserId] = useState('');
+	const [description, setDescription] = useState('');
+	const [password, setPassword] = useState('');
+	const [handleOauth, setHandleOauth] = useState(false);
 
 	const getUserData = () => {
-		api.get('/client', { withCredentials: true }).then((res) => {
-			console.log(res.data);
-			// console.log(res.data.nickname);
+		try {
+			api.get('/client', { withCredentials: true }).then((res) => {
+				console.log(res.data);
+				// console.log(res.data.nickname);
 
-			res.data.nickname === null
-				? setNickname('닉네임을 설정해주세요')
-				: setNickname(res.data.nickname);
+				res.data.nickname === null
+					? setNickname('닉네임을 설정해주세요')
+					: setNickname(res.data.nickname);
 
-			res.data.gender === 'M' ? setGender('남성') : setGender('여성');
+				res.data.gender === 'M' ? setGender('남성') : setGender('여성');
 
-			setBirth(res.data.birth);
-			setEmail(res.data.email);
-			setUserId(res.data.loginId);
-		});
+				setName(res.data.name);
+				setBirth(res.data.birth);
+				setEmail(res.data.email);
+				setUserId(res.data.loginId);
+				setDescription(res.data.description);
+				setHandleOauth(res.data.isOauth);
+				setPassword('*'.repeat(res.data.passwordLength));
+			});
+		} catch (err) {
+			window.location.replace('/login');
+		}
 	};
 
 	// 자기소개랑 직업정보 가져오기
 	const getChangeData = () => {
 		const changeComment = document.getElementById('comment_inputBox').value;
 		const changeJob = document.getElementById('job-box').innerText;
-		console.log(changeComment);
-		console.log(changeJob);
+		// console.log(changeComment);
+		// console.log(changeJob);
+		try {
+			api
+				.put(
+					'/client/info',
+					{
+						occupation: changeJob,
+						description: changeComment,
+					},
+					{
+						withCredentials: true,
+					},
+				)
+				.then((res) => {
+					if (res.data === 'success') {
+						alert('회원정보가 변경되었습니다.');
 
-		const response = api
-			.put(
-				'/client/info',
-				{
-					occupation: `${changeComment}`,
-					description: `${changeJob}`,
-				},
-				{
-					withCredentials: true,
-				},
-			)
-			.then((res) => {
-				console.log(res.data);
-			});
+						// 페이지 이동
+						window.location.replace('/mypage');
+					}
+					// console.log(res.data);
+				});
+		} catch (err) {
+			window.location.replace('/login');
+		}
 	};
 
 	useEffect(() => {
@@ -93,8 +114,16 @@ const Edit = () => {
 								id="comment_inputBox"
 								cols="30"
 								rows="10"
-								placeholder="자기소개를 입력하세요"
+								placeholder={
+									description !== '' ? description : '자기소개를 입력하세요'
+								}
 							></textarea>
+						</div>
+						<div className="user_id_wrapper" id="user_name_wrapper">
+							<div className="input_title">이름</div>
+							<div className="id_input_wrapper">
+								<div className="id_text">{name}</div>
+							</div>
 						</div>
 						<div className="user_id_wrapper">
 							<div className="input_title">아이디</div>
@@ -102,11 +131,23 @@ const Edit = () => {
 								<div className="id_text">{userId}</div>
 							</div>
 						</div>
-						<div className="user_password_wrapper">
+						<div
+							className={
+								handleOauth
+									? 'oauth_password_input_wrapper'
+									: 'user_password_wrapper'
+							}
+						>
 							<div className="input_title">비밀번호</div>
-							<div className="password_input_wrapper">
-								<div className="password_text">********</div>
-								<Btn text={'수정하기'} type="password" />
+							<div className={handleOauth ? '' : 'password_input_wrapper'}>
+								<div
+									className={
+										handleOauth ? 'oauth_password_text' : 'password_text'
+									}
+								>
+									{password}
+								</div>
+								{!handleOauth && <Btn text={'수정하기'} type="password" />}
 							</div>
 						</div>
 						<div className="user_email_wrapper">

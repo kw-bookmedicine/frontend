@@ -11,10 +11,12 @@ import PickBookItem from "../PickBookItem.jsx";
 
 // STYLES
 import "../../styles/MyListModal.css";
+import Pagination from "./../Pagination";
+import LoadingSpinner from "../Loading/LoadingSpinner.jsx";
 
 const MyListModal = ({ onClose }) => {
   const [input, setInput] = useState("");
-  const [searchBookResult, setData] = useState([]); // 검색 결과가 추가된 리스트
+  const [searchBookResult, setSearchBookResult] = useState([]); // 검색 결과가 추가된 리스트
   const [pickBookList, setPickBookList] = useState([]); // 처음 읽은 목록이 추가된 리스트
   const [pickAuthorList, setPickAuthorList] = useState([]);
   const [filterBookList, setFilterBookList] = useState([]); // 삭제 후 필터링 된 책 리스트
@@ -30,6 +32,20 @@ const MyListModal = ({ onClose }) => {
   // true => 삭제 후 다시 추가
   const [isClick, setIsClick] = useState(false);
 
+  // 페이지네이션 현재 페이지와 전체 페이지
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+
+  // 요청하는 책의 사이즈
+  const itemsPerPage = 9;
+
+  // 읽은 목록 페이지네이션 현재 페이지 및 총 페이지
+  const [currentPickBookListPage, setCurrentPickBookListPage] = useState(1);
+  const totalPickBookListPages = Math.ceil(pickBookList.length / itemsPerPage);
+
+  // 로딩 상태
+  const [isLoading, setIsLoading] = useState(false);
+
   // '목록 삭제' 버튼 눌렀을 때 실행되는 함수
   const updateClick = () => {
     // '목록 삭제' 버튼 클릭 후에는 '읽은 목록 추가' 버튼 재활성
@@ -42,23 +58,26 @@ const MyListModal = ({ onClose }) => {
     !isClick ? setPickBookList(list) : setFilterBookList(list);
   };
 
+  // 요청 보낼 때 사용할 선택 책 isbn 리스트
+  const [resBookList, setResBookList] = useState([]);
+  const [pickBookIsbnList, setPickBookIsbnList] = useState([]);
+
   // 읽은 목록 추가 버튼을 눌렀을 때, 읽은 목록 배열(addBookList)에 요소 추가 함수
-  const AddBookList = (pickBookTitle) => {
-    // console.log('add book: ', pickBookTitle);
-    setAddBookList(
-      pickBookList.includes(pickBookTitle)
-        ? pickBookList
-        : pickBookList.push(pickBookTitle)
+  const AddBookList = (pickBookTitle, pickBookIsbn) => {
+    setPickBookList((prevList) =>
+      prevList.some(
+        (book) => book.title === pickBookTitle || book.isbn === pickBookIsbn
+      )
+        ? prevList
+        : [{ title: pickBookTitle, isbn: pickBookIsbn }, ...prevList]
     );
   };
 
-  const AddAuthorList = (pickBookAuthor) => {
-    // console.log('add author: ', pickBookAuthor);
-    setAddAuthorList(
-      pickAuthorList.includes(pickBookAuthor)
-        ? pickAuthorList
-        : pickAuthorList.push(pickBookAuthor)
-    );
+  // 선택완료 요청
+  // pickBookList에서 isbn만 따로 리스트로 추출하는 함수입니다.
+  // 이 함수의 리턴 값으로 복용내역 요청 보내면 됩니다.
+  const getIsbnList = () => {
+    return pickBookList.map((book) => book.isbn);
   };
 
   // '목록 삭제' 버튼 클릭 시 실행되는 함수
@@ -68,19 +87,30 @@ const MyListModal = ({ onClose }) => {
   };
 
   // 엔터 눌렀을 때 검색 결과 보이기
-  const renderSearchList = (e) => {
+  const renderSearchList = (page = 1) => {
     if (input.trim() !== "") {
+      setIsLoading(true);
       api
-        .get(`/api/search/book?title=${input}&target=page&page=0&size=10`)
+        .get(
+          `/api/search/book?title=${input}&target=page&sort=view-count&page=${
+            page - 1
+          }&size=${itemsPerPage}`,
+          {
+            withCredentials: true,
+          }
+        )
         .then((res) => {
           // console.log(res.data);
-          setData((prevData) => [...prevData, ...res.data]); // 검색 결과 저장
+          setSearchBookResult(res.data.content); // 검색 결과 저장
           setIsEnter(true); // 엔터 눌렀을 때 렌더링
-          setBookCount(res.data.length); // 검색 결과로 나온 책 권수
-
-          // 페이지네이션으로 페이지 번호 클릭하면 요청 주소의 page 파라미터 수 변경
+          setBookCount(res.data.totalElements); // 검색 결과로 나온 책 권수
+          setTotalPages(res.data.totalPages); // 전체 페이지 수
+          setIsLoading(false);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          console.log(err);
+          setIsLoading(false);
+        });
     }
   };
 
@@ -100,6 +130,69 @@ const MyListModal = ({ onClose }) => {
     }
   };
 
+  // 검색 결과 페이지 변경
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    renderSearchList(pageNumber);
+  };
+
+  // 검색 시, 첫 번째 페이지로 이동
+  const handleSearch = () => {
+    setCurrentPage(1);
+    renderSearchList(1);
+  };
+
+  useEffect(() => {
+    // 독서 경험 조회
+    const fetchExperiencesData = async () => {
+      try {
+        const response = await api.get(
+          `/api/experiences/list?page=0&size=${999}`,
+          {
+            withCredentials: true,
+          }
+        );
+        const transformedData = response.data.content.map((book) => ({
+          title: book.bookTitle,
+          isbn: book.bookIsbn,
+        }));
+        setPickBookList(transformedData);
+      } catch (error) {
+        console.error("독서 경험 조회 실패", error);
+      }
+    };
+    fetchExperiencesData();
+  }, []);
+
+  // 독서 경험 업데이트 요청
+  const postExperiencesData = async () => {
+    const data = {
+      bookIsbnList: pickBookList.map((book) => book.isbn),
+    };
+
+    try {
+      await api.post(`/api/experiences/list`, data, {
+        withCredentials: true,
+      });
+      alert("독서 경험 업데이트되었습니다!");
+    } catch (error) {
+      console.error("독서 경험 요청 실패", error);
+    }
+  };
+
+  // 읽은 목록 페이지 변경
+  const handlePickBookListPageChange = (pageNumber) => {
+    setCurrentPickBookListPage(pageNumber);
+  };
+
+  // 현재 페이지에 해당하는 읽은 목록 항목 자르기
+  const indexOfLastItem = currentPickBookListPage * itemsPerPage; // 9
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage; // 0
+  const currentPickBookList = pickBookList.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
+
   return (
     <>
       <div className="myListModal_overlay" onClick={handleOverlayClick}>
@@ -118,6 +211,7 @@ const MyListModal = ({ onClose }) => {
                   <button
                     className="myList_search_button"
                     name="search-button"
+                    onClick={handleSearch}
                   />
                   <input
                     type="text"
@@ -129,7 +223,7 @@ const MyListModal = ({ onClose }) => {
                     }}
                     onKeyDown={(e) => {
                       if (e.key === "Enter") {
-                        renderSearchList(e);
+                        handleSearch();
                       }
                     }}
                   />
@@ -155,45 +249,71 @@ const MyListModal = ({ onClose }) => {
               <h4>{bookCount}권의 책을 찾았어요!</h4>
               {/*  */}
               <div className="inputList_container">
-                <div className="left_inputList_box">
-                  {searchBookResult.length > 0 && isEnter
-                    ? searchBookResult.map((ele) => {
-                        return (
-                          <PickBookItem
-                            key={ele.isbn}
-                            type="long"
-                            title={ele.title}
-                            BookList={pickBookList}
-                            updateList={AddBookList}
-                            author={ele.authors}
-                            updateAuthor={AddAuthorList}
-                          />
-                        );
-                      })
-                    : ""}
+                <div className="left_inputList_box spinner-container">
+                  {isLoading && <LoadingSpinner />}
+                  {!isLoading &&
+                    (searchBookResult.length > 0 && isEnter
+                      ? searchBookResult.map((ele) => {
+                          return (
+                            <PickBookItem
+                              key={ele.isbn}
+                              isbn={ele.isbn}
+                              type="long"
+                              title={ele.title}
+                              BookList={pickBookList}
+                              updateList={AddBookList}
+                              author={ele.authors}
+                              // updateAuthor={AddAuthorList}
+                            />
+                          );
+                        })
+                      : "")}
+
+                  {bookCount > 0 && (
+                    <div className="left_inputList_box_pagination">
+                      <Pagination
+                        paginate={handlePageChange}
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                      />
+                    </div>
+                  )}
                 </div>
                 <div className="right_selectList">
                   {pickBookList.length > 0
-                    ? pickBookList.map((item) => {
+                    ? currentPickBookList.map((item) => {
                         return (
                           <PickBookItem
-                            key={item}
+                            key={item.title + "-" + item.isbn}
+                            isbn={item.isbn}
                             type="short"
-                            title={item}
+                            title={item.title}
                             // author={author}
-                            BookList={pickBookList}
-                            updateList={FilterBookList}
-                            // updateAuthor={pickAuthorList}
+                            // BookList={pickBookList}
+                            BookList={currentPickBookList}
+                            updateList={setPickBookList}
+                            updateAuthor={pickAuthorList}
                           />
                         );
                       })
                     : ""}
+                  {totalPickBookListPages > 1 && (
+                    <div className="right_selectList_pagination">
+                      <Pagination
+                        paginate={handlePickBookListPageChange}
+                        currentPage={currentPickBookListPage}
+                        totalPages={totalPickBookListPages}
+                      />
+                    </div>
+                  )}
                 </div>
                 {/*  */}
               </div>
             </div>
             <div className="select_complete_wrapper">
-              <button className="select_complete">선택완료</button>
+              <button className="select_complete" onClick={postExperiencesData}>
+                선택완료
+              </button>
             </div>
           </div>
         </div>

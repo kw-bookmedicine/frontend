@@ -1,33 +1,30 @@
-import React from 'react'
+import React from "react";
+import { Link } from "react-router-dom";
+import { toYYYYMMDD } from "./../util/toYYYYMMDD";
 
-const PrescriptionReviewCard = ({
-  reviewDate,
-  bookImg,
-  bookCategory,
-  author,
-  review,
-  userImg,
-  userNickname,
-}) => {
+const PrescriptionReviewCard = ({ post }) => {
   return (
-    <div className="LoginHome-today-reviews-items-card">
-      <p className="LoginHome-today-reviews-items-card-date">{reviewDate}</p>
-      <div className="LoginHome-today-reviews-items-card-body">
-        <div className="LoginHome-today-reviews-items-card-book">
-          <img src={bookImg} alt="" />
-          <h2>{bookCategory}</h2>
-          <h3>{author}</h3>
+    <li className="LoginHome-today-reviews-items-card">
+      {/* <p className="LoginHome-today-reviews-items-card-date">{createdDate}</p> */}
+      <Link to={`/worry-detail?board=${post.boardId}`}>
+        <div className="LoginHome-today-reviews-items-card-body">
+          <div className="LoginHome-today-reviews-items-card-book">
+            <h2>{post.title}</h2>
+            <h3>{post.content}</h3>
+          </div>
         </div>
-
-        <p>{review}</p>
-      </div>
-
+      </Link>
       <div className="LoginHome-today-reviews-items-card-footer">
-        <img src={userImg} alt="유저 이미지" />
-        <p>{userNickname}</p>
+        <div className="LoginHome-user-img-container">
+          {post.userImg ? <img src={post.userImg} alt="유저 이미지" /> : null}
+        </div>
+        <div>
+          <p>{post.nickname}</p>
+          <p className="LoginHome-card-date">{toYYYYMMDD(post.createdDate)}</p>
+        </div>
       </div>
-    </div>
+    </li>
   );
-}
+};
 
-export default PrescriptionReviewCard
+export default PrescriptionReviewCard;

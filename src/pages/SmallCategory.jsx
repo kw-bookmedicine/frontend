@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 
 // ASSETS
@@ -10,16 +10,21 @@ import api from '../services/api';
 // COMPONENTS
 import Header from '../components/Header';
 import Card from '../components/BookDetailCard';
+import LoadingSpinner from '../components/Loading/LoadingSpinner';
 
 // STYLES
 import '../styles/SmallCategory.css';
 
 const SmallCategory = () => {
-	const [page, setPage] = useState(0);
-	const [isLoading, setIsLoading] = useState(false);
+	const pageEnd = useRef();
+
 	let { title } = useParams();
 	let { category } = useParams();
-	const [smCategoryBookList, setSmCategoryBookList] = useState([]);
+
+	const [page, setPage] = useState(0);
+	const [isLoading, setIsLoading] = useState(false);
+
+	const [smCtgBookList, setSmCtgBookList] = useState([]);
 	const [choiceCategory, setChoiceCategory] = useState('');
 
 	// api 요청 주소 바꾸기 위한 함수
@@ -27,52 +32,50 @@ const SmallCategory = () => {
 		return str.split(target).join(replace);
 	};
 
-	// 소분류에 해당하는 책 목록 가져오기
-	const getData = async (category) => {
-		api
-			.get(`/api/book/list/middle?name=${category}&page=0&size=30&sort=string`)
-			.then((res) => {
-				// console.log(res.data);
-				setSmCategoryBookList(res.data);
-			});
-	};
-
 	// &로 구별되어 있는 소분류 제목 바꿔서 요청하는 함수
 	useEffect(() => {
 		setChoiceCategory(category);
 		if (category.includes('&')) {
 			let changeCategory = replaceAll(category, '&', '%26');
-			getData(changeCategory);
+			fetchData(changeCategory);
 		} else {
-			getData(category);
+			fetchData(category);
 		}
 	}, []);
 
 	// page 변경 감지에 따른 API호출
 	useEffect(() => {
-		// console.log(page);
-		fetchData();
+		fetchData(choiceCategory);
 	}, [page]);
 
 	// 타겟을 만나면 페이지 사이즈 늘려서 API 호출
-	const fetchData = async () => {
-		// console.log(page);
+	const fetchData = async (category) => {
 		// 로딩 시작
 		setIsLoading(true);
 
 		try {
-			api
+			await api
 				.get(
 					`api/book/list/middle?name=${category}&page=${page}&size=30&sort=string`,
+					{ withCredentials: true },
 				)
 				.then((res) => {
 					// console.log(res.data);
-					if (res.data.end) {
-						console.log('데이터 없습니다.');
+					if (res.data.totalPages > page) {
+						if (res.data.content.length === 0) {
+							console.log('데이터 없습니다.');
+						} else {
+							setSmCtgBookList((prevData) => [
+								...prevData,
+								...res.data.content,
+							]);
+						}
+					} else {
+						// alert('마지막 페이지입니다.');
 					}
-					setSmCategoryBookList((prevData) => [...prevData, ...res.data]);
 				});
 		} catch (error) {
+			window.location.replace('/login');
 			console.log(error);
 		} finally {
 			// 로딩 종료
@@ -81,28 +84,40 @@ const SmallCategory = () => {
 	};
 
 	useEffect(() => {
+		if (pageEnd.current) {
+			pageEnd.current.disconnect();
+		}
+
 		const handleObserver = (entries) => {
 			const target = entries[0];
-			if (target.isIntersecting && !isLoading) {
-				// console.log('visible');
+			if (target.isIntersecting) {
 				setPage((prevPage) => prevPage + 1);
 			}
 		};
 
-		const observer = new IntersectionObserver(handleObserver, {
+		pageEnd.current = new IntersectionObserver(handleObserver, {
 			threshold: 0.5,
 		});
 
-		const target = document.getElementById('sm_target');
-		if (target) {
-			observer.observe(target);
+		const lastElement = document.querySelector(
+			'.smCategory_card_slide > *:last-child',
+		);
+
+		if (lastElement) {
+			pageEnd.current.observe(lastElement);
 		}
-	}, []);
+
+		return () => {
+			if (pageEnd.current) {
+				pageEnd.current.disconnect();
+			}
+		};
+	}, [smCtgBookList]);
 
 	return (
 		<>
 			<Header />
-			<div className="smCategory_content">
+			<div className="smCategory_content  spinner-container">
 				<div className="smCategory_title_wrapper">
 					<div className="title_big">{title}</div>
 					<div className="title_mdCategory">
@@ -112,7 +127,7 @@ const SmallCategory = () => {
 				</div>
 				<div className="smCategory_card_wrapper">
 					<div className="smCategory_card_slide">
-						{smCategoryBookList.map((data, idx) => {
+						{smCtgBookList.map((data, idx) => {
 							// console.log(data);
 							return (
 								<Card
@@ -129,9 +144,8 @@ const SmallCategory = () => {
 						})}
 					</div>
 				</div>
-				{isLoading && <p>Loading...</p>}
-				<div id="sm_target"></div>
 			</div>
+			{isLoading && <LoadingSpinner />}
 		</>
 	);
 };

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
@@ -16,6 +16,12 @@ import api from "../../services/api";
 
 // STYLE
 import "../../styles/Counseling/PrescriptionWrite.css";
+import {
+  MAX_LENGTH_DEFAULT,
+  MAX_LENGTH_DESCRIPTION,
+  MAX_LENGTH_TITLE,
+} from "../../constants/constants";
+import LoadingSpinner from "../../components/Loading/LoadingSpinner";
 
 // todo
 // -focus가 되어있을때, 처방전 작성하기 버튼을 누르면 조금 스크롤 이동이 되는 버그 발생-> css 없애면 잘 작동함..
@@ -23,6 +29,7 @@ import "../../styles/Counseling/PrescriptionWrite.css";
 const PrescriptionWrite = () => {
   const [input, setInput] = useState("");
   const [isShow, setIsShow] = useState(false); // 검색 모달창
+  const [isLoading, setIsLoading] = useState(true);
 
   // 모달창을 클릭한 여부
   const [modalIsClick, setModalIsClick] = useState(false);
@@ -91,7 +98,7 @@ const PrescriptionWrite = () => {
     observer.observe(box);
   });
 
-  const { register, handleSubmit, setValue } = useForm({
+  const { register, handleSubmit, setValue, watch } = useForm({
     defaultValues: {
       title: location.state?.title || "",
       description: location.state?.description || "",
@@ -100,6 +107,9 @@ const PrescriptionWrite = () => {
       prescriptionId: location.state?.prescriptionId || undefined,
     },
   });
+
+  const title = watch("title");
+  const description = watch("description");
 
   const postPrscr = async (data) => {
     try {
@@ -121,33 +131,47 @@ const PrescriptionWrite = () => {
           }
         });
     } catch (error) {
+      window.location.replace("/login");
       console.error("Error:", error);
     }
   };
 
-  useEffect(() => {
-    fetchSearchData();
-  }, [input]);
-
   // 검색 데이터 가져오기
-  const fetchSearchData = () => {
+  const fetchSearchData = useCallback(async () => {
+    setIsLoading(true);
     try {
       if (input.trim() === "") return;
 
-      api
+      await api
         .get(
-          `/api/search/book?title=${input}&target=page&page=${0}&size=${10}`,
+          // `/api/search/book?title=${input}&target=page&sort=view-count&page=${0}&size=${10}`,
+          `/api/search/book?title=${input}&target=modal`,
+
           { withCredentials: true }
         )
         .then((res) => {
-          if (res.data.content.length > 0) {
-            setSearchResult(res.data.content);
+          // if (res.data.content.length > 0) {
+          //   setSearchResult(res.data.content);
+          // }
+          if (res.data.length > 0) {
+            setSearchResult(res.data);
           }
+          setIsLoading(false);
         });
     } catch (err) {
+      // window.location.replace("/login");
       console.log(err);
     }
-  };
+  }, [input]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      fetchSearchData();
+    }, 300);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [input, fetchSearchData]);
 
   // 검색 결과 중 선택된 아이템 지정
   const resClick = (item) => {
@@ -166,9 +190,9 @@ const PrescriptionWrite = () => {
     }
   };
 
-  const imageUrl =
-    location.state?.imageUrl ??
-    (modalIsClick ? choiceItem.imageUrl ?? loading_img : loading_img);
+  const imageUrl = modalIsClick
+    ? choiceItem.imageUrl ?? loading_img
+    : location.state?.imageUrl ?? loading_img;
 
   return (
     <>
@@ -229,16 +253,20 @@ const PrescriptionWrite = () => {
                 {isShow && input.length > 0 ? (
                   <>
                     <div
-                      className={`searchBook_modal_container_${isShow}`}
+                      className={`searchBook_modal_container_${isShow} spinner-container
+};`}
                       onClick={handleModalIsClick}
                     >
-                      <SearchBookModal
-                        onClose={handleModalClose}
-                        isClick={handleModalIsClick}
-                        searchResult={searchResult}
-                        active={isShow}
-                        resClick={resClick}
-                      />
+                      {isLoading && <LoadingSpinner />}
+                      {!isLoading && (
+                        <SearchBookModal
+                          onClose={handleModalClose}
+                          isClick={handleModalIsClick}
+                          searchResult={searchResult}
+                          active={isShow}
+                          resClick={resClick}
+                        />
+                      )}
                     </div>
                   </>
                 ) : (
@@ -277,19 +305,34 @@ const PrescriptionWrite = () => {
           >
             <div id="prscr_write_box">
               <label>
-                <p>제목</p>
+                <p className="prescription_content_bottom_text">
+                  제목{" "}
+                  <span>
+                    [ {title.length} / {MAX_LENGTH_TITLE}자 ]
+                  </span>
+                </p>
                 <input
                   {...register("title", { required: true })}
                   type="text"
                   placeholder="처방 제목을 작성하세요"
+                  maxLength={MAX_LENGTH_TITLE}
+                  minLength={1}
                 />
               </label>
               <label>
-                <p>처방사유</p>
+                <p className="prescription_content_bottom_text">
+                  처방사유{" "}
+                  <span>
+                    [ {description.length} / {MAX_LENGTH_DESCRIPTION}자 ]
+                  </span>
+                </p>
+
                 <textarea
                   {...register("description", { required: true })}
                   type="text"
                   placeholder="처방사유를 작성하세요"
+                  maxLength={MAX_LENGTH_DESCRIPTION}
+                  minLength={1}
                 />
               </label>
             </div>

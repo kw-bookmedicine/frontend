@@ -3,8 +3,11 @@ import { Link } from "react-router-dom";
 
 // COMPONENTS
 import Header from "../../components/Header";
-import api from "../../services/api";
+import Footer from "../../components/Footer";
 import SearchBox from "../../components/Search/SearchBox";
+
+// SERVICES
+import api from "../../services/api";
 
 // STYLES
 import "../../styles/SearchStyles.css";
@@ -20,6 +23,7 @@ import bookImg9 from "../../assets/category-book-문학.png";
 import bookImg10 from "../../assets/category-book-역사.jpg";
 import { LoginContext } from "../../contexts/LoginContextProvider";
 import useLogin from "../../hooks/useLogin";
+import LoadingSpinner from "../../components/Loading/LoadingSpinner";
 
 // 카테고리 배경 색상(10개) && 카테고리별 대표 책 이미지 정보
 const categoriesInfo = [
@@ -40,7 +44,7 @@ const categoriesInfo = [
 
 const Search = () => {
   const [categories, setCategories] = useState([]); // 카테고리 데이터
-  const { userId, userPwd } = useContext(LoginContext);
+  const [isLoading, setIsLoading] = useState(true); // 로딩
 
   // 카테고리 대분류, 중분류 GET 요청 및 요청 데이터 사용하기 쉽게 처리
   useEffect(() => {
@@ -53,7 +57,9 @@ const Search = () => {
           .then((res) => {
             setCategories(res.data);
           });
+        setIsLoading(false);
       } catch (error) {
+        window.location.replace("/login");
         console.error("Error fetching categories:", error);
         if (error.response && error.response.status === 401) {
           // loginUser(username, password);
@@ -97,26 +103,30 @@ const Search = () => {
   ];
 
   return (
-    <div>
+    <div className="spinner-container">
       <Header />
 
       {/* 검색 페이지 전체 */}
-      <section className="search-container">
+      <section className="search-container ">
         {/* 검색 창 */}
         <SearchBox />
 
         {/* 추천 검색어 */}
-        {renderKeywordList("추천검색어", recommendedSearchKeywords)}
+        {/* {renderKeywordList("추천검색어", recommendedSearchKeywords)} */}
 
         {/* 사용자 추천 키워드 */}
-        {renderKeywordList("사용자 추천 키워드", userRecommendedKeywords)}
+        {/* {renderKeywordList("사용자 추천 키워드", userRecommendedKeywords)} */}
 
         {/* 카테고리 */}
-        <BookCategories
-          categories={categories}
-          renderCategoryItem={renderCategoryItem}
-        />
+        {isLoading && <LoadingSpinner />}
+        {!isLoading && (
+          <BookCategories
+            categories={categories}
+            renderCategoryItem={renderCategoryItem}
+          />
+        )}
       </section>
+      <Footer />
     </div>
   );
 };

@@ -7,6 +7,8 @@ import api from '../../services/api';
 // COMPONENTS
 import Header from '../../components/Header';
 import OneLinePrscrCard from '../../components/Prescription/OneLinePrscrCard';
+import LoadingSpinner from '../../components/Loading/LoadingSpinner';
+import TopBtn from '../../components/ScrollToTop';
 
 // STYLE
 import '../../styles/Prescription/OneLinePrescription.css';
@@ -37,9 +39,17 @@ const OneLinePrescription = () => {
 			console.log(err);
 		}
 	};
-
-	useEffect(() => {
-		// getData();
+	function getCookie(name) {
+		let matches = document.cookie.match(
+			new RegExp(
+				'(?:^|; )' +
+					name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') +
+					'=([^;]*)',
+			),
+		);
+		return matches ? decodeURIComponent(matches[1]) : undefined;
+	}
+	https: useEffect(() => {
 		getCategory();
 	}, []);
 
@@ -122,6 +132,7 @@ const OneLinePrescription = () => {
 			// 아이콘이 클릭되었을 때
 			targetText.classList.toggle('icon-active');
 			ctgType(targetText.innerText);
+			setKeywordPage(0);
 		} else {
 			// 클릭된 아이콘을 다시 클릭했을 때
 			targetText.classList.toggle('icon-active');
@@ -166,20 +177,23 @@ const OneLinePrescription = () => {
 		if (keyword === 'All') {
 			try {
 				await api
-					.get(`/api/oneline-prescriptions/all?page=${page}&size=5`)
+					.get(`/api/oneline-prescriptions/all?page=${page}&size=5`, {
+						withCredentials: true,
+					})
 					.then((res) => {
-						console.log('키워드 all일 때, 페이지: ', page);
+						if (res.data.err) {
+							console.log('error');
+						}
 						if (res.data.totalPages > page) {
 							if (res.data.content.length === 0) {
-								alert('마지막 페이지입니다.');
+								// alert('마지막 페이지입니다.');
 							} else {
 								setDataArr((prevData) => [...prevData, ...res.data.content]);
 							}
-						} else {
-							alert('마지막 페이지입니다.');
 						}
 					});
 			} catch (err) {
+				window.location.replace('/login');
 				console.log(err);
 			} finally {
 				setIsLoading(false);
@@ -190,22 +204,25 @@ const OneLinePrescription = () => {
 				await api
 					.get(
 						`/api/oneline-prescriptions/keyword?keyword=${keyword}&page=${keywordPage}&size=5`,
+						{ withCredentials: true },
 					)
 					.then((res) => {
-						console.log(`======(키워드:${keyword})=======`);
-						console.log(res.data);
-						if (res.data.totalPages > keywordPage) {
-							if (res.data.content.length === 0) {
-								alert('마지막 페이지입니다.');
+						if (res.data.totalPages >= keywordPage) {
+							if (res.data.totalElements !== 0) {
+								if (res.data.content.length !== 0) {
+									setKeywordArr((prevData) => [
+										...prevData,
+										...res.data.content,
+									]);
+								}
 							} else {
-								setKeywordArr((prevData) => [...prevData, ...res.data.content]);
+								alert('검색 결과가 없습니다.');
+								window.location.reload();
 							}
-						} else {
-							alert('마지막 페이지입니다.');
-							// ctgType('전체');
 						}
 					});
 			} catch (err) {
+				window.location.replace('/login');
 				console.log(err);
 			} finally {
 				setIsLoading(false);
@@ -279,13 +296,14 @@ const OneLinePrescription = () => {
 				api
 					.get(
 						`/api/oneline-prescriptions/search?name=${searchText}&page=${searchPage}&size=20`,
+						{ withCredentials: true },
 					)
 					.then((res) => {
 						if (res.data.totalPages > searchPage) {
-							if (res.data.content.length === 0) {
+							if (res.data.totalElements === 0) {
 								// console.log('검색 데이터가 없습니다.');
 								ctgType('전체');
-								alert('마지막 페이지입니다.');
+								// alert('검색 결과가 없습니다.');
 							} else {
 								// console.log(res.data.content);
 								setSearchResArr((prevData) => [
@@ -294,11 +312,16 @@ const OneLinePrescription = () => {
 								]);
 							}
 						} else {
-							console.log('마지막 페이지입니다.');
+							if (res.data.totalElements === 0) {
+								alert('검색 결과가 없습니다.');
+								window.location.reload();
+							}
+							// console.log('마지막 페이지입니다.');
 						}
 					});
 			}
 		} catch (err) {
+			window.location.replace('/login');
 			console.log(err);
 		} finally {
 			setIsLoading(false);
@@ -337,24 +360,24 @@ const OneLinePrescription = () => {
 							})}
 						</div>
 					</div>
-					<form
-						className="oneLinePrscr_searchBar_wrapper"
-						onSubmit={(e) => {
-							e.preventDefault();
-						}}
-					>
-						<img
-							src="/icon/black_search_icon.svg"
-							id="oneLinePrscr_searchBar_icon"
-						/>
-						<input
-							type="text"
-							className="oneLinePrscr_searchBar"
-							placeholder="Search"
-							onKeyDown={onKeyDown}
-						/>
-					</form>
-					<div className="OneLinePrscr_container">
+					<div className="oneLinePrscr_search_wrapper">
+						<form
+							className="oneLinePrscr_searchBar_wrapper"
+							onSubmit={(e) => {
+								e.preventDefault();
+							}}
+						>
+							<img
+								src="/icon/black_search_icon.svg"
+								id="oneLinePrscr_searchBar_icon"
+							/>
+							<input
+								type="text"
+								className="oneLinePrscr_searchBar"
+								placeholder="Search"
+								onKeyDown={onKeyDown}
+							/>
+						</form>
 						<div className="OneLinePrscr_write_wrapper">
 							<Link to={'/oneline/prescription/write'}>
 								<button id="oneLinePrscr_write_btn">
@@ -362,6 +385,8 @@ const OneLinePrescription = () => {
 								</button>
 							</Link>
 						</div>
+					</div>
+					<div className="OneLinePrscr_container spinner-container">
 						<div className="OneLinePrscr_content_container">
 							{keyword === 'All'
 								? searchResArr.length === 0
@@ -399,8 +424,10 @@ const OneLinePrescription = () => {
 										);
 								  })}
 						</div>
+						{isLoading && <LoadingSpinner />}
+						<TopBtn />
 					</div>
-					{isLoading && <p>Loading...</p>}
+
 					<div id="cn_target" ref={pageEnd}></div>
 				</div>
 			</section>

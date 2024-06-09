@@ -1,211 +1,183 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-
-// ASSETS
-import LoginHomeBanner from "../assets/login-home-banner.png";
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 // COMPONENTS
-import Modal from "../components/Modal";
-import Slider from "../components/Slider";
-import Header from "../components/Header";
-import PrescriptionReviewCard from "../components/PrescriptionReviewCard";
+import Slider from '../components/Slider';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+import { BannerSlider } from '../components/BannerSlider';
+import TodayPrescriptionCard from '../components/Card/TodayPrescriptionCard';
+import PrescriptionReviewCard from '../components/PrescriptionReviewCard';
 
-// CSS
-import "../styles/LoginHome.css";
+// SERVICE
+import api from '../services/api';
+
+// STORE
+import useNicknameStore from '../store/nickname-store';
+
+// STYLE
+import '../styles/LoginHome.css';
+import LoadingSpinner from '../components/Loading/LoadingSpinner';
+
+const backgroundColors = ['#CCE8EC', '#d2e7a5', '#F5DAD2'];
 
 const LoginHome = () => {
-  const [isModalOpen, setModalOpen] = useState(false);
-  // const [selectedEmotion, setSelectedEmotion] = useState("");
+	const [recentPosts, setRecentPosts] = useState([]); // 최신 고민글 데이터
 
-  // 세션 스토리지에서 'selectedEmotion' 값을 읽어오고, 없다면 기본값으로 빈 문자열을 사용
-  const [selectedEmotion, setSelectedEmotion] = useState(() => {
-    return sessionStorage.getItem("selectedEmotion") || "";
-  });
+	const [todayPrescription, setTodayPrescription] = useState([]); // 오늘의 처방전 데이터
+	const [bestSellers, setBestSellers] = useState([]); // 베스트셀러 데이터
+	const [newBooks, setNewBooks] = useState([]); // 신간도서 데이터
+	const [similarBooks, setSimilarBooks] = useState([]); // 나와 비슷한 사람들의 책 데이터
 
-  // 로그아웃된 상태라면 로그인 화면으로 이동
-  useEffect(() => {
-    // if (localStorage.getItem('token') === null) {
-    // 	window.location.replace('http://localhost:3000/login');
-    // }
-  }, []);
+	const { fetchNickname } = useNicknameStore(); // 유저 닉네임 가져오기
+	const [boardLoading, setBoardLoading] = useState(false); // 최신 고민글 로딩
 
-  useEffect(() => {
-    // 'selectedEmotion' 상태가 변경될 때마다 세션 스토리지에 저장
-    sessionStorage.setItem("selectedEmotion", selectedEmotion);
-  }, [selectedEmotion]); // 의존성 배열에 'selectedEmotion'을 추가하여 해당 값이 변경될 때만 실행
+	// const {nickname} = useNicknameStore(); 이렇게 활용해서 사용하면됩니다.
 
-  const openModal = () => {
-    setModalOpen(true);
-    setSelectedEmotion(""); // 모달을 열 때 selectedEmotion 초기화
-    document.body.style.overflow = "hidden"; // 스크롤 비활성화
-  };
+	const fetchTodayPrescription = async () => {
+		try {
+			const res = await api('/api/recommend/book/clientbased/aiprescription', {
+				withCredentials: true,
+			});
+			setTodayPrescription(res.data);
+		} catch (error) {
+			console.error('오늘의 처방전 요청 실패', error);
+		}
+	};
 
-  const closeModal = () => {
-    setModalOpen(false);
-    document.body.style.overflow = "auto"; // 스크롤 활성화
-  };
+	// 최근 고민글 6개 조회
+	const fetchRecentBoardData = async () => {
+		try {
+			const res = await api('/api/board/all?page=0&size=6', {
+				withCredentials: true,
+			});
+			setRecentPosts(res.data.content);
+			setBoardLoading(true);
+		} catch (error) {
+			window.location.replace('/login');
+			console.error('고민글 요청 실패', error);
+		}
+	};
 
-  // 감정 매칭 객체
-  const emotionMappings = {
-    화남: "화가나는",
-    슬픔: "슬픈",
-    기쁨: "기쁜",
-    즐거움: "즐거운",
-    불안: "불안한",
-    외로움: "외로운",
-  };
+	// 베스트셀러 조회
+	const fetchBestSellers = async () => {
+		try {
+			const res = await api('/api/best-seller', {
+				withCredentials: true,
+			});
+			setBestSellers(res.data);
+		} catch (error) {
+			console.error('베스트셀러 요청 실패', error);
+		}
+	};
 
-  // 현재 날짜를 가져오기 위해 Date 객체를 사용
-  const currentDate = new Date();
+	// 신간도서 조회
+	const fetchNewBooks = async () => {
+		try {
+			const res = await api('/api/new-book', {
+				withCredentials: true,
+			});
+			setNewBooks(res.data);
+		} catch (error) {
+			console.error('신간도서 요청 실패', error);
+		}
+	};
 
-  // 날짜를 포맷에 맞게 문자열로 만들기
-  const formattedDate = `${currentDate.getFullYear()}.${(
-    currentDate.getMonth() + 1
-  )
-    .toString()
-    .padStart(2, "0")}.${currentDate.getDate().toString().padStart(2, "0")}`;
+	// 나와 비슷한 사람들의 책 조회
+	const fetchSimilarBooks = async () => {
+		try {
+			const res = await api('/api/recommend/book/clientbased', {
+				withCredentials: true,
+			});
+			setSimilarBooks(res.data);
+		} catch (error) {
+			console.error('나와 비슷한 사람들의 책 요청 실패', error);
+		}
+	};
 
-  return (
-    <>
-      <Header />
-      <div className="LoginHome-banner-container" onClick={openModal}>
-        {/* max-width 값 정하고 */}
-        <div className="LoginHome-banner-contents">
-          {/* 글 */}
-          <div className="LoginHome-banner-title">
-            <h1>오늘의 감정을 알려주세요.</h1>
-            <h4>기쁨/ 불안/ 즐거움/ 슬픔/ 화남/ 외로움</h4>
-          </div>
+	useEffect(() => {
+		fetchRecentBoardData();
+		fetchNickname();
+		fetchTodayPrescription();
+		fetchBestSellers();
+		fetchNewBooks();
+		fetchSimilarBooks();
+	}, [fetchNickname]);
 
-          {/* 이미지 */}
-          <img src={LoginHomeBanner} alt="배너 이미지" />
-        </div>
-      </div>
-      <div className="LoginHome-container">
-        <Modal
-          isOpen={isModalOpen}
-          onClose={closeModal}
-          selectedEmotion={selectedEmotion}
-          setSelectedEmotion={setSelectedEmotion}
-        />
-        <div className="LoginHome-main-container">
-          <div className="LoginHome-today">
-            <div className="LoginHome-today-item">
-              <h2 className="LoginHome-today-item-title">오늘의 처방전</h2>
-              <div className="LoginHome-today-item-contents">
-                <div className="LoginHome-today-item-contents-text">
-                  오늘
-                  <p className="LoginHome-today-item-contents-text-hightlight">
-                    {selectedEmotion === ""
-                      ? "\u00A0\u00A0\u00A0\u00A0"
-                      : emotionMappings[selectedEmotion]}
-                  </p>
-                  당신을 위한 책 처방
-                </div>
-                <img src="" alt="" />
-                <h3 className="LoginHome-today-item-contents-title">책 제목</h3>
-                <h4>저자</h4>
-                <h3 className="LoginHome-today-item-contents-date">
-                  {formattedDate}
-                </h3>
-              </div>
-            </div>
-            <div className="LoginHome-today-reviews">
-              <div className="LoginHome-today-reviews-top">
-                <div className="LoginHome-today-reviews-top-title">
-                  다른 사람들은 어떨까?
-                </div>
-                <div className="LoginHome-today-reviews-top-subtitle">
-                  다른 사람들의 처방전 후기
-                </div>
-                <Link
-                  to={"/feed"}
-                  className="LoginHome-today-reviews-top-button"
-                ></Link>
-              </div>
-              <div className="LoginHome-today-reviews-items">
-                <PrescriptionReviewCard
-                  reviewDate={"2024.01.13"}
-                  bookImg={""}
-                  bookCategory={"서시"}
-                  author={"윤동주"}
-                  review={"죽는 날까지 하늘을 우러러 한 점 부끄럼이 없기를"}
-                  userImg={""}
-                  userNickname={"유저 닉네임"}
-                />
-                <PrescriptionReviewCard
-                  reviewDate={"2024.01.13"}
-                  bookImg={""}
-                  bookCategory={"서시"}
-                  author={"윤동주"}
-                  review={"죽는 날까지 하늘을 우러러 한 점 부끄럼이 없기를"}
-                  userImg={""}
-                  userNickname={"유저 닉네임"}
-                />
-                <PrescriptionReviewCard
-                  reviewDate={"2024.01.13"}
-                  bookImg={""}
-                  bookCategory={"서시"}
-                  author={"윤동주"}
-                  review={"죽는 날까지 하늘을 우러러 한 점 부끄럼이 없기를"}
-                  userImg={""}
-                  userNickname={"유저 닉네임"}
-                />
-                <PrescriptionReviewCard
-                  reviewDate={"2024.01.13"}
-                  bookImg={""}
-                  bookCategory={"서시"}
-                  author={"윤동주"}
-                  review={"죽는 날까지 하늘을 우러러 한 점 부끄럼이 없기를"}
-                  userImg={""}
-                  userNickname={"유저 닉네임"}
-                />
-                <PrescriptionReviewCard
-                  reviewDate={"2024.01.13"}
-                  bookImg={""}
-                  bookCategory={"서시"}
-                  author={"윤동주"}
-                  review={
-                    "죽는 날까지 하늘을 우러러 한 점 부끄럼이 없기를죽는 날까지 하늘을 우러러 한 점 부끄럼이 없기를죽는 날까지 하늘을 우러러 한 점 부끄럼이 없기를죽는 날까지 하늘을 우러러 한 점 부끄럼이 없기를죽는 날까지 하늘을 우러러 한 점 부끄럼이 없기를"
-                  }
-                  userImg={""}
-                  userNickname={"유저 닉네임"}
-                />
-                <PrescriptionReviewCard
-                  reviewDate={"2024.01.13"}
-                  bookImg={""}
-                  bookCategory={"서시"}
-                  author={"윤동주"}
-                  review={"죽는 날까지 하늘을 우러러 한 점 부끄럼이 없기를"}
-                  userImg={""}
-                  userNickname={"유저 닉네임"}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-        <Slider
-          title="베스트 셀러"
-          subtitle="가장 많이 읽은 책 순위는?"
-          bookTitle="책제목"
-          bookAuthor="저자"
-          isBestSeller={true}
-        />
-        <Slider
-          title="띵동, 책배달 왔습니다!"
-          subtitle="신간도서 보러가기"
-          bookTitle="책제목"
-          bookAuthor="저자"
-        />
-        <Slider
-          title="나와 비슷한 사람들은 어떤 책을 읽을까?"
-          subtitle="추천도서 모음"
-          bookTitle="책제목"
-          bookAuthor="저자"
-        />
-      </div>
-    </>
-  );
+	return (
+		<>
+			<Header />
+			<BannerSlider />
+			<div className="loginHome-container">
+				<section className="loginHome-prescription-section">
+					<h2 className="loginHome-prescription-title">
+						AI 약사에게 처방 받아보세요!
+					</h2>
+					<p className="loginHome-prescription-subtitle">
+						AI 약사가 당신에게 처방하는 책
+					</p>
+					<ul className="loginHome-prescription-cards">
+						{/* 오늘의 처방전이 없으면 예시를 보여줌 */}
+						{todayPrescription.length > 0 &&
+							todayPrescription.map((book, index) => (
+								<TodayPrescriptionCard
+									key={index}
+									book={book}
+									backgroundColor={backgroundColors[index]}
+								/>
+							))}
+						{todayPrescription.length === 0 && (
+							<>
+								<TodayPrescriptionCard book={''} backgroundColor="#CCE8EC" />
+								<TodayPrescriptionCard book={''} backgroundColor="#d2e7a5" />
+								<TodayPrescriptionCard book={''} backgroundColor="#F5DAD2" />
+							</>
+						)}
+					</ul>
+					<div className="LoginHome-today-reviews">
+						<div className="LoginHome-today-reviews-top">
+							<div className="LoginHome-today-reviews-top-title">
+								따끈따끈한 고민 보러가기
+							</div>
+							<div className="LoginHome-today-reviews-top-subtitle">
+								다른 사람들의 다양한 고민 상담
+							</div>
+							<Link
+								to={'/counseling'}
+								className="LoginHome-today-reviews-top-button"
+							></Link>
+						</div>
+						<ul className="LoginHome-today-reviews-items spinner-container">
+							{boardLoading &&
+								recentPosts?.map((post) => (
+									<PrescriptionReviewCard key={post.boardId} post={post} />
+								))}
+							{!boardLoading && <LoadingSpinner />}
+						</ul>
+					</div>
+				</section>
+				<section className="loginHome-slider-container" id="other_book_wrapper">
+					<Slider
+						title="베스트 셀러"
+						subtitle="가장 많이 읽은 책 순위는?"
+						books={bestSellers}
+						isBestSeller={true} // 1~10 순위 나타냄
+					/>
+					<Slider
+						title="띵동, 책배달 왔습니다!"
+						subtitle="신간도서 보러가기"
+						books={newBooks}
+					/>
+					<Slider
+						title="나와 비슷한 사람들은 어떤 책을 읽을까?"
+						subtitle="추천도서 모음"
+						books={similarBooks}
+					/>
+				</section>
+			</div>
+			<Footer />
+		</>
+	);
 };
 
 export default LoginHome;

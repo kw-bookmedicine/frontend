@@ -68,6 +68,8 @@
 	max-width: 1080px;
 }
 
+.oauth_password_input_wrapper,
+#user_name_wrapper,
 .user_nickname_wrapper,
 .user_comment_wrapper,
 .user_id_wrapper,
@@ -95,10 +97,16 @@
 	line-height: 19px;
 }
 
-.nickname_input_wrapper,
-.password_input_wrapper {
+.nickname_input_wrapper {
 	display: flex;
 	align-items: center;
+}
+
+.password_input_wrapper {
+	width: 100%;
+	display: flex;
+	/* flex-direction: column; */
+	margin-bottom: 32px;
 }
 
 .input_title {
@@ -211,6 +219,7 @@
 	font-weight: 600;
 	line-height: 29px;
 	margin-top: 80px;
+	margin-bottom: 100px;
 }
 
 #total_submit_btn:hover {
@@ -229,6 +238,24 @@
 	background: #c8edf2;
 
 	/* Font */
+	color: #000;
+	font-family: var(--basic-font);
+	font-size: 20px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+}
+
+.oauth_password_text {
+	display: flex;
+	align-items: center;
+	width: 940px;
+	height: 40px;
+	border-radius: 10px;
+	/* background: #d5e0ff; */
+	background: #c8edf2;
+	margin-right: 24px;
+	padding-left: 10px;
 	color: #000;
 	font-family: var(--basic-font);
 	font-size: 20px;

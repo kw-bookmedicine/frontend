@@ -1,13 +1,12 @@
 .prscrCard_container {
-	width: 250px;
-	height: 320px;
+	width: 356px;
+	height: 450px;
 	background-color: #fff;
-	border: 5px solid #a4d6dd;
+	border: 5px solid #00b2fc;
 	border-radius: 15px;
 	padding: 9px;
 	transition: transform 0.5s ease-in-out;
 	transition: transform 0.3s;
-	/* 원근법 주기 */
 	transform: perspective(500px) rotateY(0deg);
 	cursor: pointer;
 }
@@ -37,9 +36,9 @@
 .prscr_vector_icon {
 	position: absolute;
 	top: -2px;
-	left: -1px;
-	width: 25px;
-	height: 25px;
+	left: -14px;
+	width: 70px;
+	height: 50px;
 	object-fit: contain;
 }
 
@@ -55,12 +54,14 @@
 }
 
 .prscrCard_title {
-	color: #00a2bc;
+	width: 80%;
+	padding-top: 50px;
+	color: #00b2fc;
 	font-family: 'SangSangAnt';
-	font-size: 30px;
+	font-size: 39px;
 	font-style: normal;
 	font-weight: 500;
-	line-height: 25px;
+	line-height: 33px;
 }
 
 .prscrCard_user_name_wrapper {
@@ -79,15 +80,16 @@
 	position: sticky;
 	margin-top: 50px;
 	width: 100%;
-	height: 170px;
+	height: 70%;
 	display: flex;
 	justify-content: center;
+	align-items: center;
 }
 
 #prscrCard_mid_title {
-	width: 55px;
-	top: -12px;
-	left: 32px;
+	width: 75px;
+	top: 24px;
+	left: 45px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -95,31 +97,33 @@
 	background-color: #fff;
 	position: absolute;
 	z-index: 1;
-	color: #67b6c1;
+	color: #00b2fc;
 	font-family: 'HakgyoansimWoojuR';
 	font-weight: 600;
-	font-size: 13px;
+	font-size: 19px;
 	line-height: 17px;
 }
 
 .prscrCard_bookInfo_wrapper {
 	display: flex;
 	padding: 10px 10px;
-	width: 210px;
-	height: 160px;
-	border: #a4d6dd 2px solid;
+	width: 280px;
+	height: 220px;
+
+	border: #00b2fc 2px solid;
 	border-radius: 15px;
 }
 
 .bookInfo_left_wrapper {
 	display: flex;
 	align-items: center;
-	width: 90px;
+	justify-content: center;
+	width: 100%;
 }
 
 .bookInfo_img {
-	width: 90px;
-	height: 130px;
+	width: 100%;
+	height: 190px;
 	object-fit: cover;
 	border-radius: 5px;
 }
@@ -136,10 +140,10 @@
 .prscrCard_bookInfo_title {
 	width: 100%;
 	font-family: var(--basic-font);
-	font-size: 12px;
+	font-size: 16px;
 	font-style: normal;
 	font-weight: 700;
-	line-height: 15px;
+	line-height: 24px;
 }
 
 .prscrCard_bookInfo_author,
@@ -147,10 +151,10 @@
 	width: 100%;
 	color: #868686;
 	font-family: var(--basic-font);
-	font-size: 10px;
+	font-size: 13px;
 	font-weight: 400;
 	font-style: normal;
-	line-height: 9px;
+	line-height: 15px;
 	margin-top: 5px;
 }
 
@@ -167,16 +171,17 @@
 	width: 100%;
 	height: 100%;
 	font-family: var(--basic-font);
-	font-size: 14px;
+	font-size: 15px;
 	font-style: normal;
-	font-weight: 700;
-	line-height: 18px;
+	font-weight: 400;
+	line-height: 33px;
+	letter-spacing: -1px;
 }
 
 .prscrCard_bottom_wrapper {
 	display: flex;
 	width: 100%;
-	height: 20px;
+	height: 10%;
 	justify-content: center;
 	align-items: center;
 }
@@ -184,12 +189,30 @@
 .prscrCard_update_date {
 	display: flex;
 	font-family: 'HakgyoansimWoojuR';
-	font-weight: 500;
+	font-weight: 600;
 	font-style: normal;
-	font-size: 14px;
-	line-height: 16px;
-	color: #00a2bc;
+	font-size: 20px;
+	letter-spacing: 2px;
+	line-height: 34px;
+	color: #00b2fc;
 	align-items: center;
 	justify-content: center;
 	text-align: center;
+	padding-bottom: 32px;
+}
+
+#prscrCard_1 {
+	position: static;
+}
+
+#prscrCard_2 {
+	position: relative;
+	top: -353px;
+	left: 95px;
+}
+
+#prscrCard_3 {
+	position: relative;
+	top: -700px;
+	left: 220px;
 }

@@ -1,13 +1,15 @@
 .smCategory_content {
-	box-sizing: border-box;
-	max-width: 100vw;
+	/* box-sizing: border-box; */
+	/* max-width: 100vw; */
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	width: 100%;
+	height: 100%;
 }
 
 .smCategory_title_wrapper {
-	width: fill-available;
+	width: 100%;
 	margin-top: 40px;
 	display: flex;
 	flex-direction: column;

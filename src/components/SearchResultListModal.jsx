@@ -2,6 +2,7 @@ import React from "react";
 import "../styles/SearchResultList.css";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import loading_thumbnail from "../assets/loading_thumbnail_not_rounded.png";
 
 const SearchResultListModal = ({
   book,
@@ -31,7 +32,7 @@ const SearchResultListModal = ({
               <ul key={item.isbn} className={`${listType}-result-container`}>
                 <Link to={`/book-detail?isbn=${isbn}`}>
                   <li className={`${listType}-result-list`}>
-                    <img src={thumbnail} alt="" />
+                    <img src={thumbnail ?? loading_thumbnail} alt="책 이미지" />
                     <div className={`${listType}-result-item`}>
                       <h1 className={`${listType}-result-item-title`}>
                         {title}
@@ -48,7 +49,6 @@ const SearchResultListModal = ({
 
           // 키워드 UI
           if (keyword !== undefined) {
-            
             return !selectedKeywordSet.has(keyword) ? (
               <KeywordItem
                 style={{ fontSize: "20px", marginBottom: "10px" }}
