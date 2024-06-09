@@ -8,10 +8,10 @@ import ConfirmModal from "../../components/Modal/ConfirmModal";
 
 // SERVICE
 import api from "../../services/api";
-import useNicknameStore from "../../store/nickname-store";
 
 // STYLE
 import "../../styles/Prescription/OneLinePrscrDetail.css";
+import { useNickname } from "../../hooks/useNickname";
 
 const OneLinePrscrDetail = () => {
   const navigate = useNavigate();
@@ -23,10 +23,10 @@ const OneLinePrscrDetail = () => {
   const [bookData, setBookData] = useState({});
   const [keywordArr, setKeywordArr] = useState([]);
 
-  const { nickname } = useNicknameStore();
   const [fetchNickname, setFetchNickname] = useState(
     sessionStorage.getItem("nickname") || ""
   );
+  const { nickname } = useNickname();
   const [writer, setWriter] = useState(sessionStorage.getItem("writer") || "");
   const [isShow, setIsShow] = useState(false);
 
