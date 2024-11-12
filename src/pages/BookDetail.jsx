@@ -44,7 +44,7 @@ const BookDetail = () => {
 
 	const getIsbn = () => {
 		let isbn = searchParams.get('isbn');
-		// console.log(isbn);
+		console.log(isbn);
 		try {
 			api
 				.get(`/api/book/detail?id=${isbn}`, { withCredentials: true })
