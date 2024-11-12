@@ -60,10 +60,10 @@ const BookList = () => {
 
 	return (
 		<>
-			<section className="bookList_content">
-				<div className="bookList_inner">
+			<section className='bookList_content'>
+				<div className='bookList_inner'>
 					<Header />
-					<div className="bookList_title">{bigCategory}</div>
+					<div className='bookList_title'>{bigCategory}</div>
 					<Title
 						key={bigCategory}
 						bigCategory={bigCategory}
@@ -74,8 +74,8 @@ const BookList = () => {
 					{resMidBookList.map((list, idx) => {
 						return (
 							// 중분류 타이틀 렌더링
-							<div className="bookList_wrapper" key={idx}>
-								<div className="bookList_title_wrapper">
+							<div className='bookList_wrapper' key={idx}>
+								<div className='bookList_title_wrapper'>
 									<Title
 										key={list[idx]}
 										bigCategory={bigCategory}
@@ -83,7 +83,7 @@ const BookList = () => {
 									/>
 								</div>
 
-								<div className="bookList_slide_wrapper">
+								<div className='bookList_slide_wrapper'>
 									<BookListSlide list={list.bookList} />
 
 									{/* 중분류에 해당하는 책 리스트 데이터 바인딩 */}
@@ -104,7 +104,7 @@ const BookList = () => {
 					})}
 				</div>
 				{isLoading ? <p>Loading ...</p> : ''}
-				<div id="cn_target"></div>
+				<div id='cn_target'></div>
 				<Footer />
 			</section>
 		</>
