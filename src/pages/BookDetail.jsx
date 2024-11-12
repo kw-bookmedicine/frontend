@@ -64,7 +64,7 @@ const BookDetail = () => {
 		setIsLoading(true);
 		try {
 			api
-				.get(`/api/oneline-prescriptions/book?isbn=${isbn}`, {
+				.get(`/api/oneline-prescriptions/book?bookId=${isbn}`, {
 					withCredentials: true,
 				})
 				.then((res) => {
