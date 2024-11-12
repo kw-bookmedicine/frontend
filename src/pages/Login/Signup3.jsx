@@ -130,72 +130,72 @@ const Signup3 = () => {
 		return (
 			<>
 				<div
-					className="user_interest_bigCtg_item"
-					id="general"
+					className='user_interest_bigCtg_item'
+					id='general'
 					onClick={choiceCtgHandler}
 				>
 					총류
 				</div>
 				<div
-					className="user_interest_bigCtg_item"
-					id="philosophy"
+					className='user_interest_bigCtg_item'
+					id='philosophy'
 					onClick={choiceCtgHandler}
 				>
 					철학
 				</div>
 				<div
-					className="user_interest_bigCtg_item"
-					id="religion"
+					className='user_interest_bigCtg_item'
+					id='religion'
 					onClick={choiceCtgHandler}
 				>
 					종교
 				</div>
 
 				<div
-					className="user_interest_bigCtg_item"
-					id="social"
+					className='user_interest_bigCtg_item'
+					id='social'
 					onClick={choiceCtgHandler}
 				>
 					사회과학
 				</div>
 				<div
-					className="user_interest_bigCtg_item"
-					id="natural"
+					className='user_interest_bigCtg_item'
+					id='natural'
 					onClick={choiceCtgHandler}
 				>
 					자연과학
 				</div>
 				<div
-					className="user_interest_bigCtg_item"
-					id="tech"
+					className='user_interest_bigCtg_item'
+					id='tech'
 					onClick={choiceCtgHandler}
 				>
 					기술과학
 				</div>
 				<div
-					className="user_interest_bigCtg_item"
-					id="art"
+					className='user_interest_bigCtg_item'
+					id='art'
 					onClick={choiceCtgHandler}
 				>
 					예술
 				</div>
 				<div
-					className="user_interest_bigCtg_item"
-					id="language"
+					className='user_interest_bigCtg_item'
+					id='language'
 					onClick={choiceCtgHandler}
 				>
 					언어
 				</div>
 				<div
-					className="user_interest_bigCtg_item"
-					id="literature"
+					className='user_interest_bigCtg_item'
+					id='literature'
 					onClick={choiceCtgHandler}
 				>
 					문학
 				</div>
 				<div
-					className="user_interest_bigCtg_item"
-					id="history"
+					className='user_interest_bigCtg_item'
+					id='history'
 					onClick={choiceCtgHandler}
 				>
 					역사
@@ -206,27 +206,27 @@ const Signup3 = () => {
 
 	return (
 		<>
-			<div className="signup3_container">
-				<div className="signup3_up_wrapper">
-					<div className="signup3_up_title_tag_wrapper">
-						<div className="signup3_up_title_wrapper">
-							<h1 className="signup3_title">관심사 선택</h1>
-							<p className="signup3_subTitle">최대 5개까지 선택 가능</p>
+			<div className='signup3_container'>
+				<div className='signup3_up_wrapper'>
+					<div className='signup3_up_title_tag_wrapper'>
+						<div className='signup3_up_title_wrapper'>
+							<h1 className='signup3_title'>관심사 선택</h1>
+							<p className='signup3_subTitle'>최대 5개까지 선택 가능</p>
 						</div>
-						<div className="signup3_step_wrapper">
-							<div className="signup3_circle-1">1</div>
-							<div className="signup3_circleToLine" />
-							<div className="signup3_circle-2">2</div>
-							<div className="signup3_circleToLine2" />
-							<div className="signup3_circle-3">3</div>
+						<div className='signup3_step_wrapper'>
+							<div className='signup3_circle-1'>1</div>
+							<div className='signup3_circleToLine' />
+							<div className='signup3_circle-2'>2</div>
+							<div className='signup3_circleToLine2' />
+							<div className='signup3_circle-3'>3</div>
 						</div>
 					</div>
-					<div className="select_tag_wrapper">
+					<div className='select_tag_wrapper'>
 						{pickItemList.map((item, idx) => {
 							return (
 								<React.Fragment key={item + idx}>
 									<Tag
-										className="select_item_tag"
+										className='select_item_tag'
 										key={idx + item}
 										text={item}
 										type={'interest'}
@@ -237,14 +237,14 @@ const Signup3 = () => {
 						})}
 					</div>
 				</div>
-				<div className="signup3_mid_wrapper">
+				<div className='signup3_mid_wrapper'>
 					{clicked ? (
 						<>
-							<div className="user_choice_back" onClick={backClickHandler}>
+							<div className='user_choice_back' onClick={backClickHandler}>
 								<img
-									src="/icon/join/left_arrow.png"
-									alt="뒤로가기"
-									className="user_choice_back_btn"
+									src='/icon/join/left_arrow.png'
+									alt='뒤로가기'
+									className='user_choice_back_btn'
 								/>
 							</div>
 							<BigCategory
@@ -259,7 +259,7 @@ const Signup3 = () => {
 					{backClicked ? renderBigCtg() : null}
 				</div>
 
-				<button className="select_complete_button" onClick={joinAlert}>
+				<button className='select_complete_button' onClick={joinAlert}>
 					선택 완료
 				</button>
 				{/* <section className="signup3_footer">

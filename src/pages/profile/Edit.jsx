@@ -27,9 +27,6 @@ const Edit = () => {
 	const getUserData = () => {
 		try {
 			api.get('/client', { withCredentials: true }).then((res) => {
-				console.log(res.data);
-				// console.log(res.data.nickname);
-
 				res.data.nickname === null
 					? setNickname('닉네임을 설정해주세요')
 					: setNickname(res.data.nickname);
@@ -53,8 +50,6 @@ const Edit = () => {
 	const getChangeData = () => {
 		const changeComment = document.getElementById('comment_inputBox').value;
 		const changeJob = document.getElementById('job-box').innerText;
-		// console.log(changeComment);
-		// console.log(changeJob);
 		try {
 			api
 				.put(
@@ -74,7 +69,6 @@ const Edit = () => {
 						// 페이지 이동
 						window.location.replace('/mypage');
 					}
-					// console.log(res.data);
 				});
 		} catch (err) {
 			window.location.replace('/login');
@@ -88,47 +82,47 @@ const Edit = () => {
 	return (
 		<>
 			<Header />
-			<div className="edit_container">
-				<div className="edit_title_wrapper">
-					<span className="edit_title_text">개인정보 수정</span>
+			<div className='edit_container'>
+				<div className='edit_title_wrapper'>
+					<span className='edit_title_text'>개인정보 수정</span>
 				</div>
-				<div className="edit_content_wrapper">
-					<div className="edit_profile_img_wrapper">
+				<div className='edit_content_wrapper'>
+					<div className='edit_profile_img_wrapper'>
 						<img
-							className="edit_profile_img"
-							src="/icon/profile/basic_profile_img.svg"
+							className='edit_profile_img'
+							src='/icon/profile/basic_profile_img.svg'
 						/>
 					</div>
-					<div className="edit_user_info_wrapper">
-						<div className="user_nickname_wrapper">
-							<div className="input_title">닉네임</div>
-							<div className="nickname_input_wrapper">
-								<div className="nickname_text">{nickname}</div>
-								<Btn text={'수정하기'} type="nickname" />
+					<div className='edit_user_info_wrapper'>
+						<div className='user_nickname_wrapper'>
+							<div className='input_title'>닉네임</div>
+							<div className='nickname_input_wrapper'>
+								<div className='nickname_text'>{nickname}</div>
+								<Btn text={'수정하기'} type='nickname' />
 							</div>
 						</div>
-						<div className="user_comment_wrapper">
-							<div className="input_title">자기소개</div>
+						<div className='user_comment_wrapper'>
+							<div className='input_title'>자기소개</div>
 							<textarea
-								name="userComment"
-								id="comment_inputBox"
-								cols="30"
-								rows="10"
+								name='userComment'
+								id='comment_inputBox'
+								cols='30'
+								rows='10'
 								placeholder={
 									description !== '' ? description : '자기소개를 입력하세요'
 								}
 							></textarea>
 						</div>
-						<div className="user_id_wrapper" id="user_name_wrapper">
-							<div className="input_title">이름</div>
-							<div className="id_input_wrapper">
-								<div className="id_text">{name}</div>
+						<div className='user_id_wrapper' id='user_name_wrapper'>
+							<div className='input_title'>이름</div>
+							<div className='id_input_wrapper'>
+								<div className='id_text'>{name}</div>
 							</div>
 						</div>
-						<div className="user_id_wrapper">
-							<div className="input_title">아이디</div>
-							<div className="id_input_wrapper">
-								<div className="id_text">{userId}</div>
+						<div className='user_id_wrapper'>
+							<div className='input_title'>아이디</div>
+							<div className='id_input_wrapper'>
+								<div className='id_text'>{userId}</div>
 							</div>
 						</div>
 						<div
@@ -138,7 +132,7 @@ const Edit = () => {
 									: 'user_password_wrapper'
 							}
 						>
-							<div className="input_title">비밀번호</div>
+							<div className='input_title'>비밀번호</div>
 							<div className={handleOauth ? '' : 'password_input_wrapper'}>
 								<div
 									className={
@@ -147,35 +141,35 @@ const Edit = () => {
 								>
 									{password}
 								</div>
-								{!handleOauth && <Btn text={'수정하기'} type="password" />}
+								{!handleOauth && <Btn text={'수정하기'} type='password' />}
 							</div>
 						</div>
-						<div className="user_email_wrapper">
-							<div className="input_title">이메일</div>
-							<div className="email_input_wrapper">
-								<div type="text" className="email_text">
+						<div className='user_email_wrapper'>
+							<div className='input_title'>이메일</div>
+							<div className='email_input_wrapper'>
+								<div type='text' className='email_text'>
 									{email}
 								</div>
 							</div>
 						</div>
-						<div className="user_birthday_wrapper">
-							<div className="input_title">생년월일</div>
-							<div className="birthday_text">{birth}</div>
+						<div className='user_birthday_wrapper'>
+							<div className='input_title'>생년월일</div>
+							<div className='birthday_text'>{birth}</div>
 						</div>
-						<div className="user_job_wrapper">
-							<div className="input_title">직업정보</div>
-							<div className="job_input_wrapper" id="job-box">
+						<div className='user_job_wrapper'>
+							<div className='input_title'>직업정보</div>
+							<div className='job_input_wrapper' id='job-box'>
 								<DropDown DropDownTitle={'학생'} type={'job'} />
 
 								{/* <Btn text={'수정하기'} type="job" /> */}
 							</div>
 						</div>
-						<div className="user_gender_wrapper">
-							<div className="input_title">성별</div>
-							<div className="gender_text">{gender}</div>
+						<div className='user_gender_wrapper'>
+							<div className='input_title'>성별</div>
+							<div className='gender_text'>{gender}</div>
 						</div>
 						<button
-							id="total_submit_btn"
+							id='total_submit_btn'
 							onClick={() => {
 								getChangeData();
 								// swal('제출되었습니다!', '정보가 변경되었습니다!', 'success');

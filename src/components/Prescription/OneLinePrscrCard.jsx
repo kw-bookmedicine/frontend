@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 // COMPONENTS
 import HashTag from '../HashTag';
@@ -16,7 +16,7 @@ const OneLinePrscrCard = ({ type, item }) => {
 	const handleBookDetailNavigation = (event) => {
 		event.preventDefault();
 		navigate(
-			type !== 'landing' ? `/book-detail?isbn=${item.bookIsbn}` : '/login',
+			type !== 'landing' ? `/book-detail?isbn=${item.bookId}` : '/login',
 		);
 	};
 
@@ -121,7 +121,7 @@ const OneLinePrscrCard = ({ type, item }) => {
 			<Link
 				to={
 					type !== 'landing'
-						? `/oneline/prescription-detail?prscrId=${item.id}&bookIsbn=${item.bookIsbn}`
+						? `/oneline/prescription-detail?prscrId=${item.id}&bookIsbn=${item.bookId}`
 						: '/login'
 				}
 			>
@@ -133,46 +133,45 @@ const OneLinePrscrCard = ({ type, item }) => {
 					}
 					id={type !== 'landing' ? null : 'landing_oneline_card'}
 				>
-					<div className="oneLineCard_profile_wrapper">
+					<div className='oneLineCard_profile_wrapper'>
 						<img
 							src={
 								type !== 'landing'
 									? '/icon/profile/basic_profile_img.svg'
 									: '/icon/home/other_prscr_user.png'
 							}
-							alt="작성자 프로필"
-							id="oneLineCard_profile_img"
+							alt='작성자 프로필'
+							id='oneLineCard_profile_img'
 						/>
-						<div className="oneLineCard_profile_userInfo_wrapper">
-							<p id="oneLineCard_user_nickname">{item.clientNickname}</p>
+						<div className='oneLineCard_profile_userInfo_wrapper'>
+							<p id='oneLineCard_user_nickname'>{item.clientNickname}</p>
 							<p>{item.createdDate}</p>
 						</div>
 					</div>
-					<div className="oneLineCard_title_wrapper">
+					<div className='oneLineCard_title_wrapper'>
 						<p>{item.title}</p>
 					</div>
-					<div className="oneLineCard_bookInfo_wrapper">
+					<div className='oneLineCard_bookInfo_wrapper'>
 						<img
 							src={
 								item.bookImageUrl === null
 									? '/loading_thumbnail_x4.png'
 									: item.bookImageUrl
 							}
-							alt="책 썸네일"
-							id="oneLineCard_thumbnail"
+							alt='책 썸네일'
+							id='oneLineCard_thumbnail'
 						/>
-						<div className="oneLineCard_bookInfo_right_wrapper">
-							<div className="oneLineCard_bookInfo_content_wrapper">
-								<div className="bookInfo_content_left_wrapper">
-									<p id="oneLineCard_bookInfo_bookTitle">{item.bookTitle}</p>
+						<div className='oneLineCard_bookInfo_right_wrapper'>
+							<div className='oneLineCard_bookInfo_content_wrapper'>
+								<div className='bookInfo_content_left_wrapper'>
+									<p id='oneLineCard_bookInfo_bookTitle'>{item.bookTitle}</p>
 									<p>{item.bookAuthor}</p>
 								</div>
-								<div className="showBook_btn_wrapper">
-									{/* <Link to={`/book-detail?isbn=${item.bookIsbn}`}> */}
+								<div className='showBook_btn_wrapper'>
 									{type !== 'bookDetail' ? (
 										<button
 											onClick={handleBookDetailNavigation}
-											id="showBook_btn"
+											id='showBook_btn'
 										>
 											책 보러가기
 										</button>
@@ -183,11 +182,11 @@ const OneLinePrscrCard = ({ type, item }) => {
 							</div>
 						</div>
 					</div>
-					<div className="oneLineCard_evaluation_wrapper">
-						<div className="evaluation_wrapper">
+					<div className='oneLineCard_evaluation_wrapper'>
+						<div className='evaluation_wrapper'>
 							<img
 								src={likeIcon}
-								id="oneLineCard_like_icon"
+								id='oneLineCard_like_icon'
 								onClick={
 									type !== 'landing' && type !== 'bookDetail'
 										? handleLikeUp
@@ -197,10 +196,10 @@ const OneLinePrscrCard = ({ type, item }) => {
 							<span>좋은 추천이에요</span>
 							<span>{likeNum}</span>
 						</div>
-						<div className="evaluation_wrapper">
+						<div className='evaluation_wrapper'>
 							<img
 								src={helpIcon}
-								id="oneLineCard_help_icon"
+								id='oneLineCard_help_icon'
 								onClick={
 									type !== 'landing' && type !== 'bookDetail'
 										? handleHelpUp
