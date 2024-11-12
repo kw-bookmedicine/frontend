@@ -88,7 +88,6 @@ const BookDetail = () => {
 		setIsLoading(true);
 		try {
 			api.get(`/api/recommend/book/bookbased?bookId=${isbn}`).then((res) => {
-				// console.log(res.data);
 				if (res.data.length !== null) {
 					setRecommendBookList(res.data.slice(0, 6));
 				}
