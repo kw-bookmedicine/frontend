@@ -20,6 +20,8 @@ const BookList = () => {
 
 	// 대분류
 	let { title } = useParams();
+	let { categoryId } = useParams();
+
 	const [bigCategory, setBigCategory] = useState('');
 
 	// 중분류
@@ -36,10 +38,10 @@ const BookList = () => {
 		try {
 			// isLoading ? console.log('hi') : console.log('no');
 			api.get('/api/category/big').then((res) => {
-				setMidCategory(res.data[title]);
+				setMidCategory(res.data.find((item) => item.name === title));
 			});
 
-			api.get(`/api/book/list/big?name=${title}`).then((res) => {
+			api.get(`/api/book/list/big?bigCategoryId=${categoryId}`).then((res) => {
 				res.data.map(() => {
 					setResMidBookList(res.data);
 				});
