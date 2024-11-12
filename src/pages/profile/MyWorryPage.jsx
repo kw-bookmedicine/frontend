@@ -20,7 +20,6 @@ const MyWorryPage = () => {
 	const [isLoading, setIsLoading] = useState(false);
 
 	const fetchMyData = () => {
-		// console.log(page);
 		setIsLoading(true);
 		try {
 			api
@@ -30,7 +29,6 @@ const MyWorryPage = () => {
 						if (res.data.content.length === 0) {
 							alert('더이상 고민 글이 없습니다.');
 						} else {
-							console.log(res.data);
 							setTotalElem(res.data.numberOfElements);
 							setDataArr((prevData) => [...prevData, ...res.data.content]);
 						}
@@ -82,15 +80,15 @@ const MyWorryPage = () => {
 	return (
 		<>
 			<Header />
-			<div className="myWorry_container">
-				<div className="myWorry_title_wrapper">
+			<div className='myWorry_container'>
+				<div className='myWorry_title_wrapper'>
 					<h2>내가 남긴 고민</h2>
 				</div>
-				<div className="myWorry_content_container spinner-container">
+				<div className='myWorry_content_container spinner-container'>
 					<p>내 고민 개수 : {totalElem} 개</p>
 					{dataArr.length !== 0 && (
 						<>
-							<div className="myWorry_content_wrapper">
+							<div className='myWorry_content_wrapper'>
 								{dataArr.map((item, idx) => {
 									return <CnsFeed key={`myWorry-${item}-${idx}`} item={item} />;
 								})}
