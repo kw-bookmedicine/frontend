@@ -62,7 +62,7 @@
 	width: 100%;
 	height: 250px;
 	margin-top: 15px;
-	/* background-color: blue; */
+	padding-right: 10px;
 	font-family: var(--basic-font);
 	font-size: 16px;
 	line-height: 25px;
@@ -76,7 +76,7 @@
 
 /* 스크롤바의 폭 너비 */
 .bookAbout_content::-webkit-scrollbar {
-	width: 7px;
+	width: 3px;
 }
 
 .bookAbout_content::-webkit-scrollbar-thumb {
@@ -92,6 +92,15 @@
 	display: flex;
 	width: 100%;
 	height: 70px;
+	margin-top: 20px;
+}
+
+.bookKeyword_wrapper {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	grid-template-rows: auto;
+	width: 100%;
+	height: 105px;
 	margin-top: 20px;
 }
 
@@ -257,10 +266,25 @@
 }
 
 #prscr_detail_content {
+	max-height: 245px;
 	font-family: var(--basic-font);
 	font-size: 16px;
-	line-height: 19px;
+	line-height: 30px;
+	padding-right: 20px;
 	font-weight: 400;
 	color: #000;
-	/* margin-bottom: 15px; */
+	overflow-y: auto;
+}
+
+#prscr_detail_content::-webkit-scrollbar {
+	width: 3px;
+}
+
+#prscr_detail_content::-webkit-scrollbar-thumb {
+	background: rgba(142, 142, 142); /* 스크롤바 색상 */
+	border-radius: 10px; /* 스크롤바 둥근 테두리 */
+}
+
+#prscr_detail_content::-webkit-scrollbar-track {
+	background: rgba(142, 142, 142, 0.1); /*스크롤바 뒷 배경 색상*/
 }
