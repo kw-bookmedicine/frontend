@@ -29,9 +29,9 @@ const BookListSlide = ({ list }) => {
 						<div className={styles['slide']}>
 							{list.map((item) => {
 								return (
-									<SwiperSlide key={item.isbn}>
+									<SwiperSlide key={item.bookId}>
 										<BookCard
-											key={item.isbn}
+											key={item.bookId}
 											title={item.title}
 											author={item.author}
 											img={
@@ -39,7 +39,7 @@ const BookListSlide = ({ list }) => {
 													? loading_thumbnail
 													: item.imageUrl
 											}
-											isbn={item.isbn}
+											isbn={item.bookId}
 										/>
 									</SwiperSlide>
 								);

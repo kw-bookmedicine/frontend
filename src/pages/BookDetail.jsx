@@ -44,10 +44,9 @@ const BookDetail = () => {
 
 	const getIsbn = () => {
 		let isbn = searchParams.get('isbn');
-		// console.log(isbn);
 		try {
 			api
-				.get(`/api/book/detail?isbn=${isbn}`, { withCredentials: true })
+				.get(`/api/book/detail?id=${isbn}`, { withCredentials: true })
 				.then((res) => {
 					// console.log(res.data.title);
 					// console.log(res.data);
@@ -64,7 +63,7 @@ const BookDetail = () => {
 		setIsLoading(true);
 		try {
 			api
-				.get(`/api/oneline-prescriptions/book?isbn=${isbn}`, {
+				.get(`/api/oneline-prescriptions/book?bookId=${isbn}`, {
 					withCredentials: true,
 				})
 				.then((res) => {
@@ -87,8 +86,7 @@ const BookDetail = () => {
 
 		setIsLoading(true);
 		try {
-			api.get(`/api/recommend/book/bookbased?isbn=${isbn}`).then((res) => {
-				// console.log(res.data);
+			api.get(`/api/recommend/book/bookbased?bookId=${isbn}`).then((res) => {
 				if (res.data.length !== null) {
 					setRecommendBookList(res.data.slice(0, 6));
 				}
@@ -109,10 +107,10 @@ const BookDetail = () => {
 	return (
 		<>
 			<Header />
-			<div className="bookDetail_content spinner-container">
-				<section className="bookSummary">
-					<div className="bookSummary_wrapper">
-						<div className="bookDt_summary_left_wrapper">
+			<div className='bookDetail_content spinner-container'>
+				<section className='bookSummary'>
+					<div className='bookSummary_wrapper'>
+						<div className='bookDt_summary_left_wrapper'>
 							<img
 								src={
 									bookInfo.imageUrl === null
@@ -121,23 +119,23 @@ const BookDetail = () => {
 								}
 							/>
 						</div>
-						<div className="summary_right_wrapper">
-							<div className="summary_right_up_wrapper">
-								<div className="right_up_left_wrapper">
-									<div className="right_up_left_book_title">
+						<div className='summary_right_wrapper'>
+							<div className='summary_right_up_wrapper'>
+								<div className='right_up_left_wrapper'>
+									<div className='right_up_left_book_title'>
 										{bookInfo.title}
 									</div>
 									<p>{bookInfo.author}</p>
 									<p>{bookInfo.publicYear}</p>
 								</div>
-								<div className="right_up_right_wrapper">
-									<div className="right_up_right_exp">
+								<div className='right_up_right_wrapper'>
+									<div className='right_up_right_exp'>
 										{/* <Btn
 											text={'경험 추가하기'}
 											type="exp"
 											onClick={handleModal}
 										/> */}
-										<div className="prscr_add_btn" onClick={handleModal}>
+										<div className='prscr_add_btn' onClick={handleModal}>
 											한 줄 처방하기
 										</div>
 									</div>
@@ -146,33 +144,33 @@ const BookDetail = () => {
 									</ModalPortal>
 								</div>
 							</div>
-							<div className="summary_right_mid_wrapper">
+							<div className='summary_right_mid_wrapper'>
 								{bookKeywordList.map((item) => {
 									return <HashTag key={item.name} text={item.name} />;
 								})}
 							</div>
-							<div className="summary_right_bottom_wrapper">
-								<nav className="right_bottom_text_wrapper">
+							<div className='summary_right_bottom_wrapper'>
+								<nav className='right_bottom_text_wrapper'>
 									<div
-										className="bottom_text_bookInfo"
+										className='bottom_text_bookInfo'
 										onClick={() => {
 											handleScroll(scrollRef.current[0]);
 										}}
 									>
 										책 정보
 									</div>
-									<div className="bottom_text_separate" />{' '}
+									<div className='bottom_text_separate' />{' '}
 									<div
-										className="bottom_text_review"
+										className='bottom_text_review'
 										onClick={() => {
 											handleScroll(scrollRef.current[1]);
 										}}
 									>
 										한 줄 처방 보러가기
 									</div>
-									<div className="bottom_text_separate" />{' '}
+									<div className='bottom_text_separate' />{' '}
 									<div
-										className="bottom_text_bookList"
+										className='bottom_text_bookList'
 										onClick={() => {
 											handleScroll(scrollRef.current[2]);
 										}}
@@ -184,16 +182,16 @@ const BookDetail = () => {
 						</div>
 					</div>
 				</section>
-				<section className="bookInfo">
+				<section className='bookInfo'>
 					<div
-						className="bookInfo_wrapper"
+						className='bookInfo_wrapper'
 						ref={(el) => {
 							scrollRef.current[0] = el;
 						}}
 					>
-						<div className="bookInfo_title">책 정보</div>
-						<div className="bookInfo_content">
-							<p className="content_normal">
+						<div className='bookInfo_title'>책 정보</div>
+						<div className='bookInfo_content'>
+							<p className='content_normal'>
 								{bookInfo.content === null
 									? '책 정보가 준비 중입니다.'
 									: bookInfo.content}
@@ -201,17 +199,17 @@ const BookDetail = () => {
 						</div>
 					</div>
 				</section>
-				<section className="book_oneLinePrscr">
+				<section className='book_oneLinePrscr'>
 					<div
-						className="book_oneLinePrscr_wrapper"
+						className='book_oneLinePrscr_wrapper'
 						ref={(el) => {
 							scrollRef.current[1] = el;
 						}}
 					>
-						<Title title={'한 줄 처방'} type="oneLine" />
+						<Title title={'한 줄 처방'} type='oneLine' />
 						{/* <div className="book_oneLinePrscr_container"> */}
 						{oneLinePrscrArr.length !== 0 ? (
-							<div className="book_oneLinePrscr_container">
+							<div className='book_oneLinePrscr_container'>
 								{oneLinePrscrArr.map((item) => {
 									return (
 										<OneLinePrscrCard
@@ -223,11 +221,11 @@ const BookDetail = () => {
 								})}
 							</div>
 						) : (
-							<div className="book_no_oneLinePrscr_wrapper">
+							<div className='book_no_oneLinePrscr_wrapper'>
 								<p>한 줄 처방을 남겨보세요!</p>
 								<img
-									src="/images/book-detail/write_prscr_img.png"
-									id="book_no_prscr_img"
+									src='/images/book-detail/write_prscr_img.png'
+									id='book_no_prscr_img'
 								/>
 							</div>
 						)}
@@ -238,16 +236,16 @@ const BookDetail = () => {
 							/> */}
 					</div>
 				</section>
-				<section className="relationBookList">
+				<section className='relationBookList'>
 					<div
-						className="relationBookList_wrapper"
+						className='relationBookList_wrapper'
 						ref={(el) => {
 							scrollRef.current[2] = el;
 						}}
 					>
 						<Title title={'연관 책 리스트'} type={'recommend'} />
 						{recommendBookList.length !== 0 ? (
-							<div className="BookList_container">
+							<div className='BookList_container'>
 								{recommendBookList.map((item) => {
 									return (
 										<BookCard
@@ -261,7 +259,7 @@ const BookDetail = () => {
 							</div>
 						) : (
 							<>
-								<div className="No_BookList_container">
+								<div className='No_BookList_container'>
 									<p>연관 책 리스트를 준비 중이에요!</p>
 								</div>
 							</>
@@ -271,7 +269,7 @@ const BookDetail = () => {
 			</div>
 			{isLoading && <LoadingSpinner />}
 			<ScrollToTop />
-			<section className="bookDetail_footer">
+			<section className='bookDetail_footer'>
 				<Footer />
 			</section>
 		</>

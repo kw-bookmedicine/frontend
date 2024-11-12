@@ -4,7 +4,7 @@
 	width: 79px;
 	height: 30px;
 	flex-shrink: 0;
-	border: 0.3px solid #000;
+	/* border: 0.3px solid #000; */
 	background: #fff;
 	text-align: center;
 
@@ -21,7 +21,7 @@
 	padding: 7px 10px;
 	font-size: var(--fontSize-sm);
 	border-radius: var(--border-sm);
-	font-family: 'GmarketSans';
+	font-family: 'Pretendard-Regular';
 }
 
 .Btn-login:hover,
@@ -39,7 +39,7 @@
 	background: #a4d6de;
 	font-size: var(--fontSize-sm);
 	border-radius: var(--border-sm);
-	font-family: 'GmarketSans';
+	font-family: 'Pretendard-Regular';
 
 	/* Drop Shadow */
 	box-shadow: 2px 2px 4px 0px rgba(119, 119, 119, 0.25);
