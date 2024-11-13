@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 // COMPONENTS
 import Footer from '../../components/Footer';
@@ -8,14 +9,10 @@ import Tag from '../../components/HashTag';
 
 // SERVICE
 import api from '../../services/api';
+import useSignupStore from '../../store/signup-store';
 
 // STYLE
-import { styled } from 'styled-components';
 import '../../styles/Signup3.css';
-import useSignupStore from '../../store/signup-store';
-import { useLocation, useNavigate } from 'react-router-dom';
-
-const categoryList = ['general', 'philosophy', 'religion'];
 
 // todo
 // - 회원가입 요청에서 관심사 필드값 수정필요할 수도?
@@ -47,6 +44,7 @@ const Signup3 = () => {
 				...userInfo,
 				interestList: pickItemList, // 선택한 관심사 추가
 			};
+
 			if (!userInfo.username && !userInfo.password && !userInfo.name) {
 				// 소셜 로그인일 경우, 불필요한 필드 제거
 				const { username, password, name, ...rest } = signUpData;
@@ -81,7 +79,11 @@ const Signup3 = () => {
 	const fetchMidCtg = async (ctg) => {
 		try {
 			api.get('/api/category/big').then((res) => {
-				setPickCtgList(res.data[ctg]);
+				const transformedData = res.data.reduce((bigCtgTitle, category) => {
+					bigCtgTitle[category.name] = category.items.map((item) => item.name);
+					return bigCtgTitle;
+				}, {});
+				setPickCtgList(transformedData[ctg]);
 			});
 		} catch (err) {
 			console.log(err);
@@ -104,7 +106,7 @@ const Signup3 = () => {
 				setPickItemList((prevItem) => [...prevItem, event.target.innerText]);
 			}
 		} else {
-			alert('아이템이 5개입니다.');
+			alert('최대 선택할 수 있는 관심사는 5개입니다.');
 		}
 	};
 
