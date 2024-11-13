@@ -20,13 +20,15 @@
 }
 
 .default_container,
-.oneLine_container {
+.oneLine_container,
+.midCtg_container {
 	width: 100%;
 	height: 55px;
 }
 
 .default_wrapper,
-.oneLine_wrapper {
+.oneLine_wrapper,
+.midCtg_wrapper {
 	width: 100%;
 	height: 55px;
 	display: flex;

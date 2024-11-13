@@ -25,7 +25,6 @@ const BookList = () => {
 	const [bigCategory, setBigCategory] = useState('');
 
 	// 중분류
-	const [midCategory, setMidCategory] = useState([]);
 	const [resMidBookList, setResMidBookList] = useState([]);
 
 	const fetchData = () => {
@@ -36,11 +35,6 @@ const BookList = () => {
 
 		// 대분류 지정
 		try {
-			// isLoading ? console.log('hi') : console.log('no');
-			api.get('/api/category/big').then((res) => {
-				setMidCategory(res.data.find((item) => item.name === title));
-			});
-
 			api.get(`/api/book/list/big?bigCategoryId=${categoryId}`).then((res) => {
 				res.data.map(() => {
 					setResMidBookList(res.data);
@@ -82,24 +76,13 @@ const BookList = () => {
 										key={list[idx]}
 										bigCategory={bigCategory}
 										title={list.categoryName}
+										type={'midCtg'}
+										midCtgNum={list.id}
 									/>
 								</div>
 
 								<div className='bookList_slide_wrapper'>
 									<BookListSlide list={list.bookList} />
-
-									{/* 중분류에 해당하는 책 리스트 데이터 바인딩 */}
-									{/* {list.bookList.map((item) => {
-										return (
-											<BookListSlide
-												key={item.isbn}
-												title={item.title}
-												author={item.author}
-												bigCategory={bigCategory}
-												imageUrl={item.imageUrl}
-											/>
-										);
-									})} */}
 								</div>
 							</div>
 						);
