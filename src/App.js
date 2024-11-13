@@ -91,14 +91,12 @@ function App() {
 						<Route path='/myfeed' element={<MyFeed />} />
 						<Route path='/edit' element={<Edit />} />
 						<Route path='/edit/:page' element={<UserInfo />} />
-
 						<Route path='/my/worry' element={<MyWorryPage />} />
 						<Route path='/myPrescriptions' element={<MyPrescription />} />
 						<Route
 							path='/myOneLinePrescriptions'
 							element={<MyOneLinePrescription />}
 						/>
-
 						{/* 처방전 관련 */}
 						<Route path='/counseling' element={<Counseling />} />
 						<Route path='/worry/detail' element={<WorryDetail />} />
@@ -138,7 +136,6 @@ function App() {
 								element={<PasswordFindResult />}
 							/>
 						</Route>
-
 						<Route path='/test' element={<Registration />} />
 						<Route path='/login' element={<Login />} />
 						<Route path='/signup/1' element={<Signup1 />} />
@@ -152,7 +149,10 @@ function App() {
 							path='/book/list/:title/:categoryId'
 							element={<BookList />}
 						/>
-						<Route path='/book/:title/:category' element={<SmallCategory />} />
+						<Route
+							path='/book/:title/:category/:midCtgNum'
+							element={<SmallCategory />}
+						/>{' '}
 					</Routes>
 				</div>
 			</LoginContextProvider>
