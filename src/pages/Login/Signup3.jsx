@@ -81,7 +81,11 @@ const Signup3 = () => {
 	const fetchMidCtg = async (ctg) => {
 		try {
 			api.get('/api/category/big').then((res) => {
-				setPickCtgList(res.data[ctg]);
+				const transformedData = res.data.reduce((bigCtgTitle, category) => {
+					bigCtgTitle[category.name] = category.items.map((item) => item.name);
+					return bigCtgTitle;
+				}, {});
+				setPickCtgList(transformedData[ctg]);
 			});
 		} catch (err) {
 			console.log(err);
@@ -104,7 +108,7 @@ const Signup3 = () => {
 				setPickItemList((prevItem) => [...prevItem, event.target.innerText]);
 			}
 		} else {
-			alert('아이템이 5개입니다.');
+			alert('최대 선택할 수 있는 관심사는 5개입니다.');
 		}
 	};
 
