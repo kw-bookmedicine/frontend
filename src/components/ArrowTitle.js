@@ -3,15 +3,16 @@ import { Link } from 'react-router-dom';
 // Styles
 import styles from '../styles/ArrowTitle.module.css';
 
-const ArrowTitle = ({ bigCategory, title, type }) => {
-	const titleType = ['shadow', 'oneLine', 'recommend'].includes(type)
+const ArrowTitle = ({ bigCategory, title, type, midCtgNum }) => {
+	const titleType = ['shadow', 'midCtg', 'oneLine', 'recommend'].includes(type)
 		? type
 		: 'default';
 
 	let linkUrl =
 		titleType === 'oneLine'
 			? '/oneline/prescription'
-			: `/book/${bigCategory}/${title}`;
+			: `/book/${bigCategory}/${title}/${midCtgNum}`;
+
 	if (titleType === 'shadow' || titleType === 'recommend') {
 		return (
 			<div className={styles[`${titleType}_container`]}>
