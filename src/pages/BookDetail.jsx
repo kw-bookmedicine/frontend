@@ -135,9 +135,9 @@ const BookDetail = () => {
 											type="exp"
 											onClick={handleModal}
 										/> */}
-										<div className='prscr_add_btn' onClick={handleModal}>
+										{/* <div className='prscr_add_btn' onClick={handleModal}>
 											한 줄 처방하기
-										</div>
+										</div> */}
 									</div>
 									<ModalPortal>
 										{modalOn && <ExpModal onClose={handleModal} />}
